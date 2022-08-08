@@ -6,7 +6,7 @@ interface Props {
 }
 export const LoginPage: FC<Props> = () => {
     return (
-        <Layout title="Iniciar sesión en Alternos">
+        <Layout title="Iniciar sesión">
             <Typography>
                 Pagina de login
             </Typography>
