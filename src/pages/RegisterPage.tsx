@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { Button, Grid, TextField, Typography, useTheme } from '@mui/material';
+import { Button, Grid, TextField, Typography } from '@mui/material';
 
 import { Formik, Form, FormikValues } from 'formik';
 
@@ -14,9 +14,8 @@ const initialValues = {
     password: "",
 }
 
-export const LoginPage: FC<Props> = () => {
-    const theme = useTheme();
-    console.log({ theme })
+export const RegisterPage: FC<Props> = () => {
+
     const onSubmit = async (values: FormikValues) => {
         console.log(values)
         if (!values) {
@@ -48,20 +47,20 @@ export const LoginPage: FC<Props> = () => {
             >
                 {({ values, errors, handleChange, handleSubmit }) => (
                     <Form onSubmit={handleSubmit}>
-                        <Grid container display="flex" justifyContent="center" alignItems="center" sx={{ width: { xs: "80%", md: "65%", lg: "50%" }, margin: "20px auto", }}>
-                            <Grid item xs={12} sx={{ mt: 4 }}>
-                                <TextField fullWidth onChange={handleChange} label="Usuario" name="usuario" type="text" variant="standard" color="secondary" />
+                        <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
+                            <Grid item xs={12}>
+                                <TextField fullWidth onChange={handleChange} label="Usuario" name="usuario" type="text" color="secondary" />
                             </Grid>
-                            <Grid item xs={12} sx={{ mt: 4 }}>
-                                <TextField fullWidth onChange={handleChange} label="Contraseña" name="password" type="password" variant="standard" color="secondary" />
+                            <Grid item xs={12}>
+                                <TextField fullWidth onChange={handleChange} label="Contraseña" name="password" type="password" color="secondary" />
                             </Grid>
-                            <Grid item xs={12} sx={{ mt: 4 }}>
-                                <Button type="submit" fullWidth variant="text" color="secondary" sx={{ p: 2 }}>Iniciar sesion</Button>
+                            <Grid item xs={12}>
+                                <Button type="submit" fullWidth variant="contained" color="secondary">Iniciar sesion</Button>
                             </Grid>
                         </Grid>
                     </Form>
                 )}
             </Formik>
-        </Layout >
+        </Layout>
     )
 }

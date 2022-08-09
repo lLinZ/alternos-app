@@ -29,10 +29,9 @@ export const AppBarComponent: FC<Props> = ({ title }) => {
     };
 
     return (
-        <AppBar position="static">
+        <AppBar color='secondary' position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
                     <Typography
                         variant="h6"
                         noWrap
@@ -85,7 +84,6 @@ export const AppBarComponent: FC<Props> = ({ title }) => {
                             ))}
                         </Menu>
                     </Box>
-                    <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                     <Typography
                         variant="h5"
                         noWrap
@@ -102,7 +100,7 @@ export const AppBarComponent: FC<Props> = ({ title }) => {
                             textDecoration: 'none',
                         }}
                     >
-                        LOGO
+                        ALTERNOS
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
