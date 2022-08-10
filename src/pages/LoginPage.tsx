@@ -1,10 +1,13 @@
 import { FC } from 'react';
 
-import { Button, Grid, TextField, Typography, useTheme } from '@mui/material';
+import { Button, Grid, Link, TextField, Typography, useTheme } from '@mui/material';
 
 import { Formik, Form, FormikValues } from 'formik';
-
 import { Layout } from '../components/layout';
+import { baseUrl } from '../common/baseUrl';
+import { LoadingButton } from '@mui/lab';
+import Swal from 'sweetalert2';
+import { useNavigate, Link as RouterLink } from "react-router-dom";
 
 interface Props {
 
@@ -15,29 +18,52 @@ const initialValues = {
 }
 
 export const LoginPage: FC<Props> = () => {
+    // Tema
     const theme = useTheme();
-    console.log({ theme })
+
+    // Router
+    const push = useNavigate();
+
+    // Funcion para enviar el formulario
     const onSubmit = async (values: FormikValues) => {
-        console.log(values)
-        if (!values) {
+
+        if (!values.usuario || !values.password) {
             return false;
         }
 
-        const url = "https://oficina.alternosgroup.com/api/login";
+        const url = `https://alternos.sgc-consultores.com.ve/api/login`;
 
         const body = new FormData();
 
-        body.append("username", values.usuario);
-        body.append("password", values.password);
-
-        const options = {
-            method: "POST",
-            body
+        body.append("username", String(values.usuario));
+        body.append("password", String(values.password));
+        const options: RequestInit = {
+            method: 'POST',
+            body: body,
         }
+        try {
+            const respuesta = await fetch(url, options);
+            console.log(respuesta.status)
+            const data = await respuesta.json();
+            if (data.exito === "SI") {
+                const alerta = await Swal.fire({
+                    title: "Exito",
+                    text: "Sesion iniciada exitosamente",
+                    icon: "success",
+                })
 
-        const respuesta = await fetch(url, options);
-        const data = await respuesta.json();
-        console.log({ data });
+                push("/dashboard");
+            } else {
+                const error = await Swal.fire({
+                    title: "Error",
+                    text: data.mensaje,
+                    icon: "error"
+                })
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     return (
@@ -46,7 +72,7 @@ export const LoginPage: FC<Props> = () => {
                 initialValues={initialValues}
                 onSubmit={(values: FormikValues) => onSubmit(values)}
             >
-                {({ values, errors, handleChange, handleSubmit }) => (
+                {({ values, errors, handleChange, handleSubmit, isSubmitting }) => (
                     <Form onSubmit={handleSubmit}>
                         <Grid container display="flex" justifyContent="center" alignItems="center" sx={{ width: { xs: "80%", md: "65%", lg: "50%" }, margin: "20px auto", }}>
                             <Grid item xs={12} sx={{ mt: 4 }}>
@@ -56,7 +82,14 @@ export const LoginPage: FC<Props> = () => {
                                 <TextField fullWidth onChange={handleChange} label="Contraseña" name="password" type="password" variant="standard" color="secondary" />
                             </Grid>
                             <Grid item xs={12} sx={{ mt: 4 }}>
-                                <Button type="submit" fullWidth variant="text" color="secondary" sx={{ p: 2 }}>Iniciar sesion</Button>
+                                <LoadingButton type="submit" disabled={isSubmitting} loading={isSubmitting} fullWidth variant="text" color="secondary" sx={{ p: 2 }}>Iniciar sesion</LoadingButton>
+                            </Grid>
+                            <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                <RouterLink to="/register">
+                                    <Link color="text.secondary" underline="hover">
+                                        ¿No tienes cuenta? Regístrate
+                                    </Link>
+                                </RouterLink>
                             </Grid>
                         </Grid>
                     </Form>

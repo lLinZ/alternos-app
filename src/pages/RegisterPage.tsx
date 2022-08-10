@@ -10,8 +10,10 @@ interface Props {
 
 }
 const initialValues = {
-    usuario: "",
+    name: "",
     password: "",
+    phone: "",
+    username: "",
 }
 
 export const RegisterPage: FC<Props> = () => {
@@ -45,17 +47,26 @@ export const RegisterPage: FC<Props> = () => {
                 initialValues={initialValues}
                 onSubmit={(values: FormikValues) => onSubmit(values)}
             >
-                {({ values, errors, handleChange, handleSubmit }) => (
+                {({ values, handleSubmit, handleChange, errors }) => (
                     <Form onSubmit={handleSubmit}>
                         <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
-                            <Grid item xs={12}>
-                                <TextField fullWidth onChange={handleChange} label="Usuario" name="usuario" type="text" color="secondary" />
+                            <Grid item xs={12} sx={{ mt: 3 }}>
+                                <TextField fullWidth onChange={handleChange} variant="standard" label="Nombre y apellido" name="name" type="text" color="secondary" />
                             </Grid>
-                            <Grid item xs={12}>
-                                <TextField fullWidth onChange={handleChange} label="Contraseña" name="password" type="password" color="secondary" />
+                            <Grid item xs={12} sx={{ mt: 3 }}>
+                                <TextField fullWidth onChange={handleChange} variant="standard" label="Usuario" name="username" type="text" color="secondary" />
                             </Grid>
-                            <Grid item xs={12}>
-                                <Button type="submit" fullWidth variant="contained" color="secondary">Iniciar sesion</Button>
+                            <Grid item xs={12} sx={{ mt: 3 }}>
+                                <TextField fullWidth onChange={handleChange} variant="standard" label="Teléfono" name="phone" type="text" color="secondary" />
+                            </Grid>
+                            <Grid item xs={12} sx={{ mt: 3 }}>
+                                <TextField fullWidth onChange={handleChange} variant="standard" label="Contraseña" name="password" type="password" color="secondary" />
+                            </Grid>
+                            <Grid item xs={12} sx={{ mt: 3 }}>
+                                <TextField fullWidth onChange={handleChange} variant="standard" label="Confirmar contraseña" name="confirmPassword" type="password" color="secondary" />
+                            </Grid>
+                            <Grid item xs={12} sx={{ mt: 3 }}>
+                                <Button type="submit" fullWidth variant="text" color="secondary" sx={{ p: 2 }}>Registrarse</Button>
                             </Grid>
                         </Grid>
                     </Form>
