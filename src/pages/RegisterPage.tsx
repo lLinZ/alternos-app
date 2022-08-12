@@ -1,6 +1,9 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
-import { Button, Grid, TextField, Typography } from '@mui/material';
+import { Button, Grid, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
+
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import { Formik, Form, FormikValues } from 'formik';
 
@@ -21,7 +24,16 @@ const initialValues = {
 }
 
 export const RegisterPage: FC<Props> = () => {
+    const [showPassword, setShowPassword] = useState<boolean>(false);
     const push = useNavigate();
+
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+    const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
+    /**
+     * Funcion para enviar los datos del form a la API
+     * @param values Valores del formulario
+     */
     const onSubmit = async (values: FormikValues) => {
         if (!values) {
             return false;
@@ -35,7 +47,7 @@ export const RegisterPage: FC<Props> = () => {
         if (!values.confirmPassword) errores.push("El campo de confirmación está vacío");
 
         if (errores.length > 0) {
-            let errorList: string = ""
+            let errorList: string = "";
             errores.forEach(error => errorList += `- ${error} <br />`);
             const alertaCamposVacios = await Swal.fire({
                 title: "Error",
@@ -111,11 +123,37 @@ export const RegisterPage: FC<Props> = () => {
                             <Grid item xs={12} sx={{ mt: 3 }}>
                                 <TextField fullWidth onChange={handleChange} variant="standard" label="Teléfono" name="phone" type="text" color="secondary" />
                             </Grid>
-                            <Grid item xs={12} sx={{ mt: 3 }}>
-                                <TextField fullWidth onChange={handleChange} variant="standard" label="Contraseña" name="password" type="password" color="secondary" />
+                            <Grid item xs={12} sm={6} sx={{ mt: 3 }}>
+                                <TextField fullWidth onChange={handleChange} variant="standard" label="Contraseña" name="password" type={showPassword ? "text" : "password"} color="secondary"
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowPassword}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                >
+                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        )
+                                    }} />
                             </Grid>
-                            <Grid item xs={12} sx={{ mt: 3 }}>
-                                <TextField fullWidth onChange={handleChange} variant="standard" label="Confirmar contraseña" name="confirmPassword" type="password" color="secondary" />
+                            <Grid item xs={12} sm={6} sx={{ mt: 3 }}>
+                                <TextField fullWidth onChange={handleChange} variant="standard" label="Confirmar contraseña" name="confirmPassword" type={showPassword ? "text" : "password"} color="secondary"
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowPassword}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                >
+                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        )
+                                    }} />
                             </Grid>
                             <Grid item xs={12} sx={{ mt: 3 }}>
                                 <Button type="submit" fullWidth variant="text" color="secondary" sx={{ p: 2 }}>Registrarse</Button>

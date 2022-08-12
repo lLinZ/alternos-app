@@ -1,5 +1,5 @@
 import { Masonry } from '@mui/lab'
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { Dispatch, FC, SetStateAction } from 'react'
 import { User } from '../../interfaces/user-type'
 import { UserCard } from './UserCard'
@@ -10,10 +10,11 @@ interface Props {
 }
 export const UserList: FC<Props> = ({ users, setUsers }) => {
     return (
-        <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 4 }} spacing={{ xs: 1, sm: 2, md: 3 }}>
-            {users && users.map(user => <UserCard user={user} setUsers={setUsers} />)}
-            {!users && (<Typography variant="body2" color="text.secondary">No existen usuarios pendientes</Typography>)}
-
-        </Masonry>
+        <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
+            <Masonry columns={{ xs: 1, sm: 2, md: 3, xl: 4 }} spacing={{ xs: 1, sm: 2 }} sx={{ alignItems: "center" }}>
+                {users && users.map(user => <UserCard user={user} setUsers={setUsers} key={user.id} />)}
+                {!users && (<Box sx={{ mt: 2 }}><Typography variant="body2" color="text.secondary" >No existen usuarios pendientes</Typography></Box>)}
+            </Masonry>
+        </Box>
     )
 }
