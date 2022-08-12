@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 import { Button, Grid, Link, TextField, Typography, useTheme } from '@mui/material';
 
@@ -8,6 +8,7 @@ import { baseUrl } from '../common/baseUrl';
 import { LoadingButton } from '@mui/lab';
 import Swal from 'sweetalert2';
 import { useNavigate, Link as RouterLink } from "react-router-dom";
+import { createCookie, getCookieValue } from '../lib/functions';
 
 interface Props {
 
@@ -23,6 +24,12 @@ export const LoginPage: FC<Props> = () => {
 
     // Router
     const push = useNavigate();
+
+    useEffect(() => {
+        const token = getCookieValue("token");
+
+        if (token) push("/dashboard");
+    }, [])
 
     // Funcion para enviar el formulario
     const onSubmit = async (values: FormikValues) => {
@@ -43,15 +50,17 @@ export const LoginPage: FC<Props> = () => {
         }
         try {
             const respuesta = await fetch(url, options);
-            console.log(respuesta.status)
+            // console.log(respuesta.status)
             const data = await respuesta.json();
+            console.log(data);
             if (data.exito === "SI") {
+                const user = data.registros[0];
                 const alerta = await Swal.fire({
                     title: "Exito",
                     text: "Sesion iniciada exitosamente",
                     icon: "success",
                 })
-
+                createCookie("token", user.token);
                 push("/dashboard");
             } else {
                 const error = await Swal.fire({
@@ -85,10 +94,10 @@ export const LoginPage: FC<Props> = () => {
                                 <LoadingButton type="submit" disabled={isSubmitting} loading={isSubmitting} fullWidth variant="text" color="secondary" sx={{ p: 2 }}>Iniciar sesion</LoadingButton>
                             </Grid>
                             <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                <RouterLink to="/register">
-                                    <Link color="text.secondary" underline="hover">
+                                <RouterLink to="/register" style={{ textDecoration: "none" }}>
+                                    <Typography color="text.secondary" variant="subtitle2" sx={{ underline: "none" }}>
                                         ¿No tienes cuenta? Regístrate
-                                    </Link>
+                                    </Typography>
                                 </RouterLink>
                             </Grid>
                         </Grid>

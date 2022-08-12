@@ -71,14 +71,16 @@ export const alertHandler = (status: number, mensajePersonalizado = false) => {
 }
 /**
  * Funcion para crear una cookie
- * @param {string} name Nombre de la cookie a crear
- * @param {any} data Dato de la cookie
- * @param {date} expire Fecha de expiracion de la cookie
- * @param {string} path Direccion de la cookie
+ * @param {string} cname Nombre de la cookie a crear
+ * @param {any} cvalue Dato de la cookie
+ * @param {date} exdays Dias para la expiracion de la cookie
  * @author Linz web dev (José Linares)
  */
-export const createCookie = async (name: string, data: any, expire = "Thu, 01 Jan 2100 00:00:00 UTC", path = "/") => {
-    document.cookie = `${name}=${data}; expires=${expire}; path=${path}`;
+export const createCookie = async (cname: string, cvalue: any, exdays: number = 30) => {
+    const d = new Date();
+    d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+    let expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 /**
  * Funcion para borrar una cookie en el documento

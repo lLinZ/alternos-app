@@ -9,9 +9,9 @@ interface Props {
 
 export const WidgetList: FC<Props> = ({ widgets }) => {
     return (
-        <Grid container display="flex" justifyContent="space-evenly" alignItems="center">
+        <Grid container display="flex" flexDirection="row" flexWrap="wrap" justifyContent="space-evenly" alignItems="center" spacing={1} sx={{ mb: 5 }}>
             {widgets && widgets.length > 0
-                ? (widgets.map(widget => (<Grid key={widget.id} item xs={12}><WidgetCard widget={widget} /></Grid>)))
+                ? (widgets.map(widget => (<Grid key={widget.id} item xs={12} sm={6} md={4}><WidgetCard widget={widget} /></Grid>)))
                 : (<Typography color="text.secondary" variant="subtitle1">No existen widgets asignados a su usuario</Typography>)}
         </Grid>
     )

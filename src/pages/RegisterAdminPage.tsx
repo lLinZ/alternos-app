@@ -20,7 +20,7 @@ const initialValues = {
     username: "",
 }
 
-export const RegisterPage: FC<Props> = () => {
+export const RegisterAdminPage: FC<Props> = () => {
     const push = useNavigate();
     const onSubmit = async (values: FormikValues) => {
         if (!values) {
@@ -59,6 +59,7 @@ export const RegisterPage: FC<Props> = () => {
         body.append("password", values.password);
         body.append("name", values.name);
         body.append("phone", values.phone);
+        body.append("role_id", String(1));
 
         const options = {
             method: "POST",

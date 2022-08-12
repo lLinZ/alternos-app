@@ -1,6 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AdminPage } from './pages/AdminPage';
 import { DashboardPage } from './pages/DashboardPage';
+import { EndPage } from './pages/EndPage';
 import { LoginPage } from './pages/LoginPage';
+import { RegisterAdminPage } from './pages/RegisterAdminPage';
 import { RegisterPage } from './pages/RegisterPage';
 
 function App() {
@@ -10,6 +13,9 @@ function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/register/admin" element={<RegisterAdminPage />} />
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/end" element={<EndPage />} />
       </Routes>
     </BrowserRouter>
   );
