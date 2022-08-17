@@ -4,6 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getCookieValue } from '../../lib/functions';
+import { User } from '../../interfaces/user-type';
 
 type Pages = {
     name: string;
@@ -20,6 +21,10 @@ const pages: Pages[] = [
 const settings: Settings[] = [
     { name: 'Cerrar sesión', path: "/end" }
 ];
+const adminSettings: Settings[] = [
+    { name: "Administrar usuarios", path: "/admin" },
+    { name: "Cerrar sesión", path: "/end" },
+]
 const notLoggedPages: Pages[] = [
     {
         name: "Log In",
@@ -33,8 +38,9 @@ const notLoggedPages: Pages[] = [
 
 interface Props {
     title: string;
+    user: User;
 }
-export const AppBarComponent: FC<Props> = ({ title }) => {
+export const AppBarComponent: FC<Props> = ({ title, user }) => {
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -61,7 +67,7 @@ export const AppBarComponent: FC<Props> = ({ title }) => {
 
     // Direccion actual
     const currentPath = useLocation();
-
+    console.log({ user })
     // Render
     return (
         <AppBar color='secondary' position="static">
@@ -178,15 +184,26 @@ export const AppBarComponent: FC<Props> = ({ title }) => {
                                     open={Boolean(anchorElUser)}
                                     onClose={handleCloseUserMenu}
                                 >
-                                    {token && settings.map((setting) => (
-                                        String(currentPath.pathname) !== String(setting.path) && (
+                                    {token && (
+                                        (user && user.role_name === "Administrador")
+                                            ? settings.map((setting) => (
+                                                String(currentPath.pathname) !== String(setting.path) && (
 
-                                            <Link style={{ textDecoration: 'none' }} key={setting.name} to={setting.path}>
-                                                <MenuItem onClick={handleCloseUserMenu}>
-                                                    <Typography textAlign="center">{setting.name}</Typography>
-                                                </MenuItem>
-                                            </Link>
-                                        )))}
+                                                    <Link style={{ textDecoration: 'none' }} key={setting.name} to={setting.path}>
+                                                        <MenuItem onClick={handleCloseUserMenu}>
+                                                            <Typography textAlign="center">{setting.name}</Typography>
+                                                        </MenuItem>
+                                                    </Link>
+                                                )))
+                                            : settings.map((setting) => (
+                                                String(currentPath.pathname) !== String(setting.path) && (
+
+                                                    <Link style={{ textDecoration: 'none' }} key={setting.name} to={setting.path}>
+                                                        <MenuItem onClick={handleCloseUserMenu}>
+                                                            <Typography textAlign="center">{setting.name}</Typography>
+                                                        </MenuItem>
+                                                    </Link>
+                                                ))))}
                                 </Menu>
                             </Box>
                         </>

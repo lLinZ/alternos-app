@@ -61,6 +61,7 @@ export const LoginPage: FC<Props> = () => {
                     icon: "success",
                 })
                 createCookie("token", user.token);
+                createCookie("username", user.username);
                 push("/dashboard");
             } else {
                 const error = await Swal.fire({
