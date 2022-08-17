@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AdminPage } from './pages/AdminPage';
-import { DashboardPage } from './pages/DashboardPage';
 import { EndPage } from './pages/EndPage';
 import { LoginPage } from './pages/LoginPage';
-import { RegisterAdminPage } from './pages/RegisterAdminPage';
+import { AdminPage } from './pages/AdminPage';
 import { RegisterPage } from './pages/RegisterPage';
+import { DashboardPage } from './pages/DashboardPage';
+import { RegisterAdminPage } from './pages/RegisterAdminPage';
 
 function App() {
   return (
