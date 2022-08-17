@@ -36,7 +36,7 @@ export const DashboardPage: FC<Props> = () => {
     return (
 
         <Layout title="Dashboard">
-            <Box>
+            <Box sx={{ width: "80%", m: "auto" }}>
                 <WidgetList widgets={widgets} />
             </Box>
         </Layout>
