@@ -1,6 +1,8 @@
 import Swal from 'sweetalert2';
 import { formatDistanceToNow } from 'date-fns'
 import { es } from 'date-fns/locale'
+import { Dispatch, SetStateAction } from 'react';
+import { baseUrl } from '../common/baseUrl';
 
 export const getFormatDistanceToNow = (date: any) => {
     const fromNow = formatDistanceToNow(date, { locale: es });
@@ -98,3 +100,45 @@ export const deleteCookie = async (name: string, path = "/") => {
  * @author Linz web dev (José Linares)
  */
 export const getCookieValue = (name: string) => (decodeURIComponent(document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || ''))
+/**
+ * Funcion para validar el token de un usuario
+ * @param setUserLogged Set state
+ */
+export const validarToken = async (router: any, setUserLogged: Dispatch<SetStateAction<any>>, setWidgets?: Dispatch<SetStateAction<any>>) => {
+    const token = getCookieValue("token") || "";
+    const username = getCookieValue("username") || "";
+
+    const body = new FormData();
+
+    body.append("username", username);
+    body.append("token", token);
+    const url = `${baseUrl}/validToken`;
+
+    const options = {
+        method: "POST",
+        body
+    }
+    try {
+        const respuesta = await fetch(url, options);
+
+        const data = await respuesta.json();
+
+        if (data.exito === "SI") {
+            console.log(data);
+            const newUser = data.usuario;
+            const newWidgets = data.widgets;
+            setUserLogged(newUser);
+            setWidgets && setWidgets(newWidgets);
+        } else {
+            const alertaError1 = await Swal.fire({
+                title: "Error",
+                text: "Autentiquese correctamente",
+                icon: "error"
+            })
+            router("/end");
+        }
+    } catch (error) {
+        console.log(error);
+        router("/end");
+    }
+}

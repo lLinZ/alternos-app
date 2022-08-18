@@ -1,10 +1,11 @@
 import { Box } from '@mui/material'
-import { FC, useEffect, useState } from 'react'
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { baseUrl } from '../common/baseUrl'
 import { WidgetList } from '../components/dashboard'
 import { Layout } from '../components/layout'
-import { getCookieValue } from '../lib/functions'
+import { getCookieValue, validarToken } from '../lib/functions'
 
 interface Props {
 
@@ -40,45 +41,9 @@ export const DashboardPage: FC<Props> = () => {
     const [userLogged, setUserLogged] = useState(null);
 
     const [widgetsS, setWidgets] = useState();
-    const validarToken = async () => {
-        const token = getCookieValue("token");
-        const username = getCookieValue("username");
-
-        const body = new FormData();
-
-        body.append("username", username);
-        body.append("token", token);
-        const url = `${baseUrl}/validToken`;
-
-        const options = {
-            method: "POST",
-            body
-        }
-
-        try {
-            const respuesta = await fetch(url, options);
-
-            const data = await respuesta.json();
-
-            if (data.exito === "SI") {
-                console.log(data);
-                const newUser = data.usuario;
-                const newWidgets = data.widgets;
-                setUserLogged(newUser);
-                setWidgets(newWidgets);
-            } else {
-                const alertaError1 = await Swal.fire({
-                    title: "Error",
-                    text: "Autentiquese correctamente",
-                    icon: "error"
-                })
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    const router = useNavigate();
     useEffect(() => {
-        validarToken();
+        validarToken(router, setUserLogged, setWidgets);
     }, []);
     return (
         <Layout title="Dashboard" user={userLogged}>
