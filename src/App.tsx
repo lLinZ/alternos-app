@@ -6,6 +6,8 @@ import { RegisterPage } from './pages/RegisterPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { RegisterAdminPage } from './pages/RegisterAdminPage';
 import { ActividadesPage } from './pages/ActividadesPage';
+import { ProcessesPage } from './pages/ProcessesPage';
+import { ProcessListPage } from './pages/ProcessListPage';
 
 function App() {
   return (
@@ -15,9 +17,10 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/register/admin" element={<RegisterAdminPage />} />
-        <Route path="/activities" element={<ActividadesPage />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/end" element={<EndPage />} />
+        <Route path="/process" element={<ProcessListPage />} />
+        <Route path="/process/add" element={<ProcessesPage />} />
       </Routes>
     </BrowserRouter>
   );
