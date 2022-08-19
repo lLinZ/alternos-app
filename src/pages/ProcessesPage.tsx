@@ -159,6 +159,7 @@ export const ProcessesPage: FC<Props> = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={{ width: "80%", m: "auto" }}>
+                <Typography variant="body1" fontWeight="bold">Registro de nuevo proceso</Typography>
                 <Grid container display="flex" justifyContent="center" alignItems="center" flexWrap="wrap" flexDirection="row" spacing={1}>
                     <Grid item xs={12} sm={6}>
                         <TextField fullWidth label="Nombre" name="name" color="secondary" onChange={(e) => setProcess(e.target.value)} value={process} />
