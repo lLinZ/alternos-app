@@ -192,7 +192,7 @@ export const UserRequirementsPage: FC = () => {
                     <CircularProgress color="secondary" />
                 </Box>
             )}
-            <Grid container display="flex" flexDirection="row" flexWrap="wrap" justifyContent="center" alignItems="center" spacing={1} sx={{ w: "80%", m: "20px auto", height: "100%" }}>
+            <Grid container display="flex" flexDirection="row" flexWrap="wrap" justifyContent="center" alignItems="center" spacing={1} sx={{ w: "80%", m: "20px auto" }}>
                 {
                     myRequirements && myRequirements.map(req => (
                         <Grid item key={req.id} xs={12} sm={6} md={4} lg={3}>
