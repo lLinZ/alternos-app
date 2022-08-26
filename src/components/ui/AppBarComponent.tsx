@@ -200,7 +200,7 @@ export const AppBarComponent: FC<Props> = ({ title, user }) => {
 
                                                     <Link style={{ textDecoration: 'none' }} key={setting.name} to={setting.path}>
                                                         <MenuItem onClick={handleCloseUserMenu}>
-                                                            <Typography textAlign="center">{setting.name}</Typography>
+                                                            <Typography textAlign="center" sx={{ color: "text.primary" }}>{setting.name}</Typography>
                                                         </MenuItem>
                                                     </Link>
                                                 )))
@@ -209,7 +209,7 @@ export const AppBarComponent: FC<Props> = ({ title, user }) => {
 
                                                     <Link style={{ textDecoration: 'none' }} key={setting.name} to={setting.path}>
                                                         <MenuItem onClick={handleCloseUserMenu}>
-                                                            <Typography textAlign="center">{setting.name}</Typography>
+                                                            <Typography textAlign="center" sx={{ color: "text.primary" }}>{setting.name}</Typography>
                                                         </MenuItem>
                                                     </Link>
                                                 ))))}
