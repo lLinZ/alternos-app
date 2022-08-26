@@ -5,9 +5,10 @@ import { AdminPage } from './pages/AdminPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { RegisterAdminPage } from './pages/RegisterAdminPage';
-import { ActividadesPage } from './pages/ActividadesPage';
 import { ProcessesPage } from './pages/ProcessesPage';
 import { ProcessListPage } from './pages/ProcessListPage';
+import { RequirementsPage } from './pages/RequirementsPage';
+import { UserRequirementsPage } from './pages/UserRequirementsPage';
 
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
         <Route path="/end" element={<EndPage />} />
         <Route path="/process" element={<ProcessListPage />} />
         <Route path="/process/add" element={<ProcessesPage />} />
+        <Route path="/requirements" element={<UserRequirementsPage />} />
+        <Route path="/requirements/add" element={<RequirementsPage />} />
       </Routes>
     </BrowserRouter>
   );
