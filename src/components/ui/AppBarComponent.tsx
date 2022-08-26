@@ -76,7 +76,6 @@ export const AppBarComponent: FC<Props> = ({ title, user }) => {
 
     // Direccion actual
     const currentPath = useLocation();
-    console.log({ user })
     // Render
     return (
         <AppBar color='secondary' position="static">

@@ -90,12 +90,12 @@ export const RequirementsPage: FC = () => {
             }}>
                 <Typography variant="body1" fontWeight="bold">Ingrese la descripcion del requerimiento</Typography>
             </Divider>
-            <Box sx={{ width: "50%", mb: 5, mt: 1, textAlign: "center" }}>
+            <Box sx={{ width: "50%", mb: 1, mt: 1, textAlign: "center" }}>
                 <Typography component="p" variant="subtitle2" color="text.secondary" fontWeight="400">En esta interfaz podrás describir tu requerimiento con una descripción específica, seleccionar un proceso y enviarlo para nosotros revisarlo y solucionar tus necesidades lo más pronto posible!</Typography>
             </Box>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1} sx={{ width: "80%", m: "auto" }}>
                 <Grid item xs={12} sm={6}>
-                    <TextField fullWidth label="Descripcion" name="description" value={description} onChange={(e: ChangeEvent<HTMLInputElement>) => setDescription(e.currentTarget.value)} variant="outlined" color="secondary" />
+                    <TextField fullWidth label="Descripcion" name="description" value={description} onChange={(e: ChangeEvent<HTMLInputElement>) => setDescription(e.currentTarget.value)} variant="outlined" color="secondary" multiline />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <ProcessesModal setSelectedProcess={setSelectedProcess} />
