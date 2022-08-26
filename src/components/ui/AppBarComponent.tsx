@@ -27,7 +27,6 @@ const settings: Settings[] = [
     { name: 'Cerrar sesión', path: "/end" },
 ];
 const adminSettings: Settings[] = [
-    { name: 'Cerrar sesión', path: "/end" },
     { name: 'Mis tareas', path: "/requirements" },
     { name: 'Agregar Requerimiento', path: "/requirements/add" },
     { name: 'Procesos', path: "/process" },
