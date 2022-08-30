@@ -231,7 +231,7 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
 
     }
     return (
-        <Card variant="outlined" sx={{ maxWidth: 275 }}>
+        <Card variant="outlined" sx={{ width: "100%", mb: 1 }}>
             <CardContent>
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                     {process.owner_name}

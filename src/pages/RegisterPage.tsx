@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 
-import { Button, Grid, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
+import { Box, Button, Grid, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
 
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -62,6 +62,7 @@ export const RegisterPage: FC<Props> = () => {
                 text: "Las contraseñas no coinciden",
                 icon: "error",
             })
+            return false;
         }
         const url = `${baseUrl}/registro`;
 
@@ -71,7 +72,7 @@ export const RegisterPage: FC<Props> = () => {
         body.append("password", values.password);
         body.append("name", values.name);
         body.append("phone", values.phone);
-
+        console.log({ values })
         const options = {
             method: "POST",
             body
@@ -80,7 +81,7 @@ export const RegisterPage: FC<Props> = () => {
 
             const respuesta = await fetch(url, options);
             const data = await respuesta.json();
-
+            console.log(data)
             if (data.exito === "SI") {
                 const alertaExito = await Swal.fire({
                     title: "Exito",
@@ -107,61 +108,64 @@ export const RegisterPage: FC<Props> = () => {
 
     return (
         <Layout footer={false}>
-            <Formik
-                initialValues={initialValues}
-                onSubmit={(values: FormikValues) => onSubmit(values)}
-            >
-                {({ values, handleSubmit, handleChange, errors }) => (
-                    <Form onSubmit={handleSubmit}>
-                        <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
-                            <Grid item xs={12} sx={{ mt: 3 }}>
-                                <TextField fullWidth onChange={handleChange} variant="standard" label="Nombre y apellido" name="name" type="text" color="secondary" />
+            <Box sx={{ p: 1 }}>
+                <Typography component="h2" fontWeight="bold" variant="overline" fontSize={16}>Registrarse en Alternos</Typography>
+                <Formik
+                    initialValues={initialValues}
+                    onSubmit={(values: FormikValues) => onSubmit(values)}
+                >
+                    {({ values, handleSubmit, handleChange, errors }) => (
+                        <Form onSubmit={handleSubmit}>
+                            <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
+                                <Grid item xs={12} sx={{ mt: 3 }}>
+                                    <TextField fullWidth onChange={handleChange} value={values.name} variant="standard" label="Nombre y apellido" name="name" type="text" color="secondary" />
+                                </Grid>
+                                <Grid item xs={12} sx={{ mt: 3 }}>
+                                    <TextField fullWidth onChange={handleChange} value={values.username} variant="standard" label="Usuario" name="username" type="text" color="secondary" />
+                                </Grid>
+                                <Grid item xs={12} sx={{ mt: 3 }}>
+                                    <TextField fullWidth onChange={handleChange} value={values.phone} variant="standard" label="Teléfono" name="phone" type="text" color="secondary" />
+                                </Grid>
+                                <Grid item xs={12} sm={6} sx={{ mt: 3 }}>
+                                    <TextField fullWidth onChange={handleChange} value={values.password} variant="standard" label="Contraseña" name="password" type={showPassword ? "text" : "password"} color="secondary"
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <IconButton
+                                                        aria-label="toggle password visibility"
+                                                        onClick={handleClickShowPassword}
+                                                        onMouseDown={handleMouseDownPassword}
+                                                    >
+                                                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            )
+                                        }} />
+                                </Grid>
+                                <Grid item xs={12} sm={6} sx={{ mt: 3 }}>
+                                    <TextField fullWidth onChange={handleChange} value={values.confirmPassword} variant="standard" label="Confirmar contraseña" name="confirmPassword" type={showPassword ? "text" : "password"} color="secondary"
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <IconButton
+                                                        aria-label="toggle password visibility"
+                                                        onClick={handleClickShowPassword}
+                                                        onMouseDown={handleMouseDownPassword}
+                                                    >
+                                                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            )
+                                        }} />
+                                </Grid>
+                                <Grid item xs={12} sx={{ mt: 3 }}>
+                                    <Button type="submit" fullWidth variant="outlined" color="secondary" sx={{ p: 2 }}>Registrarse</Button>
+                                </Grid>
                             </Grid>
-                            <Grid item xs={12} sx={{ mt: 3 }}>
-                                <TextField fullWidth onChange={handleChange} variant="standard" label="Usuario" name="username" type="text" color="secondary" />
-                            </Grid>
-                            <Grid item xs={12} sx={{ mt: 3 }}>
-                                <TextField fullWidth onChange={handleChange} variant="standard" label="Teléfono" name="phone" type="text" color="secondary" />
-                            </Grid>
-                            <Grid item xs={12} sm={6} sx={{ mt: 3 }}>
-                                <TextField fullWidth onChange={handleChange} variant="standard" label="Contraseña" name="password" type={showPassword ? "text" : "password"} color="secondary"
-                                    InputProps={{
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowPassword}
-                                                    onMouseDown={handleMouseDownPassword}
-                                                >
-                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        )
-                                    }} />
-                            </Grid>
-                            <Grid item xs={12} sm={6} sx={{ mt: 3 }}>
-                                <TextField fullWidth onChange={handleChange} variant="standard" label="Confirmar contraseña" name="confirmPassword" type={showPassword ? "text" : "password"} color="secondary"
-                                    InputProps={{
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowPassword}
-                                                    onMouseDown={handleMouseDownPassword}
-                                                >
-                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        )
-                                    }} />
-                            </Grid>
-                            <Grid item xs={12} sx={{ mt: 3 }}>
-                                <Button type="submit" fullWidth variant="text" color="secondary" sx={{ p: 2 }}>Registrarse</Button>
-                            </Grid>
-                        </Grid>
-                    </Form>
-                )}
-            </Formik>
+                        </Form>
+                    )}
+                </Formik>
+            </Box>
         </Layout>
     )
 }

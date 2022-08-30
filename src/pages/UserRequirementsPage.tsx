@@ -186,104 +186,113 @@ export const UserRequirementsPage: FC = () => {
     // Render
     return (
         <Layout title="Mis tareas" user={userLogged}>
-            <Typography variant="subtitle1" fontWeight="bold" sx={{ mb: 2 }}>Lista de tareas abiertas</Typography>
-            {isLoading && (
-                <Box sx={{ w: "100%", m: "auto" }}>
-                    <CircularProgress color="secondary" />
-                </Box>
-            )}
-            <Grid container display="flex" flexDirection="row" flexWrap="wrap" justifyContent="center" alignItems="center" spacing={1}>
-                {
-                    myRequirements && myRequirements.map(req => (
-                        <Grid item key={req.id} xs={12} sm={6} md={4} lg={3}>
-                            <Card variant="outlined">
-                                <CardHeader
-                                    title={req.process_name}
-                                    subheader={req.inicio}
-                                />
-                                <CardContent>
-                                    <Box>
-                                        <Typography variant="subtitle2">
-                                            Actividad: {req.activity_name}
-                                        </Typography>
+            <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
+                <Typography variant="overline" component="h2" fontWeight="bold" sx={{ mb: 2 }} fontSize={16}>Tareas abiertas</Typography>
+                {isLoading && (
+                    <Box sx={{ w: "100%", m: "auto" }}>
+                        <CircularProgress color="secondary" />
+                    </Box>
+                )}
+                <Grid container display="flex" flexDirection="row" flexWrap="wrap" justifyContent="center" alignItems="center" spacing={1}>
+                    {
+                        myRequirements && myRequirements.map(req => (
+                            <Grid item key={req.id} xs={12}>
+                                <Box sx={{ display: "flex", justifyContent: "space-between", w: "100%", borderRadius: "5px", border: "1px solid rgba(0,0,0,0.1)", p: 2, flexWrap: "wrap" }}>
+                                    <Box sx={{ display: "flex", flexDirection: "column" }}>
+                                        <Typography variant="subtitle1" fontSize={16} fontWeight="400">{req.process_name}</Typography>
+                                        <Typography variant="subtitle2" fontSize={12} fontWeight="300" color="text.secondary">Actividad: {req.activity_name}</Typography>
                                     </Box>
-                                    <Box>
-                                        <Typography variant="subtitle2" fontWeight="400" color="text.secondary">
-                                            {req.description}
-                                        </Typography>
-                                    </Box>
-                                </CardContent>
-                                <CardActions>
-                                    <Button variant="contained" fullWidth color="secondary" onClick={() => openModal(req.id)}>Ver más</Button>
-                                </CardActions>
-                            </Card>
-                        </Grid>
-                    ))
-                }
-            </Grid>
-            <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
-                <AppBar sx={{ position: 'relative' }}>
-                    <Toolbar>
-                        <IconButton
-                            edge="start"
-                            color="inherit"
-                            onClick={handleClose}
-                            aria-label="close"
-                        >
-                            <CloseIcon />
-                        </IconButton>
-                        <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                                    <Button color="secondary" onClick={() => openModal(req.id)} sx={{ p: 2 }}>Ver más</Button>
+                                </Box>
+                                {/* <Card variant="outlined">
+                                    <CardHeader
+                                        title={req.process_name}
+                                        subheader={req.inicio}
+                                    />
+                                    <CardContent>
+                                        <Box>
+                                            <Typography variant="subtitle2">
+                                                Actividad: {req.activity_name}
+                                            </Typography>
+                                        </Box>
+                                        <Box>
+                                            <Typography variant="subtitle2" fontWeight="400" color="text.secondary">
+                                                {req.description}
+                                            </Typography>
+                                        </Box>
+                                    </CardContent>
+                                    <CardActions>
+                                        <Button variant="outlined" fullWidth color="secondary" onClick={() => openModal(req.id)}>Ver más</Button>
+                                    </CardActions>
+                                </Card> */}
+                            </Grid>
+                        ))
+                    }
+                </Grid>
+                <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
+                    <AppBar sx={{ position: 'relative' }}>
+                        <Toolbar>
+                            <IconButton
+                                edge="start"
+                                color="inherit"
+                                onClick={handleClose}
+                                aria-label="close"
+                            >
+                                <CloseIcon />
+                            </IconButton>
+                            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                                {selectedTask?.process_name}
+                            </Typography>
+                            <Button autoFocus color="inherit" onClick={handleClose}>
+
+                            </Button>
+                        </Toolbar>
+                    </AppBar>
+                    <Box sx={{ width: "80%", m: "50px auto" }}>
+                        <Typography variant="body1" component="p" fontWeight="bold">
+                            Descripcion del requerimiento
+                        </Typography>
+                        <Typography variant="body1" component="p">
+                            {selectedTask?.description}
+                        </Typography>
+                        <Divider sx={{ mb: 1, mt: 1 }} />
+                        <Typography variant="body1" component="p" fontWeight="bold">
+                            Actividad
+                        </Typography>
+                        <Typography variant="body1" component="p">
+                            {selectedTask?.activity_name}
+                        </Typography>
+                        <Typography variant="body1" component="p" fontWeight="bold">
+                            Encargado de la actividad
+                        </Typography>
+                        <Typography variant="body1" component="p">
+                            {selectedTask?.activity_owner_name}
+                        </Typography>
+                        <Divider sx={{ mb: 1, mt: 1 }} />
+                        <Typography variant="body1" component="p" fontWeight="bold">
+                            Proceso
+                        </Typography>
+                        <Typography variant="body1" component="p">
                             {selectedTask?.process_name}
                         </Typography>
-                        <Button autoFocus color="inherit" onClick={handleClose}>
-
-                        </Button>
-                    </Toolbar>
-                </AppBar>
-                <Box sx={{ width: "80%", m: "50px auto" }}>
-                    <Typography variant="body1" component="p" fontWeight="bold">
-                        Descripcion del requerimiento
-                    </Typography>
-                    <Typography variant="body1" component="p">
-                        {selectedTask?.description}
-                    </Typography>
-                    <Divider sx={{ mb: 1, mt: 1 }} />
-                    <Typography variant="body1" component="p" fontWeight="bold">
-                        Actividad
-                    </Typography>
-                    <Typography variant="body1" component="p">
-                        {selectedTask?.activity_name}
-                    </Typography>
-                    <Typography variant="body1" component="p" fontWeight="bold">
-                        Encargado de la actividad
-                    </Typography>
-                    <Typography variant="body1" component="p">
-                        {selectedTask?.activity_owner_name}
-                    </Typography>
-                    <Divider sx={{ mb: 1, mt: 1 }} />
-                    <Typography variant="body1" component="p" fontWeight="bold">
-                        Proceso
-                    </Typography>
-                    <Typography variant="body1" component="p">
-                        {selectedTask?.process_name}
-                    </Typography>
-                    <Typography variant="body1" component="p" fontWeight="bold">
-                        Encargado del proceso
-                    </Typography>
-                    <Typography variant="body1" component="p">
-                        {selectedTask?.process_owner_name}
-                    </Typography>
-                    <Divider sx={{ mb: 1, mt: 1 }} />
-                    <Typography variant="body1" component="p" fontWeight="bold">
-                        Fecha de vencimiento
-                    </Typography>
-                    <Typography variant="body1" component="p">
-                        {selectedTask?.vence}
-                    </Typography>
-                    <TextField label="Respuesta de cierre de actividad" fullWidth value={respuestaReq} onChange={(e: ChangeEvent<HTMLInputElement>) => setRespuestaReq(e.currentTarget.value)} multiline color="secondary" variant="outlined" sx={{ mt: 2, mb: 2 }} />
-                    <LoadingButton color="secondary" variant="contained" onClick={() => onSubmit()} loading={isSubmitting} fullWidth>Responder tarea</LoadingButton>
-                </Box>
-            </Dialog>
+                        <Typography variant="body1" component="p" fontWeight="bold">
+                            Encargado del proceso
+                        </Typography>
+                        <Typography variant="body1" component="p">
+                            {selectedTask?.process_owner_name}
+                        </Typography>
+                        <Divider sx={{ mb: 1, mt: 1 }} />
+                        <Typography variant="body1" component="p" fontWeight="bold">
+                            Fecha de vencimiento
+                        </Typography>
+                        <Typography variant="body1" component="p">
+                            {selectedTask?.vence}
+                        </Typography>
+                        <TextField label="Respuesta de cierre de actividad" fullWidth value={respuestaReq} onChange={(e: ChangeEvent<HTMLInputElement>) => setRespuestaReq(e.currentTarget.value)} multiline color="secondary" variant="outlined" sx={{ mt: 2, mb: 2 }} />
+                        <LoadingButton color="secondary" variant="contained" onClick={() => onSubmit()} loading={isSubmitting} fullWidth sx={{ p: 1.8 }}>Responder tarea</LoadingButton>
+                    </Box>
+                </Dialog>
+            </Box>
         </Layout>
     )
 }

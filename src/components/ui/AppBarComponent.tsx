@@ -235,7 +235,7 @@ export const AppBarComponent: FC<Props> = ({ title, user }) => {
                         >
                             ALTERNOS
                         </Typography>
-                        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
                             {notLoggedPages.map((page) => (
                                 String(currentPath.pathname) !== String(page.path) && (
                                     <Button

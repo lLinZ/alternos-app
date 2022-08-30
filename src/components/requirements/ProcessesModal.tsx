@@ -3,7 +3,7 @@ import { TransitionProps } from '@mui/material/transitions';
 import { Dispatch, FC, forwardRef, ReactElement, Ref, SetStateAction, useEffect, useState } from 'react'
 import { baseUrl } from '../../common/baseUrl';
 import CloseIcon from '@mui/icons-material/Close';
-import { ISelectedProcess, IProcessNoDetails } from '../../interfaces/process-type';
+import { ISelectedProcess, IProcessNoDetails, Process } from '../../interfaces/process-type';
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -19,7 +19,7 @@ interface Props {
     setSelectedProcess: Dispatch<SetStateAction<ISelectedProcess | null>>;
 }
 export const ProcessesModal: FC<Props> = ({ setSelectedProcess }) => {
-    const [processes, setProcesses] = useState<IProcessNoDetails[] | null>(null)
+    const [processes, setProcesses] = useState<Process[] | null>(null)
     const [open, setOpen] = useState<boolean>(false);
     const handleOpenModal = () => {
         setOpen(true);
@@ -40,7 +40,7 @@ export const ProcessesModal: FC<Props> = ({ setSelectedProcess }) => {
             const respuesta = await fetch(url);
 
             const data = await respuesta.json();
-
+            console.log({ data })
             if (data.exito === "SI") {
                 const processesFetched = data.registros;
                 setProcesses(processesFetched);
@@ -73,14 +73,17 @@ export const ProcessesModal: FC<Props> = ({ setSelectedProcess }) => {
                             <CloseIcon />
                         </IconButton>
                         <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                            Seleccionar usuario
+                            Seleccionar proceso
                         </Typography>
                     </Toolbar>
                 </AppBar>
                 <Box sx={{ width: "80%", m: "20px auto" }}>
-                    {processes ? processes.map((process: { id: number; name: string; }) => (
+                    {processes ? processes.map((process: Process) => (
                         <Box key={process.id} sx={{ p: 2, borderRadius: "10px", border: "1px solid black", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
-                            <Typography>{process.name}</Typography>
+                            <Box sx={{ display: "flex", flexDirection: "column" }}>
+                                <Typography variant="subtitle1" fontWeight="bold">{process.name}</Typography>
+                                <Typography variant="subtitle2" fontWeight={200} color="text.secondary">{process.actividades?.length} {process.actividades && process.actividades?.length > 1 ? " actividades" : " actividad"}</Typography>
+                            </Box>
                             <Button color="secondary" onClick={() => selectProcess(process.id, process.name)}>Seleccionar</Button>
                         </Box>)) : <CircularProgress color="secondary" />}
                 </Box>

@@ -17,6 +17,7 @@ interface Props { }
 interface SelectedUser {
     id: number;
     name: string;
+    role_name: string;
 }
 
 const Transition = forwardRef(function Transition(
@@ -76,7 +77,6 @@ export const ProcessesPage: FC<Props> = () => {
             }
             try {
                 const respuesta = await fetch(url, options);
-                console.log(respuesta);
                 const data = await respuesta.json();
 
                 if (data.exito === "SI") {
@@ -107,7 +107,7 @@ export const ProcessesPage: FC<Props> = () => {
      * Funcion para obtener usuarios
      */
     const getUsers = async () => {
-        const url = `${baseUrl}/listaregistros?role_id=2&status=Activo`
+        const url = `${baseUrl}/listaregistros?status=Activo`
         try {
             const respuesta = await fetch(url);
 
@@ -130,11 +130,13 @@ export const ProcessesPage: FC<Props> = () => {
      * Funcion para seleccionar un usuario
      * @param id ID del usaurio seleccionado
      * @param name Nombre del usuario seleccionado
+     * @param role_name Rol del usuario seleccionado
      */
-    const selectUser = (id: number, name: string) => {
+    const selectUser = (id: number, name: string, role_name: string) => {
         setUserSelected({
             id,
-            name
+            name,
+            role_name
         })
         setOpen(false);
     }
@@ -158,8 +160,8 @@ export const ProcessesPage: FC<Props> = () => {
 
     return (
         <Layout user={userLogged}>
-            <Box sx={{ width: "80%", m: "auto" }}>
-                <Typography variant="body1" fontWeight="bold" sx={{ m: "20px auto" }}>Registro de nuevo proceso</Typography>
+            <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
+                <Typography variant="overline" fontSize={16} fontWeight="bold" sx={{ mb: 2 }}>Registrar proceso</Typography>
                 <Grid container display="flex" justifyContent="center" alignItems="center" flexWrap="wrap" flexDirection="row" spacing={1}>
                     <Grid item xs={12} sm={6}>
                         <TextField fullWidth label="Nombre" name="name" color="secondary" onChange={(e) => setProcess(e.target.value)} value={process} />
@@ -170,18 +172,23 @@ export const ProcessesPage: FC<Props> = () => {
                     {
                         userSelected && (
                             <Grid item xs={12}>
-                                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                                    <Typography>{userSelected.name}</Typography>
+                                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", border: "1px solid rgba(0,0,0,0.3)", borderRadius: "10px", p: 2 }}>
+                                    <Box sx={{ display: "flex", flexDirection: "column" }}>
+                                        <Typography variant="subtitle1" fontWeight={500} >{userSelected.name}</Typography>
+                                        <Typography variant="subtitle2" fontWeight={400} color="text.secondary">{userSelected.role_name}</Typography>
+                                    </Box>
                                     <CheckCircleIcon color="success" />
                                 </Box>
                             </Grid>
                         )
                     }
                     <Grid item xs={12} >
-                        <LoadingButton fullWidth loading={isSubmitting} color="secondary" onClick={() => onSubmit()}>Enviar</LoadingButton>
+                        <LoadingButton fullWidth loading={isSubmitting} color="secondary" variant="contained" sx={{ p: 2, mt: 2 }} onClick={() => onSubmit()}>Enviar</LoadingButton>
                     </Grid>
                 </Grid>
             </Box>
+
+            {/* Modal de seleccion de usuario  */}
             <Dialog onClose={() => setOpen(false)} open={open} fullScreen TransitionComponent={Transition}>
                 <AppBar sx={{ position: 'relative' }}>
                     <Toolbar>
@@ -199,10 +206,13 @@ export const ProcessesPage: FC<Props> = () => {
                     </Toolbar>
                 </AppBar>
                 <Box sx={{ width: "80%", m: "20px auto" }}>
-                    {users && users.map((usuario: { id: number; name: string; }) => (
-                        <Box key={usuario.id} sx={{ p: 2, borderRadius: "10px", border: "1px solid black", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
-                            <Typography>{usuario.name}</Typography>
-                            <Button color="secondary" onClick={() => selectUser(usuario.id, usuario.name)}>Seleccionar</Button>
+                    {users && users.map((usuario: { id: number; name: string; role_name: string; }) => (
+                        <Box key={usuario.id} sx={{ p: 2, borderRadius: "10px", border: "1px solid rgba(0,0,0,0.3)", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
+                            <Box sx={{ display: "flex", flexDirection: "column" }}>
+                                <Typography variant="subtitle1" fontWeight={500} >{usuario.name}</Typography>
+                                <Typography variant="subtitle2" fontWeight={400} color="text.secondary">{usuario.role_name}</Typography>
+                            </Box>
+                            <Button color="secondary" disabled={userSelected?.id === usuario.id} onClick={() => selectUser(usuario.id, usuario.name, usuario.role_name)}>{userSelected?.id === usuario.id ? "Seleccionado" : "Seleccionar"} {userSelected?.id === usuario.id && (<CheckCircleIcon color="success" />)}</Button>
                         </Box>))}
                 </Box>
             </Dialog>
