@@ -109,10 +109,11 @@ export const UserRequirementsPage: FC = () => {
             if (userDataArray.exito === "SI") {
 
                 const userData = userDataArray.usuario;
-                const url = `${baseUrl}/listatareas?user_id=${userData ? userData.id : "1"}&status=abierta`;
+                const url = `${baseUrl}/listacasos`;
                 try {
                     const respuesta = await fetch(url);
                     const data = await respuesta.json();
+                    console.log(data)
                     if (data.exito === "SI") {
                         setMyRequirements(data.registros);
                         console.log(data.registros)
