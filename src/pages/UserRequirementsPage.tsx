@@ -114,8 +114,9 @@ export const UserRequirementsPage: FC = () => {
                     const respuesta = await fetch(url);
                     const data = await respuesta.json();
                     console.log(data)
+                    const filtrado: IRequirement[] = data.registros.filter((tarea: IRequirement) => Number(tarea.process_owner_id) === Number(userLogged?.id));
                     if (data.exito === "SI") {
-                        setMyRequirements(data.registros);
+                        setMyRequirements(filtrado);
                         console.log(data.registros)
                     } else {
                         console.log("Ocurrio un error al solicitar la informacion de las tareas");

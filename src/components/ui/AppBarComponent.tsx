@@ -1,5 +1,5 @@
 import { FC, useState, MouseEvent } from 'react';
-import { Box, AppBar, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, Tooltip, MenuItem } from '@mui/material';
+import { Box, AppBar, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, Tooltip, MenuItem, Divider } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -192,6 +192,24 @@ export const AppBarComponent: FC<Props> = ({ title, user }) => {
                                     open={Boolean(anchorElUser)}
                                     onClose={handleCloseUserMenu}
                                 >
+                                    {
+                                        token && (
+                                            <>
+                                                <Box sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+                                                    {
+                                                        user && (
+                                                            <>
+                                                                <Typography variant="subtitle1" color="text.primary" fontWeight="bold">{user.name}</Typography>
+                                                                <Typography variant="subtitle2" color="text.secondary" fontWeight="400" >{user.username}</Typography>
+                                                                <Typography variant="overline" color="text.secondary" fontWeight="400">{user.role_name}</Typography>
+                                                            </>
+                                                        )
+                                                    }
+                                                </Box>
+                                                <Divider />
+                                            </>
+                                        )
+                                    }
                                     {token && (
                                         (user && user.role_name === "Administrador")
                                             ? settings.map((setting) => (
@@ -251,6 +269,6 @@ export const AppBarComponent: FC<Props> = ({ title, user }) => {
                     )}
                 </Toolbar>
             </Container>
-        </AppBar>
+        </AppBar >
     );
 };

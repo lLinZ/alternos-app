@@ -16,9 +16,10 @@ const Transition = forwardRef(function Transition(
 
 
 interface Props {
+    buttonColor?: "primary" | "secondary";
     setSelectedProcess: Dispatch<SetStateAction<ISelectedProcess | null>>;
 }
-export const ProcessesModal: FC<Props> = ({ setSelectedProcess }) => {
+export const ProcessesModal: FC<Props> = ({ setSelectedProcess, buttonColor = "secondary" }) => {
     const [processes, setProcesses] = useState<Process[] | null>(null)
     const [open, setOpen] = useState<boolean>(false);
     const handleOpenModal = () => {
@@ -60,7 +61,7 @@ export const ProcessesModal: FC<Props> = ({ setSelectedProcess }) => {
     return (
         <>
             {/* Modal de usaurios */}
-            <Button variant="outlined" color="secondary" sx={{ p: 1.8 }} fullWidth onClick={handleOpenModal}>Seleccionar Proceso</Button>
+            <Button variant="outlined" color={buttonColor} sx={{ p: 1.8 }} fullWidth onClick={handleOpenModal}>Seleccionar Proceso</Button>
             <Dialog onClose={handleCloseModal} open={open} fullScreen TransitionComponent={Transition} >
                 <AppBar sx={{ position: 'relative' }}>
                     <Toolbar>

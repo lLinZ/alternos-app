@@ -1,18 +1,28 @@
-import { Alert, Box, Collapse, Divider, Grid, IconButton, TextField, Typography } from '@mui/material';
 import { FC, useState, useEffect, ChangeEvent } from 'react'
-import { useNavigate } from 'react-router-dom';
-import { Layout } from '../components/layout'
-import { ProcessesModal } from '../components/requirements/ProcessesModal';
-import { ISelectedProcess } from '../interfaces/process-type';
-import { validarToken } from '../lib/functions';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { baseUrl } from '../common/baseUrl';
-import Swal from 'sweetalert2';
+
+import { Alert, Box, Collapse, Grid, IconButton, TextField, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { User } from '../interfaces/user-type';
+
+import { useNavigate } from 'react-router-dom';
+
+import Swal from 'sweetalert2';
+
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import HelpIcon from '@mui/icons-material/Help';
 import CancelIcon from '@mui/icons-material/Cancel';
+
+import { Layout } from '../components/layout'
+import { ProcessesModal } from '../components/requirements/ProcessesModal';
+
+import { validarToken } from '../lib/functions';
+
+import { baseUrl } from '../common/baseUrl';
+
+import { User } from '../interfaces/user-type';
+
+
+import { ISelectedProcess } from '../interfaces/process-type';
 
 // Functional Component
 export const RequirementsPage: FC = () => {
