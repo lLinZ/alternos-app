@@ -19,16 +19,16 @@ const pages: Pages[] = [
     { name: 'Dashboard', path: "/dashboard" }
 ];
 const settings: Settings[] = [
-    { name: 'Mis tareas', path: "/requirements" },
-    { name: 'Agregar Requerimiento', path: "/requirements/add" },
+    // { name: 'Mis tareas', path: "/requirements" },
+    // { name: 'Agregar Requerimiento', path: "/requirements/add" },
     { name: 'Procesos', path: "/process" },
     { name: 'Agregar procesos', path: "/process/add" },
     { name: "Administrar usuarios", path: "/admin" },
     { name: 'Cerrar sesión', path: "/end" },
 ];
 const adminSettings: Settings[] = [
-    { name: 'Mis tareas', path: "/requirements" },
-    { name: 'Agregar Requerimiento', path: "/requirements/add" },
+    // { name: 'Mis tareas', path: "/requirements" },
+    // { name: 'Agregar Requerimiento', path: "/requirements/add" },
     { name: 'Procesos', path: "/process" },
     { name: 'Agregar procesos', path: "/process/add" },
     { name: "Administrar usuarios", path: "/admin" },

@@ -185,7 +185,7 @@ export const DashboardPage: FC = () => {
                                 </Typography>
                                 <Box sx={{ w: "100%" }}>
                                     <Collapse in={open} sx={{ transition: ".5s ease all" }}>
-                                        <Alert variant="filled" severity="info" sx={{ mb: 2 }} action={<IconButton
+                                        <Alert variant="outlined" severity="info" sx={{ mb: 2 }} action={<IconButton
                                             aria-label="close"
                                             color="inherit"
                                             size="small"
