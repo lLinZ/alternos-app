@@ -81,10 +81,10 @@ export const RequirementsPage: FC = () => {
                 if (data.exito === "SI") {
                     Swal.fire({ title: "Exito", text: "Se ha enviado el requerimiento", icon: "success" })
                     setIsSubmitting(false);
-                } else {
-                    Swal.fire({ title: "Error", text: "No se logró enviar el requerimiento", icon: "error" })
                     resetForm();
                     setIsSubmitting(false);
+                } else {
+                    Swal.fire({ title: "Error", text: "No se logró enviar el requerimiento", icon: "error" })
                 }
             } catch (error) {
                 console.log(error);

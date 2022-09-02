@@ -110,10 +110,10 @@ export const DashboardPage: FC = () => {
                 if (data.exito === "SI") {
                     Swal.fire({ title: "Exito", text: "Se ha enviado el requerimiento", icon: "success" })
                     setIsSubmitting(false);
-                } else {
-                    Swal.fire({ title: "Error", text: "No se logró enviar el requerimiento", icon: "error" })
                     resetForm();
                     setIsSubmitting(false);
+                } else {
+                    Swal.fire({ title: "Error", text: "No se logró enviar el requerimiento", icon: "error" })
                 }
             } catch (error) {
                 console.log(error);
@@ -139,15 +139,14 @@ export const DashboardPage: FC = () => {
             if (userDataArray.exito === "SI") {
 
                 const userData = userDataArray.usuario;
-                const url = `${baseUrl}/listacasos`;
+                const url = `${baseUrl}/listatareas?owner_id=${userData.id}&status=abierta`;
                 try {
                     const respuesta = await fetch(url);
                     const data = await respuesta.json();
-                    console.log(data)
-                    const filtrado: IRequirement[] = data.registros.filter((tarea: IRequirement) => Number(tarea.process_owner_id) === Number(userLogged?.id));
                     if (data.exito === "SI") {
-                        setMyRequirements(filtrado);
-                        console.log({ filtrado })
+                        setMyRequirements(data.registros);
+
+                        console.log(data)
                     } else {
                         console.log("Ocurrio un error al solicitar la informacion de las tareas");
                     }
@@ -169,11 +168,11 @@ export const DashboardPage: FC = () => {
                     <Grid item xs={12} sm={6} md={4}>
 
                         <Box display="flex" flexDirection="column" sx={{
-                            background: theme.palette.secondary.main, borderRadius: "10px", cursor: "pointer", transition: ".3s ease all", "&:hover": {
+                            background: theme.palette.secondary.dark, borderRadius: "10px", cursor: "pointer", transition: ".3s ease all", "&:hover": {
                                 boxShadow: "0 0 8px rgb(0,0,0)"
                             }
                         }}>
-                            <Box id="title" sx={{ background: theme.palette.secondary.dark, p: 1, borderRadius: "10px 10px 0 0" }}>
+                            <Box id="title" sx={{ background: theme.palette.secondary.main, p: 1, borderRadius: "10px 10px 0 0" }}>
                                 <Typography variant="subtitle1" sx={{ color: "#FFF" }}>Requerimientos</Typography>
                             </Box>
                             <Box id="content" sx={{ p: 2, color: "#FFF", minHeight: "200px" }}>
@@ -212,9 +211,8 @@ export const DashboardPage: FC = () => {
                                             onChange={(e: ChangeEvent<HTMLInputElement>) => setDescription(e.currentTarget.value)}
                                             variant="outlined"
                                             color="primary"
-                                            multiline
                                             focused
-                                            sx={{ color: "primary" }}
+                                            sx={{ input: { color: "white" } }}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -251,10 +249,28 @@ export const DashboardPage: FC = () => {
                             <Box id="title" sx={{ background: theme.palette.secondary.dark, p: 1, borderRadius: "10px 10px 0 0" }}>
                                 <Typography variant="subtitle1" sx={{ color: "#FFF" }}>Lista de tareas</Typography>
                             </Box>
-                            <Box id="content" sx={{ p: 2, color: "#FFF", minHeight: "200px" }}>
+                            <Box id="content" sx={{
+                                p: 2, color: "#FFF", minHeight: "200px", maxHeight: "300px", overflowY: "scroll",
+                                '&::-webkit-scrollbar': {
+                                    width: '0.2em',
+                                    height: "10px",
+                                    borderRadius: "10px"
+                                },
+                                '&::-webkit-scrollbar-track': {
+                                    boxShadow: "none",
+                                    webkitBoxShadow: "none"
+                                },
+                                '&::-webkit-scrollbar-thumb': {
+                                    backgroundColor: 'rgba(0,0,0,.1)',
+                                    outline: '1px solid rgba(255,255,255,0.2)',
+                                    borderRadius: "10px",
+                                    height: "10px"
+                                }
+                            }}>
                                 {myRequirements ? myRequirements.map(req => (
-                                    <Box key={req.id} sx={{ border: "1px solid white", borderRadius: "8px" }}>
+                                    <Box key={req.id} sx={{ border: "1px solid white", borderRadius: "8px", p: 2, mb: 1 }}>
                                         <Typography variant="subtitle1" color="text.white" >{req.process_name}</Typography>
+                                        <Typography variant="subtitle2" fontSize={12} fontWeight="300" color="text.white">Actividad: {req.activity_name}</Typography>
                                     </Box>
                                 ))
                                     : <Typography variant="subtitle1" color="text.white"> No tienes tareas asignadas</Typography>

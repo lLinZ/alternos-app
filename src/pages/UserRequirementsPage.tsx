@@ -109,16 +109,17 @@ export const UserRequirementsPage: FC = () => {
             if (userDataArray.exito === "SI") {
 
                 const userData = userDataArray.usuario;
-                const url = `${baseUrl}/listacasos`;
+                const url = `${baseUrl}/listatareas?owner_id=${userData.id}&status=abierta`;
+
                 try {
                     const respuesta = await fetch(url);
                     const data = await respuesta.json();
-                    console.log(data)
-                    const filtrado: IRequirement[] = data.registros.filter((tarea: IRequirement) => Number(tarea.process_owner_id) === Number(userLogged?.id));
                     if (data.exito === "SI") {
-                        setMyRequirements(filtrado);
+                        setMyRequirements(data.registros);
                         console.log(data.registros)
                     } else {
+                        setMyRequirements(null);
+
                         console.log("Ocurrio un error al solicitar la informacion de las tareas");
                     }
                 } catch (error) {
