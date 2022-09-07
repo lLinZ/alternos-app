@@ -9,6 +9,7 @@ import { ProcessesPage } from './pages/ProcessesPage';
 import { ProcessListPage } from './pages/ProcessListPage';
 import { RequirementsPage } from './pages/RequirementsPage';
 import { UserRequirementsPage } from './pages/UserRequirementsPage';
+import { BriefingPage } from './pages/BriefingPage';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/process/add" element={<ProcessesPage />} />
         <Route path="/requirements" element={<UserRequirementsPage />} />
         <Route path="/requirements/add" element={<RequirementsPage />} />
+        <Route path="/briefing" element={<BriefingPage />} />
       </Routes>
     </BrowserRouter>
   );
