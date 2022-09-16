@@ -11,6 +11,7 @@ import { RequirementsPage } from './pages/RequirementsPage';
 import { UserRequirementsPage } from './pages/UserRequirementsPage';
 import { BriefingPage } from './pages/BriefingPage';
 import { TrafficUserPage } from './pages/TrafficUserPage';
+import { GetBriefingPage } from './pages/GetBriefingPage';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/traffic" element={<TrafficUserPage />} />
         <Route path="/requirements/add" element={<RequirementsPage />} />
         <Route path="/briefing" element={<BriefingPage />} />
+        <Route path="/briefing/view" element={<GetBriefingPage />} />
       </Routes>
     </BrowserRouter>
   );
