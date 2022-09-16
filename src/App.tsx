@@ -10,6 +10,7 @@ import { ProcessListPage } from './pages/ProcessListPage';
 import { RequirementsPage } from './pages/RequirementsPage';
 import { UserRequirementsPage } from './pages/UserRequirementsPage';
 import { BriefingPage } from './pages/BriefingPage';
+import { TrafficUserPage } from './pages/TrafficUserPage';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/process" element={<ProcessListPage />} />
         <Route path="/process/add" element={<ProcessesPage />} />
         <Route path="/requirements" element={<UserRequirementsPage />} />
+        <Route path="/traffic" element={<TrafficUserPage />} />
         <Route path="/requirements/add" element={<RequirementsPage />} />
         <Route path="/briefing" element={<BriefingPage />} />
       </Routes>

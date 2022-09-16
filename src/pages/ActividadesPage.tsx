@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 interface Props {
 
 }
-interface Actividades {
+export interface Actividades {
     actividades: any[];
     id: number;
     name: string;

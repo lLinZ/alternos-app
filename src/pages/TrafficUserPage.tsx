@@ -1,48 +1,27 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
-import { AppBar, Box, Button, Card, CardActions, CardContent, CardHeader, CircularProgress, Dialog, Divider, Grid, IconButton, Slide, TextField, Toolbar, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { baseUrl } from '../common/baseUrl';
-import { Layout } from '../components/layout';
-import { User } from '../interfaces/user-type';
-import { getCookieValue, validarToken } from '../lib/functions';
+import { LoadingButton } from "@mui/lab";
+import { Box, Typography, CircularProgress, Grid, Button, Dialog, AppBar, Toolbar, IconButton, Divider, TextField, Slide } from "@mui/material";
+import { TransitionProps } from "@mui/material/transitions";
+import { ChangeEvent, FC, forwardRef, ReactElement, Ref, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { baseUrl } from "../common/baseUrl";
+import { Layout } from "../components/layout";
+import { User } from "../interfaces/user-type";
+import { getCookieValue, validarToken } from "../lib/functions";
+import { Actividades } from "./ActividadesPage";
+import { IRequirement } from "./UserRequirementsPage";
 import CloseIcon from '@mui/icons-material/Close';
-import { TransitionProps } from '@mui/material/transitions';
-import React from 'react';
-import { LoadingButton } from '@mui/lab';
-import Swal from 'sweetalert2';
 
-// Requerimientos
-export interface IRequirement {
-    id: number;
-    user_id: number;
-    user_name: string;
-    description: string;
-    process_id: number;
-    process_name: string;
-    process_owner_id: string;
-    process_owner_name: string;
-    activity_id: number;
-    activity_name: string;
-    activity_owner_id: number;
-    activity_owner_name: string;
-    status: string;
-    inicio: string;
-    vence: string;
-    completed_at: string;
-    comentario_cierre: string;
-}
-
-const Transition = React.forwardRef(function Transition(
+const Transition = forwardRef(function Transition(
     props: TransitionProps & {
-        children: React.ReactElement;
+        children: ReactElement;
     },
-    ref: React.Ref<unknown>,
+    ref: Ref<unknown>,
 ) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export const UserRequirementsPage: FC = () => {
-
+export const TrafficUserPage: FC = () => {
     // Datos del usuario loggeado
     const [userLogged, setUserLogged] = useState<User | null>(null);
 
@@ -92,30 +71,6 @@ export const UserRequirementsPage: FC = () => {
     /**
      * Funcion para obtener los requerimientos
      */
-    const validateRole = async () => {
-        const token = getCookieValue("token");
-        const username = getCookieValue("username");
-        const urlUser = `${baseUrl}/validToken`;
-        const body = new FormData();
-        body.append("token", token);
-        body.append("username", username);
-        const options = {
-            method: "POST",
-            body
-        }
-        try {
-            const respuesta = await fetch(urlUser, options);
-            const data = await respuesta.json();
-            console.log(data)
-            if (data.exito === "SI") {
-                //if(data.registros[0].funcion_name === "trafico")
-
-            }
-        } catch (err) {
-            console.log(err);
-            router("/dashboard");
-        }
-    }
     const getMyRequirements = async () => {
         const token = getCookieValue("token");
         const username = getCookieValue("username");
@@ -207,13 +162,10 @@ export const UserRequirementsPage: FC = () => {
     useEffect(() => {
         validarToken(router, setUserLogged);
         getMyRequirements();
-        validateRole();
         setIsLoading(false);
     }, [])
-
-    // Render
     return (
-        <Layout title="Mis tareas" user={userLogged}>
+        <Layout title="Tráfico" user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
                 <Typography variant="overline" component="h2" fontWeight="bold" sx={{ mb: 2 }} fontSize={16}>Tareas abiertas</Typography>
                 {isLoading && (
