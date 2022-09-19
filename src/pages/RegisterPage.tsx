@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { Box, Button, Grid, IconButton, InputAdornment, MenuItem, Select, SelectChangeEvent, TextField, Typography } from '@mui/material';
 
@@ -35,6 +35,8 @@ export const RegisterPage: FC<Props> = () => {
 
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
+
 
     /**
      * Funcion para enviar los datos del form a la API
@@ -125,6 +127,9 @@ export const RegisterPage: FC<Props> = () => {
             setFunctions(null);
         }
     }
+    useEffect(() => {
+        getFunctions();
+    }, [])
 
     return (
         <Layout footer={false}>
