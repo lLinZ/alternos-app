@@ -108,7 +108,9 @@ export const UserRequirementsPage: FC = () => {
             const data = await respuesta.json();
             console.log(data)
             if (data.exito === "SI") {
-                //if(data.registros[0].funcion_name === "trafico")
+                if (String(data.registros[0].function_id) === "2") {
+                    router('/traffic')
+                }
 
             }
         } catch (err) {
