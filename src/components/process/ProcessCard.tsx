@@ -181,8 +181,8 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
             - Nombre de actividad
             - Duracion
         */
-        if (!userSelected || userSelected.id === null) {
-            errores.push("Debe seleccionar un usuario");
+        if (!selectedFunction) {
+            errores.push("Debe asignar una funcion a la actividad");
         }
         if (!newActivity.name) {
             errores.push("Debe asignar un nombre a la actividad");
@@ -204,20 +204,10 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
             // Datos del formulario
             const body = new FormData();
             body.append("name", String(newActivity.name));
-            body.append("owner_id", String(userSelected ? userSelected.id : "0"));
+            body.append("owner_id", String(selectedFunction));
             body.append("duration", String(newActivity.duration));
             body.append("process_id", String(newActivity.process_id));
-            body.append("function_id", String(selectedFunction));
             body.append("delegable", delegable ? "SI" : "NO");
-            console.log({
-                "name": String(newActivity.name),
-                "owner_id": String(userSelected ? userSelected.id : "0"),
-                "duration": String(newActivity.duration),
-                "process_id": String(newActivity.process_id),
-                "function_id": String(selectedFunction),
-                "delegable": delegable ? "SI" : "NO"
-            })
-
             const options = {
                 method: "POST",
                 body
@@ -365,13 +355,6 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
                                 }
                             </Select>
                         </Grid>
-                        {
-                            selectedFunction && (
-                                <Grid item xs={12} sm={6} md={4}>
-                                    <Button type="button" color="secondary" variant="outlined" fullWidth sx={{ p: 1.8 }} onClick={() => openModalUser()}>Asignar usuario</Button>
-                                </Grid>
-                            )
-                        }
                         <Grid item xs={12} sm={6} md={4}>
                             <FormControlLabel
                                 label="Tarea Delegable"
