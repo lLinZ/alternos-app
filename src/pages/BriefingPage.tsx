@@ -1,6 +1,8 @@
 import { Grid, Box, TextField, Typography, FormControl, FormControlLabel, Radio, RadioGroup, Button } from '@mui/material'
 import { Form, Formik, FormikValues } from 'formik'
 import { FC } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import Swal from 'sweetalert2'
 import { baseUrl } from '../common/baseUrl'
 import { Briefing } from '../interfaces/briefing-type'
 
@@ -45,16 +47,39 @@ const initialValues: Briefing = {
     created_at: new Date("Y-m-d H:i:s")
 }
 export const BriefingPage: FC = () => {
+    const { activityId, processId } = useParams();
 
-    const onSubmit = (values: FormikValues) => {
+    const router = useNavigate();
+    const onSubmit = async (values: FormikValues) => {
         const url = `${baseUrl}/briefing`
         const body = new FormData();
-
-        console.log({ values })
-
+        body.append("process_id", String(processId));
+        body.append("case_id", String(activityId));
+        for (let clave in values) {
+            body.append(String(clave), String(values[clave]));
+        }
         const options = {
             method: "POST",
             body
+        }
+        const respuesta = await fetch(url, options);
+
+        const data = await respuesta.json();
+
+        if (data.exito === "SI") {
+            Swal.fire({
+                title: "Exito",
+                text: "Briefing registrado correctamente",
+                icon: "success",
+            }).then(click => {
+                router("/dashboard");
+            })
+        } else {
+            Swal.fire({
+                title: "Error",
+                text: "Briefing no se logró enviar",
+                icon: "error",
+            })
         }
     }
 
@@ -266,7 +291,7 @@ export const BriefingPage: FC = () => {
                                     </FormControl>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Button type="submit" color="secondary" variant="contained" >Enviar</Button>
+                                    <Button type="submit" color="secondary" variant="contained" disabled={isSubmitting}>Enviar</Button>
                                 </Grid>
                             </Grid>
                         </Form>
