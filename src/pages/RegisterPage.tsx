@@ -133,7 +133,7 @@ export const RegisterPage: FC<Props> = () => {
 
     return (
         <Layout footer={false}>
-            <Box sx={{ p: 1 }}>
+            <Box sx={{ p: 1, width: "80%", margin: "auto" }}>
                 <Typography component="h2" fontWeight="bold" variant="overline" fontSize={16}>Registrarse en Alternos</Typography>
                 <Formik
                     initialValues={initialValues}
@@ -183,12 +183,14 @@ export const RegisterPage: FC<Props> = () => {
                                             )
                                         }} />
                                 </Grid>
-                                <Grid item xs={12} sm={6} sx={{ mt: 3 }}>
+                                <Grid item xs={12} sx={{ mt: 3 }}>
                                     <Select
                                         value={selectedFunction ? String(selectedFunction) : '0'}
                                         onChange={(e: SelectChangeEvent) => {
                                             setSelectedFunction(Number(e.target.value))
                                         }}
+                                        fullWidth
+                                        color="secondary"
                                     >
                                         <MenuItem value={'0'} disabled>Seleccione una funcion</MenuItem>
                                         {
