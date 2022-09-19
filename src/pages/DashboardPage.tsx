@@ -112,6 +112,7 @@ export const DashboardPage: FC = () => {
                     setIsSubmitting(false);
                     resetForm();
                     setIsSubmitting(false);
+                    router(`/brieffing/new?caseId=${data.activity_id}&processId=${data.process_id}`);
                 } else {
                     Swal.fire({ title: "Error", text: "No se logró enviar el requerimiento", icon: "error" })
                 }
