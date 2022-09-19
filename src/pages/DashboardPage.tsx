@@ -109,10 +109,12 @@ export const DashboardPage: FC = () => {
 
                 if (data.exito === "SI") {
                     Swal.fire({ title: "Exito", text: "Se ha enviado el requerimiento", icon: "success" })
-                    setIsSubmitting(false);
-                    resetForm();
-                    setIsSubmitting(false);
-                    router(`/brieffing/new/${data.registros[0].process_id}/${data.registros[0].activity_id}`);
+                        .then(click => {
+                            setIsSubmitting(false);
+                            resetForm();
+                            setIsSubmitting(false);
+                            router(`/briefing/new/${data.registros[0].process_id}/${data.registros[0].activity_id}`);
+                        })
                 } else {
                     Swal.fire({ title: "Error", text: "No se logró enviar el requerimiento", icon: "error" })
                 }
