@@ -51,7 +51,7 @@ export const GetBriefingPage: FC = () => {
     const { caseId } = useParams();
     const [values, setValues] = useState<Briefing>(initialValues);
     const getBrief = async () => {
-        const url = `${baseUrl}/getBriefing`
+        const url = `${baseUrl}/getBriefing?case_id${caseId}`
         try {
             const respuesta = await fetch(url);
             const data = await respuesta.json();
