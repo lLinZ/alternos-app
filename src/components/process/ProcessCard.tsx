@@ -209,6 +209,14 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
             body.append("process_id", String(newActivity.process_id));
             body.append("function_id", String(selectedFunction));
             body.append("delegable", delegable ? "SI" : "NO");
+            console.log({
+                "name": String(newActivity.name),
+                "owner_id": String(userSelected ? userSelected.id : "0"),
+                "duration": String(newActivity.duration),
+                "process_id": String(newActivity.process_id),
+                "function_id": String(selectedFunction),
+                "delegable": delegable ? "SI" : "NO"
+            })
 
             const options = {
                 method: "POST",
@@ -341,6 +349,9 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
                             <Select
                                 value={selectedFunction ? String(selectedFunction) : '0'}
                                 onChange={(e: SelectChangeEvent) => {
+                                    if (userSelected) {
+                                        setUserSelected(null);
+                                    }
                                     setSelectedFunction(Number(e.target.value))
                                 }}
                                 fullWidth
