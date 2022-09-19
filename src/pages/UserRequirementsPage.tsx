@@ -115,7 +115,7 @@ export const UserRequirementsPage: FC = () => {
             }
         } catch (err) {
             console.log(err);
-            router("/dashboard");
+            // router("/dashboard");
         }
     }
     const getMyRequirements = async () => {
