@@ -47,14 +47,14 @@ const initialValues: Briefing = {
     created_at: new Date("Y-m-d H:i:s")
 }
 export const BriefingPage: FC = () => {
-    const { activityId, processId } = useParams();
+    const { caseId, processId } = useParams();
 
     const router = useNavigate();
     const onSubmit = async (values: FormikValues) => {
         const url = `${baseUrl}/briefing`
         const body = new FormData();
         body.append("process_id", String(processId));
-        body.append("case_id", String(activityId));
+        body.append("case_id", String(caseId));
         for (let clave in values) {
             body.append(String(clave), String(values[clave]));
         }
@@ -206,14 +206,14 @@ export const BriefingPage: FC = () => {
                                         <RadioGroup
                                             color="secondary"
                                             row
-                                            defaultValue="DisenoLogotipo"
+                                            defaultValue="logotipo"
                                             value={values.detallerequerimientotipo}
                                             name="detallerequerimientotipo"
                                             onChange={handleChange}
                                         >
-                                            <FormControlLabel value="DisenoLogotipo" control={<Radio color="secondary" />} label="Diseño de logotipo" />
-                                            <FormControlLabel value="RedisenoLogotipo" control={<Radio color="secondary" />} label="Rediseño de logotipo" />
-                                            <FormControlLabel value="IdentidadCorporativa" control={<Radio color="secondary" />} label="Identidad corporativa completa" />
+                                            <FormControlLabel value="logotipo" control={<Radio color="secondary" />} label="Diseño de logotipo" />
+                                            <FormControlLabel value="rediseño" control={<Radio color="secondary" />} label="Rediseño de logotipo" />
+                                            <FormControlLabel value="identidad" control={<Radio color="secondary" />} label="Identidad corporativa completa" />
                                         </RadioGroup>
                                     </FormControl>
                                 </Grid>
@@ -258,15 +258,15 @@ export const BriefingPage: FC = () => {
                                         <RadioGroup
                                             color="secondary"
                                             row
-                                            defaultValue="PostImagen"
+                                            defaultValue="imagen"
                                             value={values.rrss}
                                             name="rrss"
                                             onChange={handleChange}
                                         >
-                                            <FormControlLabel value="PostImagen" control={<Radio color="secondary" />} label="Post de Imagen" />
-                                            <FormControlLabel value="PostVideo" control={<Radio color="secondary" />} label="Post de video" />
-                                            <FormControlLabel value="Historias" control={<Radio color="secondary" />} label="Historias" />
-                                            <FormControlLabel value="Reel" control={<Radio color="secondary" />} label="Reel" />
+                                            <FormControlLabel value="imagen" control={<Radio color="secondary" />} label="Post de Imagen" />
+                                            <FormControlLabel value="video" control={<Radio color="secondary" />} label="Post de video" />
+                                            <FormControlLabel value="historia" control={<Radio color="secondary" />} label="Historias" />
+                                            <FormControlLabel value="reel" control={<Radio color="secondary" />} label="Reel" />
                                         </RadioGroup>
                                     </FormControl>
                                 </Grid>
@@ -278,15 +278,15 @@ export const BriefingPage: FC = () => {
                                         <RadioGroup
                                             color="secondary"
                                             row
-                                            defaultValue="Videos15"
+                                            defaultValue="15"
                                             value={values.audiovisual}
                                             name="audiovisual"
                                             onChange={handleChange}
                                         >
-                                            <FormControlLabel value="Videos15" control={<Radio color="secondary" />} label='Videos 15"' />
-                                            <FormControlLabel value="Videos20" control={<Radio color="secondary" />} label='Videos 20"' />
-                                            <FormControlLabel value="Videos30" control={<Radio color="secondary" />} label='Videos 30"' />
-                                            <FormControlLabel value="Videos41" control={<Radio color="secondary" />} label='Videos 41"' />
+                                            <FormControlLabel value="15" control={<Radio color="secondary" />} label='Videos 15"' />
+                                            <FormControlLabel value="20" control={<Radio color="secondary" />} label='Videos 20"' />
+                                            <FormControlLabel value="30" control={<Radio color="secondary" />} label='Videos 30"' />
+                                            <FormControlLabel value="41" control={<Radio color="secondary" />} label='Videos 41"' />
                                         </RadioGroup>
                                     </FormControl>
                                 </Grid>

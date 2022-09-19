@@ -194,20 +194,18 @@ export const AppBarComponent: FC<Props> = ({ title, user }) => {
                                 >
                                     {
                                         token && (
-                                            <>
-                                                <Box sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                                                    {
-                                                        user && (
-                                                            <>
-                                                                <Typography variant="subtitle1" color="text.primary" fontWeight="bold">{user.name}</Typography>
-                                                                <Typography variant="subtitle2" color="text.secondary" fontWeight="400" >{user.username}</Typography>
-                                                                <Typography variant="overline" color="text.secondary" fontWeight="400">{user.role_name}</Typography>
-                                                            </>
-                                                        )
-                                                    }
-                                                </Box>
+                                            <Box sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+                                                {
+                                                    user && (
+                                                        <>
+                                                            <Typography variant="subtitle1" color="text.primary" fontWeight="bold">{user.name}</Typography>
+                                                            <Typography variant="subtitle2" color="text.secondary" fontWeight="400" >{user.username}</Typography>
+                                                            <Typography variant="overline" color="text.secondary" fontWeight="400">{user.role_name}</Typography>
+                                                        </>
+                                                    )
+                                                }
                                                 <Divider />
-                                            </>
+                                            </Box>
                                         )
                                     }
                                     {token && (

@@ -99,7 +99,7 @@ export const TrafficUserPage: FC = () => {
                     } else {
                         setMyRequirements(null);
 
-                        console.log("Ocurrio un error al solicitar la informacion de las tareas");
+                        console.log("Ocurrio un error al solicitar la informacion de las tareas", data);
                     }
                 } catch (error) {
                     console.log(error);
@@ -207,6 +207,11 @@ export const TrafficUserPage: FC = () => {
                                 </Card> */}
                             </Grid>
                         ))
+                    }
+                    {
+                        !myRequirements && (
+                            <Typography variant="body2" color="text.secondary" >No existen tareas asignadas a su usuario por los momentos</Typography>
+                        )
                     }
                 </Grid>
                 <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>

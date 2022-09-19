@@ -11,6 +11,7 @@ import { Layout } from '../components/layout';
 import { baseUrl } from '../common/baseUrl';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import { IFunction } from '../interfaces/function-type';
 
 interface Props {
 
@@ -23,10 +24,7 @@ const initialValues = {
     username: "",
 }
 
-interface IFunction {
-    id: number;
-    name: string;
-}
+
 export const RegisterPage: FC<Props> = () => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [functions, setFunctions] = useState<IFunction[] | null>(null);

@@ -1,8 +1,8 @@
 // React
-import { Dispatch, FC, forwardRef, ReactElement, Ref, SetStateAction, useState } from 'react';
+import { Dispatch, FC, forwardRef, ReactElement, Ref, SetStateAction, useState, useEffect, ChangeEvent } from 'react';
 
 // MUI
-import { Box, Card, CardActions, CardContent, Button, Typography, Collapse, IconButton, IconButtonProps, styled, Divider, Tooltip, AppBar, Dialog, Slide, Toolbar, Grid, TextField, CircularProgress } from '@mui/material';
+import { Checkbox, FormControlLabel, Box, Card, CardActions, CardContent, Button, Typography, Collapse, IconButton, IconButtonProps, styled, Divider, Tooltip, AppBar, Dialog, Slide, Toolbar, Grid, TextField, CircularProgress, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 
 // Icons
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -16,6 +16,7 @@ import { Activity } from '../../interfaces/activity-type';
 import { baseUrl } from '../../common/baseUrl';
 import Swal from 'sweetalert2';
 import { LoadingButton } from '@mui/lab';
+import { IFunction } from '../../interfaces/function-type';
 
 interface Props {
     process: Process;
@@ -68,6 +69,15 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
     // Abrir modal de actividades
     const [openActivityModal, setOpenActivityModal] = useState(false);
 
+    // Tarea delegable
+    const [delegable, setDelegable] = useState<boolean>(false);
+
+    // Array de funciones disponibles
+    const [functions, setFunctions] = useState<IFunction[] | null>(null);
+
+    // Funcion seleccionada
+    const [selectedFunction, setSelectedFunction] = useState<number | null>(null);
+
     // Actividad a registrar
     const [newActivity, setNewActivity] = useState({
         name: "",
@@ -90,6 +100,12 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
     };
 
     /**
+     * Funcion para controlar el checkbox
+     */
+    const handleCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
+        setDelegable(e.target.checked);
+    }
+    /**
      * Funcion para seleccionar un usuario
      * @param id ID del usaurio seleccionado
      */
@@ -98,8 +114,6 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
         setOpenUserModal(false);
     }
 
-    console.log({ userSelected });
-
     /**
      * Funcion para abrir modal
      */
@@ -107,19 +121,29 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
         setOpenUserModal(true);
         getUsers();
     }
+    const getFunctions = async () => {
+        const url = `${baseUrl}/listafunctions`;
 
+        const respuesta = await fetch(url);
+
+        const data = await respuesta.json();
+
+        if (data.exito === "SI") {
+            setFunctions(data.registros);
+        }
+    }
     /**
      * Funcion para obtener usuarios
      */
     const getUsers = async () => {
-        const url = `${baseUrl}/listaregistros?role_id=2&status=Activo`
+        const url = `${baseUrl}/listausersxfunction?function_id=${selectedFunction}`
         try {
             const respuesta = await fetch(url);
 
             const data = await respuesta.json();
-
+            console.log(data);
             if (data.exito === "SI") {
-                setUsers(data.registros)
+                setUsers(data.registros[0].users)
             } else {
                 setUsers([]);
                 console.log("No se logro encontrar ningún usuario")
@@ -183,6 +207,8 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
             body.append("owner_id", String(userSelected ? userSelected.id : "0"));
             body.append("duration", String(newActivity.duration));
             body.append("process_id", String(newActivity.process_id));
+            body.append("function_id", String(selectedFunction));
+            body.append("delegable", delegable ? "SI" : "NO");
 
             const options = {
                 method: "POST",
@@ -212,6 +238,7 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
                     cleanForm();
                 } else {
                     setIsSubmitting(false);
+                    setOpenActivityModal(false);
                     Swal.fire({
                         title: "Error",
                         text: data.mensaje,
@@ -230,6 +257,10 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
         }
 
     }
+
+    useEffect(() => {
+        getFunctions();
+    }, [])
     return (
         <Card variant="outlined" sx={{ width: "100%", mb: 1 }}>
             <CardContent>
@@ -261,7 +292,7 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
                     <Box display="flex" flexWrap="wrap" justifyContent="flex-start" alignItems="flex-start" flexDirection="column">
                         {
                             (actividades && actividades?.length > 0)
-                                ? actividades?.map((actividad: Activity) => (<Tooltip placement="right" title={`Asignado a ${actividad.owner_name}, Duracion ${actividad.duration} minutos`} ><Typography>{actividad.name}</Typography></Tooltip>))
+                                ? actividades?.map((actividad: Activity) => (<Tooltip key={actividad.id} placement="right" title={`Asignado a ${actividad.owner_name}, Duracion ${actividad.duration} minutos`} ><Typography>{actividad.name}</Typography></Tooltip>))
                                 : "Este proceso no tiene actividades"
                         }
                     </Box>
@@ -306,11 +337,44 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
                         <Grid item xs={12} sm={6} md={4}>
                             <TextField name="duration" fullWidth label="Minutos de duracion" color="secondary" value={newActivity.duration} onChange={(e) => setNewActivity({ ...newActivity, duration: Number(e.target.value) })} />
                         </Grid>
+                        <Grid item xs={12} >
+                            <Select
+                                value={selectedFunction ? String(selectedFunction) : '0'}
+                                onChange={(e: SelectChangeEvent) => {
+                                    setSelectedFunction(Number(e.target.value))
+                                }}
+                                fullWidth
+                                color="secondary"
+                            >
+                                <MenuItem value={'0'} disabled>Seleccione una funcion</MenuItem>
+                                {
+                                    functions?.map((func: IFunction) => (
+                                        <MenuItem key={func.id} value={String(func.id)}>{func.name}</MenuItem>
+                                    ))
+                                }
+                            </Select>
+                        </Grid>
+                        {
+                            selectedFunction && (
+                                <Grid item xs={12} sm={6} md={4}>
+                                    <Button type="button" color="secondary" variant="outlined" fullWidth sx={{ p: 1.8 }} onClick={() => openModalUser()}>Asignar usuario</Button>
+                                </Grid>
+                            )
+                        }
                         <Grid item xs={12} sm={6} md={4}>
-                            <Button type="button" color="secondary" variant="outlined" fullWidth sx={{ p: 1.8 }} onClick={() => openModalUser()}>Asignar usuario</Button>
+                            <FormControlLabel
+                                label="Tarea Delegable"
+                                control={
+                                    <Checkbox
+                                        color="secondary"
+                                        checked={delegable}
+                                        onChange={handleCheckBox}
+                                        inputProps={{ 'aria-label': 'controlled' }}
+                                    />}
+                            />
                         </Grid>
                         <Grid item xs={12}>
-                            <LoadingButton loading={isSubmitting} type="button" color="secondary" variant="contained" fullWidth sx={{ p: 1.8 }} onClick={() => registrarActividad()}>Registar actividad</LoadingButton>
+                            <LoadingButton loading={isSubmitting} disabled={!userSelected} type="button" color="secondary" variant="contained" fullWidth sx={{ p: 1.8 }} onClick={() => registrarActividad()}>Registar actividad</LoadingButton>
                         </Grid>
                     </Grid>
                 </Box>
@@ -334,10 +398,10 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
                     </Toolbar>
                 </AppBar>
                 <Box sx={{ width: "80%", m: "20px auto" }}>
-                    {users ? users.map((usuario: { id: number; name: string; }) => (
-                        <Box key={usuario.id} sx={{ p: 2, borderRadius: "10px", border: "1px solid black", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
-                            <Typography>{usuario.name}</Typography>
-                            <Button color="secondary" onClick={() => selectUser(usuario.id, usuario.name)}>Seleccionar</Button>
+                    {users ? users.map((usuario: { user_id: number; user_name: string; }) => (
+                        <Box key={usuario.user_id} sx={{ p: 2, borderRadius: "10px", border: "1px solid black", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
+                            <Typography>{usuario.user_name}</Typography>
+                            <Button color="secondary" onClick={() => selectUser(usuario.user_id, usuario.user_name)}>Seleccionar</Button>
                         </Box>)) : <CircularProgress color="secondary" />}
                 </Box>
             </Dialog>
