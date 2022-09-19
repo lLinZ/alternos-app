@@ -29,7 +29,7 @@ function App() {
         <Route path="/traffic" element={<TrafficUserPage />} />
         <Route path="/requirements/add" element={<RequirementsPage />} />
         <Route path="/briefing" element={<BriefingPage />} />
-        <Route path="/briefing/view" element={<GetBriefingPage />} />
+        <Route path="/briefing/:caseId" element={<GetBriefingPage />} />
       </Routes>
     </BrowserRouter>
   );

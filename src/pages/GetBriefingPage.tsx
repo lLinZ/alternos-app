@@ -5,6 +5,7 @@ import { Grid, Box, Typography } from '@mui/material';
 import { baseUrl } from '../common/baseUrl';
 
 import { Briefing } from '../interfaces/briefing-type';
+import { useParams } from 'react-router-dom';
 
 const initialValues: Briefing = {
     id: 0,
@@ -47,6 +48,7 @@ const initialValues: Briefing = {
     created_at: new Date("Y-m-d H:i:s")
 }
 export const GetBriefingPage: FC = () => {
+    const { caseId } = useParams();
     const [values, setValues] = useState<Briefing>(initialValues);
     const getBrief = async () => {
         const url = `${baseUrl}/getBriefing`

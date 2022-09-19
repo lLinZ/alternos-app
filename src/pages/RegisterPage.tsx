@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 
-import { Box, Button, Grid, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
+import { Box, Button, Grid, IconButton, InputAdornment, MenuItem, Select, SelectChangeEvent, TextField, Typography } from '@mui/material';
 
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -23,8 +23,14 @@ const initialValues = {
     username: "",
 }
 
+interface IFunction {
+    id: number;
+    name: string;
+}
 export const RegisterPage: FC<Props> = () => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [functions, setFunctions] = useState<IFunction[] | null>(null);
+    const [selectedFunction, setSelectedFunction] = useState<number | null>(null);
     const push = useNavigate();
 
     const handleClickShowPassword = () => setShowPassword(!showPassword);
@@ -45,6 +51,7 @@ export const RegisterPage: FC<Props> = () => {
         if (!values.phone) errores.push("El campo teléfono está vacío");
         if (!values.name) errores.push("El campo nombre está vacío");
         if (!values.confirmPassword) errores.push("El campo de confirmación está vacío");
+        if (!selectedFunction) errores.push("El campo de funcion está vacío");
 
         if (errores.length > 0) {
             let errorList: string = "";
@@ -72,6 +79,7 @@ export const RegisterPage: FC<Props> = () => {
         body.append("password", values.password);
         body.append("name", values.name);
         body.append("phone", values.phone);
+        body.append("function_id", selectedFunction ? String(selectedFunction) : '1');
         console.log({ values })
         const options = {
             method: "POST",
@@ -103,6 +111,18 @@ export const RegisterPage: FC<Props> = () => {
                 text: "No se logro conectar con el servidor",
                 icon: "error",
             })
+        }
+    }
+
+    const getFunctions = async () => {
+
+        const url = `${baseUrl}/listafunctions`;
+        const respuesta = await fetch(url);
+        const data = await respuesta.json();
+        if (data.exito == "SI") {
+            setFunctions(data.registros);
+        } else {
+            setFunctions(null);
         }
     }
 
@@ -157,6 +177,21 @@ export const RegisterPage: FC<Props> = () => {
                                                 </InputAdornment>
                                             )
                                         }} />
+                                </Grid>
+                                <Grid item xs={12} sm={6} sx={{ mt: 3 }}>
+                                    <Select
+                                        value={selectedFunction ? String(selectedFunction) : '0'}
+                                        onChange={(e: SelectChangeEvent) => {
+                                            setSelectedFunction(Number(e.target.value))
+                                        }}
+                                    >
+                                        <MenuItem value={'0'} disabled>Seleccione una funcion</MenuItem>
+                                        {
+                                            functions?.map((func: IFunction) => (
+                                                <MenuItem key={func.id} value={String(func.id)}>{func.name}</MenuItem>
+                                            ))
+                                        }
+                                    </Select>
                                 </Grid>
                                 <Grid item xs={12} sx={{ mt: 3 }}>
                                     <Button type="submit" fullWidth variant="outlined" color="secondary" sx={{ p: 2 }}>Registrarse</Button>
