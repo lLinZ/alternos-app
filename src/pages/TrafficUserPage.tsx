@@ -88,7 +88,7 @@ export const TrafficUserPage: FC = () => {
             if (userDataArray.exito === "SI") {
 
                 const userData = userDataArray.usuario;
-                const url = `${baseUrl}/listatareas?owner_id=${userData.id}&status=abierta`;
+                const url = `${baseUrl}/listatareas?owner_id=${userData.funcion_id}&status=abierta`;
 
                 try {
                     const respuesta = await fetch(url);
@@ -111,7 +111,22 @@ export const TrafficUserPage: FC = () => {
             console.log(error);
         }
     }
+    const getSiguienteFuncion = () => {
+        // let posicionSiguiente = 0;
+        // let match = false;
 
+        // for (let funcionActual of functionsActuales) {
+        //     if (match === true) {
+        //         posicionSiguiente = funcionActual.id
+        //         break;
+        //     }
+        //     if (funcionActual.id === userLogged.funcion_id) {
+        //         match = true;
+        //     }
+        // }
+
+        // setSiguientesPosiciones(posicionSiguiente);
+    }
     const onSubmit = async () => {
         setIsSubmitting(true);
         const url = `${baseUrl}/respuesta`
