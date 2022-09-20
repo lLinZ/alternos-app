@@ -18,8 +18,9 @@ const Transition = forwardRef(function Transition(
 interface Props {
     buttonColor?: "primary" | "secondary";
     setSelectedProcess: Dispatch<SetStateAction<ISelectedProcess | null>>;
+    setUserSelected: Dispatch<SetStateAction<{ id: number; name: string } | null>>;
 }
-export const ProcessesModal: FC<Props> = ({ setSelectedProcess, buttonColor = "secondary" }) => {
+export const ProcessesModal: FC<Props> = ({ setSelectedProcess, buttonColor = "secondary", setUserSelected }) => {
     const [processes, setProcesses] = useState<Process[] | null>(null)
     const [open, setOpen] = useState<boolean>(false);
     const handleOpenModal = () => {
@@ -35,6 +36,7 @@ export const ProcessesModal: FC<Props> = ({ setSelectedProcess, buttonColor = "s
     }
 
     const getProcesses = async () => {
+        setUserSelected(null);
         const url = `${baseUrl}/listaprocesos?detalle=&id_proceso=&id_owner`;
 
         try {

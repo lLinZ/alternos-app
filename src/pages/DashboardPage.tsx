@@ -230,7 +230,7 @@ export const DashboardPage: FC = () => {
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <ProcessesModal buttonColor="primary" setSelectedProcess={setSelectedProcess} />
+                                        <ProcessesModal buttonColor="primary" setSelectedProcess={setSelectedProcess} setUserSelected={setUserSelected} />
                                     </Grid>
                                     {
                                         selectedProcess && (
