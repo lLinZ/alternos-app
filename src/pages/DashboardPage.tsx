@@ -108,13 +108,7 @@ export const DashboardPage: FC = () => {
                 const data = await respuesta.json();
 
                 if (data.exito === "SI") {
-                    Swal.fire({ title: "Exito", text: "Se ha enviado el requerimiento", icon: "success" })
-                        .then(click => {
-                            setIsSubmitting(false);
-                            resetForm();
-                            setIsSubmitting(false);
-                            router(`/briefing/new/${data.registros[0].process_id}/${data.registros[0].id}`);
-                        })
+                    router(`/briefing/new/${data.registros[0].process_id}/${data.registros[0].id}`);
                 } else {
                     Swal.fire({ title: "Error", text: "No se logró enviar el requerimiento", icon: "error" })
                 }
