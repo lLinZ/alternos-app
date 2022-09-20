@@ -85,7 +85,7 @@ export const BriefingPage: FC = () => {
         if (data.exito === "SI") {
             Swal.fire({
                 title: "Exito",
-                text: "Briefing registrado correctamente",
+                text: data.mensaje,
                 icon: "success",
             }).then(click => {
                 router("/dashboard");
@@ -93,7 +93,7 @@ export const BriefingPage: FC = () => {
         } else {
             Swal.fire({
                 title: "Error",
-                text: "Briefing no se logró enviar",
+                text: data.mensaje,
                 icon: "error",
             })
         }
