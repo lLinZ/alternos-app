@@ -115,6 +115,7 @@ export const DashboardPage: FC = () => {
  * @param functionId ID de la funcion del usuario siguiente al actual
  */
     const getUsers = async (functionId: number) => {
+        setUserSelected(null);
         const url = `${baseUrl}/listausersxfunction?function_id=${functionId}`
         try {
             const respuesta = await fetch(url);
