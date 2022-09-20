@@ -1,10 +1,12 @@
 import { Grid, Box, TextField, Typography, FormControl, FormControlLabel, Radio, RadioGroup, Button } from '@mui/material'
 import { Form, Formik, FormikValues } from 'formik'
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { baseUrl } from '../common/baseUrl'
 import { Briefing } from '../interfaces/briefing-type'
+import { User } from '../interfaces/user-type'
+import { validarToken } from '../lib/functions'
 
 const initialValues: Briefing = {
     id: 0,
@@ -47,12 +49,27 @@ const initialValues: Briefing = {
     created_at: new Date("Y-m-d H:i:s")
 }
 export const BriefingPage: FC = () => {
-    const { caseId, processId } = useParams();
 
+    // Parametros GET
+    const { processId, caseId } = useParams();
+
+    // Usuario logeado
+    const [userLogged, setUserLogged] = useState<User | null>(null)
+
+    // Router
     const router = useNavigate();
+
+    /**
+     * Funcion para enviar los datos del brief a la API
+     * @param values Valores del Formik
+     */
     const onSubmit = async (values: FormikValues) => {
+        if (!userLogged) router("/");
+
         const url = `${baseUrl}/briefing`
+
         const body = new FormData();
+        body.append("user_id", String(userLogged?.id));
         body.append("process_id", String(processId));
         body.append("case_id", String(caseId));
         for (let clave in values) {
@@ -75,7 +92,7 @@ export const BriefingPage: FC = () => {
                 router("/dashboard");
             })
         } else {
-            console.log(data);
+            console.log({ data, processId, caseId });
             Swal.fire({
                 title: "Error",
                 text: "Briefing no se logró enviar",
@@ -84,6 +101,12 @@ export const BriefingPage: FC = () => {
         }
     }
 
+    // Efecto secundario
+    useEffect(() => {
+        validarToken(router, setUserLogged)
+    }, [])
+
+    // Render()
     return (
         <Box sx={{ width: "80%", m: "20px auto" }}>
             <Box sx={{ mb: "20px" }}>
