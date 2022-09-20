@@ -113,7 +113,7 @@ export const BriefingPage: FC = () => {
         if (data.exito === "SI") {
             Swal.fire({
                 title: "Exito",
-                text: data.mensaje,
+                text: "Briefing registrado exitosamente",
                 icon: "success",
             }).then(click => {
                 router("/dashboard");
