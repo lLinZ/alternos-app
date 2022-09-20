@@ -52,13 +52,13 @@ export const GetBriefingPage: FC = () => {
     const [values, setValues] = useState<Briefing>(initialValues);
 
     const getBrief = async () => {
-        const url = `${baseUrl}/getBriefing?case_id${caseId}`
+        const url = `${baseUrl}/consultabriefing?case_id=${caseId}`
         try {
             const respuesta = await fetch(url);
             const data = await respuesta.json();
-
+            console.log(data)
             if (data.exito === "SI") {
-                setValues(data.registros)
+                setValues(data.registros[0])
             }
         } catch (error) {
             console.log(error);

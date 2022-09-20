@@ -8,9 +8,9 @@ import { baseUrl } from "../common/baseUrl";
 import { Layout } from "../components/layout";
 import { User } from "../interfaces/user-type";
 import { getCookieValue, validarToken } from "../lib/functions";
-import { Actividades } from "./ActividadesPage";
 import { IRequirement } from "./UserRequirementsPage";
 import CloseIcon from '@mui/icons-material/Close';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -21,6 +21,10 @@ const Transition = forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
+interface SelectedUser {
+    id: number;
+    name: string;
+}
 export const TrafficUserPage: FC = () => {
     // Datos del usuario loggeado
     const [userLogged, setUserLogged] = useState<User | null>(null);
@@ -43,15 +47,70 @@ export const TrafficUserPage: FC = () => {
     // Loader
     const [respuestaReq, setRespuestaReq] = useState<string>("");
 
+    // Control del modal de usuarios
+    const [openUserModal, setOpenUserModal] = useState<boolean>(false);
+
+    // Usuarios buscados
+    const [users, setUsers] = useState<User[] | null>(null);
+
+    // Usuario seleccionado
+    const [userSelected, setUserSelected] = useState<SelectedUser | null>(null)
+
+    // Funcion del siguiente usuario al actual
+    const [followingFunction, setFollowingFunction] = useState<number | null>(null);
+
+    // Router
+    const router = useNavigate();
+
+    /**
+     * Funcion para obtener los usuarios por id de funcion
+     * @param functionId ID de la funcion del usuario siguiente al actual
+     */
+    const getUsers = async (functionId: number) => {
+        const url = `${baseUrl}/listausersxfunction?function_id=${functionId}`
+        try {
+            const respuesta = await fetch(url);
+
+            const data = await respuesta.json();
+            console.log(data);
+            if (data.exito === "SI") {
+                setUsers(data.registros[0].users)
+            } else {
+                setUsers(null);
+                console.log("No se logro encontrar ningún usuario")
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    /**
+     * Funcion para abrir el modal de requerimientos
+     * @param id id del req
+     */
+    const openModal = (id: number) => {
+        const thisReq = myRequirements?.filter(req => Number(req.id) === Number(id))[0];
+        setUserSelected(null);
+        setSelectedTask(thisReq ? thisReq : null);
+        getFollowingFunction(thisReq ? thisReq.process_id : 0);
+        setOpen(true);
+    }
     /**
      * Funcion para abrir modal
      */
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+    const openModalUser = () => {
+        if (!followingFunction) return;
+
+        setOpenUserModal(true);
+        getUsers(followingFunction!);
+    }
+
     const resetModal = () => {
         setSelectedTask(null);
         setOpen(false);
+        setOpenUserModal(false);
+        setUserSelected(null);
+        setFollowingFunction(null);
         setRespuestaReq("")
     }
     /**
@@ -61,13 +120,6 @@ export const TrafficUserPage: FC = () => {
         setOpen(false);
     };
 
-    // Router
-    const router = useNavigate();
-    const openModal = (id: number) => {
-        const thisReq = myRequirements?.filter(req => Number(req.id) === Number(id))[0];
-        setSelectedTask(thisReq ? thisReq : null);
-        setOpen(true);
-    }
     /**
      * Funcion para obtener los requerimientos
      */
@@ -111,65 +163,126 @@ export const TrafficUserPage: FC = () => {
             console.log(error);
         }
     }
-    const getSiguienteFuncion = () => {
-        // let posicionSiguiente = 0;
-        // let match = false;
 
-        // for (let funcionActual of functionsActuales) {
-        //     if (match === true) {
-        //         posicionSiguiente = funcionActual.id
-        //         break;
-        //     }
-        //     if (funcionActual.id === userLogged.funcion_id) {
-        //         match = true;
-        //     }
-        // }
-
-        // setSiguientesPosiciones(posicionSiguiente);
-    }
-    const onSubmit = async () => {
-        setIsSubmitting(true);
-        const url = `${baseUrl}/respuesta`
-        const body = new FormData();
-
-        body.append("task_id", String(selectedTask?.id));
-        body.append("respuesta", String(respuestaReq));
-
-        const options = {
-            method: "POST",
-            body
-        }
+    /**
+     * Funcion para obtener la funcion siguiente a la de trafico
+     */
+    const getFollowingFunction = async (selectedTaskProcessId: number) => {
+        const url = `${baseUrl}/listaprocesos?id_proceso=${selectedTaskProcessId}`;
 
         try {
-            const respuesta = await fetch(url, options);
+
+            const respuesta = await fetch(url);
             const data = await respuesta.json();
+            console.log(data)
             if (data.exito === "SI") {
-                const newRequirements: IRequirement[] | null = myRequirements?.filter(req => req.id !== selectedTask?.id) || null;
-                Swal.fire({
-                    title: "Exito",
-                    text: "Se ha respondido el requerimiento",
-                    icon: "success",
-                })
-                setMyRequirements(newRequirements);
-                getMyRequirements();
-                resetModal();
-                setIsSubmitting(false);
+                const actividadesActuales = data.registros[0].actividades;
+
+                let match = false;
+                let siguiente = 0;
+                for (let actividadActual of actividadesActuales) {
+                    if (match === true) {
+                        siguiente = actividadActual.owner_id;
+                        setFollowingFunction(siguiente);
+                        match = false;
+                        break;
+                    }
+                    if (Number(actividadActual.owner_id) === Number(userLogged?.function_id)) {
+                        match = true;
+                    }
+                }
             } else {
+                console.log({ data });
                 Swal.fire({
                     title: "Error",
-                    text: "No se logró responder el requerimiento",
-                    icon: "error",
-                });
-                setIsSubmitting(false);
+                    text: data.mensaje,
+                    icon: "error"
+                })
             }
         } catch (err) {
+            console.log(err)
             Swal.fire({
                 title: "Error",
-                text: "No se logró conectar al servidor",
-                icon: "error",
-            });
-            console.log(err);
+                text: "Error al conectar con el servidor",
+                icon: "error"
+            })
+
+        }
+    }
+
+    /**
+     * Funcion para enviar la respuesta de la tarea
+     */
+    const onSubmit = async () => {
+        setIsSubmitting(true);
+
+        if (!userSelected || !selectedTask || !respuestaReq) {
+            Swal.fire({
+                text: "Error",
+                title: "Todos los campos son obligatorios",
+                icon: "error"
+            })
             setIsSubmitting(false);
+        } else {
+            const url = `${baseUrl}/asignatarea`
+            const body = new FormData();
+
+            body.append("task_id", String(selectedTask?.id));
+            body.append("respuesta", String(respuestaReq));
+            body.append("task_assigned_id", String(userSelected.id));
+
+            const options = {
+                method: "POST",
+                body
+            }
+
+            try {
+
+                // Solicitud
+                const respuesta = await fetch(url, options);
+                // Datos de la respuesta
+                const data = await respuesta.json();
+
+                // Si tuvo exito
+                if (data.exito === "SI") {
+
+                    // Se elimina la tarea actual del array de requerimientos
+                    const newRequirements: IRequirement[] | null = myRequirements?.filter(req => req.id !== selectedTask?.id) || null;
+
+                    // Se actualiza el array de req
+                    setMyRequirements(newRequirements);
+
+                    // Se obtienen los requerimientos nuevos
+                    getMyRequirements();
+                    // Se reinician los campos
+                    resetModal();
+
+                    // Cancel loader
+                    setIsSubmitting(false);
+
+                    // Alert
+                    Swal.fire({
+                        title: "Exito",
+                        text: "Se ha respondido el requerimiento",
+                        icon: "success",
+                    })
+                } else {
+                    Swal.fire({
+                        title: "Error",
+                        text: "No se logró responder el requerimiento",
+                        icon: "error",
+                    });
+                    setIsSubmitting(false);
+                }
+            } catch (err) {
+                Swal.fire({
+                    title: "Error",
+                    text: "No se logró conectar al servidor",
+                    icon: "error",
+                });
+                console.log(err);
+                setIsSubmitting(false);
+            }
         }
     }
 
@@ -179,6 +292,8 @@ export const TrafficUserPage: FC = () => {
         getMyRequirements();
         setIsLoading(false);
     }, [])
+
+    // Render
     return (
         <Layout title="Tráfico" user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
@@ -199,27 +314,6 @@ export const TrafficUserPage: FC = () => {
                                     </Box>
                                     <Button color="secondary" onClick={() => openModal(req.id)} sx={{ p: 2 }}>Ver más</Button>
                                 </Box>
-                                {/* <Card variant="outlined">
-                                    <CardHeader
-                                        title={req.process_name}
-                                        subheader={req.inicio}
-                                    />
-                                    <CardContent>
-                                        <Box>
-                                            <Typography variant="subtitle2">
-                                                Actividad: {req.activity_name}
-                                            </Typography>
-                                        </Box>
-                                        <Box>
-                                            <Typography variant="subtitle2" fontWeight="400" color="text.secondary">
-                                                {req.description}
-                                            </Typography>
-                                        </Box>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Button variant="outlined" fullWidth color="secondary" onClick={() => openModal(req.id)}>Ver más</Button>
-                                    </CardActions>
-                                </Card> */}
                             </Grid>
                         ))
                     }
@@ -288,12 +382,53 @@ export const TrafficUserPage: FC = () => {
                         <Typography variant="body1" component="p">
                             {selectedTask?.vence}
                         </Typography>
-
+                        <Button component="a" href={`/briefing/view/${selectedTask?.case_id}`} target={"_blank"} style={{ borderRadius: "4px", border: "1px solid black", padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em" }}>Ver Brief</Button>
+                        <Divider sx={{ mb: 1, mt: 1 }} />
                         <TextField label="Respuesta de cierre de actividad" fullWidth value={respuestaReq} onChange={(e: ChangeEvent<HTMLInputElement>) => setRespuestaReq(e.currentTarget.value)} multiline color="secondary" variant="outlined" sx={{ mt: 2, mb: 2 }} />
-                        <LoadingButton color="secondary" variant="contained" onClick={() => onSubmit()} loading={isSubmitting} fullWidth sx={{ p: 1.8 }}>Responder tarea</LoadingButton>
+                        <Button variant="outlined" color="secondary" sx={{ p: 1.8, mb: 2 }} fullWidth onClick={openModalUser}>Seleccionar Usuario</Button>
+                        {
+                            userSelected && (
+                                <Box sx={{ display: "flex", justifyContent: "space-evenly", alignItems: "center", width: "100%", mt: 2, mb: 2 }}>
+                                    <Box>
+                                        <Typography variant="body1" fontWeight={"bold"}>Usuario seleccionado para la actividad</Typography>
+                                        <Typography variant="subtitle1" color="text.secondary">{userSelected.name}</Typography>
+                                    </Box>
+                                    <CheckCircleIcon color="success" />
+                                </Box>
+                            )
+                        }
+                        <LoadingButton disabled={!userSelected} color="secondary" variant="contained" onClick={() => onSubmit()} loading={isSubmitting} fullWidth sx={{ p: 1.8 }}>Responder tarea</LoadingButton>
                     </Box>
                 </Dialog>
             </Box>
+            {/* Modal de usaurios */}
+            <Dialog onClose={() => setOpenUserModal(false)} open={openUserModal} fullScreen TransitionComponent={Transition}>
+                <AppBar sx={{ position: 'relative' }}>
+                    <Toolbar>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            onClick={() => setOpenUserModal(false)}
+                            aria-label="close"
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                        <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                            Seleccionar usuario
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <Box sx={{ width: "80%", m: "20px auto" }}>
+                    {users ? users.map((usuario: any) => (
+                        <Box key={usuario.user_id} sx={{ p: 2, borderRadius: "10px", border: "1px solid black", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
+                            <Typography>{usuario.user_name}</Typography>
+                            <Button color="secondary" onClick={() => {
+                                setUserSelected({ id: usuario.user_id, name: usuario.user_name })
+                                setOpenUserModal(false);
+                            }}>Seleccionar</Button>
+                        </Box>)) : <CircularProgress color="secondary" />}
+                </Box>
+            </Dialog>
         </Layout>
     )
 }

@@ -23,32 +23,6 @@ import { ISelectedProcess } from '../interfaces/process-type'
 import { User } from '../interfaces/user-type'
 import { IRequirement } from './UserRequirementsPage'
 
-const widgets = [
-    {
-        id: 1,
-        name: "Widget 1"
-    },
-    {
-        id: 2,
-        name: "Widget 2"
-    },
-    {
-        id: 3,
-        name: "Widget 3"
-    },
-    {
-        id: 4,
-        name: "Widget 4"
-    },
-    {
-        id: 5,
-        name: "Widget 5"
-    },
-    {
-        id: 6,
-        name: "Widget 6"
-    },
-]
 export const DashboardPage: FC = () => {
 
     const [userLogged, setUserLogged] = useState<User | null>(null);
@@ -134,9 +108,8 @@ export const DashboardPage: FC = () => {
             const userResponse = await fetch(urlUser, options)
             const userDataArray = await userResponse.json();
             if (userDataArray.exito === "SI") {
-
                 const userData = userDataArray.usuario;
-                const url = `${baseUrl}/listatareas?owner_id=${userData.id}&status=abierta`;
+                const url = `${baseUrl}/listatareas?owner_id=${userData.function_id}&status=abierta`;
                 try {
                     const respuesta = await fetch(url);
                     const data = await respuesta.json();

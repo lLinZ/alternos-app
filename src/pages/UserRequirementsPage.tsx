@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 // Requerimientos
 export interface IRequirement {
     id: number;
+    case_id: number;
     user_id: number;
     user_name: string;
     description: string;
@@ -318,6 +319,9 @@ export const UserRequirementsPage: FC = () => {
                         <Typography variant="body1" component="p">
                             {selectedTask?.vence}
                         </Typography>
+                        <Button component="a" href={`/briefing/view/${selectedTask?.case_id}`} target={"_blank"} style={{ borderRadius: "4px", border: "1px solid black", padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em" }}>Ver Brief</Button>
+                        <Divider sx={{ mb: 1, mt: 1 }} />
+
                         <TextField label="Respuesta de cierre de actividad" fullWidth value={respuestaReq} onChange={(e: ChangeEvent<HTMLInputElement>) => setRespuestaReq(e.currentTarget.value)} multiline color="secondary" variant="outlined" sx={{ mt: 2, mb: 2 }} />
                         <LoadingButton color="secondary" variant="contained" onClick={() => onSubmit()} loading={isSubmitting} fullWidth sx={{ p: 1.8 }}>Responder tarea</LoadingButton>
                     </Box>

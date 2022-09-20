@@ -147,6 +147,8 @@ export const BriefingPage: FC = () => {
                 <Formik
                     initialValues={initialValues}
                     onSubmit={onSubmit}
+                    validateOnChange={false}
+                    validateOnBlur={false}
                 >
                     {({ values, handleChange, handleSubmit, isSubmitting }) => (
 

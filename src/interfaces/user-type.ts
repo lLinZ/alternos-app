@@ -6,6 +6,8 @@ export type User = {
     password: string;
     role_id: number;
     role_name: string;
+    function_id:number;
+    function_name:number;
     status: string;
     created_at: string;
     updated_at: string;
