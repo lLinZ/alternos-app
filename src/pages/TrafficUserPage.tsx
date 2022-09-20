@@ -59,6 +59,9 @@ export const TrafficUserPage: FC = () => {
     // Funcion del siguiente usuario al actual
     const [followingFunction, setFollowingFunction] = useState<number | null>(null);
 
+    // Ultimo usaurio de las actividades
+    const [last, setLast] = useState<boolean>(false);
+
     // Router
     const router = useNavigate();
 
@@ -180,13 +183,21 @@ export const TrafficUserPage: FC = () => {
 
                 let match = false;
                 let siguiente = 0;
+                const len = actividadesActuales.length;
+                let counter = 1;
                 for (let actividadActual of actividadesActuales) {
+                    counter++;
                     if (match === true) {
                         siguiente = actividadActual.owner_id;
                         setFollowingFunction(siguiente);
                         match = false;
                         break;
+                    } else {
+                        if (counter === len) {
+                            setLast(true);
+                        }
                     }
+
                     if (Number(actividadActual.owner_id) === Number(userLogged?.function_id)) {
                         match = true;
                     }
@@ -229,7 +240,7 @@ export const TrafficUserPage: FC = () => {
 
             body.append("task_id", String(selectedTask?.id));
             body.append("respuesta", String(respuestaReq));
-            body.append("task_assigned_id", String(userSelected.id));
+            !last && body.append("task_assigned_id", String(userSelected.id));
 
             const options = {
                 method: "POST",
@@ -384,7 +395,7 @@ export const TrafficUserPage: FC = () => {
                         </Typography>
                         <Button component="a" href={`/briefing/${selectedTask?.case_id}`} target={"_blank"} style={{ borderRadius: "4px", border: "1px solid black", padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em" }}>Ver Brief</Button>
                         <Divider sx={{ mb: 1, mt: 1 }} />
-                        <Button variant="outlined" color="secondary" sx={{ p: 1.8, mb: 2 }} fullWidth onClick={openModalUser}>Seleccionar Usuario</Button>
+                        {!last && (<Button variant="outlined" color="secondary" sx={{ p: 1.8, mb: 2 }} fullWidth onClick={openModalUser}>Seleccionar Usuario</Button>)}
                         {
                             userSelected && (
                                 <Box sx={{ display: "flex", justifyContent: "space-evenly", alignItems: "center", width: "100%", mt: 2, mb: 2 }}>

@@ -111,6 +111,8 @@ export const UserRequirementsPage: FC = () => {
             if (data.exito === "SI") {
                 if (String(data.usuario.function_id) === "2") {
                     router('/traffic')
+                } else {
+                    router('/traffic')
                 }
 
             }

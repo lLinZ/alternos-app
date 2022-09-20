@@ -25,8 +25,8 @@ function App() {
         <Route path="/end" element={<EndPage />} />
         <Route path="/process" element={<ProcessListPage />} />
         <Route path="/process/add" element={<ProcessesPage />} />
-        <Route path="/requirements" element={<UserRequirementsPage />} />
-        <Route path="/traffic" element={<TrafficUserPage />} />
+        <Route path="/requirements" element={<TrafficUserPage />} />
+        {/* <Route path="/traffic" element={<TrafficUserPage />} /> */}
         <Route path="/requirements/add" element={<RequirementsPage />} />
         <Route path="/briefing/new/:processId/:caseId" element={<BriefingPage />} />
         <Route path="/briefing/:caseId" element={<GetBriefingPage />} />
