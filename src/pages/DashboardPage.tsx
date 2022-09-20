@@ -239,8 +239,8 @@ export const DashboardPage: FC = () => {
                             }}>
                                 {myRequirements ? myRequirements.map(req => (
                                     <Box key={req.id} sx={{ border: "1px solid white", borderRadius: "8px", p: 2, mb: 1 }}>
-                                        <Typography variant="subtitle1" color="text.white" >{req.process_name}</Typography>
-                                        <Typography variant="subtitle2" fontSize={12} fontWeight="300" color="text.white">Actividad: {req.activity_name}</Typography>
+                                        <Typography variant="subtitle1" color="text.white" >{req.process_name} #{req.case_id}</Typography>
+                                        <Typography variant="subtitle2" fontSize={12} fontWeight="300" color="text.white">{req.description}</Typography>
                                     </Box>
                                 ))
                                     : <Typography variant="subtitle1" color="text.white"> No tienes tareas asignadas</Typography>

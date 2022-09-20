@@ -230,8 +230,8 @@ export const UserRequirementsPage: FC = () => {
                             <Grid item key={req.id} xs={12}>
                                 <Box sx={{ display: "flex", justifyContent: "space-between", w: "100%", borderRadius: "5px", border: "1px solid rgba(0,0,0,0.1)", p: 2, flexWrap: "wrap" }}>
                                     <Box sx={{ display: "flex", flexDirection: "column" }}>
-                                        <Typography variant="subtitle1" fontSize={16} fontWeight="400">{req.process_name}</Typography>
-                                        <Typography variant="subtitle2" fontSize={12} fontWeight="300" color="text.secondary">Actividad: {req.activity_name}</Typography>
+                                        <Typography variant="subtitle1" fontSize={16} fontWeight="400">{req.process_name} #{req.case_id}</Typography>
+                                        <Typography variant="subtitle2" fontSize={12} fontWeight="300" color="text.secondary">{req.description}</Typography>
                                     </Box>
                                     <Button color="secondary" onClick={() => openModal(req.id)} sx={{ p: 2 }}>Ver más</Button>
                                 </Box>
