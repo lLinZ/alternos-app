@@ -72,9 +72,37 @@ export const BriefingPage: FC = () => {
         body.append("user_id", String(userLogged?.id));
         body.append("process_id", String(processId));
         body.append("case_id", String(caseId));
-        for (let clave in values) {
-            body.append(String(clave), String(values[clave]));
-        }
+        body.append("nombrecliente", values.nombrecliente);
+        body.append("nombremarca", values.nombremarca);
+        body.append("personacontacto", values.personacontacto);
+        body.append("telefonocontacto", values.telefonocontacto);
+        body.append("emailcontacto", values.emailcontacto);
+        body.append("negocioempresa", values.negocioempresa);
+        body.append("historiaempresa", values.historiaempresa);
+        body.append("ubicacionservicio", values.ubicacionservicio);
+        body.append("necesidadquesatisface", values.necesidadquesatisface);
+        body.append("diferenciador", values.diferenciador);
+        body.append("targetedad", values.targetedad);
+        body.append("targetgenero", values.targetgenero);
+        body.append("targetlugardeorigen", values.targetlugardeorigen);
+        body.append("targetgustos", values.targetgustos);
+        body.append("targetactitudes", values.targetactitudes);
+        body.append("targetestilodevida", values.targetestilodevida);
+        body.append("competidores", values.competidores);
+        body.append("marcapersonaedad", values.marcapersonaedad);
+        body.append("marcapersonagenero", values.marcapersonagenero);
+        body.append("marcapersonavestido", values.marcapersonavestido);
+        body.append("marcapersonacarro", values.marcapersonacarro);
+        body.append("detallerequerimientotipo", values.detallerequerimientotipo);
+        body.append("detallerequerimientoexpresaimagen", values.detallerequerimientoexpresaimagen);
+        body.append("detallerequerimientopreferenciacolor", values.detallerequerimientopreferenciacolor);
+        body.append("detallerequerimientocomopercepcion", values.detallerequerimientocomopercepcion);
+        body.append("detallerequerimientoadicional", values.detallerequerimientoadicional);
+        body.append("mediosimpresos", values.mediosimpresos);
+        body.append("rrss", values.rrss);
+        body.append("audiovisual", values.audiovisual);
+
+        console.log({ body })
         const options = {
             method: "POST",
             body
