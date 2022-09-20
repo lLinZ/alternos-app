@@ -75,6 +75,7 @@ export const BriefingPage: FC = () => {
                 router("/dashboard");
             })
         } else {
+            console.log(data);
             Swal.fire({
                 title: "Error",
                 text: "Briefing no se logró enviar",
