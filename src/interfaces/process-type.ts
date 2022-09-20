@@ -18,4 +18,5 @@ export type IProcessNoDetails = {
 export type ISelectedProcess = {
     id: number;
     name: string;
+    actividades: any[];
 }

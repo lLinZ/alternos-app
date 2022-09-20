@@ -1,6 +1,6 @@
-import { ChangeEvent, Dispatch, FC, SetStateAction, useEffect, useState } from 'react'
+import { ChangeEvent, Dispatch, FC, forwardRef, ReactElement, Ref, SetStateAction, useEffect, useState } from 'react'
 
-import { Alert, Box, Collapse, Grid, IconButton, TextField, Typography, useTheme } from '@mui/material'
+import { Alert, AppBar, Box, Button, CircularProgress, Collapse, Dialog, Grid, IconButton, Slide, TextField, Toolbar, Typography, useTheme } from '@mui/material'
 
 import { LoadingButton } from '@mui/lab'
 
@@ -22,6 +22,17 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { ISelectedProcess } from '../interfaces/process-type'
 import { User } from '../interfaces/user-type'
 import { IRequirement } from './UserRequirementsPage'
+import { TransitionProps } from '@mui/material/transitions'
+
+
+const Transition = forwardRef(function Transition(
+    props: TransitionProps & {
+        children: ReactElement;
+    },
+    ref: Ref<unknown>,
+) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export const DashboardPage: FC = () => {
 
@@ -31,10 +42,11 @@ export const DashboardPage: FC = () => {
     const [selectedProcess, setSelectedProcess] = useState<ISelectedProcess | null>(null);
     const [description, setDescription] = useState<string>("");
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
+    const [userSelected, setUserSelected] = useState<{ id: number; name: string } | null>(null);
+    const [users, setUsers] = useState<User[] | null>(null);
     // Mis requerimientos
     const [myRequirements, setMyRequirements] = useState<IRequirement[] | null>(null);
-
+    const [openUserModal, setOpenUserModal] = useState<boolean>(false);
     const theme = useTheme();
     const router = useNavigate();
 
@@ -61,6 +73,9 @@ export const DashboardPage: FC = () => {
         if (!description) {
             errores.push("La descripcion es obligatoria");
         }
+        if (!userSelected) {
+            errores.push("Debe seleccionar un usuario");
+        }
         if (errores.length > 0) {
             Swal.fire({
                 title: "Error",
@@ -73,6 +88,7 @@ export const DashboardPage: FC = () => {
             body.append("user_id", String(userLogged ? userLogged.id : ''));
             body.append("process_id", String(selectedProcess ? selectedProcess.id : ''));
             body.append("description", String(description));
+            body.append("task_assigned_id", String(userSelected?.id));
             const options = {
                 method: "POST",
                 body
@@ -93,6 +109,33 @@ export const DashboardPage: FC = () => {
             }
         }
     }
+
+    /**
+ * Funcion para obtener los usuarios por id de funcion
+ * @param functionId ID de la funcion del usuario siguiente al actual
+ */
+    const getUsers = async (functionId: number) => {
+        const url = `${baseUrl}/listausersxfunction?function_id=${functionId}`
+        try {
+            const respuesta = await fetch(url);
+
+            const data = await respuesta.json();
+            console.log(data);
+            if (data.exito === "SI") {
+                setUsers(data.registros[0].users)
+            } else {
+                setUsers(null);
+                console.log("No se logro encontrar ningún usuario")
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    const handleModalUser = () => {
+        getUsers(selectedProcess?.actividades[0].owner_id);
+        setOpenUserModal(true);
+    }
+
     const getMyRequirements = async () => {
         const token = getCookieValue("token");
         const username = getCookieValue("username");
@@ -190,11 +233,57 @@ export const DashboardPage: FC = () => {
                                     </Grid>
                                     {
                                         selectedProcess && (
+                                            <>
+                                                <Grid item xs={12}>
+                                                    <Box sx={{ display: "flex", justifyContent: "space-evenly ", alignItems: "center" }}>
+                                                        <Box>
+                                                            <Typography variant="body1" fontWeight={"bold"}>Proceso seleccionado</Typography>
+                                                            <Typography variant="subtitle1" color="text.white">{selectedProcess.name}</Typography>
+                                                        </Box>
+                                                        <CheckCircleIcon color="success" />
+                                                    </Box>
+                                                </Grid>
+                                                <Grid item xs={12}>
+                                                    <Button variant="outlined" color="primary" sx={{ color: "white", p: 1.8, mb: 2 }} fullWidth onClick={handleModalUser} >Seleccionar usuario</Button>
+                                                </Grid>
+                                                {/* Modal de usaurios */}
+                                                <Dialog onClose={() => setOpenUserModal(false)} open={openUserModal} fullScreen TransitionComponent={Transition}>
+                                                    <AppBar sx={{ position: 'relative' }}>
+                                                        <Toolbar>
+                                                            <IconButton
+                                                                edge="start"
+                                                                color="inherit"
+                                                                onClick={() => setOpenUserModal(false)}
+                                                                aria-label="close"
+                                                            >
+                                                                <CloseIcon />
+                                                            </IconButton>
+                                                            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                                                                Seleccionar usuario
+                                                            </Typography>
+                                                        </Toolbar>
+                                                    </AppBar>
+                                                    <Box sx={{ width: "80%", m: "20px auto" }}>
+                                                        {users ? users.map((usuario: any) => (
+                                                            <Box key={usuario.user_id} sx={{ p: 2, borderRadius: "10px", border: "1px solid black", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
+                                                                <Typography>{usuario.user_name}</Typography>
+                                                                <Button color="secondary" onClick={() => {
+                                                                    setUserSelected({ id: usuario.user_id, name: usuario.user_name })
+                                                                    setOpenUserModal(false);
+                                                                }}>Seleccionar</Button>
+                                                            </Box>)) : <CircularProgress color="secondary" />}
+                                                    </Box>
+                                                </Dialog>
+                                            </>
+                                        )
+                                    }
+                                    {
+                                        userSelected && (
                                             <Grid item xs={12}>
                                                 <Box sx={{ display: "flex", justifyContent: "space-evenly ", alignItems: "center" }}>
                                                     <Box>
-                                                        <Typography variant="body1" fontWeight={"bold"}>Proceso seleccionado</Typography>
-                                                        <Typography variant="subtitle1" color="text.white">{selectedProcess.name}</Typography>
+                                                        <Typography variant="body1" fontWeight={"bold"}>Usuario seleccionado para la actividad</Typography>
+                                                        <Typography variant="subtitle1" color="common.white">{userSelected.name}</Typography>
                                                     </Box>
                                                     <CheckCircleIcon color="success" />
                                                 </Box>
@@ -202,7 +291,7 @@ export const DashboardPage: FC = () => {
                                         )
                                     }
                                     <Grid item xs={12}>
-                                        <LoadingButton sx={{ p: 1.8 }} loading={isSubmitting} fullWidth color="primary" variant="contained" onClick={() => onSubmit()}>Enviar</LoadingButton>
+                                        <LoadingButton sx={{ p: 1.8 }} loading={isSubmitting} fullWidth color="primary" variant="contained" onClick={() => onSubmit()} disabled={!userSelected}>Enviar</LoadingButton>
                                     </Grid>
                                 </Grid>
                             </Box>

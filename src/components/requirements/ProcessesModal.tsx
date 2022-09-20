@@ -29,8 +29,8 @@ export const ProcessesModal: FC<Props> = ({ setSelectedProcess, buttonColor = "s
     const handleCloseModal = () => {
         setOpen(false);
     }
-    const selectProcess = (id: number, name: string) => {
-        setSelectedProcess({ id, name });
+    const selectProcess = (id: number, name: string, actividades: any[]) => {
+        setSelectedProcess({ id, name, actividades });
         setOpen(false);
     }
 
@@ -79,13 +79,13 @@ export const ProcessesModal: FC<Props> = ({ setSelectedProcess, buttonColor = "s
                     </Toolbar>
                 </AppBar>
                 <Box sx={{ width: "80%", m: "20px auto" }}>
-                    {processes ? processes.map((process: Process) => (
+                    {processes ? processes.map((process: any) => (
                         <Box key={process.id} sx={{ p: 2, borderRadius: "10px", border: "1px solid black", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
                             <Box sx={{ display: "flex", flexDirection: "column" }}>
                                 <Typography variant="subtitle1" fontWeight="bold">{process.name}</Typography>
                                 <Typography variant="subtitle2" fontWeight={200} color="text.secondary">{process.actividades?.length} {process.actividades && process.actividades?.length > 1 ? " actividades" : " actividad"}</Typography>
                             </Box>
-                            <Button color="secondary" onClick={() => selectProcess(process.id, process.name)}>Seleccionar</Button>
+                            <Button color="secondary" onClick={() => selectProcess(process.id, process.name, process.actividades)}>Seleccionar</Button>
                         </Box>)) : <CircularProgress color="secondary" />}
                 </Box>
             </Dialog>
