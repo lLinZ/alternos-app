@@ -88,7 +88,7 @@ export const TrafficUserPage: FC = () => {
             if (userDataArray.exito === "SI") {
 
                 const userData = userDataArray.usuario;
-                const url = `${baseUrl}/listatareas?owner_id=${userData.funcion_id}&status=abierta`;
+                const url = `${baseUrl}/listatareas?owner_id=${userData.function_id}&status=abierta`;
 
                 try {
                     const respuesta = await fetch(url);
