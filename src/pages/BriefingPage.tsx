@@ -82,23 +82,21 @@ export const BriefingPage: FC = () => {
         const respuesta = await fetch(url, options);
 
         const data = await respuesta.json();
-        console.log(data);
-        // if (data.exito === "SI") {
-        //     Swal.fire({
-        //         title: "Exito",
-        //         text: "Briefing registrado correctamente",
-        //         icon: "success",
-        //     }).then(click => {
-        //         router("/dashboard");
-        //     })
-        // } else {
-        //     console.log({ data, processId, caseId });
-        //     Swal.fire({
-        //         title: "Error",
-        //         text: "Briefing no se logró enviar",
-        //         icon: "error",
-        //     })
-        // }
+        if (data.exito === "SI") {
+            Swal.fire({
+                title: "Exito",
+                text: "Briefing registrado correctamente",
+                icon: "success",
+            }).then(click => {
+                router("/dashboard");
+            })
+        } else {
+            Swal.fire({
+                title: "Error",
+                text: "Briefing no se logró enviar",
+                icon: "error",
+            })
+        }
     }
 
     // Efecto secundario
