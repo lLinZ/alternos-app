@@ -118,7 +118,7 @@ export const RegisterPage: FC<Props> = () => {
         const url = `${baseUrl}/listafunctions`;
         const respuesta = await fetch(url);
         const data = await respuesta.json();
-        if (data.exito == "SI") {
+        if (data.exito === "SI") {
             setFunctions(data.registros);
         } else {
             setFunctions(null);

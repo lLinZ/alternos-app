@@ -7,6 +7,8 @@ import { Layout } from '../components/layout';
 import { baseUrl } from '../common/baseUrl';
 
 import { User } from '../interfaces/user-type';
+import { useNavigate } from 'react-router-dom';
+import { validarToken } from '../lib/functions';
 
 
 export const AdminPage: FC = () => {
@@ -14,6 +16,11 @@ export const AdminPage: FC = () => {
     // Usuarios
     const [users, setUsers] = useState<User[] | null>(null);
 
+    //Usuario logeado
+    const [userLogged, setUserLogged] = useState<User | null>(null);
+
+    //Router
+    const router = useNavigate();
 
     /**
      * Funcion para obtener usuarios segun el rol y el status
@@ -46,13 +53,17 @@ export const AdminPage: FC = () => {
 
     useEffect(() => {
         getUsers(99);
+        validarToken(router, setUserLogged);
     }, [])
 
     // Render
     return (
-        <Layout title="Administradores">
-            <Typography variant="body1" fontWeight="bold" sx={{ mb: 4 }}>Lista de usuarios registrados</Typography>
-            <UserList users={users} setUsers={setUsers} />
+        <Layout title="Administradores" user={userLogged}>
+
+            <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
+                <Typography fontSize={16} fontWeight="bold" sx={{ mb: 2 }} variant="overline">Lista de usuarios registrados</Typography>
+                <UserList users={users} setUsers={setUsers} />
+            </Box>
         </Layout>
     )
 }
