@@ -75,12 +75,11 @@ export const RegisterPage: FC<Props> = () => {
 
         const body = new FormData();
 
-        body.append("username", values.usuario);
-        body.append("password", values.password);
-        body.append("name", values.name);
-        body.append("phone", values.phone);
+        body.append("username", String(values.username));
+        body.append("password", String(values.password));
+        body.append("name", String(values.name));
+        body.append("phone", String(values.phone));
         body.append("function_id", selectedFunction ? String(selectedFunction) : '1');
-        console.log({ values })
         const options = {
             method: "POST",
             body
@@ -190,7 +189,7 @@ export const RegisterPage: FC<Props> = () => {
                                         fullWidth
                                         color="secondary"
                                     >
-                                        <MenuItem value={'0'} disabled>Seleccione una funcion</MenuItem>
+                                        <MenuItem value={'0'} disabled>Seleccione un departamento</MenuItem>
                                         {
                                             functions?.map((func: IFunction) => (
                                                 <MenuItem key={func.id} value={String(func.id)}>{func.name}</MenuItem>
@@ -206,6 +205,6 @@ export const RegisterPage: FC<Props> = () => {
                     )}
                 </Formik>
             </Box>
-        </Layout>
+        </Layout >
     )
 }

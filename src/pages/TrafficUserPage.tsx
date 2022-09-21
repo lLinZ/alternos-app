@@ -99,7 +99,7 @@ export const TrafficUserPage: FC = () => {
         setOpen(true);
     }
     /**
-     * Funcion para abrir modal
+     * Funcion para abrir modal de usaurios
      */
     const openModalUser = () => {
         if (!followingFunction) return;
@@ -108,6 +108,9 @@ export const TrafficUserPage: FC = () => {
         getUsers(followingFunction!);
     }
 
+    /**
+     * Funcion para reinciar los datos del formulario 
+     */
     const resetModal = () => {
         setSelectedTask(null);
         setOpen(false);

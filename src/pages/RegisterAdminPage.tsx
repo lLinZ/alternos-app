@@ -63,10 +63,10 @@ export const RegisterAdminPage: FC<Props> = () => {
 
         const body = new FormData();
 
-        body.append("username", values.usuario);
-        body.append("password", values.password);
-        body.append("name", values.name);
-        body.append("phone", values.phone);
+        body.append("username", String(values.username));
+        body.append("password", String(values.password));
+        body.append("name", String(values.name));
+        body.append("phone", String(values.phone));
         body.append("role_id", String(1));
 
         const options = {

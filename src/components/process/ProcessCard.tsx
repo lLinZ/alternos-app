@@ -368,7 +368,7 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <LoadingButton loading={isSubmitting} disabled={!userSelected} type="button" color="secondary" variant="contained" fullWidth sx={{ p: 1.8 }} onClick={() => registrarActividad()}>Registar actividad</LoadingButton>
+                            <LoadingButton loading={isSubmitting} type="button" color="secondary" variant="contained" fullWidth sx={{ p: 1.8 }} onClick={() => registrarActividad()}>Registar actividad</LoadingButton>
                         </Grid>
                     </Grid>
                 </Box>
