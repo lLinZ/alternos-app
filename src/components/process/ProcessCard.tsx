@@ -347,7 +347,7 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
                                 fullWidth
                                 color="secondary"
                             >
-                                <MenuItem value={'0'} disabled>Seleccione una funcion</MenuItem>
+                                <MenuItem value={'0'} disabled>Seleccione un departamento</MenuItem>
                                 {
                                     functions?.map((func: IFunction) => (
                                         <MenuItem key={func.id} value={String(func.id)}>{func.name}</MenuItem>
