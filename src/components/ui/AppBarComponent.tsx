@@ -220,25 +220,26 @@ export const AppBarComponent: FC<Props> = ({ title, user }) => {
                         </>
                     )}
                     {!token && (<>
-                        <Typography
-                            variant="h5"
-                            noWrap
-                            component="a"
-                            href=""
-                            sx={{
-                                mr: 2,
-                                display: { xs: 'flex', md: 'none' },
-                                flexGrow: 1,
-                                fontFamily: 'monospace',
-                                fontWeight: 700,
-                                letterSpacing: '.3rem',
-                                color: 'inherit',
-                                textDecoration: 'none',
-                            }}
-                        >
-                            ALTERNOS
-                        </Typography>
-                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
+                        <Box sx={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+
+                            <Typography
+                                variant="h5"
+                                noWrap
+                                component="a"
+                                href=""
+                                sx={{
+                                    mr: 2,
+                                    display: { xs: 'flex', md: 'none' },
+                                    flexGrow: 1,
+                                    fontFamily: 'monospace',
+                                    fontWeight: 700,
+                                    letterSpacing: '.3rem',
+                                    color: 'inherit',
+                                    textDecoration: 'none',
+                                }}
+                            >
+                                ALTERNOS
+                            </Typography>
                             {notLoggedPages.map((page) => (
                                 String(currentPath.pathname) !== String(page.path) && (
                                     <Button
