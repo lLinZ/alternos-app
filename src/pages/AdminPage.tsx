@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Button, IconButton, Typography } from '@mui/material';
 
 import { UserList } from '../components/admin/UserList';
 import { Layout } from '../components/layout';
@@ -9,7 +9,7 @@ import { baseUrl } from '../common/baseUrl';
 import { User } from '../interfaces/user-type';
 import { useNavigate } from 'react-router-dom';
 import { validarToken } from '../lib/functions';
-
+import AddIcon from "@mui/icons-material/AddCircleOutlineRounded";
 
 export const AdminPage: FC = () => {
 
@@ -62,6 +62,7 @@ export const AdminPage: FC = () => {
 
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
                 <Typography fontSize={16} fontWeight="bold" sx={{ mb: 2 }} variant="overline">Lista de usuarios registrados</Typography>
+                <IconButton color="secondary" onClick={() => router("/admin/user/add")}><AddIcon /></IconButton>
                 <UserList users={users} setUsers={setUsers} />
             </Box>
         </Layout>

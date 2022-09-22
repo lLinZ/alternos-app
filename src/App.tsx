@@ -12,6 +12,7 @@ import { UserRequirementsPage } from './pages/UserRequirementsPage';
 import { BriefingPage } from './pages/BriefingPage';
 import { TrafficUserPage } from './pages/TrafficUserPage';
 import { GetBriefingPage } from './pages/GetBriefingPage';
+import { UserAddingPage } from './pages/UserAddingPage';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/register/admin" element={<RegisterAdminPage />} />
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/admin/user/add" element={<UserAddingPage />} />
         <Route path="/end" element={<EndPage />} />
         <Route path="/process" element={<ProcessListPage />} />
         <Route path="/process/add" element={<ProcessesPage />} />
