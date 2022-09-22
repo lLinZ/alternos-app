@@ -27,7 +27,7 @@ interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
 }
 
-interface SelectedUser {
+export interface SelectedUser {
     id: number;
     name: string;
 }

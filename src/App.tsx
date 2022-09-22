@@ -13,12 +13,14 @@ import { BriefingPage } from './pages/BriefingPage';
 import { TrafficUserPage } from './pages/TrafficUserPage';
 import { GetBriefingPage } from './pages/GetBriefingPage';
 import { UserAddingPage } from './pages/UserAddingPage';
+import { ActividadesPage } from './pages/ActividadesPage';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LoginPage />} />
+        <Route path="/activity/add" element={<ActividadesPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/register/admin" element={<RegisterAdminPage />} />
