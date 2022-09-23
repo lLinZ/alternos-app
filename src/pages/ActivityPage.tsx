@@ -2,6 +2,7 @@ import { AddCircleOutline } from '@mui/icons-material';
 import { Box, IconButton, Typography } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { baseUrl } from '../common/baseUrl';
 import { Layout } from '../components/layout';
 import { User } from '../interfaces/user-type';
@@ -16,18 +17,35 @@ export const ActivityPage: FC<Props> = () => {
 
     const [userLogged, setUserLogged] = useState<User | null>(null);
 
-    const [actividades, setActividades] = useState<Actividades | null>(null)
+    const [actividades, setActividades] = useState<Actividades[] | null>(null)
 
     const router = useNavigate();
 
     const getActividades = async () => {
         const url = `${baseUrl}/listaactividades`;
 
-        const respuesta = await fetch(url);
+        try {
+            const respuesta = await fetch(url);
 
-        const data = await respuesta.json();
+            const data = await respuesta.json();
+            if (data.exito === "SI") {
+                setActividades(data.actividades)
+            } else {
+                Swal.fire({
+                    title: "Error",
+                    text: "No se encontraron las actividades",
+                    icon: "error",
+                })
+            }
+        } catch (error) {
+            console.log(error)
+            Swal.fire({
+                title: "Error",
+                text: "No se logró conectar",
+                icon: "error",
+            })
+        }
 
-        console.log({ data });
     }
 
     useEffect(() => {
@@ -44,6 +62,13 @@ export const ActivityPage: FC<Props> = () => {
                         <AddCircleOutline />
                     </IconButton>
                 </Box>
+                {
+                    actividades && actividades.map((actividad: Actividades) => (
+                        <Box key={actividad.id} sx={{ p: 2, border: "1px solid rgb(0,0,0,0.3)", borderRadius: 2, mb: 1 }}>
+                            <Typography>{actividad.name}</Typography>
+                        </Box>
+                    ))
+                }
             </Box>
         </Layout>
     )
