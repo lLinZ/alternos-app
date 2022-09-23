@@ -13,14 +13,20 @@ import { BriefingPage } from './pages/BriefingPage';
 import { TrafficUserPage } from './pages/TrafficUserPage';
 import { GetBriefingPage } from './pages/GetBriefingPage';
 import { UserAddingPage } from './pages/UserAddingPage';
-import { ActividadesPage } from './pages/ActividadesPage';
+import { ActivityPage } from './pages/ActivityPage';
+import { ActivityAddingPage } from './pages/ActivityAddingPage';
+import { DepartmentAddingPage } from './pages/DepartmentAddingPage';
+import { ActivityAssignmentPage } from './pages/ActivityAssignmentPage';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LoginPage />} />
-        <Route path="/activity/add" element={<ActividadesPage />} />
+        <Route path="/activity" element={<ActivityPage />} />
+        <Route path="/activity/add" element={<ActivityAddingPage />} />
+        <Route path="/departamentos/add" element={<DepartmentAddingPage />} />
+        <Route path="/assignment" element={<ActivityAssignmentPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/register/admin" element={<RegisterAdminPage />} />
