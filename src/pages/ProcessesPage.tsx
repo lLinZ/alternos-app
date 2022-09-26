@@ -14,12 +14,14 @@ import Swal from "sweetalert2";
 
 interface Props { }
 
-interface SelectedUser {
+interface SelectedDepartment {
     id: number;
     name: string;
-    role_name: string;
 }
-
+interface Departments {
+    id: number;
+    name: string;
+}
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
         children: ReactElement;
@@ -37,11 +39,11 @@ export const ProcessesPage: FC<Props> = () => {
     // Abrir modal
     const [open, setOpen] = useState(false);
 
-    // Usuarios registrados
-    const [users, setUsers] = useState([]);
+    // Departamentos registrados
+    const [departments, setDepartments] = useState<Departments[] | null>(null);
 
     // Usuario seleccionado
-    const [userSelected, setUserSelected] = useState<SelectedUser | null>(null);
+    const [selectedDepartment, setSelectedDepartment] = useState<SelectedDepartment | null>(null);
 
     // Procesos
     const [process, setProcess] = useState<string>("");
@@ -55,7 +57,7 @@ export const ProcessesPage: FC<Props> = () => {
 
     const onSubmit = async () => {
         setIsSubmitting(true);
-        if (!process || !userSelected) {
+        if (!process || !selectedDepartment) {
             Swal.fire({
                 title: "Error",
                 text: "Faltan campos",
@@ -69,8 +71,8 @@ export const ProcessesPage: FC<Props> = () => {
             const body = new FormData();
 
             body.append("name", process);
-            body.append("owner_id", String(userSelected.id));
-
+            body.append("owner_id", String(selectedDepartment.id));
+            console.log({ name: process, owner_id: selectedDepartment.id })
             const options = {
                 method: "POST",
                 body
@@ -78,18 +80,22 @@ export const ProcessesPage: FC<Props> = () => {
             try {
                 const respuesta = await fetch(url, options);
                 const data = await respuesta.json();
-
+                console.log(data)
                 if (data.exito === "SI") {
                     Swal.fire({
                         title: "Exito",
                         text: "Se ha registrado un proceso nuevo",
                         icon: "success",
                     })
-                    setUserSelected(null);
+                    setSelectedDepartment(null);
                     setProcess("");
                     setIsSubmitting(false);
                 } else {
-
+                    Swal.fire({
+                        title: "Error",
+                        text: data.mensaje,
+                        icon: "error",
+                    })
                     setIsSubmitting(false);
                 }
             } catch (error) {
@@ -106,17 +112,17 @@ export const ProcessesPage: FC<Props> = () => {
     /**
      * Funcion para obtener usuarios
      */
-    const getUsers = async () => {
-        const url = `${baseUrl}/listaregistros?status=Activo`
+    const getDepartments = async () => {
+        const url = `${baseUrl}/listafunctions`
         try {
             const respuesta = await fetch(url);
 
             const data = await respuesta.json();
 
             if (data.exito === "SI") {
-                setUsers(data.registros)
+                setDepartments(data.registros)
             } else {
-                setUsers([]);
+                setDepartments(null);
                 console.log("No se logro encontrar ningún usuario")
             }
         } catch (error) {
@@ -130,18 +136,14 @@ export const ProcessesPage: FC<Props> = () => {
      * Funcion para seleccionar un usuario
      * @param id ID del usaurio seleccionado
      * @param name Nombre del usuario seleccionado
-     * @param role_name Rol del usuario seleccionado
      */
-    const selectUser = (id: number, name: string, role_name: string) => {
-        setUserSelected({
+    const selectDepartment = (id: number, name: string) => {
+        setSelectedDepartment({
             id,
             name,
-            role_name
         })
         setOpen(false);
     }
-
-    console.log(userSelected);
 
     /**
      * Funcion para abrir modal
@@ -154,7 +156,7 @@ export const ProcessesPage: FC<Props> = () => {
     // Efecto secundario
     useEffect(() => {
         validarToken(router, setUserLogged);
-        getUsers();
+        getDepartments();
         // getInformation();
     }, []);
 
@@ -170,12 +172,11 @@ export const ProcessesPage: FC<Props> = () => {
                         <Button onClick={() => openModal()} color="secondary" fullWidth variant="outlined" sx={{ p: 1.8 }} type="button">Buscar usuario</Button>
                     </Grid>
                     {
-                        userSelected && (
+                        selectedDepartment && (
                             <Grid item xs={12}>
                                 <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", border: "1px solid rgba(0,0,0,0.3)", borderRadius: "10px", p: 2 }}>
                                     <Box sx={{ display: "flex", flexDirection: "column" }}>
-                                        <Typography variant="subtitle1" fontWeight={500} >{userSelected.name}</Typography>
-                                        <Typography variant="subtitle2" fontWeight={400} color="text.secondary">{userSelected.role_name}</Typography>
+                                        <Typography variant="subtitle1" fontWeight={500} >{selectedDepartment.name}</Typography>
                                     </Box>
                                     <CheckCircleIcon color="success" />
                                 </Box>
@@ -201,18 +202,17 @@ export const ProcessesPage: FC<Props> = () => {
                             <CloseIcon />
                         </IconButton>
                         <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                            Seleccionar usuario
+                            Seleccionar departamento
                         </Typography>
                     </Toolbar>
                 </AppBar>
                 <Box sx={{ width: "80%", m: "20px auto" }}>
-                    {users && users.map((usuario: { id: number; name: string; role_name: string; }) => (
-                        <Box key={usuario.id} sx={{ p: 2, borderRadius: "10px", border: "1px solid rgba(0,0,0,0.3)", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
+                    {departments && departments.map((department: { id: number; name: string; }) => (
+                        <Box key={department.id} sx={{ p: 2, borderRadius: "10px", border: "1px solid rgba(0,0,0,0.3)", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
                             <Box sx={{ display: "flex", flexDirection: "column" }}>
-                                <Typography variant="subtitle1" fontWeight={500} >{usuario.name}</Typography>
-                                <Typography variant="subtitle2" fontWeight={400} color="text.secondary">{usuario.role_name}</Typography>
+                                <Typography variant="subtitle1" fontWeight={500} >{department.name}</Typography>
                             </Box>
-                            <Button color="secondary" disabled={userSelected?.id === usuario.id} onClick={() => selectUser(usuario.id, usuario.name, usuario.role_name)}>{userSelected?.id === usuario.id ? "Seleccionado" : "Seleccionar"} {userSelected?.id === usuario.id && (<CheckCircleIcon color="success" />)}</Button>
+                            <Button color="secondary" disabled={selectedDepartment?.id === department.id} onClick={() => selectDepartment(department.id, department.name)}>{selectedDepartment?.id === department.id ? "Seleccionado" : "Seleccionar"} {selectedDepartment?.id === department.id && (<CheckCircleIcon color="success" />)}</Button>
                         </Box>))}
                 </Box>
             </Dialog>

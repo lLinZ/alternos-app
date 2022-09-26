@@ -13,15 +13,25 @@ export const ActivityAssignmentPage = () => {
 
     const [userLogged, setUserLogged] = useState<User | null>(null);
 
+    const [procesos, setProcesos] = useState(null);
+    const [selectedProcess, setSelectedProcess] = useState(null);
+
+    const [actividades, setActividades] = useState(null);
+    const [selectedActivities, setSelectedActivities] = useState(null);
+
+
     const router = useNavigate();
 
     useEffect(() => {
         validarToken(router, setUserLogged);
     }, [])
     return (
+
         <Layout user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
                 <Typography component="h2" fontWeight="bold" variant="overline" fontSize={16}>Asignacion de actividades</Typography>
+                <Typography>Seleccionar el proceso</Typography>
+                <Typography>Seleccionar las actividades</Typography>
             </Box>
         </Layout>
     )
