@@ -23,7 +23,7 @@ export const ProcessListPage: FC = () => {
      * Funcion para obtener informacion de los procesos
      */
     const getProcesses = async () => {
-        const url = `${baseUrl}/listaprocesos?detalle=SI&id_proceso=&id_owner`;
+        const url = `${baseUrl}/listaprocesos`;
 
         const options = {
             method: "GET",
