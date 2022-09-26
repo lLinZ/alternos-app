@@ -169,7 +169,7 @@ export const ProcessesPage: FC<Props> = () => {
                         <TextField fullWidth label="Nombre" name="name" color="secondary" onChange={(e) => setProcess(e.target.value)} value={process} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <Button onClick={() => openModal()} color="secondary" fullWidth variant="outlined" sx={{ p: 1.8 }} type="button">Buscar usuario</Button>
+                        <Button onClick={() => openModal()} color="secondary" fullWidth variant="outlined" sx={{ p: 1.8 }} type="button">Buscar departamento</Button>
                     </Grid>
                     {
                         selectedDepartment && (
