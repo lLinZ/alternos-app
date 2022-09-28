@@ -27,6 +27,7 @@ const adminSettings: Settings[] = [
     { name: 'Procesos', path: "/process" },
     { name: 'Agregar procesos', path: "/process/add" },
     { name: 'Asignacion', path: "/assignment" },
+    { name: 'Lista de actividades', path: "/activity" },
     { name: 'Agregar actividad', path: "/activity/add" },
     { name: "Administrar usuarios", path: "/admin" },
     { name: 'Cerrar sesión', path: "/end" },
