@@ -1,11 +1,13 @@
 import { forwardRef, ReactElement, Ref, useEffect, useState } from 'react'
 
-import { AppBar, Box, Button, Dialog, Grid, IconButton, Slide, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Button, Dialog, Grid, IconButton, Popover, Slide, Toolbar, Typography } from '@mui/material';
 
 import { useNavigate } from 'react-router-dom';
 
 import { Layout } from '../components/layout'
 import { validarToken } from '../lib/functions';
+import InfoIcon from '@mui/icons-material/HelpRounded';
+import SaveIcon from '@mui/icons-material/SaveRounded';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CircleIcon from '@mui/icons-material/RadioButtonUncheckedRounded';
@@ -13,6 +15,7 @@ import { User } from '../interfaces/user-type';
 import { baseUrl } from '../common/baseUrl';
 import Swal from 'sweetalert2';
 import { TransitionProps } from '@mui/material/transitions';
+import React from 'react';
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -45,6 +48,7 @@ interface SelectedActivity {
 export const ActivityAssignmentPage = () => {
 
     const [userLogged, setUserLogged] = useState<User | null>(null);
+    const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 
     const [procesos, setProcesos] = useState<Process[] | null>(null);
     const [selectedProcess, setSelectedProcess] = useState<SelectedProcess | null>(null);
@@ -58,6 +62,15 @@ export const ActivityAssignmentPage = () => {
 
     const router = useNavigate();
 
+    const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handlePopoverClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
     const getProcesos = async () => {
         const url = `${baseUrl}/listaprocesos`
         try {
@@ -243,17 +256,44 @@ export const ActivityAssignmentPage = () => {
             <Dialog onClose={() => setModalActividades(false)} fullScreen open={modalActividades} TransitionComponent={Transition}>
                 <AppBar sx={{ position: 'relative' }}>
                     <Toolbar>
-                        <IconButton
-                            edge="start"
-                            color="inherit"
-                            onClick={() => setModalActividades(false)}
-                            aria-label="close"
-                        >
-                            <CloseIcon />
+                        <IconButton onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}>
+                            <InfoIcon color="info" />
                         </IconButton>
                         <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
                             Seleccionar Actividades
                         </Typography>
+                        <Button
+                            color="success"
+                            variant="outlined"
+                            onClick={() => setModalActividades(false)}
+                            size="small"
+                        >
+                            Guardar
+                        </Button>
+                        <Popover
+                            id="mouse-over-popover"
+                            sx={{
+                                pointerEvents: 'none',
+                            }}
+                            open={open}
+                            anchorEl={anchorEl}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                            onClose={handlePopoverClose}
+                            disableRestoreFocus
+                        >
+                            <Box sx={{ p: 2 }}>
+                                <Typography sx={{ p: 1, textAlign: "justify" }}>La última actividad seleccionada tendrá color verde, indicando que puede ser deseleccionada, esto es así para mantener el orden de las actividades.
+                                    Puedes deseleccionar las actividades clickeando en el orden en que las seleccionaste pero de manera invertida.</Typography>
+                            </Box>
+
+                        </Popover>
                     </Toolbar>
                 </AppBar>
                 <Box sx={{ width: "80%", m: "20px auto" }}>
@@ -263,7 +303,7 @@ export const ActivityAssignmentPage = () => {
                                 <Typography variant="subtitle1" fontWeight={500}>{activity.name}</Typography>
                             </Box>
                             <IconButton size="small" color="secondary" onClick={() => selectActivity(activity.id, activity.name)} disabled={Boolean(selectedActivities?.filter(act => act.id === activity.id && act.orden !== orden).length)}>
-                                {Boolean(selectedActivities?.filter(act => act.id === activity.id).length) ? (<CheckCircleIcon color={Boolean(selectedActivities?.filter(act => act.id === activity.id && act.orden !== orden).length) ? "secondary" : "success"} />) : (<CircleIcon />)}
+                                {Boolean(selectedActivities?.filter(act => act.id === activity.id).length) ? (<>{selectedActivities?.filter(act => act.id === activity.id)[0].orden}<CheckCircleIcon color={Boolean(selectedActivities?.filter(act => act.id === activity.id && act.orden !== orden).length) ? "secondary" : "success"} /></>) : (<CircleIcon />)}
                             </IconButton>
                         </Box>))}
                 </Box>
