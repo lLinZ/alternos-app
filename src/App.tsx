@@ -17,6 +17,7 @@ import { ActivityPage } from './pages/ActivityPage';
 import { ActivityAddingPage } from './pages/ActivityAddingPage';
 import { DepartmentAddingPage } from './pages/DepartmentAddingPage';
 import { ActivityAssignmentPage } from './pages/ActivityAssignmentPage';
+import { BasicTaskPage } from './pages/BasicTask';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route path="/process" element={<ProcessListPage />} />
         <Route path="/process/add" element={<ProcessesPage />} />
         <Route path="/requirements" element={<TrafficUserPage />} />
+        <Route path="/requirements/basic" element={<BasicTaskPage />} />
         {/* <Route path="/traffic" element={<TrafficUserPage />} /> */}
         <Route path="/requirements/add" element={<RequirementsPage />} />
         <Route path="/briefing/new/:processId/:caseId" element={<BriefingPage />} />

@@ -133,7 +133,7 @@ export const DashboardPage: FC = () => {
         }
     }
     const handleModalUser = () => {
-        getUsers(selectedProcess?.actividades[0].owner_id);
+        getUsers(2);
         setOpenUserModal(true);
     }
 
