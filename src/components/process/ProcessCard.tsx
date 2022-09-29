@@ -1,5 +1,6 @@
 // React
 import { Dispatch, FC, forwardRef, ReactElement, Ref, SetStateAction, useState, useEffect, ChangeEvent } from 'react';
+import { useNavigate } from "react-router-dom";
 
 // MUI
 import { Checkbox, FormControlLabel, Box, Card, CardActions, CardContent, Button, Typography, Collapse, IconButton, IconButtonProps, styled, Divider, Tooltip, AppBar, Dialog, Slide, Toolbar, Grid, TextField, CircularProgress, MenuItem, Select, SelectChangeEvent } from '@mui/material';
@@ -12,7 +13,8 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 // Props
 import { TransitionProps } from '@mui/material/transitions';
 import { Process } from '../../interfaces/process-type';
-import { Activity } from '../../interfaces/activity-type';
+import { Activity, ActivityFromProcess } from '../../interfaces/activity-type';
+
 import { baseUrl } from '../../common/baseUrl';
 import Swal from 'sweetalert2';
 import { LoadingButton } from '@mui/lab';
@@ -58,7 +60,7 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
     const [expanded, setExpanded] = useState(false);
 
     // Actividades del proceso actual
-    const [actividades, setActividades] = useState<Activity[] | null>(process.actividades && process.actividades?.length > 0 ? process.actividades : null)
+    const [actividades, setActividades] = useState<ActivityFromProcess[] | null>(null)
 
     // Si se está enviando la informacion
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -90,7 +92,7 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
 
     // Usuarios Registrados en BD
     const [users, setUsers] = useState([]);
-
+    const router = useNavigate();
 
     /**
      * Funcion para expandir las opciones del card desplegable
@@ -166,98 +168,117 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
     }
 
 
-    /**
-     * Funcion para 
-     * @returns 
-     */
-    const registrarActividad = async () => {
-        setIsSubmitting(true);
-        // Url para registrar una actividad
-        const url = `${baseUrl}/actividades`;
-        let errores = [];
+    // /**
+    //  * Funcion para 
+    //  * @returns 
+    //  */
+    // const registrarActividad = async () => {
+    //     setIsSubmitting(true);
+    //     // Url para registrar una actividad
+    //     const url = `${baseUrl}/actividades`;
+    //     let errores = [];
 
-        /* Validaciones
-            - Usuario seleccionado
-            - Nombre de actividad
-            - Duracion
-        */
-        if (!selectedFunction) {
-            errores.push("Debe asignar una funcion a la actividad");
-        }
-        if (!newActivity.name) {
-            errores.push("Debe asignar un nombre a la actividad");
-        }
-        if (!newActivity.duration) {
-            errores.push("Debe seleccionar una duracion");
-        }
+    //     /* Validaciones
+    //         - Usuario seleccionado
+    //         - Nombre de actividad
+    //         - Duracion
+    //     */
+    //     if (!selectedFunction) {
+    //         errores.push("Debe asignar una funcion a la actividad");
+    //     }
+    //     if (!newActivity.name) {
+    //         errores.push("Debe asignar un nombre a la actividad");
+    //     }
+    //     if (!newActivity.duration) {
+    //         errores.push("Debe seleccionar una duracion");
+    //     }
 
-        // Si existen errores
-        if (errores.length > 0) {
-            Swal.fire({
-                title: "Error",
-                html: errores.map(e => `- ${e}</br>`),
-                icon: "error",
-            })
-            setIsSubmitting(false);
-            return false;
-        } else {
-            // Datos del formulario
-            const body = new FormData();
-            body.append("name", String(newActivity.name));
-            body.append("owner_id", String(selectedFunction));
-            body.append("duration", String(newActivity.duration));
-            body.append("process_id", String(newActivity.process_id));
-            body.append("delegable", delegable ? "SI" : "NO");
-            const options = {
-                method: "POST",
-                body
+    //     // Si existen errores
+    //     if (errores.length > 0) {
+    //         Swal.fire({
+    //             title: "Error",
+    //             html: errores.map(e => `- ${e}</br>`),
+    //             icon: "error",
+    //         })
+    //         setIsSubmitting(false);
+    //         return false;
+    //     } else {
+    //         // Datos del formulario
+    //         const body = new FormData();
+    //         body.append("name", String(newActivity.name));
+    //         body.append("owner_id", String(selectedFunction));
+    //         body.append("duration", String(newActivity.duration));
+    //         body.append("process_id", String(newActivity.process_id));
+    //         body.append("delegable", delegable ? "SI" : "NO");
+    //         const options = {
+    //             method: "POST",
+    //             body
+    //         }
+    //         try {
+    //             const respuesta = await fetch(url, options);
+    //             const data = await respuesta.json();
+    //             if (data.exito === "SI") {
+    //                 const newActivityArray = data.registros[0];
+    //                 const newAddedActivity = {
+    //                     id: newActivityArray.id,
+    //                     name: newActivityArray.name,
+    //                     owner_id: newActivityArray.owner_id,
+    //                     owner_name: newActivityArray.owner_name,
+    //                     duration: newActivityArray.duration,
+    //                 }
+    //                 setOpenActivityModal(false);
+    //                 setIsSubmitting(false);
+    //                 setActividades(actividades && actividades.length > 0 ? [...actividades, newAddedActivity] : [newAddedActivity])
+    //                 Swal.fire({
+    //                     title: "Exito",
+    //                     text: "Se ha registrado una actividad",
+    //                     icon: "success"
+    //                 })
+    //                 // Se limpian los campos del formulario
+    //                 cleanForm();
+    //             } else {
+    //                 setIsSubmitting(false);
+    //                 setOpenActivityModal(false);
+    //                 Swal.fire({
+    //                     title: "Error",
+    //                     text: data.mensaje,
+    //                     icon: "error"
+    //                 })
+    //             }
+    //         } catch (error) {
+    //             console.log(error);
+    //             Swal.fire({
+    //                 text: "Error",
+    //                 title: "No se logró conectar con el servidor",
+    //                 icon: "error"
+    //             })
+    //             setIsSubmitting(false);
+    //         }
+    //     }
+
+    // }
+    const getActividades = async (id: number) => {
+        const url = `${baseUrl}/listaactividadesxproceso?process_id=${id}`;
+
+        try {
+
+            const respuesta = await fetch(url);
+
+            const data = await respuesta.json();
+
+            if (data.exito === "SI") {
+                setActividades(data.registros[0].activities);
+            } else {
+                setActividades(null)
             }
-            try {
-                const respuesta = await fetch(url, options);
-                const data = await respuesta.json();
-                if (data.exito === "SI") {
-                    const newActivityArray = data.registros[0];
-                    const newAddedActivity = {
-                        id: newActivityArray.id,
-                        name: newActivityArray.name,
-                        owner_id: newActivityArray.owner_id,
-                        owner_name: newActivityArray.owner_name,
-                        duration: newActivityArray.duration,
-                    }
-                    setOpenActivityModal(false);
-                    setIsSubmitting(false);
-                    setActividades(actividades && actividades.length > 0 ? [...actividades, newAddedActivity] : [newAddedActivity])
-                    Swal.fire({
-                        title: "Exito",
-                        text: "Se ha registrado una actividad",
-                        icon: "success"
-                    })
-                    // Se limpian los campos del formulario
-                    cleanForm();
-                } else {
-                    setIsSubmitting(false);
-                    setOpenActivityModal(false);
-                    Swal.fire({
-                        title: "Error",
-                        text: data.mensaje,
-                        icon: "error"
-                    })
-                }
-            } catch (error) {
-                console.log(error);
-                Swal.fire({
-                    text: "Error",
-                    title: "No se logró conectar con el servidor",
-                    icon: "error"
-                })
-                setIsSubmitting(false);
-            }
+        } catch (err) {
+            console.log(err);
         }
-
     }
 
     useEffect(() => {
         getFunctions();
+        getActividades(process.id);
     }, [])
     return (
         <Card variant="outlined" sx={{ width: "100%", mb: 1 }}>
@@ -283,21 +304,21 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                     <Box display="flex" flexWrap="wrap" justifyContent="space-between" alignItems="center">
-                        <Button size="small" color="secondary" sx={{ p: 1 }} onClick={() => setOpenActivityModal(true)}>Añadir actividad</Button>
+                        <Button size="small" color="secondary" sx={{ p: 1 }} onClick={() => router("/assignment")}>Añadir actividad</Button>
                     </Box>
                     <Divider sx={{ mt: 2, mb: 2 }} />
                     <Typography fontWeight={"bold"} variant="subtitle1" >Actividades</Typography>
                     <Box display="flex" flexWrap="wrap" justifyContent="flex-start" alignItems="flex-start" flexDirection="column">
                         {
                             (actividades && actividades?.length > 0)
-                                ? actividades?.map((actividad: Activity) => (<Tooltip key={actividad.id} placement="right" title={`Asignado a ${actividad.owner_name}, Duracion ${actividad.duration} minutos`} ><Typography>{actividad.name}</Typography></Tooltip>))
+                                ? actividades?.map((actividad: ActivityFromProcess) => (<Tooltip key={actividad.id} placement="right" title={`Asignado a ${actividad.owner_name}, Duracion ${actividad.duration} minutos`} ><Typography>{actividad.activity_name}</Typography></Tooltip>))
                                 : "Este proceso no tiene actividades"
                         }
                     </Box>
                 </CardContent>
             </Collapse>
 
-            {/* Modal de actividades */}
+            {/* Modal de actividades
             <Dialog onClose={() => setOpenActivityModal(false)} open={openActivityModal} fullScreen TransitionComponent={Transition}>
                 <AppBar sx={{ position: 'relative' }}>
                     <Toolbar>
@@ -372,10 +393,10 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
                         </Grid>
                     </Grid>
                 </Box>
-            </Dialog>
+            </Dialog> */}
 
             {/* Modal de usaurios */}
-            <Dialog onClose={() => setOpenUserModal(false)} open={openUserModal} fullScreen TransitionComponent={Transition}>
+            {/* <Dialog onClose={() => setOpenUserModal(false)} open={openUserModal} fullScreen TransitionComponent={Transition}>
                 <AppBar sx={{ position: 'relative' }}>
                     <Toolbar>
                         <IconButton
@@ -398,7 +419,7 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
                             <Button color="secondary" onClick={() => selectUser(usuario.user_id, usuario.user_name)}>Seleccionar</Button>
                         </Box>)) : <CircularProgress color="secondary" />}
                 </Box>
-            </Dialog>
-        </Card >
+            </Dialog> */}
+        </Card>
     )
 }

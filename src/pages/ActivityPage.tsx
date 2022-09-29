@@ -1,5 +1,5 @@
 import { AddCircleOutline } from '@mui/icons-material';
-import { Box, IconButton, Typography } from '@mui/material';
+import { Box, IconButton, Typography, Tooltip } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -30,6 +30,7 @@ export const ActivityPage: FC<Props> = () => {
             const data = await respuesta.json();
             if (data.exito === "SI") {
                 setActividades(data.actividades)
+                console.log(data.actividades)
             } else {
                 Swal.fire({
                     title: "Error",
@@ -59,13 +60,16 @@ export const ActivityPage: FC<Props> = () => {
                 <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                     <Typography component="h2" fontWeight="bold" variant="overline" fontSize={16}>Lista de Actividades</Typography>
                     <IconButton color="secondary" onClick={() => router("/activity/add")}>
-                        <AddCircleOutline />
+                        <Tooltip title="Añadir actividad">
+                            <AddCircleOutline color="info" />
+                        </Tooltip>
                     </IconButton>
                 </Box>
                 {
                     actividades && actividades.map((actividad: Actividades) => (
                         <Box key={actividad.id} sx={{ p: 2, border: "1px solid rgb(0,0,0,0.3)", borderRadius: 2, mb: 1 }}>
-                            <Typography>{actividad.name}</Typography>
+                            <Typography variant="subtitle1" fontWeight={450}>{actividad.name}</Typography>
+                            <Typography variant="subtitle2" fontWeight={400} color="text.secondary">{actividad.owner_name}</Typography>
                         </Box>
                     ))
                 }

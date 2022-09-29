@@ -124,7 +124,6 @@ export const validarToken = async (router: any, setUserLogged: Dispatch<SetState
         const data = await respuesta.json();
 
         if (data.exito === "SI") {
-            console.log(data);
             const newUser = data.usuario;
             const newWidgets = data.widgets;
             setUserLogged(newUser);

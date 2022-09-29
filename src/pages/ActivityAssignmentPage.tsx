@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import { Layout } from '../components/layout'
 import { validarToken } from '../lib/functions';
 import InfoIcon from '@mui/icons-material/HelpRounded';
-import SaveIcon from '@mui/icons-material/SaveRounded';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CircleIcon from '@mui/icons-material/RadioButtonUncheckedRounded';
@@ -16,6 +15,8 @@ import { baseUrl } from '../common/baseUrl';
 import Swal from 'sweetalert2';
 import { TransitionProps } from '@mui/material/transitions';
 import React from 'react';
+import { ActivityModal } from '../components/activity/ActivityModal';
+import { Activity, SelectedActivity } from '../interfaces/activity-type';
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -25,10 +26,6 @@ const Transition = forwardRef(function Transition(
 ) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
-interface Activity {
-    id: number;
-    name: string;
-}
 interface Process {
     id: number;
     name: string;
@@ -39,11 +36,6 @@ interface Process {
 interface SelectedProcess {
     id: number;
     name: string
-}
-interface SelectedActivity {
-    id: number;
-    name: string;
-    orden: number;
 }
 export const ActivityAssignmentPage = () => {
 
@@ -120,15 +112,6 @@ export const ActivityAssignmentPage = () => {
         });
         setModalProcesos(false);
     }
-    const selectActivity = (id: number, name: string) => {
-        const exists = Boolean(selectedActivities?.filter(act => act.id === id).length)
-        const newActivities = exists
-            ? (selectedActivities?.filter(act => act.id !== id))
-            : (selectedActivities ? [...selectedActivities, { id, name, orden: orden + 1 }] : [{ id, name, orden: orden + 1 }]);
-
-        setSelectedActivities(newActivities!);
-        exists ? setOrden(orden - 1) : setOrden(orden + 1);
-    }
 
     const onSubmit = async () => {
         const errores = [];
@@ -198,11 +181,42 @@ export const ActivityAssignmentPage = () => {
         getProcesos();
         getActividades();
     }, [])
+
+    const activityModalProps = { actividades, selectedActivities, setSelectedActivities, orden, setOrden, modalActividades, setModalActividades }
+
     return (
 
         <Layout user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
-                <Typography component="h2" fontWeight="bold" variant="overline" fontSize={16}>Asignacion de actividades</Typography>
+                <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
+                    <IconButton onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}>
+                        <InfoIcon color="info" />
+                    </IconButton>
+                    <Typography component="h2" fontWeight="bold" variant="overline" fontSize={16}>Asignacion de actividades</Typography>
+                    <Popover
+                        id="mouse-over-popover"
+                        sx={{
+                            pointerEvents: 'none',
+                        }}
+                        open={open}
+                        anchorEl={anchorEl}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'left',
+                        }}
+                        onClose={handlePopoverClose}
+                        disableRestoreFocus
+                    >
+                        <Box sx={{ p: 2 }}>
+                            <Typography sx={{ p: 1, textAlign: "justify" }}>Debe seleccionar el proceso al que quiere asignar las actividades. Si el proceso ya tiene actividades asignadas, entonces las seleccionadas reemplazarán a las anteriores.</Typography>
+                        </Box>
+
+                    </Popover>
+                </Box>
                 <Grid container spacing={1}>
                     <Grid item xs={12} >
                         <Button color="secondary" variant="outlined" fullWidth sx={{ p: 1.8 }} onClick={openModalProcesos}>
@@ -253,61 +267,7 @@ export const ActivityAssignmentPage = () => {
                 </Grid>
             </Box>
 
-            <Dialog onClose={() => setModalActividades(false)} fullScreen open={modalActividades} TransitionComponent={Transition}>
-                <AppBar sx={{ position: 'relative' }}>
-                    <Toolbar>
-                        <IconButton onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}>
-                            <InfoIcon color="info" />
-                        </IconButton>
-                        <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                            Seleccionar Actividades
-                        </Typography>
-                        <Button
-                            color="success"
-                            variant="outlined"
-                            onClick={() => setModalActividades(false)}
-                            size="small"
-                        >
-                            Guardar
-                        </Button>
-                        <Popover
-                            id="mouse-over-popover"
-                            sx={{
-                                pointerEvents: 'none',
-                            }}
-                            open={open}
-                            anchorEl={anchorEl}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                            onClose={handlePopoverClose}
-                            disableRestoreFocus
-                        >
-                            <Box sx={{ p: 2 }}>
-                                <Typography sx={{ p: 1, textAlign: "justify" }}>La última actividad seleccionada tendrá color verde, indicando que puede ser deseleccionada, esto es así para mantener el orden de las actividades.
-                                    Puedes deseleccionar las actividades clickeando en el orden en que las seleccionaste pero de manera invertida.</Typography>
-                            </Box>
-
-                        </Popover>
-                    </Toolbar>
-                </AppBar>
-                <Box sx={{ width: "80%", m: "20px auto" }}>
-                    {actividades && actividades.map((activity: Activity) => (
-                        <Box key={activity.id} sx={{ p: 2, borderRadius: "10px", border: "1px solid rgba(0,0,0,0.3)", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
-                            <Box sx={{ display: "flex", flexDirection: "column" }}>
-                                <Typography variant="subtitle1" fontWeight={500}>{activity.name}</Typography>
-                            </Box>
-                            <IconButton size="small" color="secondary" onClick={() => selectActivity(activity.id, activity.name)} disabled={Boolean(selectedActivities?.filter(act => act.id === activity.id && act.orden !== orden).length)}>
-                                {Boolean(selectedActivities?.filter(act => act.id === activity.id).length) ? (<>{selectedActivities?.filter(act => act.id === activity.id)[0].orden}<CheckCircleIcon color={Boolean(selectedActivities?.filter(act => act.id === activity.id && act.orden !== orden).length) ? "secondary" : "success"} /></>) : (<CircleIcon />)}
-                            </IconButton>
-                        </Box>))}
-                </Box>
-            </Dialog>
+            <ActivityModal {...activityModalProps} />
             <Dialog onClose={() => setModalProcesos(false)} fullScreen open={modalProcesos} TransitionComponent={Transition}>
                 <AppBar sx={{ position: 'relative' }}>
                     <Toolbar>
