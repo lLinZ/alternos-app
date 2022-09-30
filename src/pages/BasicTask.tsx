@@ -233,7 +233,7 @@ export const BasicTaskPage: FC<Props> = () => {
     const onSubmit = async () => {
         setIsSubmitting(true);
 
-        if (!userSelected || !selectedTask || !respuestaReq) {
+        if (!selectedTask || !respuestaReq) {
             Swal.fire({
                 text: "Error",
                 title: "Todos los campos son obligatorios",
@@ -246,7 +246,6 @@ export const BasicTaskPage: FC<Props> = () => {
 
             body.append("task_id", String(selectedTask?.id));
             body.append("respuesta", String(respuestaReq));
-            !last && body.append("task_assigned_id", String(userSelected.id));
 
             const options = {
                 method: "POST",
@@ -399,18 +398,6 @@ export const BasicTaskPage: FC<Props> = () => {
                         </Typography>
                         <Button component="a" href={`/briefing/${selectedTask?.case_id}`} target={"_blank"} style={{ borderRadius: "4px", border: "1px solid black", padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em" }}>Ver Brief</Button>
                         <Divider sx={{ mb: 1, mt: 1 }} />
-                        {!last && (<Button variant="outlined" color="secondary" sx={{ p: 1.8, mb: 2 }} fullWidth onClick={openModalUser}>Seleccionar Usuario</Button>)}
-                        {
-                            userSelected && (
-                                <Box sx={{ display: "flex", justifyContent: "space-evenly", alignItems: "center", width: "100%", mt: 2, mb: 2 }}>
-                                    <Box>
-                                        <Typography variant="body1" fontWeight={"bold"}>Usuario seleccionado para la actividad</Typography>
-                                        <Typography variant="subtitle1" color="text.secondary">{userSelected.name}</Typography>
-                                    </Box>
-                                    <CheckCircleIcon color="success" />
-                                </Box>
-                            )
-                        }
                         <TextField label="Respuesta de cierre de actividad" fullWidth value={respuestaReq} onChange={(e: ChangeEvent<HTMLInputElement>) => setRespuestaReq(e.currentTarget.value)} multiline color="secondary" variant="outlined" sx={{ mt: 2, mb: 2 }} />
                         <LoadingButton disabled={!last ? !userSelected : false} color="secondary" variant="contained" onClick={() => onSubmit()} loading={isSubmitting} fullWidth sx={{ p: 1.8 }}>Responder tarea</LoadingButton>
                     </Box>

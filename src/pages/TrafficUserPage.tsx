@@ -61,7 +61,22 @@ export const TrafficUserPage: FC = () => {
 
     // Ultimo usaurio de las actividades
     const [last, setLast] = useState<boolean>(false);
-    const [listabeta, setListabeta] = useState<any>(null)
+    const [listabeta, setListabeta] = useState<any>(null);
+
+    const [actividades, setActividades] = useState<any>(null);
+
+    const [usersModal, setUsersModal] = useState<any>(null);
+
+    const [selectedActividades, setSelectedActividades] = useState<any>(null);
+
+    const [currentActividad, setCurrentActividad] = useState<any>(null)
+    const plantilla = [
+        {
+            actividad_id: 1,
+            user_id: 2,
+        }
+    ]
+
     // Router
     const router = useNavigate();
 
@@ -85,6 +100,22 @@ export const TrafficUserPage: FC = () => {
         } catch (error) {
             console.log(error);
         }
+    }
+    const getActividadesDelProceso = async (processId: number) => {
+
+    }
+
+    const selectuserDeActividad = async (actividadId: number, user: any) => {
+        const currentActivityWithUser = { actividadId, userId: user.user_id, userName: user.user_name }
+        const newArray = selectedActividades ? [...selectedActividades.filter((act: any) => act.actividadId !== currentActivityWithUser.actividadId), currentActivityWithUser] : [currentActivityWithUser]
+        setSelectedActividades(newArray);
+        setOpenUserModal(false);
+    }
+
+    const deselectUserDeActividad = async (actividadId: number) => {
+        const newArray = selectedActividades.filter((act: any) => actividadId !== act.actividadId)
+
+        setSelectedActividades(newArray);
     }
 
     /**
@@ -120,6 +151,14 @@ export const TrafficUserPage: FC = () => {
         setUserSelected(null);
         setFollowingFunction(null);
         setRespuestaReq("")
+    }
+    const resetEverything = () => {
+        setOpen(false);
+        setOpenUserModal(false);
+        setRespuestaReq("");
+        setSelectedActividades(null);
+        setSelectedTask(null);
+        setUserSelected(null);
     }
     /**
      * Funcion para cerrar Modal
@@ -313,8 +352,60 @@ export const TrafficUserPage: FC = () => {
             const url = `${baseUrl}/listaactivityusersxproceso?process_id=${selectedTaskParam.process_id}`;
             const respuesta = await fetch(url);
             const data = await respuesta.json();
-            console.log(data.registros.filter((task: any) => selectedTaskParam.process_id === task.id))
-            setListabeta(data.registros.filter((task: any) => selectedTaskParam.process_id === task.id))
+            console.log(data.registros.filter((task: any) => selectedTaskParam.process_id === task.id)[0].activities)
+            setActividades(data.registros.filter((task: any) => selectedTaskParam.process_id === task.id)[0].activities)
+        }
+    }
+
+    const asignarUsersATareas = async () => {
+        const url = `${baseUrl}/trafico`;
+        let activUsers = "";
+        if (selectedActividades.length < actividades.length) {
+            Swal.fire({
+                title: "Error",
+                text: "Faltan actividades por asignar",
+                icon: "error",
+            })
+            return false;
+        }
+
+        if (!selectedTask) {
+            Swal.fire({
+                title: "Error",
+                text: "Debe seleccionar una actividad valida",
+                icon: "error"
+            })
+        } else {
+
+            for (let i = 1; i <= selectedActividades.length; i++) {
+                const position = i - 1;
+                activUsers += i === selectedActividades.length ? `${selectedActividades[position].actividadId}:${selectedActividades[position].userId}` : `${selectedActividades[position].actividadId}:${selectedActividades[position].userId},`
+            }
+            const body = new FormData();
+            body.append("case_id", String(selectedTask ? selectedTask.case_id : ''));
+            body.append("activ_users", activUsers);
+            const options = {
+                method: "POST",
+                body
+            }
+            const respuesta = await fetch(url, options)
+
+            const data = await respuesta.json();
+
+            if (data.exito === "SI") {
+                Swal.fire({
+                    title: "Exito",
+                    text: "Se han asignado los usuarios",
+                    icon: "success",
+                })
+                resetEverything()
+            } else {
+                Swal.fire({
+                    title: "Error",
+                    text: data.mensaje,
+                    icon: "error",
+                })
+            }
         }
     }
     // Efecto secundario
@@ -323,7 +414,7 @@ export const TrafficUserPage: FC = () => {
         getMyRequirements();
         setIsLoading(false);
     }, [])
-
+    console.log(selectedActividades)
     // Render
     return (
         <Layout title="Tráfico" user={userLogged}>
@@ -416,22 +507,29 @@ export const TrafficUserPage: FC = () => {
                         <Button component="a" href={`/briefing/${selectedTask?.case_id}`} target={"_blank"} style={{ borderRadius: "4px", border: "1px solid black", padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em" }}>Ver Brief</Button>
                         <Divider sx={{ mb: 1, mt: 1 }} />
                         {
-                            listabeta && listabeta.map((beta: any) => (JSON.stringify(beta)))
-                        }
-                        {!last && (<Button variant="outlined" color="secondary" sx={{ p: 1.8, mb: 2 }} fullWidth onClick={openModalUser}>Seleccionar Usuario</Button>)}
-                        {
-                            userSelected && (
-                                <Box sx={{ display: "flex", justifyContent: "space-evenly", alignItems: "center", width: "100%", mt: 2, mb: 2 }}>
-                                    <Box>
-                                        <Typography variant="body1" fontWeight={"bold"}>Usuario seleccionado para la actividad</Typography>
-                                        <Typography variant="subtitle1" color="text.secondary">{userSelected.name}</Typography>
+                            actividades && actividades.map((act: any) => (
+                                <Box key={act.id} sx={{ border: "1px solid rgb(0,0,0,0.2)", borderRadius: 4, display: "flex", flexFlow: "row wrap", p: 1.8, mt: 1, mb: 1, justifyContent: "space-between", alignItems: "center" }}>
+                                    <Box sx={{ display: "flex", flexFlow: "column wrap", mb: 2 }}>
+
+                                        <Typography>{act.activity_name}</Typography>
+                                        {
+                                            selectedActividades && selectedActividades.filter((activitySelected: any) => activitySelected.actividadId === act.id).length > 0 ? (<>
+                                                <Box sx={{ display: "flex", flexFlow: "row nowrap" }}>
+                                                    <Typography variant="subtitle2">Usuario asignado: {selectedActividades.filter((act3: any) => act3.actividadId === act.id)[0].userName}</Typography>
+                                                </Box>
+
+                                            </>
+                                            ) : (<></>)
+                                        }
                                     </Box>
-                                    <CheckCircleIcon color="success" />
+                                    <Button color="secondary" variant="outlined" size="small" onClick={() => {
+                                        setOpenUserModal(true);
+                                        setCurrentActividad(act.id);
+                                    }}>Seleccionar usuario</Button>
                                 </Box>
-                            )
+                            ))
                         }
-                        <TextField label="Respuesta de cierre de actividad" fullWidth value={respuestaReq} onChange={(e: ChangeEvent<HTMLInputElement>) => setRespuestaReq(e.currentTarget.value)} multiline color="secondary" variant="outlined" sx={{ mt: 2, mb: 2 }} />
-                        <LoadingButton disabled={!last ? !userSelected : false} color="secondary" variant="contained" onClick={() => onSubmit()} loading={isSubmitting} fullWidth sx={{ p: 1.8 }}>Responder tarea</LoadingButton>
+                        <LoadingButton disabled={selectedActividades && selectedActividades.length < actividades.length} color="secondary" variant="contained" onClick={() => asignarUsersATareas()} loading={isSubmitting} fullWidth sx={{ p: 1.8 }}>Responder tarea</LoadingButton>
                     </Box>
                 </Dialog>
             </Box>
@@ -453,13 +551,10 @@ export const TrafficUserPage: FC = () => {
                     </Toolbar>
                 </AppBar>
                 <Box sx={{ width: "80%", m: "20px auto" }}>
-                    {users ? users.map((usuario: any) => (
+                    {actividades && currentActividad ? actividades.filter((act: any) => Number(act.id) === Number(currentActividad))[0].users.map((usuario: any) => (
                         <Box key={usuario.user_id} sx={{ p: 2, borderRadius: "10px", border: "1px solid black", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
                             <Typography>{usuario.user_name}</Typography>
-                            <Button color="secondary" onClick={() => {
-                                setUserSelected({ id: usuario.user_id, name: usuario.user_name })
-                                setOpenUserModal(false);
-                            }}>Seleccionar</Button>
+                            <Button color="secondary" onClick={() => selectuserDeActividad(currentActividad, usuario)}>Seleccionar</Button>
                         </Box>)) : <CircularProgress color="secondary" />}
                 </Box>
             </Dialog>
