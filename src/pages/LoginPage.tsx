@@ -78,7 +78,7 @@ export const LoginPage: FC<Props> = () => {
 
     return (
         <Layout footer={false}>
-            <img src="./logo.png" width={200} height={80} />
+            <img src="./logo.png" width={171} height={49} />
             <Formik
                 initialValues={initialValues}
                 onSubmit={(values: FormikValues) => onSubmit(values)}
