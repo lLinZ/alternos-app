@@ -61,7 +61,7 @@ export const TrafficUserPage: FC = () => {
 
     // Ultimo usaurio de las actividades
     const [last, setLast] = useState<boolean>(false);
-
+    const [listabeta, setListabeta] = useState<any>(null)
     // Router
     const router = useNavigate();
 
@@ -95,7 +95,9 @@ export const TrafficUserPage: FC = () => {
         const thisReq = myRequirements?.filter(req => Number(req.id) === Number(id))[0];
         setUserSelected(null);
         setSelectedTask(thisReq ? thisReq : null);
-        getFollowingFunction(thisReq ? thisReq.process_id : 0);
+        getArrayOfUsers(thisReq ? thisReq : null);
+        // getFollowingFunction(thisReq ? thisReq.process_id : 0);
+
         setOpen(true);
     }
     /**
@@ -144,9 +146,13 @@ export const TrafficUserPage: FC = () => {
             const userResponse = await fetch(urlUser, options)
             const userDataArray = await userResponse.json();
             if (userDataArray.exito === "SI") {
-
                 const userData = userDataArray.usuario;
+                if (Number(userData.function_id) !== 2) {
+                    router("/requirements/basic");
+                    return false;
+                }
                 const url = `${baseUrl}/listatareas?owner_id=${userData.function_id}&status=abierta`;
+                console.log(userDataArray)
 
                 try {
                     const respuesta = await fetch(url);
@@ -299,7 +305,18 @@ export const TrafficUserPage: FC = () => {
             }
         }
     }
+    const getArrayOfUsers = async (selectedTaskParam: IRequirement | null) => {
+        if (!selectedTaskParam) {
+            return false;
+        } else {
 
+            const url = `${baseUrl}/listaactivityusersxproceso?process_id=${selectedTaskParam.process_id}`;
+            const respuesta = await fetch(url);
+            const data = await respuesta.json();
+            console.log(data.registros.filter((task: any) => selectedTaskParam.process_id === task.id))
+            setListabeta(data.registros.filter((task: any) => selectedTaskParam.process_id === task.id))
+        }
+    }
     // Efecto secundario
     useEffect(() => {
         validarToken(router, setUserLogged);
@@ -398,6 +415,9 @@ export const TrafficUserPage: FC = () => {
                         </Typography>
                         <Button component="a" href={`/briefing/${selectedTask?.case_id}`} target={"_blank"} style={{ borderRadius: "4px", border: "1px solid black", padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em" }}>Ver Brief</Button>
                         <Divider sx={{ mb: 1, mt: 1 }} />
+                        {
+                            listabeta && listabeta.map((beta: any) => (JSON.stringify(beta)))
+                        }
                         {!last && (<Button variant="outlined" color="secondary" sx={{ p: 1.8, mb: 2 }} fullWidth onClick={openModalUser}>Seleccionar Usuario</Button>)}
                         {
                             userSelected && (
