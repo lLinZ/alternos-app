@@ -153,7 +153,7 @@ export const DashboardPage: FC = () => {
             const userDataArray = await userResponse.json();
             if (userDataArray.exito === "SI") {
                 const userData = userDataArray.usuario;
-                const url = `${baseUrl}/listatareas?owner_id=${userData.function_id}&status=abierta`;
+                const url = userData.function_id !== 2 ? `${baseUrl}/listatareas?owner_id=${userData.id}&status=pendiente` : "https://alternos.sgc-consultores.com.ve/api/listarequerimientos?status=pendiente";
                 try {
                     const respuesta = await fetch(url);
                     const data = await respuesta.json();

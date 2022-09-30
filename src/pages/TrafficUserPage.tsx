@@ -101,9 +101,6 @@ export const TrafficUserPage: FC = () => {
             console.log(error);
         }
     }
-    const getActividadesDelProceso = async (processId: number) => {
-
-    }
 
     const selectuserDeActividad = async (actividadId: number, user: any) => {
         const currentActivityWithUser = { actividadId, userId: user.user_id, userName: user.user_name }
@@ -165,6 +162,7 @@ export const TrafficUserPage: FC = () => {
      */
     const handleClose = () => {
         setOpen(false);
+        resetEverything();
     };
 
     /**
@@ -190,7 +188,7 @@ export const TrafficUserPage: FC = () => {
                     router("/requirements/basic");
                     return false;
                 }
-                const url = `${baseUrl}/listatareas?owner_id=${userData.function_id}&status=abierta`;
+                const url = `${baseUrl}/listarequerimientos?&status=pendiente`;
                 console.log(userDataArray)
 
                 try {
@@ -388,6 +386,7 @@ export const TrafficUserPage: FC = () => {
                 method: "POST",
                 body
             }
+            console.log({ case_id: selectedTask.case_id, activUsers })
             const respuesta = await fetch(url, options)
 
             const data = await respuesta.json();
@@ -398,7 +397,8 @@ export const TrafficUserPage: FC = () => {
                     text: "Se han asignado los usuarios",
                     icon: "success",
                 })
-                resetEverything()
+                resetEverything();
+                getMyRequirements();
             } else {
                 Swal.fire({
                     title: "Error",
@@ -470,19 +470,6 @@ export const TrafficUserPage: FC = () => {
                         </Typography>
                         <Typography variant="body1" component="p">
                             {selectedTask?.description}
-                        </Typography>
-                        <Divider sx={{ mb: 1, mt: 1 }} />
-                        <Typography variant="body1" component="p" fontWeight="bold">
-                            Actividad
-                        </Typography>
-                        <Typography variant="body1" component="p">
-                            {selectedTask?.activity_name}
-                        </Typography>
-                        <Typography variant="body1" component="p" fontWeight="bold">
-                            Encargado de la actividad
-                        </Typography>
-                        <Typography variant="body1" component="p">
-                            {selectedTask?.activity_owner_name}
                         </Typography>
                         <Divider sx={{ mb: 1, mt: 1 }} />
                         <Typography variant="body1" component="p" fontWeight="bold">
