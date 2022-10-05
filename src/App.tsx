@@ -18,6 +18,7 @@ import { ActivityAddingPage } from './pages/ActivityAddingPage';
 import { DepartmentAddingPage } from './pages/DepartmentAddingPage';
 import { ActivityAssignmentPage } from './pages/ActivityAssignmentPage';
 import { BasicTaskPage } from './pages/BasicTask';
+import { ProfilePage } from './pages/ProfilePage';
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
         <Route path="/requirements/add" element={<RequirementsPage />} />
         <Route path="/briefing/new/:processId/:caseId" element={<BriefingPage />} />
         <Route path="/briefing/:caseId" element={<GetBriefingPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </BrowserRouter>
   );
