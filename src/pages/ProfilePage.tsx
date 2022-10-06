@@ -1,14 +1,10 @@
-import { FC, useEffect, useState, ReactNode, SetStateAction, Dispatch } from 'react'
-import { Divider, Typography, Box, Avatar, IconButton, Grid, TextField, Button } from '@mui/material'
+import { FC, useEffect, useState, } from 'react'
+import { Divider, Typography, Box, Avatar, Grid } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { Layout } from '../components/layout'
 import { User } from '../interfaces/user-type'
 import { validarToken } from '../lib/functions'
-import { red, blue, green, pink, purple, amber, orange } from '@mui/material/colors'
-import CircleIcon from '@mui/icons-material/Circle';
-import { Formik, FormikValues, Form, FormikState } from 'formik'
-import { baseUrl } from '../common/baseUrl'
-import Swal from 'sweetalert2'
+import { green } from '@mui/material/colors'
 import { ColorPicker, UserInfo, UserEditForm, NewUser } from '../components/profile'
 
 

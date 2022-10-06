@@ -19,10 +19,12 @@ const pages: Pages[] = [
     { name: 'Dashboard', path: "/dashboard" }
 ];
 const settings: Settings[] = [
+    { name: 'Mi perfil', path: "/profile" },
     { name: 'Mis tareas', path: "/requirements" },
     { name: 'Cerrar sesión', path: "/end" },
 ];
 const adminSettings: Settings[] = [
+    { name: 'Mi perfil', path: "/profile" },
     { name: 'Mis tareas', path: "/requirements" },
     { name: 'Procesos', path: "/process" },
     { name: 'Agregar procesos', path: "/process/add" },
