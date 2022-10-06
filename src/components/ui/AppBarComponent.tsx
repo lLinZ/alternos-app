@@ -16,21 +16,24 @@ type Settings = {
 }
 
 const pages: Pages[] = [
+    { name: 'Mis tareas', path: "/requirements" },
     { name: 'Dashboard', path: "/dashboard" }
 ];
-const settings: Settings[] = [
-    { name: 'Mi perfil', path: "/profile" },
-    { name: 'Mis tareas', path: "/requirements" },
-    { name: 'Cerrar sesión', path: "/end" },
-];
-const adminSettings: Settings[] = [
-    { name: 'Mi perfil', path: "/profile" },
+const adminPages: Pages[] = [
+    { name: 'Dashboard', path: "/dashboard" },
     { name: 'Mis tareas', path: "/requirements" },
     { name: 'Procesos', path: "/process" },
     { name: 'Agregar procesos', path: "/process/add" },
     { name: 'Asignacion', path: "/assignment" },
     { name: 'Lista de actividades', path: "/activity" },
     { name: 'Agregar actividad', path: "/activity/add" },
+];
+const settings: Settings[] = [
+    { name: 'Mi perfil', path: "/profile" },
+    { name: 'Cerrar sesión', path: "/end" },
+];
+const adminSettings: Settings[] = [
+    { name: 'Mi perfil', path: "/profile" },
     { name: "Administrar usuarios", path: "/admin" },
     { name: 'Cerrar sesión', path: "/end" },
 ]
@@ -54,7 +57,10 @@ interface PropsMenuMobile {
     currentPath: any;
     handleCloseNavMenu: any;
     handleOpenNavMenu: any;
-    pagess: Settings[];
+    pagess: Pages[];
+    adminPages: Pages[];
+    user: any;
+
 }
 interface PropsMenuPc {
     pagess: any;
@@ -62,34 +68,43 @@ interface PropsMenuPc {
     push: any;
 }
 
-const MenuMobile: FC<PropsMenuMobile> = ({ anchorElNav, currentPath, handleCloseNavMenu, handleOpenNavMenu, pagess }) => {
+const MenuMobile: FC<PropsMenuMobile> = ({ anchorElNav, currentPath, handleCloseNavMenu, handleOpenNavMenu, pagess, user }) => {
     return (<>
-        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' }, alignItems: "center", justifyContent: "space-between" }}>
             <IconButton size="large" aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpenNavMenu} color="inherit">
                 <MenuIcon />
             </IconButton>
-            <Menu id="menu-appbar" anchorEl={anchorElNav} anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'left', }} open={Boolean(anchorElNav)} onClose={handleCloseNavMenu} sx={{ display: { xs: 'block', md: 'none' }, }}>
-                {pagess.map((page: Pages) => (String(currentPath.pathname) !== String(page.path) &&
-                    (<Link style={{ textDecoration: 'none' }} key={page.name} to={page.path}>
-                        <MenuItem onClick={handleCloseNavMenu}>
-                            <Typography textAlign="center">{page.name}</Typography>
-                        </MenuItem>
-                    </Link>))
-                )}
+            <Menu id="menu-appbar" anchorEl={anchorElNav} anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'left', }} open={Boolean(anchorElNav)} onClose={handleCloseNavMenu} sx={{ display: { xs: 'block', md: 'block' }, }}>
+                {
+                    (user && user.role_name === "Administrador")
+                        ? adminPages.map((setting: Pages) => (String(currentPath.pathname) !== String(setting.path) &&
+                            (<Link style={{ textDecoration: 'none' }} key={setting.name} to={setting.path}>
+                                <MenuItem onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center" color="text.primary">{setting.name}</Typography>
+                                </MenuItem>
+                            </Link>)
+                        ))
+                        : pagess.map((page: Pages) => (String(currentPath.pathname) !== String(page.path) &&
+                            (<Link style={{ textDecoration: 'none' }} key={page.name} to={page.path}>
+                                <MenuItem onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center" color="text.primary">{page.name}</Typography>
+                                </MenuItem>
+                            </Link>))
+                        )}
             </Menu>
+            <Typography variant="h5" noWrap component="a" href=""
+                sx={{ mr: 2, display: { xs: 'flex', md: 'flex' }, flexGrow: 1, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none', }}
+            >
+                ALTERNOS
+            </Typography>
         </Box>
-        <Typography variant="h5" noWrap component="a" href=""
-            sx={{ mr: 2, display: { xs: 'flex', md: 'none' }, flexGrow: 1, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none', }}
-        >
-            ALTERNOS
-        </Typography>
     </>)
 }
 
 const MenuPc: FC<PropsMenuPc> = ({ pagess, currentPath, push }) => {
 
     return (
-        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'none' } }}>
             {pagess.map((page: Pages) => (
                 String(currentPath.pathname) !== String(page.path) && (
                     <Button
@@ -205,7 +220,7 @@ export const AppBarComponent: FC<Props> = ({ title, user }) => {
 
     // Direccion actual
     const currentPath = useLocation();
-    const mobileProps = { anchorElNav, currentPath, handleCloseNavMenu, handleOpenNavMenu, pagess: pages }
+    const mobileProps = { anchorElNav, currentPath, handleCloseNavMenu, handleOpenNavMenu, pagess: pages, adminPages, user }
     const pcProps = { push, currentPath, pagess: pages }
     const menuUserProps = { handleOpenUserMenu, anchorElUser, handleCloseUserMenu, user, token, adminSettings, settings, currentPath }
 
@@ -214,13 +229,12 @@ export const AppBarComponent: FC<Props> = ({ title, user }) => {
         <AppBar color='secondary' position="static" elevation={0}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <Typography variant="h6" noWrap component="a" sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, fontWeight: 700, color: 'inherit', textDecoration: 'none', }}>
+                    <Typography variant="h6" noWrap component="a" sx={{ mr: 2, display: { xs: 'none', md: 'none' }, fontWeight: 700, color: 'inherit', textDecoration: 'none', }}>
                         {title}
                     </Typography>
                     {token && (
                         <>
                             <MenuMobile {...mobileProps} />
-                            <MenuPc {...pcProps} />
                             <MenuUser {...menuUserProps} />
                         </>
                     )}
@@ -234,7 +248,7 @@ export const AppBarComponent: FC<Props> = ({ title, user }) => {
                                 href=""
                                 sx={{
                                     mr: 2,
-                                    display: { xs: 'flex', md: 'none' },
+                                    display: { xs: 'flex', md: 'flex' },
                                     flexGrow: 1,
                                     fontFamily: 'monospace',
                                     fontWeight: 700,
