@@ -62,7 +62,7 @@ export const AdminPage: FC = () => {
 
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
                 <Typography fontSize={16} fontWeight="bold" sx={{ mb: 2 }} variant="overline">Lista de usuarios registrados</Typography>
-                <IconButton color="secondary" onClick={() => router("/admin/user/add")}><AddIcon /></IconButton>
+                <IconButton color="info" onClick={() => router("/admin/user/add")}><AddIcon /></IconButton>
                 <UserList users={users} setUsers={setUsers} />
             </Box>
         </Layout>

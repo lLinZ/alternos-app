@@ -211,7 +211,7 @@ export const AppBarComponent: FC<Props> = ({ title, user }) => {
 
     // Render
     return (
-        <AppBar color='secondary' position="static">
+        <AppBar color='secondary' position="static" elevation={0}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Typography variant="h6" noWrap component="a" sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, fontWeight: 700, color: 'inherit', textDecoration: 'none', }}>

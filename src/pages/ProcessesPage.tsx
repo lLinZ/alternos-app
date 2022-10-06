@@ -165,16 +165,22 @@ export const ProcessesPage: FC<Props> = () => {
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
                 <Typography variant="overline" fontSize={16} fontWeight="bold" sx={{ mb: 2 }}>Registrar proceso</Typography>
                 <Grid container display="flex" justifyContent="center" alignItems="center" flexWrap="wrap" flexDirection="row" spacing={1}>
-                    <Grid item xs={12} sm={6}>
-                        <TextField fullWidth label="Nombre" name="name" color="secondary" onChange={(e) => setProcess(e.target.value)} value={process} />
+                    <Grid item xs={12}>
+                        <TextField fullWidth label="Nombre" name="name" color="secondary" onChange={(e) => setProcess(e.target.value)} value={process} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", borderRadius: 5, input: { border: "none" } }} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <Button onClick={() => openModal()} color="secondary" fullWidth variant="outlined" sx={{ p: 1.8 }} type="button">Buscar departamento</Button>
+                        <TextField fullWidth label="Centro de costo 1" name="costouno" color="secondary" onChange={(e) => setProcess(e.target.value)} value={process} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", borderRadius: 5, input: { border: "none" } }} />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField fullWidth label="Centro de costo 2" name="costodos" color="secondary" onChange={(e) => setProcess(e.target.value)} value={process} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", borderRadius: 5, input: { border: "none" } }} />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Button onClick={() => openModal()} color="secondary" fullWidth sx={{ p: 1.8, borderRadius: 5, background: "#FFF", border: "none" }} type="button" disableElevation>Buscar departamento</Button>
                     </Grid>
                     {
                         selectedDepartment && (
                             <Grid item xs={12}>
-                                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", border: "1px solid rgba(0,0,0,0.3)", borderRadius: "10px", p: 2 }}>
+                                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#FFF", borderRadius: 5, p: 2, "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
                                     <Box sx={{ display: "flex", flexDirection: "column" }}>
                                         <Typography variant="subtitle1" fontWeight={500} >{selectedDepartment.name}</Typography>
                                     </Box>
@@ -184,14 +190,14 @@ export const ProcessesPage: FC<Props> = () => {
                         )
                     }
                     <Grid item xs={12} >
-                        <LoadingButton fullWidth loading={isSubmitting} color="secondary" variant="contained" sx={{ p: 2, mt: 2 }} onClick={() => onSubmit()}>Enviar</LoadingButton>
+                        <LoadingButton fullWidth loading={isSubmitting} color="secondary" variant="contained" sx={{ p: 2, mt: 2, borderRadius: 5, textTransform: "none" }} disableElevation onClick={() => onSubmit()}>Registrar proceso</LoadingButton>
                     </Grid>
                 </Grid>
             </Box>
 
             {/* Modal de seleccion de usuario  */}
-            <Dialog onClose={() => setOpen(false)} open={open} fullScreen TransitionComponent={Transition}>
-                <AppBar sx={{ position: 'relative' }}>
+            <Dialog onClose={() => setOpen(false)} open={open} fullScreen TransitionComponent={Transition} PaperProps={{ sx: { background: "#f5f5f5" } }}>
+                <AppBar sx={{ position: 'relative' }} elevation={0}>
                     <Toolbar>
                         <IconButton
                             edge="start"
@@ -208,11 +214,11 @@ export const ProcessesPage: FC<Props> = () => {
                 </AppBar>
                 <Box sx={{ width: "80%", m: "20px auto" }}>
                     {departments && departments.map((department: { id: number; name: string; }) => (
-                        <Box key={department.id} sx={{ p: 2, borderRadius: "10px", border: "1px solid rgba(0,0,0,0.3)", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
+                        <Box key={department.id} sx={{ p: 2, borderRadius: 5, background: "#FFF", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
                             <Box sx={{ display: "flex", flexDirection: "column" }}>
                                 <Typography variant="subtitle1" fontWeight={500} >{department.name}</Typography>
                             </Box>
-                            <Button color="secondary" disabled={selectedDepartment?.id === department.id} onClick={() => selectDepartment(department.id, department.name)}>{selectedDepartment?.id === department.id ? "Seleccionado" : "Seleccionar"} {selectedDepartment?.id === department.id && (<CheckCircleIcon color="success" />)}</Button>
+                            <Button color="secondary" sx={{ borderRadius: 5, textTransform: "none", p: 1.8 }} disableElevation variant="contained" disabled={selectedDepartment?.id === department.id} onClick={() => selectDepartment(department.id, department.name)}>{selectedDepartment?.id === department.id ? "Seleccionado" : "Seleccionar"} {selectedDepartment?.id === department.id && (<CheckCircleIcon color="success" />)}</Button>
                         </Box>))}
                 </Box>
             </Dialog>

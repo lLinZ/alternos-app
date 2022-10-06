@@ -226,12 +226,12 @@ export const ActivityAssignmentPage = () => {
                     {
                         selectedProcess && (
                             <Grid item xs={12}>
-                                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderRadius: "10px", p: 2 }}>
-                                    <Box sx={{ display: "flex", flexDirection: "column" }}>
-                                        <Typography variant="overline" fontWeight={400} >Proceso Seleccionado</Typography>
+                                <Box sx={{ display: "flex", flexFlow: "column wrap", justifyContent: "left", alignItems: "left", p: 2, background: "#FFF", borderRadius: 5, "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
+                                    <Typography variant="overline" fontWeight="bold">Proceso Seleccionado</Typography>
+                                    <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                                         <Typography variant="subtitle1" fontWeight={500} >{selectedProcess.name}</Typography>
+                                        <CheckCircleIcon color="success" />
                                     </Box>
-                                    <CheckCircleIcon color="success" />
                                 </Box>
                             </Grid>
                         )
@@ -244,11 +244,12 @@ export const ActivityAssignmentPage = () => {
                     {
                         selectedActivities && (
                             <Grid item xs={12}>
-                                <Box sx={{ display: "flex", justifyContent: "left", alignItems: "left", borderRadius: "10px", p: 2, flexDirection: "column" }}>
+                                <Box sx={{ display: "flex", justifyContent: "left", alignItems: "left", background: "#FFF", borderRadius: 5, p: 2, flexDirection: "column", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
+                                    <Typography variant="overline" fontWeight="bold">Actividades a asignar</Typography>
                                     {
                                         selectedActivities.map((activity: SelectedActivity) => (
                                             <>
-                                                <Box sx={{ display: "flex", flexDirection: "column", mt: 2 }}>
+                                                <Box sx={{ display: "flex", flexDirection: "column", mt: 2, }}>
                                                     <Typography variant="overline" fontWeight={400} >Actividad #{activity.orden}</Typography>
                                                     <Typography variant="subtitle1" fontWeight={500} >{activity.name}</Typography>
                                                 </Box>
@@ -260,7 +261,7 @@ export const ActivityAssignmentPage = () => {
                         )
                     }
                     <Grid item xs={12} >
-                        <Button color="secondary" variant="contained" fullWidth sx={{ borderRadius: 5, p: 1.8 }} onClick={onSubmit}>
+                        <Button color="secondary" variant="contained" fullWidth sx={{ borderRadius: 5, p: 2, textTransform: "none" }} onClick={onSubmit}>
                             Registrar nuevo Proceso
                         </Button>
                     </Grid>

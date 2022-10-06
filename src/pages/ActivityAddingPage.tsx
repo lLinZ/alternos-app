@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, useEffect, useState } from "react";
 
-import { Box, Checkbox, FormControlLabel, Grid, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
+import { InputAdornment, Box, Checkbox, FormControlLabel, Grid, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
 
 import { Layout } from "../components/layout"
 import { validarToken } from "../lib/functions";
@@ -40,6 +40,8 @@ export const ActivityAddingPage: FC<Props> = () => {
     const [newActivity, setNewActivity] = useState({
         name: "",
         duration: 60,
+        costo: 0,
+        precio: 0,
     })
 
     // Router
@@ -66,6 +68,8 @@ export const ActivityAddingPage: FC<Props> = () => {
         setNewActivity({
             name: "",
             duration: 60,
+            costo: 0,
+            precio: 0,
         });
         setSelectedFunction(null);
     }
@@ -94,6 +98,12 @@ export const ActivityAddingPage: FC<Props> = () => {
         if (!newActivity.duration) {
             errores.push("Debe seleccionar una duracion");
         }
+        if (!newActivity.costo) {
+            errores.push("Debe colocar un costo");
+        }
+        if (!newActivity.precio) {
+            errores.push("Debe colocar un precio");
+        }
 
         // Si existen errores
         if (errores.length > 0) {
@@ -110,6 +120,8 @@ export const ActivityAddingPage: FC<Props> = () => {
             body.append("name", String(newActivity.name));
             body.append("owner_id", String(selectedFunction));
             body.append("duration", String(newActivity.duration));
+            body.append("costo", String(newActivity.costo));
+            body.append("precio", String(newActivity.precio));
             const options = {
                 method: "POST",
                 body
@@ -156,12 +168,18 @@ export const ActivityAddingPage: FC<Props> = () => {
                 <Typography component="h2" fontWeight="bold" variant="overline" fontSize={16}>Registrar una actividad</Typography>
                 <Grid container display="flex" flexDirection="row" flexWrap="wrap" justifyContent="center" alignItems="center" spacing={1} >
                     <Grid item xs={12} sm={6} md={4}>
-                        <TextField name="name" fullWidth label="Nombre de la actividad" color="secondary" value={newActivity.name} onChange={(e) => setNewActivity({ ...newActivity, name: e.target.value })} />
+                        <TextField InputProps={{ sx: { background: "#FFF", borderRadius: 5 } }} sx={{ borderRadius: 5 }} name="name" fullWidth label="Nombre de la actividad" color="secondary" value={newActivity.name} onChange={(e) => setNewActivity({ ...newActivity, name: e.target.value })} />
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <TextField name="duration" fullWidth label="Minutos de duracion" color="secondary" value={newActivity.duration} onChange={(e) => setNewActivity({ ...newActivity, duration: Number(e.target.value) })} />
+                        <TextField InputProps={{ sx: { background: "#FFF", borderRadius: 5 }, startAdornment: <InputAdornment position="start">$</InputAdornment> }} sx={{ borderRadius: 5 }} name="costo" fullWidth label="Costo" color="secondary" value={newActivity.costo} onChange={(e) => setNewActivity({ ...newActivity, costo: Number(e.target.value) })} />
                     </Grid>
-                    <Grid item xs={12} sm={12} md={4}>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <TextField InputProps={{ sx: { background: "#FFF", borderRadius: 5 }, startAdornment: <InputAdornment position="start">$</InputAdornment> }} sx={{ borderRadius: 5 }} name="precio" fullWidth label="Precio" color="secondary" value={newActivity.precio} onChange={(e) => setNewActivity({ ...newActivity, precio: Number(e.target.value) })} />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField InputProps={{ sx: { background: "#FFF", borderRadius: 5 }, }} sx={{ borderRadius: 5 }} name="duration" fullWidth label="Minutos de duracion" color="secondary" value={newActivity.duration} onChange={(e) => setNewActivity({ ...newActivity, duration: Number(e.target.value) })} />
+                    </Grid>
+                    <Grid item xs={12} sm={6} >
                         <Select
                             value={selectedFunction ? String(selectedFunction) : '0'}
                             onChange={
@@ -169,6 +187,7 @@ export const ActivityAddingPage: FC<Props> = () => {
                                     setSelectedFunction(Number(e.target.value))
                                 }}
                             fullWidth
+                            sx={{ borderRadius: 5, background: "#FFF" }}
                             color="secondary"
                         >
                             <MenuItem value={'0'} disabled>Seleccione un departamento</MenuItem>
@@ -180,7 +199,8 @@ export const ActivityAddingPage: FC<Props> = () => {
                         </Select>
                     </Grid>
                     <Grid item xs={12}>
-                        <LoadingButton loading={isSubmitting} type="button" color="secondary" variant="contained" fullWidth sx={{ p: 1.8 }} onClick={() => registrarActividad()}>Registar actividad</LoadingButton>
+                        <LoadingButton loading={isSubmitting} type="button" color="secondary"
+                            variant="contained" fullWidth onClick={() => registrarActividad()} disableElevation sx={{ borderRadius: 5, p: 2, textTransform: "none" }}>Registar actividad</LoadingButton>
                     </Grid>
                 </Grid>
             </Box>

@@ -134,54 +134,55 @@ export const UserAddingPage = () => {
                 >
                     {({ values, handleSubmit, handleChange, errors }) => (
                         <Form onSubmit={handleSubmit}>
-                            <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
-                                <Grid item xs={12} sx={{ mt: 3 }}>
-                                    <TextField fullWidth onChange={handleChange} value={values.name} variant="standard" label="Nombre y apellido" name="name" type="text" color="secondary" />
+                            <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
+                                <Grid item xs={12}>
+                                    <TextField fullWidth onChange={handleChange} value={values.name} variant="outlined" InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} label="Nombre y apellido" name="name" type="text" color="secondary" />
                                 </Grid>
-                                <Grid item xs={12} sx={{ mt: 3 }}>
-                                    <TextField fullWidth onChange={handleChange} value={values.username} variant="standard" label="Usuario" name="username" type="text" color="secondary" />
+                                <Grid item xs={12}>
+                                    <TextField fullWidth onChange={handleChange} value={values.username} variant="outlined" InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} label="Usuario" name="username" type="text" color="secondary" />
                                 </Grid>
-                                <Grid item xs={12} sx={{ mt: 3 }}>
-                                    <TextField fullWidth onChange={handleChange} value={values.phone} variant="standard" label="Teléfono" name="phone" type="text" color="secondary" />
+                                <Grid item xs={12}>
+                                    <TextField fullWidth onChange={handleChange} value={values.phone} variant="outlined" InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} label="Teléfono" name="phone" type="text" color="secondary" />
                                 </Grid>
-                                <Grid item xs={12} sm={6} sx={{ mt: 3 }}>
-                                    <TextField fullWidth onChange={handleChange} value={values.password} variant="standard" label="Contraseña" name="password" type={showPassword ? "text" : "password"} color="secondary"
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    <IconButton
-                                                        aria-label="toggle password visibility"
-                                                        onClick={handleClickShowPassword}
-                                                        onMouseDown={handleMouseDownPassword}
-                                                    >
-                                                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            )
-                                        }} />
+                                <Grid item xs={12} sm={6}>
+                                    <TextField fullWidth onChange={handleChange} value={values.password} variant="outlined" InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowPassword}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                >
+                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ), sx: { borderRadius: 5, background: "#FFF" }
+                                    }} label="Contraseña" name="password" type={showPassword ? "text" : "password"} color="secondary"
+                                    />
                                 </Grid>
-                                <Grid item xs={12} sm={6} sx={{ mt: 3 }}>
-                                    <TextField fullWidth onChange={handleChange} value={values.confirmPassword} variant="standard" label="Confirmar contraseña" name="confirmPassword" type={showPassword ? "text" : "password"} color="secondary"
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    <IconButton
-                                                        aria-label="toggle password visibility"
-                                                        onClick={handleClickShowPassword}
-                                                        onMouseDown={handleMouseDownPassword}
-                                                    >
-                                                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            )
-                                        }} />
+                                <Grid item xs={12} sm={6}>
+                                    <TextField fullWidth onChange={handleChange} value={values.confirmPassword} variant="outlined" InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowPassword}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                >
+                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ), sx: { borderRadius: 5, background: "#FFF" }
+                                    }} label="Confirmar contraseña" name="confirmPassword" type={showPassword ? "text" : "password"} color="secondary"
+                                    />
                                 </Grid>
-                                <Grid item xs={12} sx={{ mt: 3 }}>
+                                <Grid item xs={12}>
                                     <Select
                                         value={selectedFunction ? String(selectedFunction) : '0'}
                                         onChange={(e: SelectChangeEvent) => {
                                             setSelectedFunction(Number(e.target.value))
                                         }}
+                                        sx={{ borderRadius: 5, background: "#FFF" }}
                                         fullWidth
                                         color="secondary"
                                     >
@@ -193,8 +194,8 @@ export const UserAddingPage = () => {
                                         }
                                     </Select>
                                 </Grid>
-                                <Grid item xs={12} sx={{ mt: 3 }}>
-                                    <Button type="submit" fullWidth variant="outlined" color="secondary" sx={{ p: 2 }}>Registrar</Button>
+                                <Grid item xs={12}>
+                                    <Button type="submit" fullWidth variant="contained" color="secondary" sx={{ p: 2, borderRadius: 5, textTransform: "none" }} disableElevation>Registrar usuario</Button>
                                 </Grid>
                             </Grid>
                         </Form>
