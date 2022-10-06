@@ -4,6 +4,7 @@ import { Dispatch, FC, forwardRef, ReactElement, Ref, SetStateAction, useEffect,
 import { baseUrl } from '../../common/baseUrl';
 import CloseIcon from '@mui/icons-material/Close';
 import { ISelectedProcess, IProcessNoDetails, Process } from '../../interfaces/process-type';
+import { CheckCircleRounded } from '@mui/icons-material';
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -17,10 +18,11 @@ const Transition = forwardRef(function Transition(
 
 interface Props {
     buttonColor?: "primary" | "secondary";
+    selectedProcess: ISelectedProcess | null;
     setSelectedProcess: Dispatch<SetStateAction<ISelectedProcess | null>>;
     setUserSelected?: Dispatch<SetStateAction<{ id: number; name: string } | null>>;
 }
-export const ProcessesModal: FC<Props> = ({ setSelectedProcess, buttonColor = "secondary", setUserSelected }) => {
+export const ProcessesModal: FC<Props> = ({ selectedProcess, setSelectedProcess, buttonColor = "secondary", setUserSelected }) => {
     const [processes, setProcesses] = useState<Process[] | null>(null)
     const [open, setOpen] = useState<boolean>(false);
     const handleOpenModal = () => {
@@ -63,9 +65,9 @@ export const ProcessesModal: FC<Props> = ({ setSelectedProcess, buttonColor = "s
     return (
         <>
             {/* Modal de usaurios */}
-            <Button variant="outlined" color={buttonColor} sx={{ p: 1.8 }} fullWidth onClick={handleOpenModal}>Seleccionar Proceso</Button>
-            <Dialog onClose={handleCloseModal} open={open} fullScreen TransitionComponent={Transition} >
-                <AppBar sx={{ position: 'relative' }}>
+            <Button color={buttonColor} sx={{ p: 2, borderRadius: 5, boxShadow: "0 0 5px rgba(0,0,0,0.1)" }} disableElevation fullWidth onClick={handleOpenModal}>Seleccionar Proceso</Button>
+            <Dialog onClose={handleCloseModal} open={open} fullScreen TransitionComponent={Transition} PaperProps={{ sx: { background: "#F5F5F5" } }}>
+                <AppBar sx={{ position: 'relative' }} elevation={0}>
                     <Toolbar>
                         <IconButton
                             edge="start"
@@ -82,12 +84,12 @@ export const ProcessesModal: FC<Props> = ({ setSelectedProcess, buttonColor = "s
                 </AppBar>
                 <Box sx={{ width: "80%", m: "20px auto" }}>
                     {processes ? processes.map((process: any) => (
-                        <Box key={process.id} sx={{ p: 2, borderRadius: "10px", border: "1px solid black", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
+                        <Box key={process.id} sx={{ p: 2, borderRadius: 5, background: "#FFF", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
                             <Box sx={{ display: "flex", flexDirection: "column" }}>
                                 <Typography variant="subtitle1" fontWeight="bold">{process.name}</Typography>
                                 <Typography variant="subtitle2" fontWeight={200} color="text.secondary">{process.actividades?.length} {process.actividades && process.actividades?.length > 1 ? " actividades" : " actividad"}</Typography>
                             </Box>
-                            <Button color="secondary" onClick={() => selectProcess(process.id, process.name, process.actividades)}>Seleccionar</Button>
+                            <Button color="secondary" variant="contained" onClick={() => selectProcess(process.id, process.name, process.actividades)} sx={{ p: 2, borderRadius: 5, textTransform: "none" }} disableElevation disabled={selectedProcess?.id === process.id}>{selectedProcess?.id === process.id ? 'Seleccionado' : 'Seleccionar'}{selectedProcess?.id === process.id && <CheckCircleRounded color="success" />}</Button>
                         </Box>)) : <CircularProgress color="secondary" />}
                 </Box>
             </Dialog>

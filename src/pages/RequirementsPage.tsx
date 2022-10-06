@@ -129,7 +129,7 @@ export const RequirementsPage: FC = () => {
                         <TextField fullWidth label="Descripcion" name="description" value={description} onChange={(e: ChangeEvent<HTMLInputElement>) => setDescription(e.currentTarget.value)} variant="outlined" color="secondary" multiline />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <ProcessesModal setSelectedProcess={setSelectedProcess} />
+                        <ProcessesModal selectedProcess={selectedProcess} setSelectedProcess={setSelectedProcess} />
                     </Grid>
                     {
                         selectedProcess && (
