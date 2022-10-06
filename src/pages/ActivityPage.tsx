@@ -67,7 +67,7 @@ export const ActivityPage: FC<Props> = () => {
                 </Box>
                 {
                     actividades && actividades.map((actividad: Actividades) => (
-                        <Box key={actividad.id} sx={{ p: 2, border: "1px solid rgb(0,0,0,0.3)", borderRadius: 2, mb: 1 }}>
+                        <Box key={actividad.id} sx={{ p: 2, borderRadius: 5, background: "#FFF", mb: 1, "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
                             <Typography variant="subtitle1" fontWeight={450}>{actividad.name}</Typography>
                             <Typography variant="subtitle2" fontWeight={400} color="text.secondary">{actividad.owner_name}</Typography>
                         </Box>

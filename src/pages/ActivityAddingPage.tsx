@@ -154,14 +154,14 @@ export const ActivityAddingPage: FC<Props> = () => {
         <Layout user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
                 <Typography component="h2" fontWeight="bold" variant="overline" fontSize={16}>Registrar una actividad</Typography>
-                <Grid container display="flex" flexDirection="row" flexWrap="wrap" justifyContent="center" alignItems="center" spacing={1}>
-                    <Grid item xs={12} sm={6} >
+                <Grid container display="flex" flexDirection="row" flexWrap="wrap" justifyContent="center" alignItems="center" spacing={1} >
+                    <Grid item xs={12} sm={6} md={4}>
                         <TextField name="name" fullWidth label="Nombre de la actividad" color="secondary" value={newActivity.name} onChange={(e) => setNewActivity({ ...newActivity, name: e.target.value })} />
                     </Grid>
-                    <Grid item xs={12} sm={6} >
+                    <Grid item xs={12} sm={6} md={4}>
                         <TextField name="duration" fullWidth label="Minutos de duracion" color="secondary" value={newActivity.duration} onChange={(e) => setNewActivity({ ...newActivity, duration: Number(e.target.value) })} />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} sm={12} md={4}>
                         <Select
                             value={selectedFunction ? String(selectedFunction) : '0'}
                             onChange={

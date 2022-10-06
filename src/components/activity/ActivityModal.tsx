@@ -46,8 +46,8 @@ export const ActivityModal: FC<Props> = ({ actividades, selectedActivities, setS
         exists ? setOrden(orden - 1) : setOrden(orden + 1);
     }
     return (
-        <Dialog onClose={() => setModalActividades(false)} fullScreen open={modalActividades} TransitionComponent={Transition}>
-            <AppBar sx={{ position: 'relative' }}>
+        <Dialog onClose={() => setModalActividades(false)} fullScreen open={modalActividades} TransitionComponent={Transition} PaperProps={{ sx: { background: "#f5f5f5" } }}>
+            <AppBar sx={{ position: 'relative' }} elevation={0}>
                 <Toolbar>
                     <IconButton onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}>
                         <InfoIcon color="info" />
@@ -55,7 +55,7 @@ export const ActivityModal: FC<Props> = ({ actividades, selectedActivities, setS
                     <Typography sx={styles.title} variant="h6" component="div">
                         Seleccionar Actividades
                     </Typography>
-                    <Button color="success" variant="outlined" onClick={() => setModalActividades(false)} size="small">
+                    <Button color="success" variant="contained" disableElevation onClick={() => setModalActividades(false)} size="small" sx={{ borderRadius: 5 }}>
                         Guardar
                     </Button>
                     <Popover id="mouse-over-popover" sx={{ pointerEvents: 'none', }} open={open} anchorEl={anchorEl} anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }} transformOrigin={{ vertical: 'top', horizontal: 'left', }} onClose={handlePopoverClose} disableRestoreFocus>
@@ -99,13 +99,16 @@ const styles = {
     },
     activityContainer: {
         p: 2,
-        borderRadius: "10px",
-        border: "1px solid rgba(0,0,0,0.3)",
+        borderRadius: 5,
         m: 1,
+        background: "#FFF",
         display: "flex",
         justifyContent: "space-between",
         flexDirection: "row",
         alignItems: "center",
+        "&:hover": {
+            boxShadow: "0 0 5px rgba(0,0,0,0.1)"
+        }
     },
     activityName: {
         display: "flex",

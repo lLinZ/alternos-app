@@ -219,7 +219,7 @@ export const ActivityAssignmentPage = () => {
                 </Box>
                 <Grid container spacing={1}>
                     <Grid item xs={12} >
-                        <Button color="secondary" variant="outlined" fullWidth sx={{ p: 1.8 }} onClick={openModalProcesos}>
+                        <Button color="secondary" fullWidth sx={{ background: "#FFF", borderRadius: 5, p: 1.8 }} onClick={openModalProcesos}>
                             Seleccionar proceso
                         </Button>
                     </Grid>
@@ -237,7 +237,7 @@ export const ActivityAssignmentPage = () => {
                         )
                     }
                     <Grid item xs={12} >
-                        <Button color="secondary" variant="outlined" fullWidth sx={{ p: 1.8 }} onClick={openModalActividades}>
+                        <Button color="secondary" fullWidth sx={{ background: "#FFF", borderRadius: 5, p: 1.8 }} onClick={openModalActividades}>
                             Seleccionar actividades
                         </Button>
                     </Grid>
@@ -260,7 +260,7 @@ export const ActivityAssignmentPage = () => {
                         )
                     }
                     <Grid item xs={12} >
-                        <Button color="secondary" variant="contained" fullWidth sx={{ p: 1.8 }} onClick={onSubmit}>
+                        <Button color="secondary" variant="contained" fullWidth sx={{ borderRadius: 5, p: 1.8 }} onClick={onSubmit}>
                             Registrar nuevo Proceso
                         </Button>
                     </Grid>
@@ -268,8 +268,8 @@ export const ActivityAssignmentPage = () => {
             </Box>
 
             <ActivityModal {...activityModalProps} />
-            <Dialog onClose={() => setModalProcesos(false)} fullScreen open={modalProcesos} TransitionComponent={Transition}>
-                <AppBar sx={{ position: 'relative' }}>
+            <Dialog onClose={() => setModalProcesos(false)} fullScreen open={modalProcesos} TransitionComponent={Transition} PaperProps={{ sx: { background: "#f5f5f5" } }}>
+                <AppBar sx={{ position: 'relative' }} elevation={0}>
                     <Toolbar>
                         <IconButton
                             edge="start"
@@ -286,9 +286,9 @@ export const ActivityAssignmentPage = () => {
                 </AppBar>
                 <Box sx={{ width: "80%", m: "20px auto" }}>
                     {procesos && procesos.map((process: Process) => (
-                        <Box key={process.id} sx={{ p: 2, borderRadius: "10px", border: "1px solid rgba(0,0,0,0.3)", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
+                        <Box key={process.id} sx={{ p: 2, borderRadius: 5, m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center", background: "#FFF" }}>
                             <Box sx={{ display: "flex", flexDirection: "column" }}>
-                                <Typography variant="subtitle1" fontWeight={500}>{process.name}</Typography>
+                                <Typography variant="subtitle1" fontWeight={400}>{process.name}</Typography>
                             </Box>
                             <IconButton size="small" color="secondary" disabled={selectedProcess?.id === process.id} onClick={() => selectProcess(process.id, process.name)}>{selectedProcess?.id === process.id ? (<CheckCircleIcon color="success" />) : (<CircleIcon />)}</IconButton>
                         </Box>))}

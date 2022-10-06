@@ -320,12 +320,12 @@ export const BasicTaskPage: FC<Props> = () => {
                     {
                         myRequirements && myRequirements.map(req => (
                             <Grid item key={req.id} xs={12}>
-                                <Box sx={{ display: "flex", justifyContent: "space-between", w: "100%", borderRadius: "5px", border: "1px solid rgba(0,0,0,0.1)", p: 2, flexWrap: "wrap" }}>
-                                    <Box sx={{ display: "flex", flexDirection: "column" }}>
+                                <Box sx={{ display: "flex", justifyContent: "space-between", w: "100%", borderRadius: 5, background: "#FFF", p: 2, flexWrap: "wrap", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
+                                    <Box sx={{ display: "flex", flexDirection: "column", mb: 2 }}>
                                         <Typography variant="subtitle1" fontSize={16} fontWeight="400">{req.process_name} #{req.case_id}</Typography>
                                         <Typography variant="subtitle2" fontSize={12} fontWeight="300" color="text.secondary">{req.description}</Typography>
                                     </Box>
-                                    <Button color="secondary" onClick={() => openModal(req.id)} sx={{ p: 2 }}>Ver más</Button>
+                                    <Button color="secondary" variant="contained" onClick={() => openModal(req.id)} sx={{ p: 2, textTransform: "none", borderRadius: 3 }}>Ver más</Button>
                                 </Box>
                             </Grid>
                         ))
@@ -336,8 +336,8 @@ export const BasicTaskPage: FC<Props> = () => {
                         )
                     }
                 </Grid>
-                <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
-                    <AppBar sx={{ position: 'relative' }}>
+                <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition} PaperProps={{ sx: { background: "#f5f5f5" } }}>
+                    <AppBar sx={{ position: 'relative' }} elevation={0}>
                         <Toolbar>
                             <IconButton
                                 edge="start"
@@ -356,49 +356,52 @@ export const BasicTaskPage: FC<Props> = () => {
                         </Toolbar>
                     </AppBar>
                     <Box sx={{ width: "80%", m: "50px auto" }}>
-                        <Typography variant="body1" component="p" fontWeight="bold">
-                            Descripcion del requerimiento
-                        </Typography>
-                        <Typography variant="body1" component="p">
-                            {selectedTask?.description}
-                        </Typography>
-                        <Divider sx={{ mb: 1, mt: 1 }} />
-                        <Typography variant="body1" component="p" fontWeight="bold">
-                            Actividad
-                        </Typography>
-                        <Typography variant="body1" component="p">
-                            {selectedTask?.activity_name}
-                        </Typography>
-                        <Typography variant="body1" component="p" fontWeight="bold">
-                            Encargado de la actividad
-                        </Typography>
-                        <Typography variant="body1" component="p">
-                            {selectedTask?.activity_owner_name}
-                        </Typography>
-                        <Divider sx={{ mb: 1, mt: 1 }} />
-                        <Typography variant="body1" component="p" fontWeight="bold">
-                            Proceso
-                        </Typography>
-                        <Typography variant="body1" component="p">
-                            {selectedTask?.process_name}
-                        </Typography>
-                        <Typography variant="body1" component="p" fontWeight="bold">
-                            Encargado del proceso
-                        </Typography>
-                        <Typography variant="body1" component="p">
-                            {selectedTask?.process_owner_name}
-                        </Typography>
-                        <Divider sx={{ mb: 1, mt: 1 }} />
-                        <Typography variant="body1" component="p" fontWeight="bold">
-                            Fecha de vencimiento
-                        </Typography>
-                        <Typography variant="body1" component="p">
-                            {selectedTask?.vence}
-                        </Typography>
-                        <Button component="a" href={`/briefing/${selectedTask?.case_id}`} target={"_blank"} style={{ borderRadius: "4px", border: "1px solid black", padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em" }}>Ver Brief</Button>
-                        <Divider sx={{ mb: 1, mt: 1 }} />
-                        <TextField label="Respuesta de cierre de actividad" fullWidth value={respuestaReq} onChange={(e: ChangeEvent<HTMLInputElement>) => setRespuestaReq(e.currentTarget.value)} multiline color="secondary" variant="outlined" sx={{ mt: 2, mb: 2 }} />
-                        <LoadingButton color="secondary" variant="contained" onClick={() => onSubmit()} loading={isSubmitting} fullWidth sx={{ p: 1.8 }}>Responder tarea</LoadingButton>
+                        <Box sx={{ borderRadius: 5, background: "#FFF", p: 3 }}>
+
+                            <Typography variant="body1" component="p" fontWeight="bold">
+                                Descripcion del requerimiento
+                            </Typography>
+                            <Typography variant="body1" component="p">
+                                {selectedTask?.description}
+                            </Typography>
+                            <Divider sx={{ marginBlock: 2 }} />
+                            <Typography variant="body1" component="p" fontWeight="bold">
+                                Actividad
+                            </Typography>
+                            <Typography variant="body1" component="p">
+                                {selectedTask?.activity_name}
+                            </Typography>
+                            <Typography variant="body1" component="p" fontWeight="bold">
+                                Encargado de la actividad
+                            </Typography>
+                            <Typography variant="body1" component="p">
+                                {selectedTask?.activity_owner_name}
+                            </Typography>
+                            <Divider sx={{ marginBlock: 2 }} />
+                            <Typography variant="body1" component="p" fontWeight="bold">
+                                Proceso
+                            </Typography>
+                            <Typography variant="body1" component="p">
+                                {selectedTask?.process_name}
+                            </Typography>
+                            <Typography variant="body1" component="p" fontWeight="bold">
+                                Encargado del proceso
+                            </Typography>
+                            <Typography variant="body1" component="p">
+                                {selectedTask?.process_owner_name}
+                            </Typography>
+                            <Divider sx={{ marginBlock: 2 }} />
+                            <Typography variant="body1" component="p" fontWeight="bold">
+                                Fecha de vencimiento
+                            </Typography>
+                            <Typography variant="body1" component="p">
+                                {selectedTask?.vence}
+                            </Typography>
+                        </Box>
+                        <Button component="a" href={`/briefing/${selectedTask?.case_id}`} target={"_blank"} style={{ borderRadius: 15, background: "#FFF", padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em" }}>Ver Brief</Button>
+                        <Divider color="#FFFFFF" sx={{ height: 2, width: "100%", marginBlock: 2, border: "none" }} />
+                        <TextField label="Respuesta de cierre de actividad" fullWidth value={respuestaReq} onChange={(e: ChangeEvent<HTMLInputElement>) => setRespuestaReq(e.currentTarget.value)} multiline color="secondary" InputProps={{ sx: { borderRadius: 3 } }} sx={{ background: "#FFF", borderRadius: 3, mt: 2, mb: 2, input: { border: "none" } }} />
+                        <LoadingButton color="secondary" variant="contained" onClick={() => onSubmit()} loading={isSubmitting} fullWidth sx={{ p: 2, borderRadius: 5, textTransform: "none" }} disableElevation>Responder tarea</LoadingButton>
                     </Box>
                 </Dialog>
             </Box>

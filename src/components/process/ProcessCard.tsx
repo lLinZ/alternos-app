@@ -281,7 +281,7 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
         getActividades(process.id);
     }, [])
     return (
-        <Card variant="outlined" sx={{ width: "100%", mb: 1 }}>
+        <Card variant="outlined" sx={{ width: "100%", mb: 1, border: "none", background: "#FFF", borderRadius: 5, "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
             <CardContent>
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                     {process.owner_name}

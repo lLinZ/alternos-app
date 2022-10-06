@@ -429,12 +429,12 @@ export const TrafficUserPage: FC = () => {
                     {
                         myRequirements && myRequirements.map(req => (
                             <Grid item key={req.id} xs={12}>
-                                <Box sx={{ display: "flex", justifyContent: "space-between", w: "100%", borderRadius: "5px", border: "1px solid rgba(0,0,0,0.1)", p: 2, flexWrap: "wrap" }}>
-                                    <Box sx={{ display: "flex", flexDirection: "column" }}>
+                                <Box sx={{ display: "flex", justifyContent: "space-between", w: "100%", borderRadius: 5, background: "#FFF", p: 2, flexWrap: "wrap", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
+                                    <Box sx={{ display: "flex", flexDirection: "column", mb: 2 }}>
                                         <Typography variant="subtitle1" fontSize={16} fontWeight="400">{req.process_name} #{req.case_id}</Typography>
                                         <Typography variant="subtitle2" fontSize={12} fontWeight="300" color="text.secondary">{req.description}</Typography>
                                     </Box>
-                                    <Button color="secondary" onClick={() => openModal(req.id)} sx={{ p: 2 }}>Ver más</Button>
+                                    <Button color="secondary" variant="contained" onClick={() => openModal(req.id)} sx={{ p: 1, borderRadius: 3, textTransform: "none", }}>Ver más</Button>
                                 </Box>
                             </Grid>
                         ))
@@ -445,8 +445,8 @@ export const TrafficUserPage: FC = () => {
                         )
                     }
                 </Grid>
-                <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
-                    <AppBar sx={{ position: 'relative' }}>
+                <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition} PaperProps={{ sx: { background: "#f5f5f5" } }}>
+                    <AppBar sx={{ position: 'relative' }} elevation={0}>
                         <Toolbar>
                             <IconButton
                                 edge="start"
@@ -459,43 +459,43 @@ export const TrafficUserPage: FC = () => {
                             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
                                 {selectedTask?.process_name}
                             </Typography>
-                            <Button autoFocus color="inherit" onClick={handleClose}>
-
-                            </Button>
                         </Toolbar>
                     </AppBar>
-                    <Box sx={{ width: "80%", m: "50px auto" }}>
-                        <Typography variant="body1" component="p" fontWeight="bold">
-                            Descripcion del requerimiento
-                        </Typography>
-                        <Typography variant="body1" component="p">
-                            {selectedTask?.description}
-                        </Typography>
-                        <Divider sx={{ mb: 1, mt: 1 }} />
-                        <Typography variant="body1" component="p" fontWeight="bold">
-                            Proceso
-                        </Typography>
-                        <Typography variant="body1" component="p">
-                            {selectedTask?.process_name}
-                        </Typography>
-                        <Typography variant="body1" component="p" fontWeight="bold">
-                            Encargado del proceso
-                        </Typography>
-                        <Typography variant="body1" component="p">
-                            {selectedTask?.process_owner_name}
-                        </Typography>
-                        <Divider sx={{ mb: 1, mt: 1 }} />
-                        <Typography variant="body1" component="p" fontWeight="bold">
-                            Fecha de vencimiento
-                        </Typography>
-                        <Typography variant="body1" component="p">
-                            {selectedTask?.vence}
-                        </Typography>
-                        <Button component="a" href={`/briefing/${selectedTask?.case_id}`} target={"_blank"} style={{ borderRadius: "4px", border: "1px solid black", padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em" }}>Ver Brief</Button>
-                        <Divider sx={{ mb: 1, mt: 1 }} />
+                    <Box sx={{ width: "80%", m: "10px auto", p: 2 }}>
+                        <Box sx={{ borderRadius: 5, background: "#FFF", p: 2 }}>
+
+                            <Typography variant="body1" component="p" fontWeight="bold">
+                                Descripcion del requerimiento
+                            </Typography>
+                            <Typography variant="body1" component="p">
+                                {selectedTask?.description}
+                            </Typography>
+                            <Divider sx={{ marginBlock: 2 }} />
+                            <Typography variant="body1" component="p" fontWeight="bold">
+                                Proceso
+                            </Typography>
+                            <Typography variant="body1" component="p">
+                                {selectedTask?.process_name}
+                            </Typography>
+                            <Typography variant="body1" component="p" fontWeight="bold">
+                                Encargado del proceso
+                            </Typography>
+                            <Typography variant="body1" component="p">
+                                {selectedTask?.process_owner_name}
+                            </Typography>
+                            <Divider sx={{ marginBlock: 2 }} />
+                            <Typography variant="body1" component="p" fontWeight="bold">
+                                Fecha de vencimiento
+                            </Typography>
+                            <Typography variant="body1" component="p">
+                                {selectedTask?.vence}
+                            </Typography>
+                        </Box>
+                        <Button component="a" href={`/briefing/${selectedTask?.case_id}`} target={"_blank"} style={{ borderRadius: 15, background: "#FFF", padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em" }}>Ver Brief</Button>
+                        <Divider color="#FFFFFF" sx={{ marginBlock: 2, height: 2, width: "100%", border: "none" }} />
                         {
                             actividades && actividades.map((act: any) => (
-                                <Box key={act.id} sx={{ border: "1px solid rgb(0,0,0,0.2)", borderRadius: 4, display: "flex", flexFlow: "row wrap", p: 1.8, mt: 1, mb: 1, justifyContent: "space-between", alignItems: "center" }}>
+                                <Box key={act.id} sx={{ borderRadius: 5, background: "#FFF", display: "flex", flexFlow: "row wrap", p: 3, mt: 1, mb: 1, justifyContent: "space-between", alignItems: "center", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" }, }}>
                                     <Box sx={{ display: "flex", flexFlow: "column wrap", mb: 2 }}>
 
                                         <Typography>{act.activity_name}</Typography>
@@ -509,20 +509,20 @@ export const TrafficUserPage: FC = () => {
                                             ) : (<></>)
                                         }
                                     </Box>
-                                    <Button color="secondary" variant="outlined" size="small" onClick={() => {
+                                    <Button color="secondary" variant="contained" sx={{ textTransform: "none", borderRadius: 3, p: 1 }} disableElevation size="small" onClick={() => {
                                         setOpenUserModal(true);
                                         setCurrentActividad(act.id);
                                     }}>Seleccionar usuario</Button>
                                 </Box>
                             ))
                         }
-                        <LoadingButton disabled={selectedActividades && selectedActividades.length < actividades.length} color="secondary" variant="contained" onClick={() => asignarUsersATareas()} loading={isSubmitting} fullWidth sx={{ p: 1.8 }}>Responder tarea</LoadingButton>
+                        <LoadingButton disabled={selectedActividades && selectedActividades.length < actividades.length} color="secondary" variant="contained" onClick={() => asignarUsersATareas()} loading={isSubmitting} fullWidth sx={{ p: 2, borderRadius: 5, textTransform: "none" }} disableElevation >Responder tarea</LoadingButton>
                     </Box>
                 </Dialog>
             </Box>
             {/* Modal de usaurios */}
-            <Dialog onClose={() => setOpenUserModal(false)} open={openUserModal} fullScreen TransitionComponent={Transition}>
-                <AppBar sx={{ position: 'relative' }}>
+            <Dialog onClose={() => setOpenUserModal(false)} open={openUserModal} fullScreen TransitionComponent={Transition} PaperProps={{ sx: { background: "#f5f5f5" } }}>
+                <AppBar sx={{ position: 'relative' }} elevation={0}>
                     <Toolbar>
                         <IconButton
                             edge="start"
@@ -539,7 +539,7 @@ export const TrafficUserPage: FC = () => {
                 </AppBar>
                 <Box sx={{ width: "80%", m: "20px auto" }}>
                     {actividades && currentActividad ? actividades.filter((act: any) => Number(act.id) === Number(currentActividad))[0].users.map((usuario: any) => (
-                        <Box key={usuario.user_id} sx={{ p: 2, borderRadius: "10px", border: "1px solid black", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
+                        <Box key={usuario.user_id} sx={{ p: 2, borderRadius: 5, background: "#FFF", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
                             <Typography>{usuario.user_name}</Typography>
                             <Button color="secondary" onClick={() => selectuserDeActividad(currentActividad, usuario)}>Seleccionar</Button>
                         </Box>)) : <CircularProgress color="secondary" />}
