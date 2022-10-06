@@ -134,18 +134,18 @@ export const UserAddingPage = () => {
                 >
                     {({ values, handleSubmit, handleChange, errors }) => (
                         <Form onSubmit={handleSubmit}>
-                            <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
+                            <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
                                 <Grid item xs={12}>
-                                    <TextField fullWidth onChange={handleChange} value={values.name} variant="outlined" InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} label="Nombre y apellido" name="name" type="text" color="secondary" />
+                                    <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.name} variant="outlined" InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} label="Nombre y apellido" name="name" type="text" color="secondary" />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField fullWidth onChange={handleChange} value={values.username} variant="outlined" InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} label="Usuario" name="username" type="text" color="secondary" />
+                                    <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.username} variant="outlined" InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} label="Usuario" name="username" type="text" color="secondary" />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField fullWidth onChange={handleChange} value={values.phone} variant="outlined" InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} label="Teléfono" name="phone" type="text" color="secondary" />
+                                    <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.phone} variant="outlined" InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} label="Teléfono" name="phone" type="text" color="secondary" />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    <TextField fullWidth onChange={handleChange} value={values.password} variant="outlined" InputProps={{
+                                    <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.password} variant="outlined" InputProps={{
                                         endAdornment: (
                                             <InputAdornment position="end">
                                                 <IconButton
@@ -161,7 +161,7 @@ export const UserAddingPage = () => {
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    <TextField fullWidth onChange={handleChange} value={values.confirmPassword} variant="outlined" InputProps={{
+                                    <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.confirmPassword} variant="outlined" InputProps={{
                                         endAdornment: (
                                             <InputAdornment position="end">
                                                 <IconButton
@@ -182,7 +182,7 @@ export const UserAddingPage = () => {
                                         onChange={(e: SelectChangeEvent) => {
                                             setSelectedFunction(Number(e.target.value))
                                         }}
-                                        sx={{ borderRadius: 5, background: "#FFF" }}
+                                        sx={{ borderRadius: 5, background: "#FFF", "& fieldset": { border: "none" }, }}
                                         fullWidth
                                         color="secondary"
                                     >

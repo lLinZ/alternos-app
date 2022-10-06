@@ -35,6 +35,7 @@ const settings: Settings[] = [
 const adminSettings: Settings[] = [
     { name: 'Mi perfil', path: "/profile" },
     { name: "Administrar usuarios", path: "/admin" },
+    { name: "Agregar admin", path: "/register/admin" },
     { name: 'Cerrar sesión', path: "/end" },
 ]
 const notLoggedPages: Pages[] = [

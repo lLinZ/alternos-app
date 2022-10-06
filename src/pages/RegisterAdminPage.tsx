@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { Box, Button, Grid, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
 
@@ -11,6 +11,8 @@ import { Layout } from '../components/layout';
 import { baseUrl } from '../common/baseUrl';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import { User } from '../interfaces/user-type';
+import { validarToken } from '../lib/functions';
 
 interface Props {
 
@@ -24,6 +26,7 @@ const initialValues = {
 }
 
 export const RegisterAdminPage: FC<Props> = () => {
+    const [userLogged, setUserLogged] = useState<User | null>(null)
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const push = useNavigate();
 
@@ -101,9 +104,13 @@ export const RegisterAdminPage: FC<Props> = () => {
             })
         }
     }
+    const router = useNavigate();
+    useEffect(() => {
+        validarToken(router, setUserLogged);
+    }, [])
 
     return (
-        <Layout footer={false}>
+        <Layout footer={false} user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
                 <Typography component="h2" fontWeight="bold" variant="overline" fontSize={16}>Registrar Administrador</Typography>
                 <Formik
@@ -113,17 +120,17 @@ export const RegisterAdminPage: FC<Props> = () => {
                     {({ values, handleSubmit, handleChange, errors }) => (
                         <Form onSubmit={handleSubmit}>
                             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
-                                <Grid item xs={12} sx={{ mt: 3 }}>
-                                    <TextField fullWidth onChange={handleChange} variant="standard" label="Nombre y apellido" name="name" type="text" color="secondary" />
+                                <Grid item xs={12} >
+                                    <TextField InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} variant="outlined" label="Nombre y apellido" name="name" type="text" color="secondary" />
                                 </Grid>
-                                <Grid item xs={12} sx={{ mt: 3 }}>
-                                    <TextField fullWidth onChange={handleChange} variant="standard" label="Usuario" name="username" type="text" color="secondary" />
+                                <Grid item xs={12} >
+                                    <TextField InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} variant="outlined" label="Usuario" name="username" type="text" color="secondary" />
                                 </Grid>
-                                <Grid item xs={12} sx={{ mt: 3 }}>
-                                    <TextField fullWidth onChange={handleChange} variant="standard" label="Teléfono" name="phone" type="text" color="secondary" />
+                                <Grid item xs={12} >
+                                    <TextField InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} variant="outlined" label="Teléfono" name="phone" type="text" color="secondary" />
                                 </Grid>
-                                <Grid item xs={12} sm={6} sx={{ mt: 3 }}>
-                                    <TextField fullWidth onChange={handleChange} variant="standard" label="Contraseña" name="password" type={showPassword ? "text" : "password"} color="secondary"
+                                <Grid item xs={12} sm={6} >
+                                    <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} variant="outlined" label="Contraseña" name="password" type={showPassword ? "text" : "password"} color="secondary"
                                         InputProps={{
                                             endAdornment: (
                                                 <InputAdornment position="end">
@@ -135,11 +142,11 @@ export const RegisterAdminPage: FC<Props> = () => {
                                                         {showPassword ? <Visibility /> : <VisibilityOff />}
                                                     </IconButton>
                                                 </InputAdornment>
-                                            )
+                                            ), sx: { borderRadius: 5, background: "#FFF", }
                                         }} />
                                 </Grid>
-                                <Grid item xs={12} sm={6} sx={{ mt: 3 }}>
-                                    <TextField fullWidth onChange={handleChange} variant="standard" label="Confirmar contraseña" name="confirmPassword" type={showPassword ? "text" : "password"} color="secondary"
+                                <Grid item xs={12} sm={6} >
+                                    <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} variant="outlined" label="Confirmar contraseña" name="confirmPassword" type={showPassword ? "text" : "password"} color="secondary"
                                         InputProps={{
                                             endAdornment: (
                                                 <InputAdornment position="end">
@@ -151,11 +158,11 @@ export const RegisterAdminPage: FC<Props> = () => {
                                                         {showPassword ? <Visibility /> : <VisibilityOff />}
                                                     </IconButton>
                                                 </InputAdornment>
-                                            )
+                                            ), sx: { borderRadius: 5, background: "#FFF", }
                                         }} />
                                 </Grid>
-                                <Grid item xs={12} sx={{ mt: 3 }}>
-                                    <Button type="submit" fullWidth variant="outlined" color="secondary" sx={{ p: 2 }}>Registrarse como admin</Button>
+                                <Grid item xs={12} >
+                                    <Button type="submit" fullWidth variant="contained" color="secondary" sx={{ p: 2, borderRadius: 5, textDecoration: "none" }}>Registrarse como admin</Button>
                                 </Grid>
                             </Grid>
                         </Form>

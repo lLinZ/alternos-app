@@ -34,8 +34,6 @@ export const RegisterPage: FC<Props> = () => {
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
-
-
     /**
      * Funcion para enviar los datos del form a la API
      * @param values Valores del formulario
@@ -138,18 +136,18 @@ export const RegisterPage: FC<Props> = () => {
                 >
                     {({ values, handleSubmit, handleChange, errors }) => (
                         <Form onSubmit={handleSubmit}>
-                            <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
+                            <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
                                 <Grid item xs={12}>
-                                    <TextField fullWidth onChange={handleChange} value={values.name} variant="outlined" InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} label="Nombre y apellido" name="name" type="text" color="secondary" />
+                                    <TextField fullWidth onChange={handleChange} value={values.name} variant="outlined" sx={{ "& fieldset": { border: "none" }, }} InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} label="Nombre y apellido" name="name" type="text" color="secondary" />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField fullWidth onChange={handleChange} value={values.username} variant="outlined" InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} label="Usuario" name="username" type="text" color="secondary" />
+                                    <TextField fullWidth onChange={handleChange} value={values.username} variant="outlined" sx={{ "& fieldset": { border: "none" }, }} InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} label="Usuario" name="username" type="text" color="secondary" />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField fullWidth onChange={handleChange} value={values.phone} variant="outlined" InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} label="Teléfono" name="phone" type="text" color="secondary" />
+                                    <TextField fullWidth onChange={handleChange} value={values.phone} variant="outlined" sx={{ "& fieldset": { border: "none" }, }} InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} label="Teléfono" name="phone" type="text" color="secondary" />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    <TextField fullWidth onChange={handleChange} value={values.password} variant="outlined" InputProps={{
+                                    <TextField fullWidth onChange={handleChange} value={values.password} variant="outlined" sx={{ "& fieldset": { border: "none" }, }} InputProps={{
                                         endAdornment: (
                                             <InputAdornment position="end">
                                                 <IconButton
@@ -165,7 +163,7 @@ export const RegisterPage: FC<Props> = () => {
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    <TextField fullWidth onChange={handleChange} value={values.confirmPassword} variant="outlined" InputProps={{
+                                    <TextField fullWidth onChange={handleChange} value={values.confirmPassword} variant="outlined" sx={{ "& fieldset": { border: "none" }, }} InputProps={{
                                         endAdornment: (
                                             <InputAdornment position="end">
                                                 <IconButton
@@ -186,7 +184,7 @@ export const RegisterPage: FC<Props> = () => {
                                         onChange={(e: SelectChangeEvent) => {
                                             setSelectedFunction(Number(e.target.value))
                                         }}
-                                        sx={{ borderRadius: 5, background: "#FFF" }}
+                                        sx={{ borderRadius: 5, background: "#FFF", "& fieldset": { border: "none" }, }}
                                         fullWidth
                                         color="secondary"
                                     >

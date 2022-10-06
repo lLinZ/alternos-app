@@ -164,15 +164,15 @@ export const ProcessesPage: FC<Props> = () => {
         <Layout user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
                 <Typography variant="overline" fontSize={16} fontWeight="bold" sx={{ mb: 2 }}>Registrar proceso</Typography>
-                <Grid container display="flex" justifyContent="center" alignItems="center" flexWrap="wrap" flexDirection="row" spacing={1}>
+                <Grid container display="flex" justifyContent="center" alignItems="center" flexWrap="wrap" flexDirection="row" spacing={2}>
                     <Grid item xs={12}>
-                        <TextField fullWidth label="Nombre" name="name" color="secondary" onChange={(e) => setProcess(e.target.value)} value={process} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", borderRadius: 5, input: { border: "none" } }} />
+                        <TextField fullWidth label="Nombre" name="name" color="secondary" onChange={(e) => setProcess(e.target.value)} value={process} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", borderRadius: 5, input: { border: "none" }, "& fieldset": { border: "none" }, }} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <TextField fullWidth label="Centro de costo 1" name="costouno" color="secondary" onChange={(e) => setProcess(e.target.value)} value={process} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", borderRadius: 5, input: { border: "none" } }} />
+                        <TextField fullWidth label="Centro de costo 1" name="costouno" color="secondary" onChange={(e) => setProcess(e.target.value)} value={process} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", borderRadius: 5, input: { border: "none" }, "& fieldset": { border: "none" }, }} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <TextField fullWidth label="Centro de costo 2" name="costodos" color="secondary" onChange={(e) => setProcess(e.target.value)} value={process} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", borderRadius: 5, input: { border: "none" } }} />
+                        <TextField fullWidth label="Centro de costo 2" name="costodos" color="secondary" onChange={(e) => setProcess(e.target.value)} value={process} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", borderRadius: 5, input: { border: "none" }, "& fieldset": { border: "none" }, }} />
                     </Grid>
                     <Grid item xs={12}>
                         <Button onClick={() => openModal()} color="secondary" fullWidth sx={{ p: 1.8, borderRadius: 5, background: "#FFF", border: "none" }} type="button" disableElevation>Buscar departamento</Button>

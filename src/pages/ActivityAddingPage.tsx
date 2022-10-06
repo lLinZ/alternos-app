@@ -166,18 +166,18 @@ export const ActivityAddingPage: FC<Props> = () => {
         <Layout user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
                 <Typography component="h2" fontWeight="bold" variant="overline" fontSize={16}>Registrar una actividad</Typography>
-                <Grid container display="flex" flexDirection="row" flexWrap="wrap" justifyContent="center" alignItems="center" spacing={1} >
+                <Grid container display="flex" flexDirection="row" flexWrap="wrap" justifyContent="center" alignItems="center" spacing={2} >
                     <Grid item xs={12} sm={6} md={4}>
-                        <TextField InputProps={{ sx: { background: "#FFF", borderRadius: 5 } }} sx={{ borderRadius: 5 }} name="name" fullWidth label="Nombre de la actividad" color="secondary" value={newActivity.name} onChange={(e) => setNewActivity({ ...newActivity, name: e.target.value })} />
+                        <TextField InputProps={{ sx: { background: "#FFF", borderRadius: 5 } }} sx={{ "& fieldset": { border: "none" }, borderRadius: 5 }} name="name" fullWidth label="Nombre de la actividad" color="secondary" value={newActivity.name} onChange={(e) => setNewActivity({ ...newActivity, name: e.target.value })} />
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <TextField InputProps={{ sx: { background: "#FFF", borderRadius: 5 }, startAdornment: <InputAdornment position="start">$</InputAdornment> }} sx={{ borderRadius: 5 }} name="costo" fullWidth label="Costo" color="secondary" value={newActivity.costo} onChange={(e) => setNewActivity({ ...newActivity, costo: Number(e.target.value) })} />
+                        <TextField InputProps={{ sx: { background: "#FFF", borderRadius: 5 }, startAdornment: <InputAdornment position="start">$</InputAdornment> }} sx={{ "& fieldset": { border: "none" }, borderRadius: 5 }} name="costo" fullWidth label="Costo" color="secondary" value={newActivity.costo} onChange={(e) => setNewActivity({ ...newActivity, costo: Number(e.target.value) })} />
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <TextField InputProps={{ sx: { background: "#FFF", borderRadius: 5 }, startAdornment: <InputAdornment position="start">$</InputAdornment> }} sx={{ borderRadius: 5 }} name="precio" fullWidth label="Precio" color="secondary" value={newActivity.precio} onChange={(e) => setNewActivity({ ...newActivity, precio: Number(e.target.value) })} />
+                        <TextField InputProps={{ sx: { background: "#FFF", borderRadius: 5 }, startAdornment: <InputAdornment position="start">$</InputAdornment> }} sx={{ "& fieldset": { border: "none" }, borderRadius: 5 }} name="precio" fullWidth label="Precio" color="secondary" value={newActivity.precio} onChange={(e) => setNewActivity({ ...newActivity, precio: Number(e.target.value) })} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <TextField InputProps={{ sx: { background: "#FFF", borderRadius: 5 }, }} sx={{ borderRadius: 5 }} name="duration" fullWidth label="Minutos de duracion" color="secondary" value={newActivity.duration} onChange={(e) => setNewActivity({ ...newActivity, duration: Number(e.target.value) })} />
+                        <TextField InputProps={{ sx: { background: "#FFF", borderRadius: 5 }, }} sx={{ "& fieldset": { border: "none" }, borderRadius: 5 }} name="duration" fullWidth label="Minutos de duracion" color="secondary" value={newActivity.duration} onChange={(e) => setNewActivity({ ...newActivity, duration: Number(e.target.value) })} />
                     </Grid>
                     <Grid item xs={12} sm={6} >
                         <Select
@@ -187,7 +187,7 @@ export const ActivityAddingPage: FC<Props> = () => {
                                     setSelectedFunction(Number(e.target.value))
                                 }}
                             fullWidth
-                            sx={{ borderRadius: 5, background: "#FFF" }}
+                            sx={{ "& fieldset": { border: "none" }, borderRadius: 5, background: "#FFF" }}
                             color="secondary"
                         >
                             <MenuItem value={'0'} disabled>Seleccione un departamento</MenuItem>

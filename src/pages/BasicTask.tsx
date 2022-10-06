@@ -322,10 +322,10 @@ export const BasicTaskPage: FC<Props> = () => {
                             <Grid item key={req.id} xs={12}>
                                 <Box sx={{ display: "flex", justifyContent: "space-between", w: "100%", borderRadius: 5, background: "#FFF", p: 2, flexWrap: "wrap", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
                                     <Box sx={{ display: "flex", flexDirection: "column", mb: 2 }}>
-                                        <Typography variant="subtitle1" fontSize={16} fontWeight="400">{req.process_name} #{req.case_id}</Typography>
-                                        <Typography variant="subtitle2" fontSize={12} fontWeight="300" color="text.secondary">{req.description}</Typography>
+                                        <Typography variant="subtitle1" fontSize={16} fontWeight="bold">{req.process_name} #{req.case_id}</Typography>
+                                        <Typography variant="subtitle2" fontSize={12} fontWeight="400" color="text.secondary">{req.description}</Typography>
                                     </Box>
-                                    <Button color="secondary" variant="contained" onClick={() => openModal(req.id)} sx={{ p: 2, textTransform: "none", borderRadius: 3 }}>Ver más</Button>
+                                    <Button disableElevation color="secondary" variant="contained" onClick={() => openModal(req.id)} sx={{ p: 2, textTransform: "none", borderRadius: 3 }}>Ver más</Button>
                                 </Box>
                             </Grid>
                         ))
@@ -355,7 +355,7 @@ export const BasicTaskPage: FC<Props> = () => {
                             </Button>
                         </Toolbar>
                     </AppBar>
-                    <Box sx={{ width: "80%", m: "50px auto" }}>
+                    <Box sx={{ width: "80%", m: "20px auto" }}>
                         <Box sx={{ borderRadius: 5, background: "#FFF", p: 3 }}>
 
                             <Typography variant="body1" component="p" fontWeight="bold">
@@ -400,7 +400,7 @@ export const BasicTaskPage: FC<Props> = () => {
                         </Box>
                         <Button component="a" href={`/briefing/${selectedTask?.case_id}`} target={"_blank"} style={{ borderRadius: 15, background: "#FFF", padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em" }}>Ver Brief</Button>
                         <Divider color="#FFFFFF" sx={{ height: 2, width: "100%", marginBlock: 2, border: "none" }} />
-                        <TextField label="Respuesta de cierre de actividad" fullWidth value={respuestaReq} onChange={(e: ChangeEvent<HTMLInputElement>) => setRespuestaReq(e.currentTarget.value)} multiline color="secondary" InputProps={{ sx: { borderRadius: 3 } }} sx={{ background: "#FFF", borderRadius: 3, mt: 2, mb: 2, input: { border: "none" } }} />
+                        <TextField label="Respuesta de cierre de actividad" fullWidth value={respuestaReq} onChange={(e: ChangeEvent<HTMLInputElement>) => setRespuestaReq(e.currentTarget.value)} multiline color="secondary" InputProps={{ sx: { borderRadius: 3 } }} sx={{ background: "#FFF", borderRadius: 3, mt: 2, mb: 2, input: { border: "none" }, "& fieldset": { border: "none" } }} />
                         <LoadingButton color="secondary" variant="contained" onClick={() => onSubmit()} loading={isSubmitting} fullWidth sx={{ p: 2, borderRadius: 5, textTransform: "none" }} disableElevation>Responder tarea</LoadingButton>
                     </Box>
                 </Dialog>

@@ -431,10 +431,10 @@ export const TrafficUserPage: FC = () => {
                             <Grid item key={req.id} xs={12}>
                                 <Box sx={{ display: "flex", justifyContent: "space-between", w: "100%", borderRadius: 5, background: "#FFF", p: 2, flexWrap: "wrap", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
                                     <Box sx={{ display: "flex", flexDirection: "column", mb: 2 }}>
-                                        <Typography variant="subtitle1" fontSize={16} fontWeight="400">{req.process_name} #{req.case_id}</Typography>
-                                        <Typography variant="subtitle2" fontSize={12} fontWeight="300" color="text.secondary">{req.description}</Typography>
+                                        <Typography variant="subtitle1" fontSize={16} fontWeight="bold">{req.process_name} #{req.case_id}</Typography>
+                                        <Typography variant="subtitle2" fontSize={12} fontWeight="400" color="text.secondary">{req.description}</Typography>
                                     </Box>
-                                    <Button color="secondary" variant="contained" onClick={() => openModal(req.id)} sx={{ p: 1, borderRadius: 3, textTransform: "none", }}>Ver más</Button>
+                                    <Button color="secondary" variant="contained" onClick={() => openModal(req.id)} sx={{ p: 1, borderRadius: 3, textTransform: "none", }} disableElevation>Ver más</Button>
                                 </Box>
                             </Grid>
                         ))
@@ -491,7 +491,7 @@ export const TrafficUserPage: FC = () => {
                                 {selectedTask?.vence}
                             </Typography>
                         </Box>
-                        <Button component="a" href={`/briefing/${selectedTask?.case_id}`} target={"_blank"} style={{ borderRadius: 15, background: "#FFF", padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em" }}>Ver Brief</Button>
+                        <Button component="a" href={`/briefing/${selectedTask?.case_id}`} target={"_blank"} style={{ borderRadius: 15, background: "#FFF", padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em", }}>Ver Brief</Button>
                         <Divider color="#FFFFFF" sx={{ marginBlock: 2, height: 2, width: "100%", border: "none" }} />
                         {
                             actividades && actividades.map((act: any) => (
