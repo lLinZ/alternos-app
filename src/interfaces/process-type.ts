@@ -8,7 +8,8 @@ export type Process = {
     actividades?: Activity[];
     costo: string;
     precio: string;
-
+    centrodecosto1:string;
+    centrodecosto2:string;
 }
 
 export type IProcessNoDetails = {

@@ -267,6 +267,10 @@ export const TrafficUserPage: FC = () => {
         }
     }
 
+    const redirect = (path: string) => {
+        router(path)
+    }
+
     /**
      * Funcion para enviar la respuesta de la tarea
      */
@@ -419,7 +423,10 @@ export const TrafficUserPage: FC = () => {
     return (
         <Layout title="Tráfico" user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
-                <Typography variant="overline" component="h2" fontWeight="bold" sx={{ mb: 2 }} fontSize={16}>Tareas abiertas</Typography>
+                <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
+                    <Typography variant="overline" component="h2" fontWeight="bold" sx={{ mb: 2 }} fontSize={16}>Tareas abiertas (Tráfico)</Typography>
+                    <Button size="small" sx={{ ml: 1, p: 1, height: "100%", borderRadius: 5, textTransform: "none" }} variant="outlined" color="info" onClick={()=>redirect("/requirements/basic")} > Ver lista de tareas comunes</Button>
+                </Box>
                 {isLoading && (
                     <Box sx={{ w: "100%", m: "auto" }}>
                         <CircularProgress color="secondary" />

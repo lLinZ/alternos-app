@@ -289,12 +289,38 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
                 <Typography variant="h5" component="div">
                     {process.name}
                 </Typography>
-                <Typography variant="subtitle2" color="text.secondary" fontWeight="400">
-                    Costo {process.costo}
+                <Box sx={{display:"flex", flexFlow:"row wrap"}}>
+                <Typography variant="subtitle2" color="text.primary" sx={{mr:1}} fontWeight="400">
+                    Costo
                 </Typography>
                 <Typography variant="subtitle2" color="text.secondary" fontWeight="400">
-                    Precio {process.precio}
+                    {process.costo}
                 </Typography>
+                </Box>
+                <Box sx={{display:"flex", flexFlow:"row wrap"}}>
+                <Typography variant="subtitle2" color="text.primary" sx={{mr:1}} fontWeight="400">
+                    Precio
+                </Typography>
+                <Typography variant="subtitle2" color="text.secondary" fontWeight="400">
+                    {process.precio}
+                </Typography>
+                </Box>
+                <Box sx={{display:"flex", flexFlow:"row wrap"}}>
+                <Typography variant="subtitle2" color="text.primary" sx={{mr:1}} fontWeight="400">
+                    Centro de costo 1
+                </Typography>
+                <Typography variant="subtitle2" color="text.secondary" fontWeight="400">
+                    {process.centrodecosto1}
+                </Typography>
+                </Box>
+                <Box sx={{display:"flex", flexFlow:"row wrap"}}>
+                <Typography variant="subtitle2" color="text.primary" sx={{mr:1}} fontWeight="400">
+                    Centro de costo 2
+                </Typography>
+                <Typography variant="subtitle2" color="text.secondary" fontWeight="400">
+                    {process.centrodecosto2}
+                </Typography>
+                </Box>
             </CardContent>
             <CardActions sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                 <ExpandMore
@@ -309,6 +335,7 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
+
                     <Box display="flex" flexWrap="wrap" justifyContent="space-between" alignItems="center">
                         <Button size="small" color="secondary" sx={{ p: 1 }} onClick={() => router("/assignment")}>Añadir actividad</Button>
                     </Box>

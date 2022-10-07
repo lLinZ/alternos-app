@@ -47,6 +47,8 @@ export const ProcessesPage: FC<Props> = () => {
 
     // Procesos
     const [process, setProcess] = useState<string>("");
+    const [centrodecostouno, setCentroDeCostoUno] = useState<string>("");
+    const [centrodecostodos, setCentroDeCostoDos] = useState<string>("");
 
     // Control Enviando formulario
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -57,7 +59,7 @@ export const ProcessesPage: FC<Props> = () => {
 
     const onSubmit = async () => {
         setIsSubmitting(true);
-        if (!process || !selectedDepartment) {
+        if (!process || !selectedDepartment || !centrodecostodos || !centrodecostouno) {
             Swal.fire({
                 title: "Error",
                 text: "Faltan campos",
@@ -72,11 +74,14 @@ export const ProcessesPage: FC<Props> = () => {
 
             body.append("name", process);
             body.append("owner_id", String(selectedDepartment.id));
-            console.log({ name: process, owner_id: selectedDepartment.id })
+            body.append("centrodecosto1", centrodecostouno);
+            body.append("centrodecosto2", centrodecostodos);
+
             const options = {
                 method: "POST",
                 body
             }
+
             try {
                 const respuesta = await fetch(url, options);
                 const data = await respuesta.json();
@@ -89,6 +94,8 @@ export const ProcessesPage: FC<Props> = () => {
                     })
                     setSelectedDepartment(null);
                     setProcess("");
+                    setCentroDeCostoUno("");
+                    setCentroDeCostoDos("");
                     setIsSubmitting(false);
                 } else {
                     Swal.fire({
@@ -169,10 +176,10 @@ export const ProcessesPage: FC<Props> = () => {
                         <TextField fullWidth label="Nombre" name="name" color="secondary" onChange={(e) => setProcess(e.target.value)} value={process} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", borderRadius: 5, input: { border: "none" }, "& fieldset": { border: "none" }, }} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <TextField fullWidth label="Centro de costo 1" name="costouno" color="secondary" onChange={(e) => setProcess(e.target.value)} value={process} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", borderRadius: 5, input: { border: "none" }, "& fieldset": { border: "none" }, }} />
+                        <TextField fullWidth label="Centro de costo 1" name="costouno" color="secondary" onChange={(e) => setCentroDeCostoUno(e.target.value)} value={centrodecostouno} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", borderRadius: 5, input: { border: "none" }, "& fieldset": { border: "none" }, }} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <TextField fullWidth label="Centro de costo 2" name="costodos" color="secondary" onChange={(e) => setProcess(e.target.value)} value={process} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", borderRadius: 5, input: { border: "none" }, "& fieldset": { border: "none" }, }} />
+                        <TextField fullWidth label="Centro de costo 2" name="costodos" color="secondary" onChange={(e) => setCentroDeCostoDos(e.target.value)} value={centrodecostodos} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", borderRadius: 5, input: { border: "none" }, "& fieldset": { border: "none" }, }} />
                     </Grid>
                     <Grid item xs={12}>
                         <Button onClick={() => openModal()} color="secondary" fullWidth sx={{ p: 1.8, borderRadius: 5, background: "#FFF", border: "none" }} type="button" disableElevation>Buscar departamento</Button>
