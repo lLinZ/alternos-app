@@ -14,7 +14,7 @@ export const UserInfo: FC<Props> = ({ userLogged }) => {
             <CaracteristicaProfile title="Correo">{userLogged?.username}</CaracteristicaProfile>
             <CaracteristicaProfile title="Telefono">{userLogged?.phone}</CaracteristicaProfile>
             <CaracteristicaProfile title="Rol">{userLogged?.role_name}</CaracteristicaProfile>
-            <CaracteristicaProfile title="Departamento">{userLogged?.function_id}</CaracteristicaProfile>
+            <CaracteristicaProfile title="Departamento">{userLogged?.function_name}</CaracteristicaProfile>
         </Box>
     )
 }
