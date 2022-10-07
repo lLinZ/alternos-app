@@ -17,6 +17,8 @@ interface Props {
 }
 export interface Actividades {
     actividades: any[];
+    costo?: string;
+    precio?: string;
     id: number;
     name: string;
     owner_id: number;

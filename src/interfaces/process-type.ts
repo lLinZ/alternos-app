@@ -6,6 +6,9 @@ export type Process = {
     owner_id: number;
     owner_name: string;
     actividades?: Activity[];
+    costo: string;
+    precio: string;
+
 }
 
 export type IProcessNoDetails = {

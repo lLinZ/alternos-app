@@ -33,15 +33,15 @@ export const UserEditForm: FC<Props> = ({ initialValues, setUserLogged, userLogg
             });
             return false;
         }
-        const url = `${baseUrl}/editarusuario`;
+        const url = `${baseUrl}/perfil`;
 
         const body = new FormData();
 
 
+        body.append("username", String(userLogged?.username));
         values.name && body.append("name", String(values.name));
         values.phone && body.append("phone", String(values.phone));
         values.password && body.append("password", String(values.password));
-        values.username && body.append("username", String(values.username));
 
         const newUserData = {
             ...userLogged,
@@ -58,7 +58,7 @@ export const UserEditForm: FC<Props> = ({ initialValues, setUserLogged, userLogg
             const respuesta = await fetch(url, options);
 
             const data = await respuesta.json();
-
+            console.log(data)
             if (data.exito === "SI") {
                 Swal.fire({
                     title: "Exito",
@@ -106,9 +106,6 @@ export const UserEditForm: FC<Props> = ({ initialValues, setUserLogged, userLogg
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField name="phone" color="secondary" onChange={handleChange} sx={{ "& fieldset": { border: "none" }, background: "#FFF", borderRadius: 5 }} InputProps={{ sx: { borderRadius: 5 } }} label="Teléfono" fullWidth value={values.phone} />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField name="username" color="secondary" onChange={handleChange} sx={{ "& fieldset": { border: "none" }, background: "#FFF", borderRadius: 5 }} InputProps={{ sx: { borderRadius: 5 } }} label="Username" fullWidth value={values.username} />
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField name="password" color="secondary" onChange={handleChange} sx={{ "& fieldset": { border: "none" }, background: "#FFF", borderRadius: 5 }} InputProps={{ sx: { borderRadius: 5 } }} label="Contraseña" fullWidth value={values.password} />

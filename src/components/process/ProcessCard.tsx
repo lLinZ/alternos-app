@@ -283,11 +283,17 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
     return (
         <Card variant="outlined" sx={{ width: "100%", mb: 1, border: "none", background: "#FFF", borderRadius: 5, "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
             <CardContent>
-                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                <Typography variant="subtitle2" color="text.primary" fontWeight="bold" gutterBottom>
                     {process.owner_name}
                 </Typography>
                 <Typography variant="h5" component="div">
                     {process.name}
+                </Typography>
+                <Typography variant="subtitle2" color="text.secondary" fontWeight="400">
+                    Costo {process.costo}
+                </Typography>
+                <Typography variant="subtitle2" color="text.secondary" fontWeight="400">
+                    Precio {process.precio}
                 </Typography>
             </CardContent>
             <CardActions sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>

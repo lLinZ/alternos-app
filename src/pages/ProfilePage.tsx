@@ -25,14 +25,10 @@ export const ProfilePage: FC = () => {
     // Router
     const router = useNavigate();
 
-    // Color del avatar
-    const [color, setColor] = useState<any>(green[500]);
-
     useEffect(() => {
         validarToken(router, setUserLogged);
     }, [])
     const userEditFormProps = { userLogged, setUserLogged, initialValues };
-
     // Render
     return (
         <Layout user={userLogged}>
@@ -40,10 +36,10 @@ export const ProfilePage: FC = () => {
                 <Grid item xs={12} sx={{ borderRadius: 5, background: "#FFF", }} >
                     <Box sx={{ display: "flex", flexFlow: "row wrap", justifyContent: { xs: "center", sm: "space-evenly", md: "space-between" }, p: 2 }}>
                         <Box sx={{ display: "flex", flexFlow: "row wrap", alignItems: "center" }}>
-                            <Avatar sx={{ bgcolor: color, mr: 2 }}>{userLogged?.name.substring(0, 1)}</Avatar>
+                            <Avatar sx={{ bgcolor: userLogged?.coloravatar, mr: 2 }}>{userLogged?.name.substring(0, 1)}</Avatar>
                             <Typography variant="subtitle1" color="text.primary" fontWeight="bold" >Color del avatar</Typography>
                         </Box>
-                        <ColorPicker setColor={setColor} />
+                        <ColorPicker user={userLogged} setUserLogged={setUserLogged} />
                     </Box>
                     <Divider sx={{ marginBlock: 2 }} />
                     <UserInfo userLogged={userLogged} />

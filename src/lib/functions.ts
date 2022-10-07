@@ -122,7 +122,6 @@ export const validarToken = async (router: any, setUserLogged: Dispatch<SetState
         const respuesta = await fetch(url, options);
 
         const data = await respuesta.json();
-
         if (data.exito === "SI") {
             const newUser = data.usuario;
             const newWidgets = data.widgets;

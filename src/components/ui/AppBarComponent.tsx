@@ -136,7 +136,7 @@ const MenuUser: FC<PropsMenuUser> = ({ handleOpenUserMenu, anchorElUser, handleC
         <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Abrir configuraciones">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt={user ? user.name : 'A'} src="/static/images/avatar/2.jpg" />
+                    <Avatar alt={user ? user.name : 'A'} src="/static/images/avatar/2.jpg" sx={{ bgcolor: user ? user.coloravatar : '#bdbdbd' }} />
                     {/*{user.name}
                     </Avatar>*/}
                 </IconButton>
