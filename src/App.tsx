@@ -19,6 +19,7 @@ import { DepartmentAddingPage } from './pages/DepartmentAddingPage';
 import { ActivityAssignmentPage } from './pages/ActivityAssignmentPage';
 import { BasicTaskPage } from './pages/BasicTask';
 import { ProfilePage } from './pages/ProfilePage';
+import { RegistrosPage } from './pages/RegistrosPage';
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
         <Route path="/briefing/new/:processId/:caseId" element={<BriefingPage />} />
         <Route path="/briefing/:caseId" element={<GetBriefingPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/files" element={<RegistrosPage />} />
       </Routes>
     </BrowserRouter>
   );
