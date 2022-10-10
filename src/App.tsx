@@ -20,6 +20,7 @@ import { ActivityAssignmentPage } from './pages/ActivityAssignmentPage';
 import { BasicTaskPage } from './pages/BasicTask';
 import { ProfilePage } from './pages/ProfilePage';
 import { RegistrosPage } from './pages/RegistrosPage';
+import { DetailsPage } from './pages/DetailsPage';
 
 function App() {
   return (
@@ -46,6 +47,8 @@ function App() {
         <Route path="/briefing/:caseId" element={<GetBriefingPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/files" element={<RegistrosPage />} />
+        <Route path="/resume" element={<DetailsPage />} />
+
       </Routes>
     </BrowserRouter>
   );
