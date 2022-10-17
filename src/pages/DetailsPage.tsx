@@ -7,7 +7,10 @@ import { Box, Button, Divider, Grid, IconButton, TextField, Typography } from '@
 import { Layout } from '../components/layout'
 import { User } from '../interfaces/user-type'
 import { validarToken } from '../lib/functions'
-import DataTable from 'react-data-table-component';
+import DataTable, { createTheme } from 'react-data-table-component';
+
+
+
 
 const columns = [
     {
@@ -216,6 +219,17 @@ export const DetailsPage: FC = () => {
     const [to, setTo] = useState<string>("");
     const [procesos, setProcesos] = useState<any>(data)
 
+    const customStyles = {
+        rows: {
+            style: {
+                '&:nth-of-type(odd)': {
+                    backgroundColor: '#e5e5e5',
+                },
+            },
+            stripedStyle: {
+            },
+        },
+    }
     const handleChangeDatos = (options: number) => {
         switch (options) {
             case 1:
@@ -277,6 +291,7 @@ export const DetailsPage: FC = () => {
     }
     useEffect(() => {
         validarToken(router, setUserLogged);
+
     }, [])
     return (
         <Layout user={userLogged}>
@@ -305,6 +320,7 @@ export const DetailsPage: FC = () => {
                         <DataTable
                             columns={columns}
                             data={procesos}
+                            customStyles={customStyles}
                             pagination
                             paginationComponentOptions={paginationComponentOptions}
                         />

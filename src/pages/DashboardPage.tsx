@@ -4,7 +4,7 @@ import { Box, Grid, Typography, useTheme } from '@mui/material'
 
 import { useNavigate } from 'react-router-dom'
 
-import { WidgetRequirement, WidgetList, WidgetListaTareas, WidgetSecurity, WidgetInformativo } from '../components/dashboard'
+import { WidgetRequirement, WidgetList, WidgetListaTareas, WidgetSecurity, WidgetInformativo, WidgetPago } from '../components/dashboard'
 import { Layout } from '../components/layout'
 
 import { validarToken } from '../lib/functions'
@@ -48,6 +48,7 @@ export const DashboardPage: FC = () => {
                             <Box sx={{ display: "flex", flexFlow: "row nowrap" }}>
                                 <WidgetRequirement userLogged={userLogged} />
                                 <WidgetListaTareas />
+                                <WidgetPago userLogged={userLogged} />
                             </Box>
                         </Box>
                     </Box>
