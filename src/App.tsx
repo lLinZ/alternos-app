@@ -20,7 +20,9 @@ import { ActivityAssignmentPage } from './pages/ActivityAssignmentPage';
 import { BasicTaskPage } from './pages/BasicTask';
 import { ProfilePage } from './pages/ProfilePage';
 import { RegistrosPage } from './pages/RegistrosPage';
-import { DetailsPage } from './pages/DetailsPage';
+import { RegistroProcesosPage } from './pages/registros/RegistroProcesosPage'
+import { RegistroActivityPage } from './pages/registros/RegistroActivityPage'
+import { RegistroCasosPage } from './pages/registros/RegistroCasosPage'
 
 function App() {
   return (
@@ -29,6 +31,7 @@ function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/activity" element={<ActivityPage />} />
         <Route path="/activity/add" element={<ActivityAddingPage />} />
+        <Route path="/activity/resume" element={<RegistroActivityPage />} />
         <Route path="/departamentos/add" element={<DepartmentAddingPage />} />
         <Route path="/assignment" element={<ActivityAssignmentPage />} />
         <Route path="/register" element={<RegisterPage />} />
@@ -39,15 +42,16 @@ function App() {
         <Route path="/end" element={<EndPage />} />
         <Route path="/process" element={<ProcessListPage />} />
         <Route path="/process/add" element={<ProcessesPage />} />
+        <Route path="/process/resume" element={<RegistroProcesosPage />} />
         <Route path="/requirements" element={<TrafficUserPage />} />
         <Route path="/requirements/basic" element={<BasicTaskPage />} />
+        <Route path="/requirements/resume" element={<RegistroCasosPage />} />
         {/* <Route path="/traffic" element={<TrafficUserPage />} /> */}
         <Route path="/requirements/add" element={<RequirementsPage />} />
         <Route path="/briefing/new/:processId/:caseId" element={<BriefingPage />} />
         <Route path="/briefing/:caseId" element={<GetBriefingPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/files" element={<RegistrosPage />} />
-        <Route path="/resume" element={<DetailsPage />} />
 
       </Routes>
     </BrowserRouter>

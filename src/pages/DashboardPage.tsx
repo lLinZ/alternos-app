@@ -1,6 +1,6 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, MutableRefObject, useEffect, useRef, useState } from 'react'
 
-import { Box, Grid, Typography, useTheme } from '@mui/material'
+import { Box, Grid, IconButton, Typography, useTheme } from '@mui/material'
 
 import { useNavigate } from 'react-router-dom'
 
@@ -9,23 +9,68 @@ import { Layout } from '../components/layout'
 
 import { validarToken } from '../lib/functions'
 import { User } from '../interfaces/user-type'
+import ChevronRightRounded from '@mui/icons-material/ArrowForwardRounded'
+import ChevronLeftRounded from '@mui/icons-material/ArrowBackRounded'
 
 export const DashboardPage: FC = () => {
     const [userLogged, setUserLogged] = useState<User | null>(null);
     const [widgetsS, setWidgets] = useState();
     const theme = useTheme();
     const router = useNavigate();
-
+    const ref = useRef(null);
     useEffect(() => {
         validarToken(router, setUserLogged, setWidgets);
     }, []);
 
+    /**
+     * Funcion para hacer scroll a la izquierda de la barra de localidad
+     * @param ref Referencia del elemento a scrollear
+     */
+    const handleScrollLeft = (ref: MutableRefObject<HTMLElement>) => {
+        if (!ref.current) {
+            return false;
+        } else {
+            const scrollLeft = Number(ref.current.scrollLeft);
+            const newScroll = scrollLeft - 100;
+            const scrollOptions: ScrollToOptions = {
+                top: 0,
+                left: newScroll,
+                behavior: 'smooth'
+            };
+            ref.current.scroll(scrollOptions)
 
+        }
+    }
+    /**
+     * Funcion para hacer scroll a la derecha de la barra de localidad
+     * @param ref Referencia del elemento a scrollear
+     */
+    const handleScrollRight = (ref: MutableRefObject<HTMLElement>) => {
+        if (!ref.current) {
+            return false;
+        } else {
+            const scrollLeft = Number(ref.current.scrollLeft);
+            const newScroll = scrollLeft + 100;
+            const scrollOptions: ScrollToOptions = {
+                top: 0,
+                left: newScroll,
+                behavior: 'smooth'
+            };
+            ref.current.scroll(scrollOptions)
+        }
+    }
     return (
         <Layout title="Dashboard" user={userLogged}>
             <Grid container display="flex" flexDirection="row" flexWrap="wrap" alignItems="start" spacing={1} sx={{ mb: 5, p: 2 }}>
-                <Grid item xs={12} sm={8} md={9}>
-                    <Box sx={{
+                <Grid item xs={12} sm={8} md={9} sx={{ position: "relative", }}>
+                    <IconButton onClick={() => handleScrollLeft(ref as unknown as MutableRefObject<HTMLElement>)} sx={{ position: "absolute", top: 50, left: 10 }}>
+                        <ChevronLeftRounded />
+                    </IconButton>
+                    <IconButton onClick={() => handleScrollRight(ref as unknown as MutableRefObject<HTMLElement>)} sx={{ position: "absolute", top: 50, right: 0 }}>
+                        <ChevronRightRounded />
+                    </IconButton>
+                    <Box ref={ref} sx={{
+
                         maxWidth: { xs: "100vw", md: "100%" }, overflowX: { xs: "auto", md: "scroll" }, paddingBlock: 2, '&::-webkit-scrollbar': {
                             width: '0.2em',
                             height: "10px",
@@ -40,10 +85,11 @@ export const DashboardPage: FC = () => {
                             outline: '1px solid rgba(255,255,255,0.2)',
                             borderRadius: "10px",
                             height: "10px"
-                        }
+                        },
+
                     }}>
 
-                        <Box sx={{ display: { xs: "flex", md: "inline-block" }, flexFlow: { xs: "column nowrap", md: 'none' } }}>
+                        <Box sx={{ display: { xs: "flex", md: "inline-block" }, flexFlow: { xs: "column nowrap", md: 'none' }, }}>
                             <Typography variant="overline" fontWeight="bold">Widgets básicos</Typography>
                             <Box sx={{ display: "flex", flexFlow: "row nowrap" }}>
                                 <WidgetRequirement userLogged={userLogged} />

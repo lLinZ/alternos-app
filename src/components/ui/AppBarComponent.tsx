@@ -1,10 +1,11 @@
-import { FC, useState, MouseEvent } from 'react';
-import { Box, AppBar, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, Tooltip, MenuItem, Divider } from '@mui/material';
+import { FC, useState, MouseEvent, KeyboardEvent } from 'react';
+import { Box, AppBar, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, Tooltip, MenuItem, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Drawer } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getCookieValue } from '../../lib/functions';
 import { User } from '../../interfaces/user-type';
+import { text } from 'stream/consumers';
 
 type Pages = {
     name: string;
@@ -27,6 +28,10 @@ const adminPages: Pages[] = [
     { name: 'Asignacion', path: "/assignment" },
     { name: 'Lista de actividades', path: "/activity" },
     { name: 'Agregar actividad', path: "/activity/add" },
+    { name: 'divider', path: "Resúmenes" },
+    { name: "Resumen de procesos", path: "/process/resume" },
+    { name: "Resumen de actividades", path: "/activity/resume" },
+    { name: "Resumen de casos", path: "/requirements/resume" },
 ];
 const settings: Settings[] = [
     { name: 'Mi perfil', path: "/profile" },
@@ -35,6 +40,7 @@ const settings: Settings[] = [
 const adminSettings: Settings[] = [
     { name: 'Mi perfil', path: "/profile" },
     { name: "Administrar usuarios", path: "/admin" },
+    { name: "Agregar admin", path: "/register/admin" },
     { name: "Agregar admin", path: "/register/admin" },
     { name: 'Cerrar sesión', path: "/end" },
 ]
@@ -68,39 +74,116 @@ interface PropsMenuPc {
     currentPath: any;
     push: any;
 }
-
 const MenuMobile: FC<PropsMenuMobile> = ({ anchorElNav, currentPath, handleCloseNavMenu, handleOpenNavMenu, pagess, user }) => {
+    const router = useNavigate();
+
+    const redirect = (path: string) => {
+        router(path);
+    }
+    const [state, setState] = useState(false);
+
+    const toggleDrawer =
+        (open: boolean) =>
+            (event: KeyboardEvent | MouseEvent) => {
+                if (
+                    event.type === 'keydown' &&
+                    ((event as KeyboardEvent).key === 'Tab' ||
+                        (event as KeyboardEvent).key === 'Shift')
+                ) {
+                    return;
+                }
+
+                setState(open);
+            };
     return (<>
         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' }, alignItems: "center", justifyContent: "space-between" }}>
-            <IconButton size="large" aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpenNavMenu} color="inherit">
+            <Button size="large" onClick={toggleDrawer(true)} color="inherit">
                 <MenuIcon />
-            </IconButton>
-            <Menu id="menu-appbar" anchorEl={anchorElNav} anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'left', }} open={Boolean(anchorElNav)} onClose={handleCloseNavMenu} sx={{ display: { xs: 'block', md: 'block' }, }}>
-                {
-                    (user && user.role_name === "Administrador")
-                        ? adminPages.map((setting: Pages) => (String(currentPath.pathname) !== String(setting.path) &&
-                            (<Link style={{ textDecoration: 'none' }} key={setting.name} to={setting.path}>
-                                <MenuItem onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center" color="text.primary">{setting.name}</Typography>
-                                </MenuItem>
-                            </Link>)
-                        ))
-                        : pagess.map((page: Pages) => (String(currentPath.pathname) !== String(page.path) &&
-                            (<Link style={{ textDecoration: 'none' }} key={page.name} to={page.path}>
-                                <MenuItem onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center" color="text.primary">{page.name}</Typography>
-                                </MenuItem>
-                            </Link>))
-                        )}
-            </Menu>
-            <Typography variant="h5" noWrap component="a" href=""
+            </Button>
+            <Typography variant="h5"
                 sx={{ mr: 2, display: { xs: 'flex', md: 'flex' }, flexGrow: 1, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none', }}
             >
                 ALTERNOS
             </Typography>
         </Box>
+        <Drawer
+            anchor="left"
+            open={state}
+            onClose={toggleDrawer(false)}
+        >
+
+            <Box
+                sx={{ width: 250 }}
+                role="presentation"
+                onClick={toggleDrawer(false)}
+                onKeyDown={toggleDrawer(false)}
+            >
+                <List>
+                    {
+                        (user && user.role_name === "Administrador")
+                            ? adminPages.map((setting: Pages, i: number) => (String(currentPath.pathname) !== String(setting.path) &&
+                                (
+                                    setting.name === 'divider'
+                                        ? (
+                                            <>
+                                                <Divider />
+                                                <Typography sx={{ ml: 2 }} variant="overline" fontWeight="bold">{setting.path}</Typography>
+                                            </>
+                                        )
+                                        : (<ListItem key={`${i + 42}${setting.name}${i}`} disablePadding>
+                                            <ListItemButton onClick={() => redirect(setting.path)}>
+                                                <ListItemText primary={setting.name} />
+                                            </ListItemButton>
+                                        </ListItem>)
+                                )
+                            ))
+                            : pagess.map((page: Pages, i: number) => (String(currentPath.pathname) !== String(page.path) &&
+                                (
+                                    <ListItem key={`${i + 42}${page.name}${i}`} disablePadding>
+                                        <ListItemButton onClick={() => redirect(page.path)}>
+                                            <ListItemText primary={page.name} />
+                                        </ListItemButton>
+                                    </ListItem>
+                                )
+                            )
+                            )}
+                </List>
+            </Box>
+        </Drawer>
     </>)
 }
+// const MenuMobile: FC<PropsMenuMobile> = ({ anchorElNav, currentPath, handleCloseNavMenu, handleOpenNavMenu, pagess, user }) => {
+//     return (<>
+//         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' }, alignItems: "center", justifyContent: "space-between" }}>
+//             <IconButton size="large" aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpenNavMenu} color="inherit">
+//                 <MenuIcon />
+//             </IconButton>
+//             <Menu id="menu-appbar" anchorEl={anchorElNav} anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'left', }} open={Boolean(anchorElNav)} onClose={handleCloseNavMenu} sx={{ display: { xs: 'block', md: 'block' }, }}>
+//                 {
+//                     (user && user.role_name === "Administrador")
+//                         ? adminPages.map((setting: Pages) => (String(currentPath.pathname) !== String(setting.path) &&
+//                             (<Link style={{ textDecoration: 'none' }} key={setting.name} to={setting.path}>
+//                                 <MenuItem onClick={handleCloseNavMenu}>
+//                                     <Typography textAlign="center" color="text.primary">{setting.name}</Typography>
+//                                 </MenuItem>
+//                             </Link>)
+//                         ))
+//                         : pagess.map((page: Pages) => (String(currentPath.pathname) !== String(page.path) &&
+//                             (<Link style={{ textDecoration: 'none' }} key={page.name} to={page.path}>
+//                                 <MenuItem onClick={handleCloseNavMenu}>
+//                                     <Typography textAlign="center" color="text.primary">{page.name}</Typography>
+//                                 </MenuItem>
+//                             </Link>))
+//                         )}
+//             </Menu>
+//             <Typography variant="h5" noWrap component="a" href=""
+//                 sx={{ mr: 2, display: { xs: 'flex', md: 'flex' }, flexGrow: 1, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none', }}
+//             >
+//                 ALTERNOS
+//             </Typography>
+//         </Box>
+//     </>)
+// }
 
 const MenuPc: FC<PropsMenuPc> = ({ pagess, currentPath, push }) => {
 
@@ -174,15 +257,15 @@ const MenuUser: FC<PropsMenuUser> = ({ handleOpenUserMenu, anchorElUser, handleC
                     )
                 }
                 {token && ((user && user.role_name === "Administrador")
-                    ? adminSettings.map((setting: Settings) => (String(currentPath.pathname) !== String(setting.path) &&
-                        (<Link style={{ textDecoration: 'none' }} key={setting.name} to={setting.path}>
+                    ? adminSettings.map((setting: Settings, i: number) => (String(currentPath.pathname) !== String(setting.path) &&
+                        (<Link style={{ textDecoration: 'none' }} key={`${i + 2}${setting.name}${i}`} to={setting.path}>
                             <MenuItem onClick={handleCloseUserMenu}>
                                 <Typography textAlign="center" sx={{ color: "text.primary" }}>{setting.name}</Typography>
                             </MenuItem>
                         </Link>)
                     ))
-                    : settings.map((setting: Settings) => (String(currentPath.pathname) !== String(setting.path) &&
-                        (<Link style={{ textDecoration: 'none' }} key={setting.name} to={setting.path}>
+                    : settings.map((setting: Settings, i: number) => (String(currentPath.pathname) !== String(setting.path) &&
+                        (<Link style={{ textDecoration: 'none' }} key={`${i + 2}${setting.name}${i}`} to={setting.path}>
                             <MenuItem onClick={handleCloseUserMenu}>
                                 <Typography textAlign="center" sx={{ color: "text.primary" }}>{setting.name}</Typography>
                             </MenuItem>
