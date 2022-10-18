@@ -9,29 +9,19 @@ import { User } from '../../interfaces/user-type'
 import { validarToken } from '../../lib/functions'
 import DataTable, { createTheme } from 'react-data-table-component';
 import { baseUrl } from '../../common/baseUrl';
+import { ThumbDownRounded, ThumbUpRounded } from '@mui/icons-material';
+import Swal from 'sweetalert2';
 
-const columns = [
-    {
-        name: 'Nombre',
-        selector: (row: IData) => row.name,
-        sortable: true,
-    },
-    {
-        name: 'Costo',
-        selector: (row: IData) => row.costo,
-        sortable: true,
-    },
-    {
-        name: 'Precio',
-        selector: (row: IData) => row.precio,
-        sortable: true,
-    },
-];
+
 interface IData {
-    id: number;
-    name: string;
-    costo: string | number;
-    precio: string | number;
+    trx_id: number;
+    monto: number;
+    user_name: string;
+    formapago: string | number;
+    referencia: string | number;
+    concepto: string | number;
+    fecha: string | number;
+    status: string | number;
 }
 const paginationComponentOptions = {
     rowsPerPageText: 'Filas por página',
@@ -46,7 +36,79 @@ export const RegistroPagosPage: FC = () => {
     const [from, setFrom] = useState<string>("");
     const [to, setTo] = useState<string>("");
     const [Pagos, setPagos] = useState<any>(null)
+    const columns = [
+        {
+            name: 'Usuario',
+            selector: (row: IData) => row.user_name,
+            sortable: true,
+        },
+        {
+            name: 'Forma de pago',
+            selector: (row: IData) => row.formapago,
+            sortable: true,
+        },
+        {
+            name: 'Monto',
+            selector: (row: IData) => row.monto,
+            sortable: true,
+        },
+        {
+            name: 'Referencia',
+            selector: (row: IData) => row.referencia,
+            sortable: true,
+        },
+        {
+            name: 'Concepto',
+            selector: (row: IData) => row.concepto,
+            sortable: true,
+        },
+        {
+            name: 'Fecha',
+            selector: (row: IData) => row.fecha,
+            sortable: true,
+        },
+        {
+            name: 'Status',
+            selector: (row: IData) => row.status,
+            sortable: true,
+        },
+        {
+            cell: (row: IData) => <IconButton onClick={() => check("aprobado", row.trx_id)} color="success"><ThumbUpRounded /></IconButton>,
+            button: true,
+            allowOverflow: true,
+            ignoreRowClick: true
+        },
+        {
+            cell: (row: IData) => <IconButton onClick={() => check("rechazado", row.trx_id)} color="error"><ThumbDownRounded /></IconButton>,
+            button: true,
+            allowOverflow: true,
+            ignoreRowClick: true
+        },
+    ];
+    const check = async (action: string, id: number) => {
+        const url = `${baseUrl}/confirmapago`;
+        const body = new FormData();
 
+        body.append("trx_id", String(id));
+        body.append("accion", action);
+
+        const options = {
+            method: "POST",
+            body,
+        }
+
+        const respuesta = await fetch(url, options)
+        const data = await respuesta.json();
+
+        if (data.exito === "SI") {
+            Swal.fire({
+                title: "Exito",
+                text: `Pago ${action}`,
+                icon: "success",
+            });
+            getPagos()
+        }
+    }
     const customStyles = {
         rows: {
             style: {
