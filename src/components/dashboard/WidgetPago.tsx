@@ -11,15 +11,17 @@ interface Props {
 interface IPayment {
     tipo: string | null;
     monto: string | null;
+    ref: string | null;
     fecha: string | null;
-    descripcion: string | null;
+    concepto: string | null;
 }
 export const WidgetPago: FC<Props> = ({ userLogged }) => {
     const [payment, setPayment] = useState<IPayment>({
         tipo: null,
         monto: null,
         fecha: null,
-        descripcion: null
+        ref: null,
+        concepto: null
     })
     const changeSelect = (e: SelectChangeEvent) => {
         setPayment({
@@ -60,10 +62,12 @@ export const WidgetPago: FC<Props> = ({ userLogged }) => {
                 const url = `${baseUrl}/reportepago`
                 const body = new FormData();
 
+                body.append("user_id", String(userLogged?.id))
                 body.append("monto", String(payment.monto))
                 body.append("tipo", String(payment.tipo))
+                body.append("referencia", String(payment.ref))
                 body.append("fecha", String(payment.fecha))
-                body.append("descripcion", String(payment.descripcion))
+                body.append("concepto", String(payment.concepto))
                 const options = {
                     method: "POST",
                     body
@@ -75,6 +79,13 @@ export const WidgetPago: FC<Props> = ({ userLogged }) => {
                         title: 'Exito',
                         text: "Pago notificado, espere a su aprobacion",
                         icon: "success"
+                    })
+                    setPayment({
+                        tipo: null,
+                        monto: null,
+                        fecha: null,
+                        ref: null,
+                        concepto: null
                     })
                 } else {
                     Swal.fire({
@@ -112,22 +123,33 @@ export const WidgetPago: FC<Props> = ({ userLogged }) => {
                         "& fieldset": {
                             borderRadius: 3
                         }
-                    }} fullWidth label="Monto" name="monto" />
+                    }} fullWidth label="Monto" value={payment.monto} name="monto" />
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <TextField onChange={handleChange} size="small" color='secondary' sx={{
                         "& fieldset": {
                             borderRadius: 3
                         }
-                    }} fullWidth label="Fecha" name="fecha" />
+                    }} fullWidth label="Fecha" value={payment.fecha} name="fecha" />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} md={6}>
+                    <TextField onChange={handleChange} size="small" color='secondary' sx={{
+                        "& fieldset": {
+                            borderRadius: 3
+                        }
+                    }} fullWidth label="Referencia" value={payment.ref} name="ref" />
+                </Grid>
+                <Grid item xs={12} md={6}>
                     <Select size="small" color='secondary' sx={{
                         "& fieldset": {
                             borderRadius: 3
                         }
                     }} fullWidth defaultValue={"0"} onChange={changeSelect} value={payment.tipo ? payment.tipo : '0'} name="tipo" >
                         <MenuItem value={"0"} disabled>Tipo de pago</MenuItem>
+                        <MenuItem value={"bs-efectivo"}>Bolivares efectivo</MenuItem>
+                        <MenuItem value={"bs-electronico"}>Bolivares electronicos</MenuItem>
+                        <MenuItem value={"dolar-efectivo"}>Dolar efectivo</MenuItem>
+                        <MenuItem value={"dolar-electronico"}>Dolar electronico</MenuItem>
                     </Select>
                 </Grid>
                 <Grid item xs={12}>
@@ -135,7 +157,7 @@ export const WidgetPago: FC<Props> = ({ userLogged }) => {
                         "& fieldset": {
                             borderRadius: 3
                         }
-                    }} fullWidth multiline label="Descripción" name="descripcion" />
+                    }} fullWidth multiline label="Descripción" value={payment.concepto} name="concepto" />
                 </Grid>
                 <Grid item xs={12}>
                     <Button fullWidth variant="contained" size="small" color="secondary" onClick={() => onSubmit()} sx={{ textTransform: "none", borderRadius: 3, p: 1 }}>Registrar pago</Button>

@@ -23,6 +23,10 @@ import { RegistrosPage } from './pages/RegistrosPage';
 import { RegistroProcesosPage } from './pages/registros/RegistroProcesosPage'
 import { RegistroActivityPage } from './pages/registros/RegistroActivityPage'
 import { RegistroCasosPage } from './pages/registros/RegistroCasosPage'
+import { RegistroTareasPage } from './pages/registros/RegistroTareasPage'
+import { RegistroStatusPorCasoPage } from './pages/registros/RegistroStatusPorCasoPage';
+import { RegistroAnalisisPorCasoPage } from './pages/registros/RegistroAnalisisPorCasoPage';
+import { RegistroCumplimientoPage } from './pages/registros/RegistroCumplimientoPage';
 
 function App() {
   return (
@@ -43,9 +47,13 @@ function App() {
         <Route path="/process" element={<ProcessListPage />} />
         <Route path="/process/add" element={<ProcessesPage />} />
         <Route path="/process/resume" element={<RegistroProcesosPage />} />
+        <Route path="/casos/status/resume" element={<RegistroStatusPorCasoPage />} />
         <Route path="/requirements" element={<TrafficUserPage />} />
         <Route path="/requirements/basic" element={<BasicTaskPage />} />
         <Route path="/requirements/resume" element={<RegistroCasosPage />} />
+        <Route path="/analisis/resume" element={<RegistroAnalisisPorCasoPage />} />
+        <Route path="/tareas/resume" element={<RegistroTareasPage />} />
+        <Route path="/users/cumplimiento/resume" element={<RegistroCumplimientoPage />} />
         {/* <Route path="/traffic" element={<TrafficUserPage />} /> */}
         <Route path="/requirements/add" element={<RequirementsPage />} />
         <Route path="/briefing/new/:processId/:caseId" element={<BriefingPage />} />

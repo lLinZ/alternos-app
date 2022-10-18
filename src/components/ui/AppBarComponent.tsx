@@ -32,6 +32,10 @@ const adminPages: Pages[] = [
     { name: "Resumen de procesos", path: "/process/resume" },
     { name: "Resumen de actividades", path: "/activity/resume" },
     { name: "Resumen de casos", path: "/requirements/resume" },
+    { name: "Analisis por caso", path: "/analisis/resume" },
+    { name: "Status por caso", path: "/casos/status/resume" },
+    { name: "Tareas por usuario", path: "/tareas/resume" },
+    { name: "Resumen de cumplimiento", path: "/users/cumplimiento/resume" },
 ];
 const settings: Settings[] = [
     { name: 'Mi perfil', path: "/profile" },
