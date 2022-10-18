@@ -122,7 +122,7 @@ export const RegistroAnalisisPorCasoPage: FC = () => {
                                 <Box sx={{ display: "flex", flexFlow: "row nowrap", alignItems: "center" }}>
 
                                     <Select color="secondary" defaultValue={"0"} value={caso !== 0 ? caso : "0"} onChange={handleChange} sx={{ "& fieldset": { borderRadius: 0 } }}>
-                                        <MenuItem disabled value={"0"}>Seleccione un usuario</MenuItem>
+                                        <MenuItem disabled value={"0"}>Seleccione un caso</MenuItem>
                                         {
                                             casos.map((u: any) => <MenuItem key={u.id + u.description} value={String(u.id)}>{u.description}</MenuItem>)
                                         }

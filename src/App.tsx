@@ -27,6 +27,7 @@ import { RegistroTareasPage } from './pages/registros/RegistroTareasPage'
 import { RegistroStatusPorCasoPage } from './pages/registros/RegistroStatusPorCasoPage';
 import { RegistroAnalisisPorCasoPage } from './pages/registros/RegistroAnalisisPorCasoPage';
 import { RegistroCumplimientoPage } from './pages/registros/RegistroCumplimientoPage';
+import { RegistroPagosPage } from './pages/registros/RegistroPagosPage';
 
 function App() {
   return (
@@ -60,6 +61,7 @@ function App() {
         <Route path="/briefing/:caseId" element={<GetBriefingPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/files" element={<RegistrosPage />} />
+        <Route path="/pagos" element={<RegistroPagosPage />} />
 
       </Routes>
     </BrowserRouter>
