@@ -12,6 +12,11 @@ import { baseUrl } from '../../common/baseUrl';
 
 const columns = [
     {
+        name: 'Caso',
+        selector: (row: IData) => row.description,
+        sortable: true,
+    },
+    {
         name: 'Tarea',
         selector: (row: IData) => row.activity_name,
         sortable: true,
@@ -33,6 +38,7 @@ const columns = [
     },
 ];
 interface IData {
+    description: string;
     activity_name: string;
     inicio: string | number;
     vence: string | number;
