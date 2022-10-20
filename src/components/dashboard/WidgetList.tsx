@@ -16,7 +16,7 @@ export const WidgetList: FC<Props> = ({ widgets }) => {
                         {widgets.map(widget => (<Grid key={widget.id} item xs={12} sm={6} md={4}><WidgetCard widget={widget} /></Grid>))}
                     </Grid>)
                 : (
-                    <Box sx={{ display: "inline-block", background: "#FFF", borderRadius: 5, p: 5 }}>
+                    <Box sx={{ display: "inline-block", background: "#FFF", borderRadius: 5, p: 5, minWidth: { xs: "100%", sm: 400 }, maxWidth: { xs: "100%", sm: 400 } }}>
                         <img src="./aditional-widgets.jpg" style={{ width: 200 }} />
                         <Typography color="text.primary" variant="subtitle1" fontWeight="bold">¡Por ahora!</Typography>
                         <Typography color="text.secondary" variant="subtitle2">No existen widgets adicionales asignados a su usuario...</Typography>

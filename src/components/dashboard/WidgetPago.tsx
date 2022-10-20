@@ -114,10 +114,9 @@ export const WidgetPago: FC<Props> = ({ userLogged }) => {
     }
 
     return (
-        <Box sx={{ borderRadius: 5, p: 2, minWidth: 400, background: "#FFF" }}>
+        <Box sx={{ borderRadius: 5, p: 2, minWidth: 400, maxWidth: 400, background: "#FFF" }}>
             <Typography variant="overline" fontWeight={"bold"}>Reporte de pago</Typography>
             <Grid container spacing={1}>
-
                 <Grid item xs={12} md={6}>
                     <TextField onChange={handleChange} size="small" color='secondary' sx={{
                         "& fieldset": {
@@ -160,7 +159,7 @@ export const WidgetPago: FC<Props> = ({ userLogged }) => {
                     }} fullWidth multiline label="Descripción" value={payment.concepto} name="concepto" />
                 </Grid>
                 <Grid item xs={12}>
-                    <Button fullWidth variant="contained" size="small" color="secondary" onClick={() => onSubmit()} sx={{ textTransform: "none", borderRadius: 3, p: 1 }}>Registrar pago</Button>
+                    <Button fullWidth variant="contained" size="small" color="secondary" disableElevation onClick={() => onSubmit()} sx={{ textTransform: "none", borderRadius: 3, p: 1 }}>Registrar pago</Button>
                 </Grid>
             </Grid>
         </Box>

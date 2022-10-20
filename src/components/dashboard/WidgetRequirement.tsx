@@ -120,114 +120,112 @@ export const WidgetRequirement: FC<Props> = ({ userLogged }) => {
         }
     }
     return (
-
-        <Box display="flex" flexDirection="column" sx={{ overflow: "hidden", background: theme.palette.common.white, borderRadius: 5, transition: ".3s ease all", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" }, minWidth: { xs: "100%", sm: 400 }, width: { xs: "100%", sm: 400 }, mr: 1, mb: 1 }}>
-            <Box id="content" sx={{ p: 2, minHeight: "200px", }}>
-                <Typography variant="overline" component="h2" fontWeight="bold" >Registrar requerimiento
-                    {!open && (<IconButton onClick={() => setOpen(prev => !prev)} sx={{ transition: ".5s ease all" }} color="info">
-                        <HelpIcon />
+        <Box display="flex" flexDirection="column" sx={{ overflow: "hidden", background: theme.palette.common.white, borderRadius: 5, transition: ".3s ease all", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" }, minWidth: { xs: "100%", sm: 400 }, maxWidth: { xs: "100%", sm: 400 }, mr: 1, mb: 1, p: 2 }}>
+            <Typography variant="overline" component="h2" fontWeight="bold" >Registrar requerimiento
+                {!open && (<IconButton onClick={() => setOpen(prev => !prev)} sx={{ transition: ".5s ease all" }} color="info">
+                    <HelpIcon />
+                </IconButton>
+                )
+                }
+            </Typography>
+            <Box sx={{ w: "100%" }}>
+                <Collapse in={open} sx={{ transition: ".5s ease all" }}>
+                    <Alert variant="filled" severity="info" sx={{ mb: 2 }} action={<IconButton
+                        aria-label="close"
+                        color="inherit"
+                        size="small"
+                        onClick={() => {
+                            setOpen(false);
+                        }}
+                    >
+                        <CloseIcon fontSize="inherit" />
                     </IconButton>
-                    )
-                    }
-                </Typography>
-                <Box sx={{ w: "100%" }}>
-                    <Collapse in={open} sx={{ transition: ".5s ease all" }}>
-                        <Alert variant="filled" severity="info" sx={{ mb: 2 }} action={<IconButton
-                            aria-label="close"
-                            color="inherit"
-                            size="small"
-                            onClick={() => {
-                                setOpen(false);
-                            }}
-                        >
-                            <CloseIcon fontSize="inherit" />
-                        </IconButton>
-                        }>
-                            En este widget podrás describir tu requerimiento con una descripción específica, seleccionar un proceso y enviarlo para nosotros revisarlo y solucionar tus necesidades lo más pronto posible!
-                        </Alert>
-                    </Collapse>
-                </Box>
+                    }>
+                        En este widget podrás describir tu requerimiento con una descripción específica, seleccionar un proceso y enviarlo para nosotros revisarlo y solucionar tus necesidades lo más pronto posible!
+                    </Alert>
+                </Collapse>
+            </Box>
 
-                <Grid container display="flex" justifyContent="start" alignItems="start" spacing={1}>
-                    <Grid item xs={12}>
-                        <TextField
-                            fullWidth
-                            label="Descripcion"
-                            name="description"
-                            value={description}
-                            onChange={(e: ChangeEvent<HTMLInputElement>) => setDescription(e.currentTarget.value)}
-                            variant="outlined"
-                            color="secondary"
-                            InputProps={{ sx: { borderRadius: 5 } }}
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <ProcessesModal buttonColor="secondary" selectedProcess={selectedProcess} setSelectedProcess={setSelectedProcess} setUserSelected={setUserSelected} />
-                    </Grid>
-                    {
-                        selectedProcess && (
-                            <>
-                                <Grid item xs={12}>
-                                    <Box sx={{ display: "flex", justifyContent: "space-evenly ", alignItems: "center" }}>
-                                        <Box>
-                                            <Typography variant="body1" fontWeight={"bold"}>Proceso seleccionado</Typography>
-                                            <Typography variant="subtitle1" color="text.white">{selectedProcess.name}</Typography>
-                                        </Box>
-                                        <CheckCircleIcon color="success" />
-                                    </Box>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Button color="secondary" sx={{ boxShadow: "0 0 5px rgba(0,0,0,0.1)", p: 2, borderRadius: 5, mb: 2 }} fullWidth onClick={handleModalUser} >Seleccionar usuario</Button>
-                                </Grid>
-                                {/* Modal de usaurios */}
-                                <Dialog onClose={() => setOpenUserModal(false)} open={openUserModal} fullScreen TransitionComponent={Transition} PaperProps={{ sx: { background: "#F5F5F5" } }}>
-                                    <AppBar sx={{ position: 'relative' }} elevation={0}>
-                                        <Toolbar>
-                                            <IconButton
-                                                edge="start"
-                                                color="inherit"
-                                                onClick={() => setOpenUserModal(false)}
-                                                aria-label="close"
-                                            >
-                                                <CloseIcon />
-                                            </IconButton>
-                                            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                                                Seleccionar usuario
-                                            </Typography>
-                                        </Toolbar>
-                                    </AppBar>
-                                    <Box sx={{ width: "80%", m: "20px auto" }}>
-                                        {users ? users.map((usuario: any) => (
-                                            <Box key={usuario.user_id} sx={{ p: 2, borderRadius: 5, background: "#FFF", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
-                                                <Typography>{usuario.user_name}</Typography>
-                                                <Button variant="contained" disabled={Number(userSelected?.id) === Number(usuario.user_id)} color="secondary" sx={{ p: 2, borderRadius: 5, textTransform: "none" }} disableElevation onClick={() => {
-                                                    setUserSelected({ id: usuario.user_id, name: usuario.user_name })
-                                                    setOpenUserModal(false);
-                                                }}>Seleccionar</Button>
-                                            </Box>)) : <CircularProgress color="secondary" />}
-                                    </Box>
-                                </Dialog>
-                            </>
-                        )
-                    }
-                    {
-                        userSelected && (
+            <Grid container display="flex" justifyContent="start" alignItems="start" spacing={1}>
+                <Grid item xs={12}>
+                    <TextField
+                        fullWidth
+                        label="Descripcion"
+                        name="description"
+                        value={description}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => setDescription(e.currentTarget.value)}
+                        variant="outlined"
+                        color="secondary"
+                        InputProps={{ sx: { borderRadius: 3 } }}
+                        size="small"
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <ProcessesModal buttonColor="secondary" selectedProcess={selectedProcess} setSelectedProcess={setSelectedProcess} setUserSelected={setUserSelected} />
+                </Grid>
+                {
+                    selectedProcess && (
+                        <>
                             <Grid item xs={12}>
-                                <Box sx={{ display: "flex", justifyContent: "space-evenly ", alignItems: "center" }}>
+                                <Box sx={{ display: "flex", justifyContent: "space-between ", alignItems: "center", p: 1 }}>
                                     <Box>
-                                        <Typography variant="body1" fontWeight={"bold"}>Usuario seleccionado para la actividad</Typography>
-                                        <Typography variant="subtitle1" >{userSelected.name}</Typography>
+                                        <Typography variant="subtitle2" fontWeight={"bold"}>Proceso seleccionado</Typography>
+                                        <Typography variant="subtitle2" fontWeight={400}>{selectedProcess.name}</Typography>
                                     </Box>
                                     <CheckCircleIcon color="success" />
                                 </Box>
                             </Grid>
-                        )
-                    }
-                    <Grid item xs={12}>
-                        <LoadingButton sx={{ p: 1.8 }} loading={isSubmitting} fullWidth color="secondary" variant="contained" onClick={() => onSubmit()} disabled={!userSelected}>Enviar</LoadingButton>
-                    </Grid>
+                            <Grid item xs={12}>
+                                <Button color="secondary" sx={{ boxShadow: "0 0 5px rgba(0,0,0,0.1)", p: 1, borderRadius: 3, textTransform: "none" }} fullWidth onClick={handleModalUser} >Seleccionar Usuario</Button>
+                            </Grid>
+                            {/* Modal de usaurios */}
+                            <Dialog onClose={() => setOpenUserModal(false)} open={openUserModal} fullScreen TransitionComponent={Transition} PaperProps={{ sx: { background: "#F5F5F5" } }}>
+                                <AppBar sx={{ position: 'relative' }} elevation={0}>
+                                    <Toolbar>
+                                        <IconButton
+                                            edge="start"
+                                            color="inherit"
+                                            onClick={() => setOpenUserModal(false)}
+                                            aria-label="close"
+                                        >
+                                            <CloseIcon />
+                                        </IconButton>
+                                        <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                                            Seleccionar usuario
+                                        </Typography>
+                                    </Toolbar>
+                                </AppBar>
+                                <Box sx={{ width: "80%", m: "20px auto" }}>
+                                    {users ? users.map((usuario: any) => (
+                                        <Box key={usuario.user_id} sx={{ p: 1, borderRadius: 5, m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
+                                            <Typography>{usuario.user_name}</Typography>
+                                            <Button variant="contained" disabled={Number(userSelected?.id) === Number(usuario.user_id)} color="secondary" sx={{ p: 2, borderRadius: 5, textTransform: "none" }} disableElevation onClick={() => {
+                                                setUserSelected({ id: usuario.user_id, name: usuario.user_name })
+                                                setOpenUserModal(false);
+                                            }}>Seleccionar</Button>
+                                        </Box>)) : <CircularProgress color="secondary" />}
+                                </Box>
+                            </Dialog>
+                        </>
+                    )
+                }
+                {
+                    userSelected && (
+                        <Grid item xs={12}>
+                            <Box sx={{ display: "flex", justifyContent: "space-between ", alignItems: "center", p: 1, width: "100%" }}>
+                                <Box>
+                                    <Typography variant="subtitle2" fontWeight={"bold"}>Usuario seleccionado para la actividad</Typography>
+                                    <Typography variant="subtitle2" fontWeight={400}>{userSelected.name}</Typography>
+                                </Box>
+                                <CheckCircleIcon color="success" />
+                            </Box>
+                        </Grid>
+                    )
+                }
+                <Grid item xs={12}>
+                    <LoadingButton sx={{ p: 1, borderRadius: 3, textTransform: "none" }} disableElevation loading={isSubmitting} fullWidth color="secondary" variant="contained" onClick={() => onSubmit()} disabled={!userSelected}>Enviar</LoadingButton>
                 </Grid>
-            </Box>
+            </Grid>
         </Box >
     )
 }

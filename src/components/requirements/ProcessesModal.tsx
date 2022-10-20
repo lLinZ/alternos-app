@@ -65,7 +65,7 @@ export const ProcessesModal: FC<Props> = ({ selectedProcess, setSelectedProcess,
     return (
         <>
             {/* Modal de usaurios */}
-            <Button color={buttonColor} sx={{ p: 2, borderRadius: 5, boxShadow: "0 0 5px rgba(0,0,0,0.1)" }} disableElevation fullWidth onClick={handleOpenModal}>Seleccionar Proceso</Button>
+            <Button color={buttonColor} sx={{ p: 1, borderRadius: 3, boxShadow: "0 0 5px rgba(0,0,0,0.1)", textTransform: "none" }} disableElevation fullWidth onClick={handleOpenModal}>Seleccionar Proceso</Button>
             <Dialog onClose={handleCloseModal} open={open} fullScreen TransitionComponent={Transition} PaperProps={{ sx: { background: "#F5F5F5" } }}>
                 <AppBar sx={{ position: 'relative' }} elevation={0}>
                     <Toolbar>

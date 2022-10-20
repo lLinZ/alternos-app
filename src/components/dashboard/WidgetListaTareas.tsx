@@ -55,7 +55,7 @@ export const WidgetListaTareas: FC<Props> = () => {
     }
 
     return (
-        <Box display="flex" flexDirection="column" sx={{ minWidth: 400, mr: 1, mb: 1, background: theme.palette.common.white, borderRadius: 5, overflow: "hidden", cursor: "pointer", transition: ".3s ease all", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}
+        <Box display="flex" flexDirection="column" sx={{ minWidth: 400, maxWidth: 400, mr: 1, mb: 1, background: theme.palette.common.white, borderRadius: 5, overflow: "hidden", cursor: "pointer", transition: ".3s ease all", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}
             onClick={() => router("/requirements")}
         >
             <Box id="title" sx={{ pt: 2, pl: 2 }}>

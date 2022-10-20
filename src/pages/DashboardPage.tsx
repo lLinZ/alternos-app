@@ -61,8 +61,9 @@ export const DashboardPage: FC = () => {
     }
     return (
         <Layout title="Dashboard" user={userLogged}>
-            <Grid container display="flex" flexDirection="row" flexWrap="wrap" alignItems="start" spacing={1} sx={{ mb: 5, p: 2 }}>
-                <Grid item xs={12} sm={8} md={9} sx={{ position: "relative", }}>
+            <WidgetSecurity />
+            <Grid container display="flex" flexDirection="row" flexWrap="wrap" alignItems="start" spacing={1} sx={{ mb: 5, p: 1 }}>
+                <Grid item xs={12} sx={{ position: "relative", }}>
                     <IconButton onClick={() => handleScrollLeft(ref as unknown as MutableRefObject<HTMLElement>)} sx={{ position: "absolute", top: 50, left: 10 }}>
                         <ChevronLeftRounded />
                     </IconButton>
@@ -122,11 +123,10 @@ export const DashboardPage: FC = () => {
                             </Box>
                         </Box>
                     </Box>
-                </Grid>
-                <Grid item xs={12} sm={4} md={3}>
-                    <Typography variant="overline" fontWeight="bold">Información</Typography>
-                    <WidgetInformativo />
-                    <WidgetSecurity />
+                    <Box sx={{ display: { xs: "flex", md: "inline-block" }, flexFlow: { xs: "column nowrap", md: 'none' } }}>
+                        <Typography variant="overline" fontWeight="bold">Información</Typography>
+                        <WidgetInformativo />
+                    </Box>
                 </Grid>
             </Grid>
         </Layout >
