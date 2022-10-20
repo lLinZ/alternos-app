@@ -114,49 +114,32 @@ export const WidgetPago: FC<Props> = ({ userLogged }) => {
     }
 
     return (
-        <Box sx={{ borderRadius: 5, p: 2, minWidth: 400, maxWidth: 400, background: "#FFF" }}>
+        <Box sx={{ borderRadius: 5, p: 2, minWidth: 250, maxWidth: 250, background: "#FFF", minHeight: 250, maxHeight: 250 }}>
             <Typography variant="overline" fontWeight={"bold"}>Reporte de pago</Typography>
             <Grid container spacing={1}>
                 <Grid item xs={12} md={6}>
-                    <TextField onChange={handleChange} size="small" color='secondary' sx={{
-                        "& fieldset": {
-                            borderRadius: 3
-                        }
-                    }} fullWidth label="Monto" value={payment.monto} name="monto" />
+                    <TextField onChange={handleChange} size="small" color='secondary' sx={styles.input} fullWidth label="Monto" value={payment.monto} name="monto" />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <TextField onChange={handleChange} size="small" color='secondary' sx={{
-                        "& fieldset": {
-                            borderRadius: 3
-                        }
-                    }} fullWidth label="Fecha" value={payment.fecha} name="fecha" />
+                    <TextField onChange={handleChange} size="small" color='secondary' sx={styles.input} fullWidth label="Fecha" value={payment.fecha} name="fecha" />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <TextField onChange={handleChange} size="small" color='secondary' sx={{
-                        "& fieldset": {
-                            borderRadius: 3
-                        }
-                    }} fullWidth label="Referencia" value={payment.ref} name="ref" />
+                    <TextField onChange={handleChange} size="small" color='secondary' sx={styles.input} fullWidth label="Referencia" value={payment.ref} name="ref" />
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <Select size="small" color='secondary' sx={{
-                        "& fieldset": {
+                        fontSize: 12, "& fieldset": {
                             borderRadius: 3
                         }
                     }} fullWidth defaultValue={"0"} onChange={changeSelect} value={payment.tipo ? payment.tipo : '0'} name="tipo" >
                         <MenuItem value={"0"} disabled>Tipo de pago</MenuItem>
-                        <MenuItem value={"bs-efectivo"}>Bolivares efectivo</MenuItem>
                         <MenuItem value={"bs-electronico"}>Bolivares electronicos</MenuItem>
                         <MenuItem value={"dolar-efectivo"}>Dolar efectivo</MenuItem>
                         <MenuItem value={"dolar-electronico"}>Dolar electronico</MenuItem>
                     </Select>
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField onChange={handleChange} size="small" color='secondary' sx={{
-                        "& fieldset": {
-                            borderRadius: 3
-                        }
-                    }} fullWidth multiline label="Descripción" value={payment.concepto} name="concepto" />
+                    <TextField onChange={handleChange} size="small" color='secondary' sx={styles.input} fullWidth multiline label="Descripción" value={payment.concepto} name="concepto" />
                 </Grid>
                 <Grid item xs={12}>
                     <Button fullWidth variant="contained" size="small" color="secondary" disableElevation onClick={() => onSubmit()} sx={{ textTransform: "none", borderRadius: 3, p: 1 }}>Registrar pago</Button>
@@ -164,4 +147,18 @@ export const WidgetPago: FC<Props> = ({ userLogged }) => {
             </Grid>
         </Box>
     )
+}
+const styles = {
+    input: {
+
+        "& input": {
+            fontSize: 12
+        },
+        "& label": {
+            fontSize: 12,
+        },
+        "& fieldset": {
+            borderRadius: 3,
+        }
+    }
 }

@@ -120,8 +120,26 @@ export const WidgetRequirement: FC<Props> = ({ userLogged }) => {
         }
     }
     return (
-        <Box display="flex" flexDirection="column" sx={{ overflow: "hidden", background: theme.palette.common.white, borderRadius: 5, transition: ".3s ease all", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" }, minWidth: { xs: "100%", sm: 400 }, maxWidth: { xs: "100%", sm: 400 }, mr: 1, mb: 1, p: 2 }}>
-            <Typography variant="overline" component="h2" fontWeight="bold" >Registrar requerimiento
+
+        <Box display="flex" flexDirection="column" sx={{
+            overflowY: "scroll", background: theme.palette.common.white, borderRadius: 5, transition: ".3s ease all", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" }, minWidth: { xs: "100%", sm: 250 }, maxWidth: { xs: "100%", sm: 250 }, mr: 1, mb: 1, p: 2, minHeight: 250, maxHeight: 250,
+            '&::-webkit-scrollbar': {
+                width: '0.2em',
+                height: "10px",
+                borderRadius: "10px"
+            },
+            '&::-webkit-scrollbar-track': {
+                boxShadow: "none",
+                webkitBoxShadow: "none"
+            },
+            '&::-webkit-scrollbar-thumb': {
+                backgroundColor: 'rgba(0,0,0,.1)',
+                outline: '1px solid rgba(255,255,255,0.2)',
+                borderRadius: "10px",
+                height: "10px"
+            }
+        }}>
+            <Typography variant="overline" component="h2" fontWeight="bold" >Requerimiento
                 {!open && (<IconButton onClick={() => setOpen(prev => !prev)} sx={{ transition: ".5s ease all" }} color="info">
                     <HelpIcon />
                 </IconButton>
@@ -197,7 +215,7 @@ export const WidgetRequirement: FC<Props> = ({ userLogged }) => {
                                 </AppBar>
                                 <Box sx={{ width: "80%", m: "20px auto" }}>
                                     {users ? users.map((usuario: any) => (
-                                        <Box key={usuario.user_id} sx={{ p: 1, borderRadius: 5, m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
+                                        <Box key={usuario.user_id} sx={{ p: 2, borderRadius: 5, m: 1, display: "flex", background: "#FFF", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
                                             <Typography>{usuario.user_name}</Typography>
                                             <Button variant="contained" disabled={Number(userSelected?.id) === Number(usuario.user_id)} color="secondary" sx={{ p: 2, borderRadius: 5, textTransform: "none" }} disableElevation onClick={() => {
                                                 setUserSelected({ id: usuario.user_id, name: usuario.user_name })

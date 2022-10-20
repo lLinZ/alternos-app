@@ -55,7 +55,7 @@ export const WidgetListaTareas: FC<Props> = () => {
     }
 
     return (
-        <Box display="flex" flexDirection="column" sx={{ minWidth: 400, maxWidth: 400, mr: 1, mb: 1, background: theme.palette.common.white, borderRadius: 5, overflow: "hidden", cursor: "pointer", transition: ".3s ease all", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}
+        <Box display="flex" flexDirection="column" sx={{ minWidth: 250, maxWidth: 250, mr: 1, mb: 1, background: theme.palette.common.white, borderRadius: 5, overflow: "hidden", cursor: "pointer", transition: ".3s ease all", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" }, minHeight: 250, maxHeight: 250 }}
             onClick={() => router("/requirements")}
         >
             <Box id="title" sx={{ pt: 2, pl: 2 }}>
@@ -81,7 +81,7 @@ export const WidgetListaTareas: FC<Props> = () => {
             }}>
                 {myRequirements ? myRequirements.map(req => (
                     <Box key={req.id} sx={{ boxShadow: "0 0 5px rgba(0,0,0,0.1)", borderRadius: 5, p: 2, mb: 1 }}>
-                        <Typography variant="subtitle1" fontWeight="bold" >{req.process_name} #{req.case_id}</Typography>
+                        <Typography variant="subtitle2" fontWeight="bold" fontSize={12}>{req.process_name} #{req.case_id}</Typography>
                         <Typography variant="subtitle2" fontSize={12} fontWeight="300">{req.description}</Typography>
                     </Box>
                 ))
