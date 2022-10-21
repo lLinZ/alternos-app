@@ -37,6 +37,7 @@ const adminPages: Pages[] = [
     { name: "Status por caso", path: "/casos/status/resume" },
     { name: "Tareas por usuario", path: "/tareas/resume" },
     { name: "Resumen de cumplimiento", path: "/users/cumplimiento/resume" },
+    { name: "Resumen de transacciones", path: "/transacciones/resume" },
 ];
 const settings: Settings[] = [
     { name: 'Mi perfil', path: "/profile" },
