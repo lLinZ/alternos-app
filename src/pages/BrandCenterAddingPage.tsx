@@ -201,7 +201,7 @@ export const BrandCenterAddingPage: FC = () => {
                                 {clients.map((client) => (
                                     <Box sx={styles.clientContainer} key={client.id}>
                                         <Typography variant="subtitle2" fontWeight="bold">{client.name}</Typography>
-                                        <IconButton disabled={Number(selectedClient?.id) === Number(client.id)} onClick={() => seleccionarCliente(client.id)}>
+                                        <IconButton disabled={Number(selectedClient?.id) === Number(client.id)} onClick={() => seleccionarCliente(Number(client.id))}>
                                             {Number(selectedClient?.id) === Number(client.id) ? <CheckCircle color="success" /> : <Circle />}
                                         </IconButton>
                                     </Box>))}

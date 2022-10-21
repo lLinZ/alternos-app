@@ -56,8 +56,9 @@ export const RegistroTareasPage: FC = () => {
     const router = useNavigate();
     const [Tareas, setTareas] = useState<any>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [users, setUsers] = useState<any>(null);
+    const [users, setUsers] = useState<User[] | null>(null);
     const [user, setUser] = useState<any>(0);
+    const [userSelected, setUserSelected] = useState<User | null>(null);
     const customStyles = {
         rows: {
             style: {
@@ -100,6 +101,12 @@ export const RegistroTareasPage: FC = () => {
     }
     const handleChange = (e: SelectChangeEvent) => {
         setUser(e.target.value);
+        if (users) {
+            const selected = users?.filter((u: User) => Number(u.id) === Number(e.target.value))[0];
+            setUserSelected(selected ? selected : null);
+        } else {
+            setUserSelected(null);
+        }
     }
     useEffect(() => {
         validarToken(router, setUserLogged);
@@ -112,17 +119,26 @@ export const RegistroTareasPage: FC = () => {
                 <Grid container spacing={1}>
                     {
                         users && (
-                            <Grid item xs={12}>
+                            <Grid item xs={12} display="flex" flexDirection="row" flexWrap={"wrap"} >
                                 <Box sx={{ display: "flex", flexFlow: "row nowrap", alignItems: "center" }}>
 
-                                    <Select color="secondary" defaultValue={"0"} value={user !== 0 ? user : "0"} onChange={handleChange} sx={{ "& fieldset": { borderRadius: 0 } }}>
+                                    <Select color="secondary" defaultValue={"0"} size="small" value={user !== 0 ? user : "0"} onChange={handleChange} sx={{ "& fieldset": { borderRadius: 0 } }}>
                                         <MenuItem disabled value={"0"}>Seleccione un usuario</MenuItem>
                                         {
-                                            users.map((u: any) => <MenuItem key={u.id + u.name} value={String(u.id)}>{u.name}</MenuItem>)
+                                            users.map((u: any) => <MenuItem key={`${u.id} ${u.name} ${u.function_name}`} value={String(u.id)}>{u.name}</MenuItem>)
                                         }
                                     </Select>
-                                    <Button sx={{ borderRadius: 0, p: 2, }} disableElevation color="secondary" variant="contained" onClick={() => getTareas(user)}>Buscar</Button>
+                                    <Button sx={{ borderRadius: 0, p: 1, textTransform: "none" }} size="small" disableElevation color="secondary" variant="contained" onClick={() => getTareas(user)}>Buscar</Button>
                                 </Box>
+                                {
+                                    userSelected && (
+                                        <Box sx={{ display: "flex", flexFlow: "column wrap", m: 1 }}>
+
+                                            <Typography variant="subtitle2" fontWeight="bold">Departamento</Typography>
+                                            <Typography variant="subtitle2" color="text.secondary" >{userSelected.function_name}</Typography>
+                                        </Box>
+                                    )
+                                }
                             </Grid>
                         )
                     }
