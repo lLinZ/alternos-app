@@ -28,7 +28,7 @@ const adminPages: Pages[] = [
     { name: 'Asignacion', path: "/assignment" },
     { name: 'Lista de actividades', path: "/activity" },
     { name: 'Agregar actividad', path: "/activity/add" },
-    { name: 'Agregar informacion al Brandcenter', path: "/brandcenter/add" },
+    { name: 'Informacion para Brandcenter', path: "/brandcenter/add" },
     { name: 'divider', path: "Resúmenes" },
     { name: "Resumen de procesos", path: "/process/resume" },
     { name: "Resumen de actividades", path: "/activity/resume" },
