@@ -100,7 +100,7 @@ export const BrandCenterAddingPage: FC = () => {
 
                 Swal.fire({
                     title: "Exito",
-                    text: "Se ha registrado exitosamente",
+                    text: "Archivo enviado",
                     icon: "success"
                 })
                 resetForm();
@@ -182,17 +182,22 @@ export const BrandCenterAddingPage: FC = () => {
                 <Dialog onClose={handleCloseModal} open={open} fullScreen PaperProps={{ sx: { background: "#F5F5F5" } }}>
                     <AppBar sx={{ position: 'relative' }} elevation={0}>
                         <Toolbar>
-                            <IconButton
-                                edge="start"
-                                color="inherit"
-                                onClick={handleCloseModal}
-                                aria-label="close"
-                            >
-                                <CloseIcon />
-                            </IconButton>
-                            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                                Seleccionar Cliente
-                            </Typography>
+                            <Box sx={styles.toolbarContainer}>
+
+                                <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                                    Seleccionar Cliente
+                                </Typography>
+                                <Button
+                                    color="success"
+                                    variant="contained"
+                                    disableElevation
+                                    size="small"
+                                    onClick={handleCloseModal}
+                                    sx={styles.buttonGuardarCambios}
+                                >
+                                    Guardar
+                                </Button>
+                            </Box>
                         </Toolbar>
                     </AppBar>
                     {
@@ -257,5 +262,17 @@ const styles = {
         flexFlow: "row wrap",
         justifyContent: "space-between",
         alignItems: "center"
+    },
+    buttonGuardarCambios: {
+        paddingBlock: 0.5,
+        paddingInline: 1.3,
+        borderRadius: 5,
+    },
+    toolbarContainer: {
+        width: "100%",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        flexFlow: "row wrap"
     }
 }
