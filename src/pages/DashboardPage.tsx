@@ -61,74 +61,78 @@ export const DashboardPage: FC = () => {
     }
     return (
         <Layout title="Dashboard" user={userLogged}>
-            <WidgetSecurity />
-            <Grid container display="flex" flexDirection="row" flexWrap="wrap" alignItems="start" spacing={1} sx={{ mb: 5, p: 1 }}>
-                <Grid item xs={12} sx={{ position: "relative", }}>
-                    <IconButton onClick={() => handleScrollLeft(ref as unknown as MutableRefObject<HTMLElement>)} sx={{ position: "absolute", top: 50, left: 10 }}>
-                        <ChevronLeftRounded />
-                    </IconButton>
-                    <IconButton onClick={() => handleScrollRight(ref as unknown as MutableRefObject<HTMLElement>)} sx={{ position: "absolute", top: 50, right: 0 }}>
-                        <ChevronRightRounded />
-                    </IconButton>
-                    <Box ref={ref} sx={{
+            <Box sx={{ minHeight: "100vh", width: "100%", display: "flex", flexFlow: "column wrap", alignItems: "flex-start" }}>
+                <WidgetSecurity />
+                <Grid container display="flex" flexDirection="row" flexWrap="wrap" alignItems="start" spacing={1} sx={{ mb: 5, p: 1 }}>
+                    <Grid item xs={12} sx={{ position: "relative", }}>
+                        <IconButton onClick={() => handleScrollLeft(ref as unknown as MutableRefObject<HTMLElement>)} sx={{ position: "absolute", top: 35, left: 0 }}>
+                            <ChevronLeftRounded />
+                        </IconButton>
+                        <IconButton onClick={() => handleScrollRight(ref as unknown as MutableRefObject<HTMLElement>)} sx={{ position: "absolute", top: 35, right: 0 }}>
+                            <ChevronRightRounded />
+                        </IconButton>
+                        <Box ref={ref} sx={{
 
-                        maxWidth: { xs: "100vw", md: "100%" }, overflowX: { xs: "auto", md: "scroll" }, paddingBlock: 2, '&::-webkit-scrollbar': {
-                            width: '0.2em',
-                            height: "10px",
-                            borderRadius: "10px"
-                        },
-                        '&::-webkit-scrollbar-track': {
-                            boxShadow: "none",
-                            webkitBoxShadow: "none"
-                        },
-                        '&::-webkit-scrollbar-thumb': {
-                            backgroundColor: 'rgba(0,0,0,.1)',
-                            outline: '1px solid rgba(255,255,255,0.2)',
-                            borderRadius: "10px",
-                            height: "10px"
-                        },
+                            maxWidth: { xs: "100vw", md: "100%" }, overflowX: { xs: "auto", md: "scroll" },
+                            '&::-webkit-scrollbar': {
+                                width: '0.2em',
+                                height: "10px",
+                                borderRadius: "10px"
+                            },
+                            '&::-webkit-scrollbar-track': {
+                                boxShadow: "none",
+                                webkitBoxShadow: "none"
+                            },
+                            '&::-webkit-scrollbar-thumb': {
+                                backgroundColor: 'rgba(0,0,0,.1)',
+                                outline: '1px solid rgba(255,255,255,0.2)',
+                                borderRadius: "10px",
+                                height: "10px"
+                            },
 
-                    }}>
+                        }}>
 
-                        <Box sx={{ display: { xs: "flex", md: "inline-block" }, flexFlow: { xs: "column nowrap", md: 'none' }, }}>
-                            <Typography variant="overline" fontWeight="bold">Widgets básicos</Typography>
-                            <Box sx={{ display: "flex", flexFlow: "row nowrap" }}>
-                                <WidgetRequirement userLogged={userLogged} />
-                                <WidgetListaTareas />
-                                <WidgetPago userLogged={userLogged} />
+                            <Box sx={{ display: { xs: "flex", md: "inline-block" }, flexFlow: { xs: "column nowrap", md: 'none' }, }}>
+                                <Typography variant="overline" fontWeight="bold">Widgets básicos</Typography>
+                                <Box sx={{ display: "flex", flexFlow: "row nowrap" }}>
+                                    <WidgetRequirement userLogged={userLogged} />
+                                    <WidgetListaTareas />
+                                    <WidgetPago userLogged={userLogged} />
+                                </Box>
                             </Box>
                         </Box>
-                    </Box>
-                    <Box sx={{
-                        maxWidth: { xs: "100vw", md: "100%" }, overflowX: { xs: "auto", md: "scroll" }, paddingBlock: 2, '&::-webkit-scrollbar': {
-                            width: '0.2em',
-                            height: "10px",
-                            borderRadius: "10px"
-                        },
-                        '&::-webkit-scrollbar-track': {
-                            boxShadow: "none",
-                            webkitBoxShadow: "none"
-                        },
-                        '&::-webkit-scrollbar-thumb': {
-                            backgroundColor: 'rgba(0,0,0,.1)',
-                            outline: '1px solid rgba(255,255,255,0.2)',
-                            borderRadius: "10px",
-                            height: "10px"
-                        }
-                    }}>
-                        <Box sx={{ display: { xs: "flex", md: "inline-block" }, flexFlow: { xs: "column nowrap", md: 'none' } }}>
-                            <Typography variant="overline" fontWeight="bold">Widgets adicionales</Typography>
-                            <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
-                                <WidgetList widgets={widgetsS} />
+                        <Box sx={{
+                            maxWidth: { xs: "100vw", md: "100%" }, overflowX: { xs: "auto", md: "scroll" },
+                            '&::-webkit-scrollbar': {
+                                width: '0.2em',
+                                height: "10px",
+                                borderRadius: "10px"
+                            },
+                            '&::-webkit-scrollbar-track': {
+                                boxShadow: "none",
+                                webkitBoxShadow: "none"
+                            },
+                            '&::-webkit-scrollbar-thumb': {
+                                backgroundColor: 'rgba(0,0,0,.1)',
+                                outline: '1px solid rgba(255,255,255,0.2)',
+                                borderRadius: "10px",
+                                height: "10px"
+                            }
+                        }}>
+                            <Box sx={{ display: { xs: "flex", md: "inline-block" }, flexFlow: { xs: "column nowrap", md: 'none' } }}>
+                                <Typography variant="overline" fontWeight="bold">Widgets adicionales</Typography>
+                                <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
+                                    <WidgetList widgets={widgetsS} />
+                                    <WidgetInformativo />
+                                </Box>
                             </Box>
                         </Box>
-                    </Box>
-                    <Box sx={{ display: { xs: "flex", md: "inline-block" }, flexFlow: { xs: "column nowrap", md: 'none' } }}>
+                        {/* <Box sx={{ display: { xs: "flex", md: "inline-block" }, flexFlow: { xs: "column nowrap", md: 'none' } }}>
                         <Typography variant="overline" fontWeight="bold">Información</Typography>
-                        <WidgetInformativo />
-                    </Box>
+                    </Box> */}
+                    </Grid>
                 </Grid>
-            </Grid>
+            </Box>
         </Layout >
     )
 }

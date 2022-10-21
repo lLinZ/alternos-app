@@ -28,6 +28,7 @@ import { RegistroStatusPorCasoPage } from './pages/registros/RegistroStatusPorCa
 import { RegistroAnalisisPorCasoPage } from './pages/registros/RegistroAnalisisPorCasoPage';
 import { RegistroCumplimientoPage } from './pages/registros/RegistroCumplimientoPage';
 import { RegistroPagosPage } from './pages/registros/RegistroPagosPage';
+import { BrandCenterAddingPage } from './pages/BrandCenterAddingPage';
 
 function App() {
   return (
@@ -62,6 +63,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/files" element={<RegistrosPage />} />
         <Route path="/pagos" element={<RegistroPagosPage />} />
+        <Route path="/brandcenter/add" element={<BrandCenterAddingPage />} />
 
       </Routes>
     </BrowserRouter>
