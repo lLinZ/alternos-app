@@ -1,5 +1,4 @@
-import { Button, Grid, MenuItem, Select, SelectChangeEvent, TextField, Typography } from '@mui/material';
-import { Box } from '@mui/system';
+import { Box, Button, DialogActions, Grid, MenuItem, Select, SelectChangeEvent, TextField, Typography } from '@mui/material';
 import { ChangeEvent, FC, useState } from 'react'
 import Swal from 'sweetalert2';
 import { baseUrl } from '../../common/baseUrl';
@@ -8,6 +7,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import moment, { Moment } from 'moment';
+import { PickersActionBarProps } from '@mui/x-date-pickers/PickersActionBar';
 interface Props {
     userLogged: User | null;
 }
@@ -18,6 +18,21 @@ interface IPayment {
     fecha: string | null;
     concepto: string | null;
 }
+const MyActionBar = ({
+    onAccept,
+    onCancel,
+    onClear,
+    onSetToday,
+}: PickersActionBarProps) => {
+
+    return (
+        <DialogActions>
+            <Button sx={{ textTransform: "none" }} onClick={onCancel} color="error"> Cancelar </Button>
+            <Button sx={{ textTransform: "none" }} onClick={onAccept} color="secondary"> Seleccionar </Button>
+        </DialogActions>
+    );
+};
+
 export const WidgetPago: FC<Props> = ({ userLogged }) => {
     moment.locale('es', {
         months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
@@ -47,7 +62,7 @@ export const WidgetPago: FC<Props> = ({ userLogged }) => {
 
     const handleChangeFecha = (newValue: Moment | null) => {
         setFecha(newValue);
-        setPayment({ ...payment, fecha: moment(newValue).format("YYYY/MM/DD") });
+        setPayment({ ...payment, fecha: moment(newValue).format("YYYY-MM-DD") });
     };
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.name === "monto") {
@@ -149,6 +164,9 @@ export const WidgetPago: FC<Props> = ({ userLogged }) => {
                             inputFormat="DD/MM/YYYY"
                             value={fecha}
                             onChange={handleChangeFecha}
+                            components={{
+                                ActionBar: MyActionBar
+                            }}
                             renderInput={(params: any) => <TextField color="secondary" {...params} fullWidth size="small" sx={styles.input} />}
                         />
                     </Grid>
