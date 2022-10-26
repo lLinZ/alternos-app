@@ -3,7 +3,7 @@ import { TransitionProps } from '@mui/material/transitions';
 import { Dispatch, FC, forwardRef, ReactElement, Ref, SetStateAction, useEffect, useState } from 'react'
 import { baseUrl } from '../../common/baseUrl';
 import CloseIcon from '@mui/icons-material/Close';
-import { ISelectedProcess, IProcessNoDetails, Process } from '../../interfaces/process-type';
+import { ISelectedProcess, Process } from '../../interfaces/process-type';
 import { CheckCircleRounded } from '@mui/icons-material';
 
 const Transition = forwardRef(function Transition(

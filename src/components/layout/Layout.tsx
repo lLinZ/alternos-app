@@ -1,19 +1,19 @@
 import * as React from "react";
 import { Box, Typography, Button, useTheme } from "@mui/material";
-import { AppBarComponent } from "../ui/AppBarComponent";
+import { AppBarComponent } from "../ui";
 import { User } from "../../interfaces/user-type";
 
 type Props = {
     title?: string;
     footer?: boolean;
     children: React.ReactNode,
-    user?: any;
+    user?: User | null;
 }
 export const Layout: React.FC<Props> = ({ title = "ALTERNOS", children, footer = true, user }) => {
     const theme = useTheme();
     return (
         <Box sx={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", flexWrap: "nowrap" }}>
-            <AppBarComponent title={title} user={user} />
+            <AppBarComponent title={title} user={user ? user : null} />
             <Box sx={{ width: "100%", minHeight: "500px", margin: "40px auto", flexGrow: 1, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", }}>
                 {children}
             </Box>

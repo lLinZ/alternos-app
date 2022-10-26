@@ -6,6 +6,7 @@ import { User } from '../interfaces/user-type'
 import { validarToken } from '../lib/functions'
 import { green } from '@mui/material/colors'
 import { ColorPicker, UserInfo, UserEditForm, NewUser } from '../components/profile'
+import { AvatarPlaceholder } from '../components/placeholder'
 
 
 
@@ -36,7 +37,7 @@ export const ProfilePage: FC = () => {
                 <Grid item xs={12} sx={{ borderRadius: 5, background: "#FFF", }} >
                     <Box sx={{ display: "flex", flexFlow: "row wrap", justifyContent: { xs: "center", sm: "space-evenly", md: "space-between" }, p: 2 }}>
                         <Box sx={{ display: "flex", flexFlow: "row wrap", alignItems: "center" }}>
-                            <Avatar sx={{ bgcolor: userLogged?.coloravatar, mr: 2 }}>{userLogged?.name.substring(0, 1)}</Avatar>
+                            {userLogged ? (<Avatar sx={{ bgcolor: userLogged?.coloravatar, mr: 2 }}>{userLogged?.name.substring(0, 1)}</Avatar>) : (<AvatarPlaceholder />)}
                             <Typography variant="subtitle1" color="text.primary" fontWeight="bold" >Color del avatar</Typography>
                         </Box>
                         <ColorPicker user={userLogged} setUserLogged={setUserLogged} />
