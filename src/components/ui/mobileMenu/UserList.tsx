@@ -7,10 +7,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { pages } from '../pages';
 import { Pages } from '../../../interfaces/pages-type';
 
-interface Props {
-}
-
-export const UserList: FC<Props> = () => {
+export const UserList: FC = () => {
     const router = useNavigate();
     const currentPath = useLocation();
     const redirect = (path: string) => {

@@ -30,42 +30,72 @@ import { RegistroCumplimientoPage } from './pages/registros/RegistroCumplimiento
 import { RegistroPagosPage } from './pages/registros/RegistroPagosPage';
 import { BrandCenterAddingPage } from './pages/BrandCenterAddingPage';
 import { RegistroTransaccionesPage } from './pages/registros/RegistroTransaccionesPage';
+import { ExternalProcessAdding } from './pages/ExternalProcessAdding';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Dashboard */}
+        <Route path="/dashboard" element={<DashboardPage />} />
+
+        {/* Log in */}
         <Route path="/" element={<LoginPage />} />
+
+        {/* Registrarse */}
+        <Route path="/register" element={<RegisterPage />} />
+
+        {/* Cerrar sesion */}
+        <Route path="/end" element={<EndPage />} />
+
+        {/* Actividades */}
         <Route path="/activity" element={<ActivityPage />} />
         <Route path="/activity/add" element={<ActivityAddingPage />} />
         <Route path="/activity/resume" element={<RegistroActivityPage />} />
-        <Route path="/departamentos/add" element={<DepartmentAddingPage />} />
-        <Route path="/assignment" element={<ActivityAssignmentPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/register/admin" element={<RegisterAdminPage />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/admin/user/add" element={<UserAddingPage />} />
-        <Route path="/end" element={<EndPage />} />
+
+        {/* Procesos  */}
         <Route path="/process" element={<ProcessListPage />} />
         <Route path="/process/add" element={<ProcessesPage />} />
         <Route path="/process/resume" element={<RegistroProcesosPage />} />
+        <Route path="/process/external/add" element={<ExternalProcessAdding />} />
+
+        {/* Requerimientos */}
+        <Route path="/requirements" element={<TrafficUserPage />} />
+        <Route path="/requirements/add" element={<RequirementsPage />} />
+        <Route path="/requirements/basic" element={<BasicTaskPage />} />
+
+        {/* Briefing */}
+        <Route path="/briefing/new/:processId/:caseId" element={<BriefingPage />} />
+        <Route path="/briefing/:caseId" element={<GetBriefingPage />} />
+
+        {/* Agregar departamento */}
+        <Route path="/departamentos/add" element={<DepartmentAddingPage />} />
+
+        {/* Asignacion de tareas */}
+        <Route path="/assignment" element={<ActivityAssignmentPage />} />
+
+        {/* Modulo Administrador */}
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/admin/user/add" element={<UserAddingPage />} />
+        <Route path="/register/admin" element={<RegisterAdminPage />} />
+
+        {/* Pagina de perfil */}
+        <Route path="/profile" element={<ProfilePage />} />
+
+        {/* Agregar info brandcenter */}
+        <Route path="/brandcenter/add" element={<BrandCenterAddingPage />} />
+
+        {/* Resumenes */}
+        <Route path="/pagos" element={<RegistroPagosPage />} />
         <Route path="/casos/status/resume" element={<RegistroStatusPorCasoPage />} />
         <Route path="/transacciones/resume" element={<RegistroTransaccionesPage />} />
-        <Route path="/requirements" element={<TrafficUserPage />} />
-        <Route path="/requirements/basic" element={<BasicTaskPage />} />
         <Route path="/requirements/resume" element={<RegistroCasosPage />} />
         <Route path="/analisis/resume" element={<RegistroAnalisisPorCasoPage />} />
         <Route path="/tareas/resume" element={<RegistroTareasPage />} />
         <Route path="/users/cumplimiento/resume" element={<RegistroCumplimientoPage />} />
+
         {/* <Route path="/traffic" element={<TrafficUserPage />} /> */}
-        <Route path="/requirements/add" element={<RequirementsPage />} />
-        <Route path="/briefing/new/:processId/:caseId" element={<BriefingPage />} />
-        <Route path="/briefing/:caseId" element={<GetBriefingPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/files" element={<RegistrosPage />} />
-        <Route path="/pagos" element={<RegistroPagosPage />} />
-        <Route path="/brandcenter/add" element={<BrandCenterAddingPage />} />
+        {/* <Routes path="/files" element={<RegistrosPage />} /> */}
 
       </Routes>
     </BrowserRouter>

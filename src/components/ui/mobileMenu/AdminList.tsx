@@ -10,10 +10,8 @@ import ListItemText from '@mui/material/ListItemText';
 import { Pages } from '../../../interfaces/pages-type';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { adminPages } from '../pages';
-interface Props {
-}
 
-export const AdminList: FC<Props> = () => {
+export const AdminList: FC = () => {
     const router = useNavigate();
     const currentPath = useLocation();
     const redirect = (path: string) => {
