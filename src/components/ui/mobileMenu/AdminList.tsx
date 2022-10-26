@@ -20,7 +20,7 @@ export const AdminList: FC = () => {
     return (
         <>
             {
-                adminPages.map((setting: Pages, i: number) => (String(currentPath.pathname) !== String(setting.path) &&
+                adminPages.map((setting: Pages, i: number) => (String(currentPath.pathname) !== String(setting.path) ?
                     (
                         setting.name === 'divider'
                             ? (
@@ -35,6 +35,11 @@ export const AdminList: FC = () => {
                                 </ListItemButton>
                             </ListItem>)
                     )
+                    : (<ListItem sx={{ background: "rgba(0,0,0,0.9)" }} key={`${i + 42}${setting.name}${i}`} disablePadding>
+                        <ListItemButton dense>
+                            <ListItemText primary={setting.name} primaryTypographyProps={{ color: "#FFF", fontSize: 12 }} />
+                        </ListItemButton>
+                    </ListItem>)
                 ))
             }
         </>

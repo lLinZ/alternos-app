@@ -83,7 +83,7 @@ export const ExternalProcessAddingPage: FC = () => {
                             Swal.fire({
                                 title: "Exito",
                                 text: "Se ha registrado el proceso",
-                                icon: "error",
+                                icon: "success",
                             })
                             resetForm();
                             setIsSubmitting(false);
