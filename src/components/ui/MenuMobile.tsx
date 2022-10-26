@@ -13,10 +13,8 @@ import { Pages } from '../../interfaces/pages-type';
 
 interface Props {
     user: User | null;
-    pages: Pages[];
-    adminPages: Pages[];
 }
-export const MenuMobile: FC<Props> = ({ user, pages, adminPages }) => {
+export const MenuMobile: FC<Props> = ({ user, }) => {
     const [state, setState] = useState<boolean>(false);
     const toggleDrawer =
         (open: boolean) =>
@@ -40,7 +38,7 @@ export const MenuMobile: FC<Props> = ({ user, pages, adminPages }) => {
                 <img src='/logo.png' width='171' height='49' />
             </Box>
         </Box>
-        <DrawerComponent user={user} toggleDrawer={toggleDrawer} state={state} pages={pages} adminPages={adminPages} />
+        <DrawerComponent user={user} toggleDrawer={toggleDrawer} state={state} />
     </>
     )
 }

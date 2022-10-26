@@ -9,11 +9,11 @@ import ListItemText from '@mui/material/ListItemText';
 
 import { Pages } from '../../../interfaces/pages-type';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { adminPages } from '../pages';
 interface Props {
-    adminPages: Pages[];
 }
 
-export const AdminList: FC<Props> = ({ adminPages }) => {
+export const AdminList: FC<Props> = () => {
     const router = useNavigate();
     const currentPath = useLocation();
     const redirect = (path: string) => {
@@ -26,7 +26,7 @@ export const AdminList: FC<Props> = ({ adminPages }) => {
                     (
                         setting.name === 'divider'
                             ? (
-                                <Box key={`${i + 42}${setting.name}${i}`}>
+                                <Box key={`${i + 42}${setting.name}${i}`} sx={{ mb: -1 }}>
                                     <Divider />
                                     <Typography sx={{ ml: 2 }} variant="overline" fontWeight="bold">{setting.path}</Typography>
                                 </Box>

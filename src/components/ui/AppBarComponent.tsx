@@ -16,41 +16,6 @@ import { MenuMobile, MenuUser } from '.';
 import { Settings } from "../../interfaces/settings-type";
 import { Pages } from "../../interfaces/pages-type";
 
-const settings: Settings[] = [
-    { name: 'Mi perfil', path: "/profile" },
-    { name: 'Cerrar sesión', path: "/end" },
-];
-const adminSettings: Settings[] = [
-    { name: 'Mi perfil', path: "/profile" },
-    { name: "Administrar usuarios", path: "/admin" },
-    { name: "Revision de pagos", path: "/pagos" },
-    { name: "Agregar admin", path: "/register/admin" },
-    { name: 'Cerrar sesión', path: "/end" },
-]
-
-const pages: Pages[] = [
-    { name: 'Mis tareas', path: "/requirements" },
-    { name: 'Dashboard', path: "/dashboard" }
-];
-const adminPages: Pages[] = [
-    { name: 'Dashboard', path: "/dashboard" },
-    { name: 'Mis tareas', path: "/requirements" },
-    { name: 'Procesos', path: "/process" },
-    { name: 'Agregar procesos', path: "/process/add" },
-    { name: 'Asignacion', path: "/assignment" },
-    { name: 'Lista de actividades', path: "/activity" },
-    { name: 'Agregar actividad', path: "/activity/add" },
-    { name: 'Informacion para Brandcenter', path: "/brandcenter/add" },
-    { name: 'divider', path: "Resúmenes" },
-    { name: "Resumen de procesos", path: "/process/resume" },
-    { name: "Resumen de actividades", path: "/activity/resume" },
-    { name: "Resumen de casos", path: "/requirements/resume" },
-    { name: "Analisis por caso", path: "/analisis/resume" },
-    { name: "Status por caso", path: "/casos/status/resume" },
-    { name: "Tareas por usuario", path: "/tareas/resume" },
-    { name: "Resumen de cumplimiento", path: "/users/cumplimiento/resume" },
-    { name: "Resumen de transacciones", path: "/transacciones/resume" },
-];
 const notLoggedPages: Pages[] = [
     {
         name: "Log In",
@@ -84,7 +49,7 @@ export const AppBarComponent: FC<Props> = ({ title, user }) => {
                 <Toolbar disableGutters>
                     {token && (
                         <>
-                            <MenuMobile user={user} adminPages={adminPages} pages={pages} />
+                            <MenuMobile user={user} />
                             <MenuUser user={user} />
                         </>
                     )}

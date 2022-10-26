@@ -3,15 +3,14 @@ import { FC } from 'react'
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-
-import { Pages } from '../../../interfaces/pages-type';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { pages } from '../pages';
+import { Pages } from '../../../interfaces/pages-type';
 
 interface Props {
-    pages: Pages[];
 }
 
-export const UserList: FC<Props> = ({ pages }) => {
+export const UserList: FC<Props> = () => {
     const router = useNavigate();
     const currentPath = useLocation();
     const redirect = (path: string) => {
