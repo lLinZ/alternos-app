@@ -9,6 +9,8 @@ export const adminPages: Pages[] = [
     { name: 'Mis tareas', path: "/requirements" },
     { name: 'Procesos', path: "/process" },
     { name: 'Agregar procesos', path: "/process/add" },
+    { name: 'Procesos externos', path: "/process" },
+    { name: 'Agregar procesos externos', path: "/process/external/add" },
     { name: 'Asignacion', path: "/assignment" },
     { name: 'Lista de actividades', path: "/activity" },
     { name: 'Agregar actividad', path: "/activity/add" },

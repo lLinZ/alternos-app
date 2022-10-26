@@ -30,7 +30,8 @@ import { RegistroCumplimientoPage } from './pages/registros/RegistroCumplimiento
 import { RegistroPagosPage } from './pages/registros/RegistroPagosPage';
 import { BrandCenterAddingPage } from './pages/BrandCenterAddingPage';
 import { RegistroTransaccionesPage } from './pages/registros/RegistroTransaccionesPage';
-import { ExternalProcessAdding } from './pages/ExternalProcessAdding';
+import { ExternalProcessAddingPage } from './pages/ExternalProcessAddingPage';
+import { ExternalProcessPage } from './pages/ExternalProcessPage';
 
 function App() {
   return (
@@ -57,7 +58,8 @@ function App() {
         <Route path="/process" element={<ProcessListPage />} />
         <Route path="/process/add" element={<ProcessesPage />} />
         <Route path="/process/resume" element={<RegistroProcesosPage />} />
-        <Route path="/process/external/add" element={<ExternalProcessAdding />} />
+        <Route path="/process/external" element={<ExternalProcessPage />} />
+        <Route path="/process/external/add" element={<ExternalProcessAddingPage />} />
 
         {/* Requerimientos */}
         <Route path="/requirements" element={<TrafficUserPage />} />

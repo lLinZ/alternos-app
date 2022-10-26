@@ -12,7 +12,6 @@ import { Formik, Form, FormikValues, FormikState } from 'formik';
 import { baseUrl } from '../common/baseUrl';
 import Swal from 'sweetalert2';
 
-
 const initialValues = {
     id: 'new',
     name: '',
@@ -23,9 +22,10 @@ const initialValues = {
     owner_name: '',
 }
 
-export const ExternalProcessAdding: FC = () => {
+export const ExternalProcessAddingPage: FC = () => {
 
     const [userLogged, setUserLogged] = useState<User | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const router = useNavigate()
 
     useEffect(() => {
@@ -33,6 +33,8 @@ export const ExternalProcessAdding: FC = () => {
     }, [])
 
     const onSubmit = async (values: FormikValues, resetForm: (nextState?: Partial<FormikState<FormikValues>> | undefined) => void) => {
+        setIsSubmitting(true);
+
         // Array de errores
         let errores = [];
 
@@ -84,6 +86,7 @@ export const ExternalProcessAdding: FC = () => {
                                 icon: "error",
                             })
                             resetForm();
+                            setIsSubmitting(false);
                         } else {
                             Swal.fire({
                                 title: "Error",
@@ -91,6 +94,8 @@ export const ExternalProcessAdding: FC = () => {
                                 icon: "error",
                             })
                         }
+                        setIsSubmitting(false);
+
                         break;
                     default:
                         Swal.fire({
@@ -98,6 +103,8 @@ export const ExternalProcessAdding: FC = () => {
                             text: "Ocurrio un error al conectar con el servidor",
                             icon: "error",
                         })
+                        setIsSubmitting(false);
+
                         break;
                 }
             } catch (err) {
@@ -107,6 +114,8 @@ export const ExternalProcessAdding: FC = () => {
                     text: "Ocurrio un error al conectar con el servidor",
                     icon: "error",
                 })
+                setIsSubmitting(false);
+
             }
         } else {
             let errorString = '';
@@ -116,6 +125,8 @@ export const ExternalProcessAdding: FC = () => {
                 html: errorString,
                 icon: "error",
             })
+            setIsSubmitting(false);
+
         }
     }
 
@@ -128,7 +139,7 @@ export const ExternalProcessAdding: FC = () => {
                     initialValues={initialValues}
                     onSubmit={(values: FormikValues, { resetForm }) => onSubmit(values, resetForm)}
                 >
-                    {({ values, isSubmitting, handleChange, handleSubmit }) => (
+                    {({ values, handleChange, handleSubmit }) => (
 
                         <Form onSubmit={handleSubmit}>
                             <Grid container spacing={1} sx={{ mt: 2 }}>
@@ -151,7 +162,7 @@ export const ExternalProcessAdding: FC = () => {
                                     <TextField fullWidth color="secondary" label="Centro de costo 2" sx={styles.input} name="centrodecosto2" value={values.centrodecosto2} onChange={handleChange} />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <LoadingButton type='submit' loading={isSubmitting} color="secondary" variant="contained" fullWidth sx={{ p: 1.9 }}>Registrar</LoadingButton>
+                                    <LoadingButton type='submit' disabled={isSubmitting} loading={isSubmitting} color="secondary" variant="contained" fullWidth sx={styles.button}>Registrar</LoadingButton>
                                 </Grid>
                             </Grid>
                         </Form>
@@ -165,7 +176,12 @@ const styles = {
     mainContainer: {
         width: "80%",
         margin: "20px auto",
-        minheight: "100vh"
+        minHeight: "100vh"
+    },
+    button: {
+        p: 1.9,
+        borderRadius: 5,
+        textTransform: "none",
     },
     input: {
         "& fieldset": {
