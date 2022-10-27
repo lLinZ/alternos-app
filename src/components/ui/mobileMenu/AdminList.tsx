@@ -26,7 +26,7 @@ export const AdminList: FC = () => {
                             ? (
                                 <Box key={`${i + 42}${setting.name}${i}`} sx={{ mb: -1 }}>
                                     <Divider />
-                                    <Typography sx={{ ml: 2 }} variant="overline" fontWeight="bold">{setting.path}</Typography>
+                                    <Typography sx={{ ml: 2 }} variant="overline" color="text.secondary" fontWeight="bold">{setting.path}</Typography>
                                 </Box>
                             )
                             : (<ListItem key={`${i + 42}${setting.name}${i}`} disablePadding>
@@ -35,9 +35,9 @@ export const AdminList: FC = () => {
                                 </ListItemButton>
                             </ListItem>)
                     )
-                    : (<ListItem sx={{ background: "rgba(0,0,0,0.9)" }} key={`${i + 42}${setting.name}${i}`} disablePadding>
+                    : (<ListItem sx={{ background: "rgba(0,0,0,0.2)" }} key={`${i + 42}${setting.name}${i}`} disablePadding>
                         <ListItemButton dense>
-                            <ListItemText primary={setting.name} primaryTypographyProps={{ color: "#FFF", fontSize: 12 }} />
+                            <ListItemText primary={setting.name} primaryTypographyProps={{ fontSize: 12 }} />
                         </ListItemButton>
                     </ListItem>)
                 ))

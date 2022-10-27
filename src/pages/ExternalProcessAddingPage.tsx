@@ -45,13 +45,6 @@ export const ExternalProcessAddingPage: FC = () => {
         if (values.owner_name === '') {
             errores.push('El nombre del propietario es obligatorio');
         }
-        if (values.centrodecosto1 === '') {
-            errores.push('Debe introducir un centro de costo');
-        }
-        if (values.centrodecosto2 === '') {
-            errores.push('Debe introducir un centro de costo secundario');
-        }
-
         // Se verifica que no existan errores
         if (errores.length === 0) {
 

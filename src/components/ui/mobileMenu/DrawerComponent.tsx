@@ -37,7 +37,6 @@ export const DrawerComponent: FC<Props> = ({ user, state, toggleDrawer }) => {
                 }
             </Box>
             <Divider />
-            <Typography sx={{ ml: 2, mb: -1 }} variant="overline" fontWeight="bold">Opciones</Typography>
             <Box
                 sx={{ width: 250 }}
                 role="presentation"

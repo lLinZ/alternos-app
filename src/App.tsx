@@ -32,6 +32,7 @@ import { BrandCenterAddingPage } from './pages/BrandCenterAddingPage';
 import { RegistroTransaccionesPage } from './pages/registros/RegistroTransaccionesPage';
 import { ExternalProcessAddingPage } from './pages/ExternalProcessAddingPage';
 import { ExternalProcessPage } from './pages/ExternalProcessPage';
+import { OfferAddingPage } from './pages/OfferAddingPage';
 
 function App() {
   return (
@@ -66,6 +67,8 @@ function App() {
         <Route path="/requirements/add" element={<RequirementsPage />} />
         <Route path="/requirements/basic" element={<BasicTaskPage />} />
 
+        <Route path="/offer/add" element={<OfferAddingPage />} />
+        <Route path="/offer" element={<ProcessesPage />} />
         {/* Briefing */}
         <Route path="/briefing/new/:processId/:caseId" element={<BriefingPage />} />
         <Route path="/briefing/:caseId" element={<GetBriefingPage />} />
