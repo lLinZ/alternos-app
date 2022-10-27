@@ -35,7 +35,7 @@ export const AdminList: FC = () => {
                                 </ListItemButton>
                             </ListItem>)
                     )
-                    : (<ListItem sx={{ background: "rgba(0,0,0,0.2)" }} key={`${i + 42}${setting.name}${i}`} disablePadding>
+                    : (<ListItem sx={{ background: "rgba(100,100,100,0.1)" }} key={`${i + 42}${setting.name}${i}`} disablePadding>
                         <ListItemButton dense>
                             <ListItemText primary={setting.name} primaryTypographyProps={{ fontSize: 12 }} />
                         </ListItemButton>

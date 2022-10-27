@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 import { Layout } from '../components/layout'
@@ -13,18 +13,259 @@ import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import CloseIcon from '@mui/icons-material/CloseRounded'
+import InfoIcon from '@mui/icons-material/InfoOutlined'
 import { baseUrl } from '../common/baseUrl'
+import CheckCircle from '@mui/icons-material/CheckCircle'
+import Popover from '@mui/material/Popover'
+import Swal from 'sweetalert2'
+import CircleOutlined from '@mui/icons-material/CircleOutlined'
+import CheckCircleRounded from '@mui/icons-material/CheckCircleRounded'
+import LoadingButton from '@mui/lab/LoadingButton'
 
-const UserSelectionDialog = () => {
+interface ItemSelection {
+    product_id: number;
+    description: string;
+    type: string;
+    orden: number;
+}
 
-    const [open, setOpen] = useState<boolean>(false)
-    const [users, setUsers] = useState<User[] | null>(null)
+interface IItem {
+    id: string | number;
+    name: string;
+    owner_name: string;
+    centrodecosto1: string;
+    centrodecosto2: string;
+    costo: string | number;
+    precio: string | number;
+    origen: string;
+}
+
+interface ItemSelectionProps {
+    anchorEl: HTMLElement | null,
+    setAnchorEl: Dispatch<SetStateAction<HTMLElement | null>>,
+    open: boolean,
+    setOpen: Dispatch<SetStateAction<boolean>>,
+    items: IItem[] | null,
+    setItems: Dispatch<SetStateAction<IItem[] | null>>,
+    selectedItems: ItemSelection[] | null,
+    setSelectedItems: Dispatch<SetStateAction<ItemSelection[] | null>>,
+    orden: number,
+    setOrden: Dispatch<SetStateAction<number>>,
+}
+const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, open, setOpen, items, setItems, selectedItems, setSelectedItems, orden, setOrden }) => {
+
+    const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handlePopoverClose = () => {
+        setAnchorEl(null);
+    };
+    const handleOpen = () => {
+        setOpen(true);
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+    }
+
+    const selectItem = (product_id: number, description: string, type: string) => {
+        const exists = Boolean(selectedItems?.filter((item: ItemSelection) => item.product_id === product_id).length)
+
+        const newData: ItemSelection = {
+            product_id,
+            description,
+            type,
+            orden: orden + 1
+        }
+        const newItem = exists
+            ? (selectedItems?.filter((item: ItemSelection) => item.product_id !== product_id))
+            : (selectedItems ? [...selectedItems, newData] : [newData]);
+
+        setSelectedItems(newItem!);
+        exists ? setOrden(orden - 1) : setOrden(orden + 1);
+    }
+    const getItems = async () => {
+        const url = `${baseUrl}/listatodoslosprocesos`;
+        try {
+            const respuesta = await fetch(url);
+            switch (respuesta.status) {
+                case 200:
+                    const data = await respuesta.json();
+
+                    if (data.exito === "SI") {
+                        setItems(data.registros);
+
+                    } else {
+
+                        Swal.fire({
+                            title: "Error",
+                            text: data.mensaje,
+                            icon: "error",
+                        })
+                    }
+                    break;
+                default:
+                    Swal.fire({
+                        title: "Error",
+                        text: "No se logró conectar",
+                        icon: "error",
+                    })
+                    break;
+
+            }
+
+        } catch (error) {
+            console.log(error);
+            Swal.fire({
+                title: "Error",
+                text: "No se logró conectar",
+                icon: "error",
+            })
+        }
+    }
+
+    useEffect(() => {
+        getItems();
+    }, [])
+    const PopOverText = "El último item seleccionado tendrá color verde, indicando que puede ser deseleccionado, esto es así para mantener el orden de los items. Puedes deseleccionar los items clickeando en el orden en que las seleccionaste pero de manera invertida.";
+    const localStyles = {
+        button: {
+            borderRadius: 5,
+            mb: 2,
+            p: 1.9,
+            textTransform: 'none',
+            boxShadow: "0 0 5px rgba(100,100,100,0.1)"
+        },
+        mainContainer: {
+            width: '80%',
+            margin: '20px auto'
+        },
+        title: {
+            ml: 2,
+            flex: 1
+        },
+        popoverText: {
+            p: 1,
+            textAlign: "justify",
+        },
+        item: {
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 1,
+            background: "#FFF",
+            borderRadius: 5,
+            p: 2,
+            "&:hover": {
+                boxShadow: "0 0 5px rgba(100,100,100,0.1)",
+            }
+        },
+        selectedItems: {
+            display: "flex",
+            justifyContent: "left",
+            alignItems: "left",
+            background: "#FFF",
+            borderRadius: 5,
+            p: 2,
+            mb: 2,
+            flexDirection: "column",
+            "&:hover": {
+                boxShadow: "0 0 5px rgba(0,0,0,0.1)"
+            },
+        }
+    }
+    return (
+        <>
+            <Button color="primary" variant="contained" sx={localStyles.button} disableElevation onClick={handleOpen} fullWidth >Seleccionar procesos</Button>
+            {
+                selectedItems && selectedItems.length > 0 && (
+                    <Box sx={localStyles.selectedItems}>
+                        <Typography variant="overline" fontWeight="bold">Items seleccionados</Typography>
+                        {
+                            selectedItems.map((item: ItemSelection) => (
+                                <>
+                                    <Box sx={{ display: "flex", flexDirection: "column", mt: 2, }}>
+                                        <Typography variant="overline" fontWeight={400} >Proceso {item.type} #{item.orden}</Typography>
+                                        <Typography variant="subtitle1" fontWeight={500} >{item.description}</Typography>
+                                    </Box>
+                                </>
+                            ))
+                        }
+                    </Box>
+                )
+            }
+            <Dialog open={open} fullScreen onClose={handleClose} PaperProps={{ sx: { background: "#f6f6f6" } }}>
+                <AppBar sx={{ position: 'relative', boxShadow: '0 0 5px rgba(0,0,0,0.1)' }} elevation={0}>
+                    <Toolbar>
+                        <IconButton onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}>
+                            <InfoIcon color="info" />
+                        </IconButton>
+                        <Typography sx={localStyles.title} variant="h6" component="div">
+                            Seleccionar Actividades
+                        </Typography>
+                        <Button color="success" variant="contained" disableElevation onClick={handleClose} size="small" sx={{ borderRadius: 5 }}>
+                            Guardar
+                        </Button>
+                        <Popover id="mouse-over-popover" sx={{ pointerEvents: 'none', }} open={Boolean(anchorEl)} anchorEl={anchorEl} anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }} transformOrigin={{ vertical: 'top', horizontal: 'left', }} onClose={handlePopoverClose} disableRestoreFocus>
+                            <Box sx={{ p: 2 }}>
+                                <Typography sx={localStyles.popoverText}>{PopOverText}</Typography>
+                            </Box>
+                        </Popover>
+                    </Toolbar>
+                </AppBar>
+                <Box sx={localStyles.mainContainer}>
+
+                    {
+                        items && (
+                            items.map((item: IItem) => (
+                                <Box key={item.id} sx={localStyles.item}>
+                                    <Box>
+                                        <Typography variant="subtitle2" fontWeight="bold">{item.name}</Typography>
+                                        <Typography variant="subtitle2" color="text.secondary" fontWeight={400}>{item.origen}</Typography>
+                                    </Box>
+                                    <IconButton onClick={() => selectItem(Number(item.id), item.name, item.origen)} disabled={Boolean(selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id && itemSelected.orden !== orden).length)}>
+                                        {
+                                            Boolean(selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id).length)
+                                                ? (<>
+                                                    {selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id)[0].orden}
+                                                    <CheckCircleRounded color={Boolean(selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id && itemSelected.orden !== orden).length) ? "secondary" : "success"} />
+                                                </>)
+                                                : (<CircleOutlined />)
+                                        }
+                                    </IconButton>
+                                </Box>
+                            ))
+                        )
+                    }
+                </Box>
+            </Dialog>
+        </>
+    )
+}
+
+interface UserSelectionProps {
+    open: boolean;
+    setOpen: Dispatch<SetStateAction<boolean>>;
+    users: User[] | null;
+    setUsers: Dispatch<SetStateAction<User[] | null>>;
+    selectedUser: User | null;
+    setSelectedUser: Dispatch<SetStateAction<User | null>>;
+
+}
+const UserSelectionDialog: FC<UserSelectionProps> = ({ open, setOpen, users, setUsers, selectedUser, setSelectedUser }) => {
 
     const handleOpen = () => {
         setOpen(true);
     }
 
     const handleClose = () => {
+        setOpen(false);
+    }
+
+    const selectUser = (id: number) => {
+        const newUser = users ? users.filter((u) => u.id === id)[0] : null;
+        setSelectedUser(newUser);
         setOpen(false);
     }
 
@@ -43,7 +284,7 @@ const UserSelectionDialog = () => {
             }
 
         } catch (error) {
-
+            console.log(error);
         }
     }
 
@@ -55,7 +296,9 @@ const UserSelectionDialog = () => {
         button: {
             borderRadius: 5,
             p: 1.9,
-            textTransform: 'none'
+            mb: 2,
+            textTransform: 'none',
+            boxShadow: "0 0 5px rgba(100,100,100,0.1)"
         },
         mainContainer: {
             width: '80%',
@@ -63,12 +306,45 @@ const UserSelectionDialog = () => {
         },
         userBox: {
             borderRadius: 5,
-            background: "#FFF"
+            background: "#FFF",
+            p: 2,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+        },
+        selectUserButton: {
+            borderRadius: 5,
+            p: 2,
+            textTransform: "none"
+        },
+        selectedUserContainer: {
+            mb: 2,
+            p: 2,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            background: "#FFF",
+            borderRadius: 5,
+            "&:hover": {
+                boxShadow: "0 0 5px rgba(100,100,100,0.1)"
+            }
         }
     }
     return (
         <>
-            <Button onClick={handleOpen} variant={'contained'} fullWidth color={'secondary'} sx={localStyles.button}>Seleccionar usuario</Button>
+            <Button onClick={handleOpen} variant={'contained'} fullWidth disableElevation color={'primary'} sx={localStyles.button}>Seleccionar usuario</Button>
+
+            {
+                selectedUser && (
+                    <Box sx={localStyles.selectedUserContainer}>
+                        <Box>
+                            <Typography variant="subtitle2" fontWeight={"bold"}>Usuario seleccionado</Typography>
+                            <Typography variant="subtitle2" fontWeight={400} color="text.secondary">{selectedUser?.name}</Typography>
+                        </Box>
+                        <CheckCircle color="success" />
+                    </Box>
+                )
+            }
             <Dialog open={open} fullScreen onClose={handleClose} PaperProps={{ sx: { background: "#f6f6f6" } }}>
                 <AppBar sx={{ position: 'relative', boxShadow: '0 0 5px rgba(0,0,0,0.1)' }} elevation={0}>
                     <Toolbar>
@@ -93,6 +369,7 @@ const UserSelectionDialog = () => {
                                 <Box sx={localStyles.userBox}>
 
                                     <Typography>{u.name}</Typography>
+                                    <Button color="secondary" variant="contained" disableElevation sx={localStyles.selectUserButton} onClick={() => selectUser(u.id)} disabled={u.id === selectedUser?.id}>{u.id === selectedUser?.id ? "Seleccionado" : "Seleccionar"}</Button>
                                 </Box>
                             </>
                         ))
@@ -104,23 +381,109 @@ const UserSelectionDialog = () => {
 }
 
 export const OfferAddingPage: FC = () => {
-
     const [userLogged, setUserLogged] = useState<User | null>(null)
+
+    // Props necesarias para el dialog de users
+    const [openModalUsers, setOpenModalUsers] = useState<boolean>(false)
+    const [users, setUsers] = useState<User[] | null>(null)
+    const [selectedUser, setSelectedUser] = useState<User | null>(null)
+    const modalUsersProps = { open: openModalUsers, setOpen: setOpenModalUsers, users, setUsers, selectedUser, setSelectedUser }
+
+    // Props necesarias para el dialog de items    
+    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+    const [openModalItems, setOpenModalItems] = useState<boolean>(false)
+    const [items, setItems] = useState<IItem[] | null>(null)
+    const [selectedItems, setSelectedItems] = useState<ItemSelection[] | null>(null)
+    const [orden, setOrden] = useState<number>(0)
+    const modalItemsProps = { anchorEl, setAnchorEl, open: openModalItems, setOpen: setOpenModalItems, items, setItems, selectedItems, setSelectedItems, orden, setOrden }
+
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     const router = useNavigate();
 
     useEffect(() => {
         validarToken(router, setUserLogged)
     }, [])
+    const resetAll = () => {
+        setSelectedUser(null);
+        setSelectedItems(null);
+        setOrden(0);
+    }
+
+    const onSubmit = async () => {
+        setIsSubmitting(true);
+
+
+        const url = `${baseUrl}/ofertas`
+        const body = JSON.stringify({
+            customer_id: selectedUser ? selectedUser?.id : 0,
+            salesman_id: userLogged ? userLogged?.id : 0,
+            items: selectedItems ? selectedItems : [],
+        })
+        const options = {
+            method: "POST",
+            body
+        }
+        try {
+            const respuesta = await fetch(url, options)
+
+            switch (respuesta.status) {
+                case 200:
+                    const data = await respuesta.json();
+                    if (data.exito === "SI") {
+                        Swal.fire({
+                            title: "Exito",
+                            text: "Se ha registrado la oferta",
+                            icon: "success",
+                        })
+                        resetAll();
+                        setIsSubmitting(false);
+                    } else {
+                        Swal.fire({
+                            title: "Error",
+                            text: data.mensaje,
+                            icon: "error",
+                        })
+                        setIsSubmitting(false);
+                    }
+                    break;
+                default:
+                    Swal.fire({
+                        title: "Error",
+                        text: "No se logró conectar",
+                        icon: "error",
+                    })
+                    setIsSubmitting(false);
+                    break;
+            }
+        } catch (error) {
+            Swal.fire({
+                title: "Error",
+                text: "No se logró conectar",
+                icon: "error",
+            })
+            setIsSubmitting(false);
+        }
+    }
 
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <UserSelectionDialog />
-
-
+                <Typography component="h2" fontWeight="bold" variant="overline" fontSize={16}>Registrar oferta</Typography>
+                <UserSelectionDialog {...modalUsersProps} />
+                <ItemSelectionDialog {...modalItemsProps} />
+                <LoadingButton
+                    loading={isSubmitting}
+                    disabled={isSubmitting || (!selectedItems || (selectedItems && selectedItems.length === 0) || !selectedUser)}
+                    onClick={onSubmit}
+                    variant="contained"
+                    color="secondary"
+                    sx={styles.button}
+                    fullWidth
+                >
+                    Enviar
+                </LoadingButton>
             </Box>
-
         </Layout>
     )
 }
@@ -129,5 +492,12 @@ const styles = {
         width: "80%",
         margin: "20px auto",
         minHeight: "100vh",
+    },
+    button: {
+        borderRadius: 5,
+        p: 1.9,
+        mb: 2,
+        textTransform: 'none',
+        boxShadow: "0 0 5px rgba(100,100,100,0.1)"
     },
 }

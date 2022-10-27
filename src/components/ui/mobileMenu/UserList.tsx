@@ -1,5 +1,8 @@
 import { FC } from 'react'
 
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
@@ -17,16 +20,23 @@ export const UserList: FC = () => {
         <>
             {
                 pages.map((page: Pages, i: number) => (String(currentPath.pathname) !== String(page.path) ?
-                    (
-                        <ListItem key={`${i + 42}${page.name}${i}`} disablePadding>
-                            <ListItemButton dense onClick={() => redirect(page.path)}>
-                                <ListItemText primary={page.name} primaryTypographyProps={{ fontSize: 12 }} />
-                            </ListItemButton>
-                        </ListItem>
-                    )
-                    : (<ListItem sx={{ background: "rgba(0,0,0,0.9)" }} key={`${i + 42}${page.name}${i}`} disablePadding>
+
+                    page.name === 'divider'
+                        ? (
+                            <Box key={`${i + 42}${page.name}${i}`} sx={{ mb: -1 }}>
+                                <Divider />
+                                <Typography sx={{ ml: 2 }} variant="overline" color="text.secondary" fontWeight="bold">{page.path}</Typography>
+                            </Box>
+                        ) : (
+                            <ListItem key={`${i + 42}${page.name}${i}`} disablePadding>
+                                <ListItemButton dense onClick={() => redirect(page.path)}>
+                                    <ListItemText primary={page.name} primaryTypographyProps={{ fontSize: 12 }} />
+                                </ListItemButton>
+                            </ListItem>
+                        )
+                    : (<ListItem sx={{ background: "rgba(100,100,100,0.1)" }} key={`${i + 42}${page.name}${i}`} disablePadding>
                         <ListItemButton dense>
-                            <ListItemText primary={page.name} primaryTypographyProps={{ color: "#FFF", fontSize: 12 }} />
+                            <ListItemText primary={page.name} primaryTypographyProps={{ fontSize: 12 }} />
                         </ListItemButton>
                     </ListItem>)
                 ))

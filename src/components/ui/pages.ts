@@ -1,6 +1,7 @@
 import { Pages } from "../../interfaces/pages-type";
 
 export const pages: Pages[] = [
+    { name: 'divider', path: "Menu principal" },
     { name: 'Mis tareas', path: "/requirements" },
     { name: 'Dashboard', path: "/dashboard" }
 ];

@@ -88,7 +88,6 @@ export const ExternalProcessAddingPage: FC = () => {
                             })
                         }
                         setIsSubmitting(false);
-
                         break;
                     default:
                         Swal.fire({
@@ -97,7 +96,6 @@ export const ExternalProcessAddingPage: FC = () => {
                             icon: "error",
                         })
                         setIsSubmitting(false);
-
                         break;
                 }
             } catch (err) {
@@ -108,7 +106,6 @@ export const ExternalProcessAddingPage: FC = () => {
                     icon: "error",
                 })
                 setIsSubmitting(false);
-
             }
         } else {
             let errorString = '';
@@ -119,7 +116,6 @@ export const ExternalProcessAddingPage: FC = () => {
                 icon: "error",
             })
             setIsSubmitting(false);
-
         }
     }
 
