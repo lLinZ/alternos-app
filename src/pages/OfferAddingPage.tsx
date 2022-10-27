@@ -202,7 +202,7 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
                             <InfoIcon color="info" />
                         </IconButton>
                         <Typography sx={localStyles.title} variant="h6" component="div">
-                            Seleccionar Actividades
+                            Seleccionar Procesos
                         </Typography>
                         <Button color="success" variant="contained" disableElevation onClick={handleClose} size="small" sx={{ borderRadius: 5 }}>
                             Guardar
