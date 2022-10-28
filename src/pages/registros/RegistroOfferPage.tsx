@@ -86,6 +86,50 @@ export const RegistroOfferPage: FC = () => {
             console.log(error);
         }
     }
+    // function res($response) {
+    //     return echo json_encode($response, JSON_UNESCAPED_UNICODE);
+    // }
+    // if(isset($_POST['id'])){ $id = mysqli_real_escape_string($_POST["id"]);}
+    // if(isset($_POST['accion'])){ $accion = mysqli_real_escape_string($_POST["accion"]);}
+
+    // $respuesta = [];
+
+    // if(empty($_POST['id'])){
+    //     $respuesta['exito'] = 'NO';
+    //     $respuesta['mensaje'] = 'El id es obligatorio';
+    //     res($respuesta);
+    // } 
+
+    // switch($accion){
+    //     case 'soloconfirmar':
+    //         $sql = "UPDATE `ofertas` status = 'confirmada' WHERE id = $id";
+    //         $query = mysqli_query($link, $sql);
+    //         if($query){
+    //             $respuesta['exito'] = 'SI';
+    //             $respuesta['mensaje'] = 'Se ha confirmado la oferta';
+    //         } else {
+    //             $respuesta['exito'] = 'NO';
+    //             $respuesta['mensaje'] = 'No se confirmó la oferta';
+    //         }
+    //         return res($response);
+    //     case 'confirmaryenviar':
+    //         $sql = "UPDATE `ofertas` status = 'enviada' WHERE id = $id";
+    //         $query = mysqli_query($link, $sql);
+    //         if($query){
+    //             $respuesta['exito'] = 'SI';
+    //             $respuesta['mensaje'] = 'Se ha confirmado y enviado la oferta';
+    //         } else {
+    //             $respuesta['exito'] = 'NO';
+    //             $respuesta['mensaje'] = 'No se confirmó ni se envió la oferta';
+    //         }
+    //         return res($response);
+    //     default:
+    //         $respuesta['exito'] = 'NO';
+    //         $respuesta['mensaje'] = 'Accion inválida';
+    //         return res($response);
+    // }
+
+
 
     const send = async (id: number, accion: "soloconfirmar" | "confirmaryenviar") => {
         const url = `${baseUrl}/confirmaoferta`;
@@ -117,6 +161,7 @@ export const RegistroOfferPage: FC = () => {
                             text: data.mensaje,
                             icon: "error"
                         })
+                        console.log(data)
                     }
                     break;
                 default:
@@ -158,13 +203,13 @@ export const RegistroOfferPage: FC = () => {
                                 <CollapsibleData offer={offer} />
                                 <Box sx={styles.offerActions}>
                                     {/* Boton confirmar */}
-                                    {offer.status !== "confirmadayenviada" && offer.status !== "confirmada" && (
+                                    {offer.status !== "enviada" && offer.status !== "confirmada" && (
                                         <Button variant="outlined" color="secondary" sx={styles.button} onClick={() => send(offer.id, "soloconfirmar")}>
                                             Confirmar&nbsp; <CheckCircleRounded />
                                         </Button>)}
 
                                     {/* Boton Confirmar y enviar */}
-                                    {offer.status !== "confirmadayenviada" && (
+                                    {offer.status !== "enviada" && (
                                         <Button variant="outlined" color="secondary" sx={styles.button} onClick={() => send(offer.id, "confirmaryenviar")}>
                                             Confirmar y enviar &nbsp; <SendRounded />
                                         </Button>)}
