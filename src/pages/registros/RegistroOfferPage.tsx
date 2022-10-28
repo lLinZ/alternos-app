@@ -230,6 +230,8 @@ interface CollapsibleDataProps {
 const CollapsibleData: FC<CollapsibleDataProps> = ({ offer }) => {
     // Control del collapse
     const [expanded, setExpanded] = useState(false);
+    let total = 0;
+    offer.items.forEach((item) => total = total + item.precio)
     /**
      * Funcion para expandir las opciones del card desplegable
      */
@@ -269,6 +271,7 @@ const CollapsibleData: FC<CollapsibleDataProps> = ({ offer }) => {
                             <Typography variant="subtitle2" fontWeight={400} color="text.secondary">Precio $ {numberWithDots(item.precio)}</Typography>
                         </Box>
                     ))}
+                    <Typography variant="subtitle1" fontWeight="bold">Precio total $ {numberWithDots(total)}</Typography>
                 </Box>
             </Collapse>
         </>
