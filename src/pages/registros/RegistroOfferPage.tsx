@@ -204,14 +204,14 @@ export const RegistroOfferPage: FC = () => {
                                 <Box sx={styles.offerActions}>
                                     {/* Boton confirmar */}
                                     {offer.status !== "enviada" && offer.status !== "confirmada" && (
-                                        <Button variant="outlined" color="secondary" sx={styles.button} onClick={() => send(offer.id, "soloconfirmar")}>
-                                            Confirmar&nbsp; <CheckCircleRounded />
+                                        <Button variant="outlined" size="small" color="secondary" sx={styles.button} onClick={() => send(offer.id, "soloconfirmar")}>
+                                            Confirmar&nbsp; <CheckCircleRounded sx={{ width: 16, height: 16 }} />
                                         </Button>)}
 
                                     {/* Boton Confirmar y enviar */}
                                     {offer.status !== "enviada" && (
-                                        <Button variant="outlined" color="secondary" sx={styles.button} onClick={() => send(offer.id, "confirmaryenviar")}>
-                                            Confirmar y enviar &nbsp; <SendRounded />
+                                        <Button variant="outlined" size="small" color="secondary" sx={styles.button} onClick={() => send(offer.id, "confirmaryenviar")}>
+                                            Confirmar y enviar &nbsp; <SendRounded sx={{ width: 16, height: 16 }} />
                                         </Button>)}
 
                                 </Box>
@@ -310,8 +310,9 @@ const styles = {
     button: {
         borderRadius: 5,
         textTransform: "none",
-        p: 1,
-        paddingInline: 2,
+        fontSize: 12,
+        p: 0.5,
+        paddingInline: 1,
         mr: 1,
         display: "flex",
         alignItems: "center"
