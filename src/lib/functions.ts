@@ -140,3 +140,30 @@ export const validarToken = async (router: any, setUserLogged: Dispatch<SetState
         router("/end");
     }
 }
+export function numberWithDots(x: number) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+/**
+ * Funcion para volver mayúsculas la primera letra de cada palabra en una cadena de strings
+ * @param {string} str El estring que se va a formatear
+ * @returns el string formateado
+ * @author Linz web dev (José Linares)
+ */
+export const ucwords = (words: string) => {
+    words += '';
+    const formatted = words.toLowerCase().replace(/\b[a-z]/g, function (firstLetter) {
+        return firstLetter.toUpperCase();
+    });
+    return formatted;
+}
+export const ucfirst = (str: string) => {
+    //  discuss at: https://locutus.io/php/ucfirst/
+    // original by: Kevin van Zonneveld (https://kvz.io)
+    // bugfixed by: Onno Marsman (https://twitter.com/onnomarsman)
+    // improved by: Brett Zamir (https://brett-zamir.me)
+    //   example 1: ucfirst('kevin van zonneveld')
+    //   returns 1: 'Kevin van zonneveld'
+    str += '';
+    const f = str.charAt(0).toUpperCase();
+    return f + str.substr(1);
+}

@@ -33,6 +33,7 @@ import { RegistroTransaccionesPage } from './pages/registros/RegistroTransaccion
 import { ExternalProcessAddingPage } from './pages/ExternalProcessAddingPage';
 import { ExternalProcessPage } from './pages/ExternalProcessPage';
 import { OfferAddingPage } from './pages/OfferAddingPage';
+import { RegistroOfferPage } from './pages/registros/RegistroOfferPage';
 
 function App() {
   return (
@@ -58,7 +59,6 @@ function App() {
         {/* Procesos  */}
         <Route path="/process" element={<ProcessListPage />} />
         <Route path="/process/add" element={<ProcessesPage />} />
-        <Route path="/process/resume" element={<RegistroProcesosPage />} />
         <Route path="/process/external" element={<ExternalProcessPage />} />
         <Route path="/process/external/add" element={<ExternalProcessAddingPage />} />
 
@@ -68,7 +68,6 @@ function App() {
         <Route path="/requirements/basic" element={<BasicTaskPage />} />
 
         <Route path="/offer/add" element={<OfferAddingPage />} />
-        <Route path="/offer" element={<ProcessesPage />} />
         {/* Briefing */}
         <Route path="/briefing/new/:processId/:caseId" element={<BriefingPage />} />
         <Route path="/briefing/:caseId" element={<GetBriefingPage />} />
@@ -92,6 +91,8 @@ function App() {
 
         {/* Resumenes */}
         <Route path="/pagos" element={<RegistroPagosPage />} />
+        <Route path="/offer/resume" element={<RegistroOfferPage />} />
+        <Route path="/process/resume" element={<RegistroProcesosPage />} />
         <Route path="/casos/status/resume" element={<RegistroStatusPorCasoPage />} />
         <Route path="/transacciones/resume" element={<RegistroTransaccionesPage />} />
         <Route path="/requirements/resume" element={<RegistroCasosPage />} />
@@ -99,6 +100,7 @@ function App() {
         <Route path="/tareas/resume" element={<RegistroTareasPage />} />
         <Route path="/users/cumplimiento/resume" element={<RegistroCumplimientoPage />} />
 
+        {/* <Route path="/offer" element={<ProcessesPage />} /> */}
         {/* <Route path="/traffic" element={<TrafficUserPage />} /> */}
         {/* <Routes path="/files" element={<RegistrosPage />} /> */}
 

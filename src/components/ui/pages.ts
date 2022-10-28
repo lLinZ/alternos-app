@@ -6,21 +6,32 @@ export const pages: Pages[] = [
     { name: 'Dashboard', path: "/dashboard" }
 ];
 export const adminPages: Pages[] = [
+
+    // Menu principal
     { name: 'divider', path: "Menu principal" },
     { name: 'Dashboard', path: "/dashboard" },
     { name: 'Mis tareas', path: "/requirements" },
+
+    // Ofertas
     { name: 'divider', path: "Ofertas" },
+    { name: "Ofertas", path: "/offer/resume" },
     { name: 'Agregar oferta', path: "/offer/add" },
+
+    // Procesos
     { name: 'divider', path: "Procesos" },
     { name: 'Procesos', path: "/process" },
     { name: 'Agregar procesos', path: "/process/add" },
     { name: 'Procesos externos', path: "/process/external" },
     { name: 'Agregar procesos externos', path: "/process/external/add" },
+
+    // Actividades
     { name: 'divider', path: "Actividades" },
     { name: 'Asignacion', path: "/assignment" },
     { name: 'Lista de actividades', path: "/activity" },
     { name: 'Agregar actividad', path: "/activity/add" },
     { name: 'Informacion para Brandcenter', path: "/brandcenter/add" },
+
+    // Resumenes
     { name: 'divider', path: "Resúmenes" },
     { name: "Resumen de procesos", path: "/process/resume" },
     { name: "Resumen de actividades", path: "/activity/resume" },
