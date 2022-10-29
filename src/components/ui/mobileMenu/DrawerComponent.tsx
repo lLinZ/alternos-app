@@ -24,11 +24,11 @@ export const DrawerComponent: FC<Props> = ({ user, state, toggleDrawer }) => {
         router(path);
     }
     return (
-        <Drawer anchor="left" open={state} onClose={toggleDrawer(false)}>
-            <Box sx={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", p: { xs: 0.6, md: 1 }, background: "rgba(0,0,0,1)", mb: 1 }}>
+        <Drawer anchor="left" open={state} onClose={toggleDrawer(false)} PaperProps={{ sx: { background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(4px)' } }}>
+            <Box sx={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", p: { xs: 0.6, md: 1 }, background: "rgba(0,0,0,0.7)", backdropFilter: 'blur(4px)', }}>
                 <img src='/logo.png' width='171' height='49' />
             </Box>
-            <Box sx={{ p: 1, display: "flex", justifyContent: "center", alignItems: "center", flexFlow: "column wrap" }}>
+            <Box sx={{ p: 1, display: "flex", justifyContent: "center", alignItems: "center", flexFlow: "column wrap", background: 'rgba(255,255,255,0.6)' }}>
 
                 {
                     user
@@ -36,9 +36,8 @@ export const DrawerComponent: FC<Props> = ({ user, state, toggleDrawer }) => {
                         : (<UserPlaceholder />)
                 }
             </Box>
-            <Divider />
             <Box
-                sx={{ width: 250 }}
+                sx={{ width: 250, background: 'rgba(255,255,255,0.6)' }}
                 role="presentation"
                 onClick={toggleDrawer(false)}
                 onKeyDown={toggleDrawer(false)}

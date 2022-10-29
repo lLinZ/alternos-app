@@ -27,7 +27,7 @@ export const MenuMobile: FC<Props> = ({ user, }) => {
             };
     return (<>
         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' }, alignItems: "center", justifyContent: "space-between" }}>
-            <IconButton onClick={toggleDrawer(true)} color="inherit">
+            <IconButton onClick={toggleDrawer(true)} color="primary">
                 <MenuIcon />
             </IconButton>
             <Box sx={{ mr: 2, display: { xs: 'flex', md: 'flex' }, flexGrow: 1, textDecoration: 'none', }}>

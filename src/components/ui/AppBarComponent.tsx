@@ -44,7 +44,7 @@ export const AppBarComponent: FC<Props> = ({ title, user }) => {
 
     // Render
     return (
-        <AppBar color='secondary' position="static" elevation={0}>
+        <AppBar color='transparent' position="sticky" elevation={0} sx={{ background: 'rgba(0,0,0,0.95)', backdropFilter: 'blur(4px)' }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     {token && (
