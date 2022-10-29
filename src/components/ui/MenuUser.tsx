@@ -28,8 +28,8 @@ export const MenuUser: FC<Props> = ({ user }) => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-    const propsAdminList = { handleCloseUserMenu };
-    const propsUserList = { handleCloseUserMenu };
+    const propsAdminList = { handleCloseUserMenu, user };
+    const propsUserList = { handleCloseUserMenu, user };
 
     const menuProps: MenuProps = {
         sx: { mt: '45px' },
@@ -79,7 +79,7 @@ export const MenuUser: FC<Props> = ({ user }) => {
                 }
                 {token && (
                     user
-                        ? (<MenuList dense> {user.role_name === "Administrador" ? (<AdminList {...propsAdminList} />) : (<UserList {...propsUserList} />)} </MenuList>)
+                        ? (<MenuList sx={{ p: 2 }} dense> {user.role_name === "Administrador" ? (<AdminList {...propsAdminList} />) : (<UserList {...propsUserList} />)} </MenuList>)
                         : (<MenuTextPlaceholder />)
                 )
                 }

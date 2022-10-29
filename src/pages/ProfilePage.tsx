@@ -34,7 +34,7 @@ export const ProfilePage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Grid container spacing={1} sx={{ width: "90%", margin: "auto", minHeight: "100%" }}>
-                <Grid item xs={12} sx={{ borderRadius: 5, background: "#FFF", }} >
+                <Grid item xs={12} sx={{ borderRadius: 5, background: "#FFF", boxShadow: '0 8px 32px 0 rgba(100,100,100,0.1)' }} >
                     <Box sx={{ display: "flex", flexFlow: "row wrap", justifyContent: { xs: "center", sm: "space-evenly", md: "space-between" }, p: 2 }}>
                         <Box sx={{ display: "flex", flexFlow: "row wrap", alignItems: "center" }}>
                             {userLogged ? (<Avatar sx={{ bgcolor: userLogged?.coloravatar, mr: 2 }}>{userLogged?.name.substring(0, 1)}</Avatar>) : (<AvatarPlaceholder />)}

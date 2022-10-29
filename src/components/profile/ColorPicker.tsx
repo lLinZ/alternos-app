@@ -29,7 +29,10 @@ export const ColorPicker: FC<Props> = ({ user, setUserLogged }) => {
                     title: "Se cambió el color del avatar",
                     icon: "success",
                     toast: true,
-                    position: "bottom-start"
+                    position: "bottom-start",
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true
                 })
                 setChanging(false);
                 const newUser = { ...user, coloravatar: color };

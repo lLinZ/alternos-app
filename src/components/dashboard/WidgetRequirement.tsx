@@ -122,7 +122,7 @@ export const WidgetRequirement: FC<Props> = ({ userLogged }) => {
     return (
 
         <Box display="flex" flexDirection="column" sx={{
-            overflowY: "scroll", background: theme.palette.common.white, borderRadius: 5, transition: ".3s ease all", boxShadow: '0 8px 32px 0 rgba(100,100,100,0.3)', "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" }, minWidth: { xs: "100%", sm: 450 }, maxWidth: { xs: "100%", sm: 450 }, mr: 1, mb: 1, p: 2, minHeight: 250, maxHeight: 250,
+            overflowY: "scroll", background: theme.palette.common.white, borderRadius: 5, transition: ".3s ease all", boxShadow: '0 8px 32px 0 rgba(100,100,100,0.1)', "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" }, minWidth: { xs: "100%", sm: 450 }, maxWidth: { xs: "100%", sm: 450 }, mr: 1, mb: 1, p: 2, minHeight: 250, maxHeight: 250,
             '&::-webkit-scrollbar': {
                 width: '0.2em',
                 height: "10px",

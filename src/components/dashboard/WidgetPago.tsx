@@ -150,7 +150,7 @@ export const WidgetPago: FC<Props> = ({ userLogged }) => {
 
     return (
         <LocalizationProvider locale="es" dateAdapter={AdapterMoment}>
-            <Box sx={{ borderRadius: 5, p: 2, minWidth: { xs: "100%", sm: 450 }, maxWidth: { xs: "100%", sm: 450 }, background: "#FFF", minHeight: 250, maxHeight: 250, boxShadow: '0 8px 32px 0 rgba(100,100,100,0.3)' }}>
+            <Box sx={{ borderRadius: 5, p: 2, minWidth: { xs: "100%", sm: 450 }, maxWidth: { xs: "100%", sm: 450 }, background: "#FFF", minHeight: 250, maxHeight: 250, boxShadow: '0 8px 32px 0 rgba(100,100,100,0.1)' }}>
                 <Typography variant="overline" fontWeight={"bold"}>Reporte de pago</Typography>
                 <Grid container spacing={1}>
                     <Grid item xs={6}>

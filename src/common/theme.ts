@@ -1,10 +1,11 @@
 import { createTheme } from "@mui/material/styles";
+import { baseUrl } from "./baseUrl";
 
 export const theme = createTheme({
     palette: {
         mode: 'light',
         background: {
-            default: '#F5F6F8'
+            default: '#F4F4F4'
         },
         primary: {
             main: '#FFF',
@@ -19,4 +20,14 @@ export const theme = createTheme({
         },
         htmlFontSize: 16,
     },
+    components: {
+        MuiCssBaseline: {
+            styleOverrides: {
+                body: {
+                    backgroundColor: "#f4f4f4",
+                    backgroundImage: `linear-gradient(90deg, rgba(250,250,250,1) 0%, rgba(241,241,241,1) 100%);`,
+                },
+            },
+        },
+    }
 });

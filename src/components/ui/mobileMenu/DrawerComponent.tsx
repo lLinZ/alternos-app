@@ -24,7 +24,7 @@ export const DrawerComponent: FC<Props> = ({ user, state, toggleDrawer }) => {
         router(path);
     }
     return (
-        <Drawer anchor="left" open={state} onClose={toggleDrawer(false)} PaperProps={{ sx: { background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(4px)' } }}>
+        <Drawer anchor="left" open={state} onClose={toggleDrawer(false)} PaperProps={{ sx: { background: 'rgba(255,255,255,0.6)', backdropFilter: 'blur(4px)' }, }}>
             <Box sx={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", p: { xs: 0.6, md: 1 }, background: "rgba(0,0,0,0.7)", backdropFilter: 'blur(4px)', }}>
                 <img src='/logo.png' width='171' height='49' />
             </Box>
@@ -37,13 +37,13 @@ export const DrawerComponent: FC<Props> = ({ user, state, toggleDrawer }) => {
                 }
             </Box>
             <Box
-                sx={{ width: 250, background: 'rgba(255,255,255,0.6)' }}
+                sx={{ width: 250, background: 'rgba(255,255,255,0.6)', p: 2, minHeight: '100vh', overflowX: 'hidden', }}
                 role="presentation"
                 onClick={toggleDrawer(false)}
                 onKeyDown={toggleDrawer(false)}
             >
-                {token && user && String(user?.role_name) === "Administrador" && (<AdminList />)}
-                {token && user && String(user?.role_name) !== "Administrador" && (<UserList />)}
+                {token && user && String(user?.role_name) === "Administrador" && (<AdminList user={user} />)}
+                {token && user && String(user?.role_name) !== "Administrador" && (<UserList user={user} />)}
             </Box>
         </Drawer>
     )
