@@ -7,6 +7,7 @@ import Group from '@mui/icons-material/GroupRounded';
 import RequestPageIcon from '@mui/icons-material/RequestPage';
 import { baseUrl } from '../../common/baseUrl';
 import { LinearProgress } from '@mui/material';
+import { VictoryPie } from 'victory';
 
 interface Props {
     user: User | null;
@@ -76,8 +77,8 @@ export const WidgetStats: FC<Props> = ({ user }) => {
         <Box sx={styles.mainContainer}>
             <Typography variant="overline" fontWeight="bold">Stats</Typography>
             <Box>
-                <Typography color="text.secondary" variant="subtitle2" fontWeight="bold">El {stats && Math.round((((Number(stats.ofertas.enviadas) + Number(stats.ofertas.confirmadas)) / Number(stats.ofertas.totales))*100) * 100)/100}% de las ofertas totales ({stats && stats.ofertas.totales}) han sido confirmadas ({stats && stats.ofertas.confirmadas}) o enviadas ({stats && stats.ofertas.enviadas})</Typography>
-                <LinearProgress  variant="determinate" color='success' sx={{ background: user ? user.coloravatar : 'secondary' }} value={stats ? (((Number(stats.ofertas.enviadas) + Number(stats.ofertas.confirmadas)) / Number(stats.ofertas.totales))*100) : 0} />
+                <Typography color="text.secondary" variant="subtitle2" fontWeight="bold">El {stats && Math.round((((Number(stats.ofertas.enviadas) + Number(stats.ofertas.confirmadas)) / Number(stats.ofertas.totales)) * 100) * 100) / 100}% de las ofertas totales ({stats && stats.ofertas.totales}) han sido confirmadas ({stats && stats.ofertas.confirmadas}) o enviadas ({stats && stats.ofertas.enviadas})</Typography>
+                <LinearProgress variant="determinate" color='success' sx={{ background: user ? user.coloravatar : 'secondary' }} value={stats ? (((Number(stats.ofertas.enviadas) + Number(stats.ofertas.confirmadas)) / Number(stats.ofertas.totales)) * 100) : 0} />
             </Box>
             <Box sx={styles.contentContainer}>
                 <Box sx={styles.statContainer}>
@@ -85,10 +86,10 @@ export const WidgetStats: FC<Props> = ({ user }) => {
                         <Box sx={styles.usersTitleIcon}>
                             <Group sx={{ width: 15, height: 15 }} color="primary" />
                         </Box>
-                        <Typography variant="subtitle2" fontWeight="bold" color='text.secondary' sx={{ fontSize: 12 }}>Clientes</Typography>
+                        <Typography variant={"h6"} fontWeight="bold" color='text.secondary'>{stats && stats.users.clientes ? stats.users.clientes : 'Cargando...'}</Typography>
                     </Box>
                     <Box sx={{ display: 'flex', flexFlow: "row wrap", alignItems: "end", mt: 0.5 }}>
-                        <Typography variant={"h6"} fontWeight="bold" color='text.secondary'>{stats && stats.users.clientes ? stats.users.clientes : 'Cargando...'}</Typography>
+                        <Typography variant="subtitle2" fontWeight="bold" color='text.secondary' sx={{ fontSize: 12 }}>Clientes</Typography>
                     </Box>
                 </Box>
                 <Box sx={styles.statContainer}>
@@ -96,10 +97,10 @@ export const WidgetStats: FC<Props> = ({ user }) => {
                         <Box sx={{ ...styles.usersTitleIcon, background: "linear-gradient(150deg, rgba(255,233,87,1) 0%, rgba(217,117,17,1) 100%)" }}>
                             <Group sx={{ width: 15, height: 15 }} color="primary" />
                         </Box>
-                        <Typography variant="subtitle2" fontWeight="bold" color='text.secondary' sx={{ fontSize: 12 }}>Usuarios</Typography>
+                        <Typography variant={"h6"} fontWeight="bold" color='text.secondary'>{stats && stats.users.usuarios ? stats.users.usuarios : 'Cargando...'}</Typography>
                     </Box>
                     <Box sx={{ display: 'flex', flexFlow: "row wrap", alignItems: "end", mt: 0.5 }}>
-                        <Typography variant={"h6"} fontWeight="bold" color='text.secondary'>{stats && stats.users.usuarios ? stats.users.usuarios : 'Cargando...'}</Typography>
+                        <Typography variant="subtitle2" fontWeight="bold" color='text.secondary' sx={{ fontSize: 12 }}>Usuarios</Typography>
                     </Box>
                 </Box>
                 <Box sx={styles.statContainer}>
@@ -107,10 +108,10 @@ export const WidgetStats: FC<Props> = ({ user }) => {
                         <Box sx={{ ...styles.usersTitleIcon, background: "linear-gradient(150deg, rgba(255,87,169,1) 0%, rgba(174,17,217,1) 100%)" }}>
                             <RequestPageIcon sx={{ width: 15, height: 15 }} color="primary" />
                         </Box>
-                        <Typography variant="subtitle2" fontWeight="bold" color='text.secondary' sx={{ fontSize: 12 }}>Ofertas env.</Typography>
+                        <Typography variant={"h6"} fontWeight="bold" color='text.secondary'>{stats && stats.ofertas.enviadas ? stats.ofertas.enviadas : 'Cargando...'}</Typography>
                     </Box>
                     <Box sx={{ display: 'flex', flexFlow: "row wrap", alignItems: "end", mt: 0.5 }}>
-                        <Typography variant={"h6"} fontWeight="bold" color='text.secondary'>{stats && stats.ofertas.enviadas ? stats.ofertas.enviadas : 'Cargando...'}</Typography>
+                        <Typography variant="subtitle2" fontWeight="bold" color='text.secondary' sx={{ fontSize: 12 }}>Ofertas env.</Typography>
                     </Box>
                 </Box>
                 <Box sx={styles.statContainer}>
@@ -118,10 +119,10 @@ export const WidgetStats: FC<Props> = ({ user }) => {
                         <Box sx={{ ...styles.usersTitleIcon, background: "linear-gradient(150deg, rgba(189,255,87,1) 0%, rgba(17,217,27,1) 100%)" }}>
                             <CheckCircle sx={{ width: 15, height: 15 }} color="primary" />
                         </Box>
-                        <Typography variant="subtitle2" fontWeight="bold" color='text.secondary' sx={{ fontSize: 12 }}>Ofertas con.</Typography>
+                        <Typography variant={"h6"} fontWeight="bold" color='text.secondary'>{stats && stats.ofertas.confirmadas ? stats.ofertas.confirmadas : 'Cargando...'}</Typography>
                     </Box>
                     <Box sx={{ display: 'flex', flexFlow: "row wrap", alignItems: "end", mt: 0.5 }}>
-                        <Typography variant={"h6"} fontWeight="bold" color='text.secondary'>{stats && stats.ofertas.confirmadas ? stats.ofertas.confirmadas : 'Cargando...'}</Typography>
+                        <Typography variant="subtitle2" fontWeight="bold" color='text.secondary' sx={{ fontSize: 12 }}>Ofertas conf.</Typography>
                     </Box>
                 </Box>
             </Box>
