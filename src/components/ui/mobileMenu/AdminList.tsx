@@ -29,7 +29,11 @@ export const AdminList: FC<Props> = ({ user }) => {
                         setting.name === 'divider'
                             ? (
                                 <Box key={`${i + 42}${setting.name}${i}`} sx={{ mb: -1, mt: 0.5 }}>
-                                    <Divider sx={{ borderRadius: "100%", height: "1px", width: "100%", background: "radial-gradient(circle, rgba(54,54,54,1) 0%, rgba(199,199,199,1) 100%)" }} />
+                                    <Divider sx={{
+                                        borderRadius: "100%", height: "1px", width: "100%",
+                                        background: "radial-gradient(circle, rgba(54,54,54,0.1) 0%, rgba(199,199,199,0.1) 100%)",
+                                        WebkitBackground: "radial-gradient(circle, rgba(54,54,54,0.1) 0%, rgba(199,199,199,0.1) 100%)",
+                                    }} />
                                     <Typography sx={{ ml: 2 }} variant="overline" color="text.primary" fontWeight={700}>{setting.path}</Typography>
                                 </Box>
                             )
@@ -39,7 +43,7 @@ export const AdminList: FC<Props> = ({ user }) => {
                                 </ListItemButton>
                             </ListItem>)
                     )
-                    : (<ListItem sx={{ background: "rgba(255,255,255,1)", borderRadius: 3, boxShadow: '0 8px 32px 0 rgba(150,150,150,0.1)', overflow: 'hidden' }} key={`${i + 42}${setting.name}${i}`} disablePadding>
+                    : (<ListItem sx={{ background: "rgba(255,255,255,1)", borderRadius: 3, boxShadow: '0 8px 32px 0 rgba(150,150,150,0.5)', overflow: 'hidden' }} key={`${i + 42}${setting.name}${i}`} disablePadding>
                         <ListItemButton dense>
                             <ListItemText primary={setting.name} primaryTypographyProps={{ color: 'text.secondary', fontSize: 12, fontWeight: 'bold' }} />
                             <AdjustIcon sx={{ color: user ? user.coloravatar : 'secondary' }} />

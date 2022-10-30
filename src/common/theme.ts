@@ -25,7 +25,7 @@ export const theme = createTheme({
             styleOverrides: {
                 body: {
                     backgroundColor: "#f4f4f4",
-                    backgroundImage: `linear-gradient(90deg, rgba(250,250,250,1) 0%, rgba(241,241,241,1) 100%);`,
+                    backgroundImage: `linear-gradient(90deg, rgba(250,250,250,1) 0%, rgba(235,236,235,1) 100%);`,
                 },
             },
         },

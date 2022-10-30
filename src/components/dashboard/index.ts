@@ -5,3 +5,4 @@ export * from "./WidgetRequirement";
 export * from "./WidgetSecurity";
 export * from "./WidgetInformativo";
 export * from "./WidgetPago";
+export * from "./WidgetStats";

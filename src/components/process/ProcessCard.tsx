@@ -281,7 +281,11 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
         getActividades(process.id);
     }, [])
     return (
-        <Card variant="outlined" sx={{ width: "100%", mb: 1, border: "none", background: "#FFF", borderRadius: 5, "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
+        <Card variant="outlined" sx={{
+            width: "100%", mb: 1, border: "none", borderRadius: 5, boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
+            background: "rgba(255,255,255,0.6)",
+            backdropFilter: 'blur(6px)',
+        }}>
             <CardContent>
                 <Typography variant="subtitle2" color="text.primary" fontWeight="bold" gutterBottom>
                     {process.owner_name}
@@ -289,37 +293,37 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
                 <Typography variant="h5" component="div">
                     {process.name}
                 </Typography>
-                <Box sx={{display:"flex", flexFlow:"row wrap"}}>
-                <Typography variant="subtitle2" color="text.primary" sx={{mr:1}} fontWeight="400">
-                    Costo
-                </Typography>
-                <Typography variant="subtitle2" color="text.secondary" fontWeight="400">
-                    {process.costo}
-                </Typography>
+                <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
+                    <Typography variant="subtitle2" color="text.primary" sx={{ mr: 1 }} fontWeight="400">
+                        Costo
+                    </Typography>
+                    <Typography variant="subtitle2" color="text.secondary" fontWeight="400">
+                        {process.costo}
+                    </Typography>
                 </Box>
-                <Box sx={{display:"flex", flexFlow:"row wrap"}}>
-                <Typography variant="subtitle2" color="text.primary" sx={{mr:1}} fontWeight="400">
-                    Precio
-                </Typography>
-                <Typography variant="subtitle2" color="text.secondary" fontWeight="400">
-                    {process.precio}
-                </Typography>
+                <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
+                    <Typography variant="subtitle2" color="text.primary" sx={{ mr: 1 }} fontWeight="400">
+                        Precio
+                    </Typography>
+                    <Typography variant="subtitle2" color="text.secondary" fontWeight="400">
+                        {process.precio}
+                    </Typography>
                 </Box>
-                <Box sx={{display:"flex", flexFlow:"row wrap"}}>
-                <Typography variant="subtitle2" color="text.primary" sx={{mr:1}} fontWeight="400">
-                    Centro de costo 1
-                </Typography>
-                <Typography variant="subtitle2" color="text.secondary" fontWeight="400">
-                    {process.centrodecosto1}
-                </Typography>
+                <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
+                    <Typography variant="subtitle2" color="text.primary" sx={{ mr: 1 }} fontWeight="400">
+                        Centro de costo 1
+                    </Typography>
+                    <Typography variant="subtitle2" color="text.secondary" fontWeight="400">
+                        {process.centrodecosto1}
+                    </Typography>
                 </Box>
-                <Box sx={{display:"flex", flexFlow:"row wrap"}}>
-                <Typography variant="subtitle2" color="text.primary" sx={{mr:1}} fontWeight="400">
-                    Centro de costo 2
-                </Typography>
-                <Typography variant="subtitle2" color="text.secondary" fontWeight="400">
-                    {process.centrodecosto2}
-                </Typography>
+                <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
+                    <Typography variant="subtitle2" color="text.primary" sx={{ mr: 1 }} fontWeight="400">
+                        Centro de costo 2
+                    </Typography>
+                    <Typography variant="subtitle2" color="text.secondary" fontWeight="400">
+                        {process.centrodecosto2}
+                    </Typography>
                 </Box>
             </CardContent>
             <CardActions sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>

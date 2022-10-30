@@ -31,7 +31,7 @@ export const MenuMobile: FC<Props> = ({ user, }) => {
                 <MenuIcon />
             </IconButton>
             <Box sx={{ mr: 2, display: { xs: 'flex', md: 'flex' }, flexGrow: 1, textDecoration: 'none', }}>
-                <img src='/logo.png' width='171' height='49' />
+                <img src='/logo.png' width='120' height='35' />
             </Box>
         </Box>
         <DrawerComponent user={user} toggleDrawer={toggleDrawer} state={state} />

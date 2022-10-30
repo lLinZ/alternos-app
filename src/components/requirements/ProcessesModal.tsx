@@ -67,7 +67,7 @@ export const ProcessesModal: FC<Props> = ({ selectedProcess, setSelectedProcess,
             {/* Modal de usaurios */}
             <Button color={buttonColor} sx={{ p: 1, borderRadius: 3, boxShadow: "0 0 5px rgba(0,0,0,0.1)", textTransform: "none" }} disableElevation fullWidth onClick={handleOpenModal}>Seleccionar Proceso</Button>
             <Dialog onClose={handleCloseModal} open={open} fullScreen TransitionComponent={Transition} PaperProps={{ sx: { background: "#F5F5F5" } }}>
-                <AppBar sx={{ position: 'relative' }} elevation={0}>
+                <AppBar sx={{ position: 'relative', boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)', background: "rgba(255,255,255,0.6)", }} elevation={0}>
                     <Toolbar>
                         <IconButton
                             edge="start"
@@ -84,7 +84,11 @@ export const ProcessesModal: FC<Props> = ({ selectedProcess, setSelectedProcess,
                 </AppBar>
                 <Box sx={{ width: "80%", m: "20px auto" }}>
                     {processes ? processes.map((process: any) => (
-                        <Box key={process.id} sx={{ p: 2, borderRadius: 5, background: "#FFF", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
+                        <Box key={process.id} sx={{
+                            p: 2, borderRadius: 5, boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
+                            background: "rgba(255,255,255,0.6)",
+                            backdropFilter: 'blur(6px)', m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center"
+                        }}>
                             <Box sx={{ display: "flex", flexDirection: "column" }}>
                                 <Typography variant="subtitle1" fontWeight="bold">{process.name}</Typography>
                                 <Typography variant="subtitle2" fontWeight={200} color="text.secondary">{process.actividades?.length} {process.actividades && process.actividades?.length > 1 ? " actividades" : " actividad"}</Typography>

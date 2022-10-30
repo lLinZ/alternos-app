@@ -425,7 +425,7 @@ export const TrafficUserPage: FC = () => {
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
                 <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
                     <Typography variant="overline" component="h2" fontWeight="bold" sx={{ mb: 2 }} fontSize={16}>Tareas abiertas (Tráfico)</Typography>
-                    <Button size="small" sx={{ ml: 1, p: 1, height: "100%", borderRadius: 5, textTransform: "none" }} variant="outlined" color="info" onClick={()=>redirect("/requirements/basic")} > Ver lista de tareas comunes</Button>
+                    <Button size="small" sx={{ ml: 1, p: 1, height: "100%", borderRadius: 5, textTransform: "none" }} variant="outlined" color="info" onClick={() => redirect("/requirements/basic")} > Ver lista de tareas comunes</Button>
                 </Box>
                 {isLoading && (
                     <Box sx={{ w: "100%", m: "auto" }}>
@@ -436,7 +436,11 @@ export const TrafficUserPage: FC = () => {
                     {
                         myRequirements && myRequirements.map(req => (
                             <Grid item key={req.id} xs={12}>
-                                <Box sx={{ display: "flex", justifyContent: "space-between", w: "100%", borderRadius: 5, background: "#FFF", p: 2, flexWrap: "wrap", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
+                                <Box sx={{
+                                    display: "flex", justifyContent: "space-between", w: "100%", borderRadius: 5, p: 2, flexWrap: "wrap", boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
+                                    background: "rgba(255,255,255,0.6)",
+                                    backdropFilter: 'blur(6px)',
+                                }}>
                                     <Box sx={{ display: "flex", flexDirection: "column", mb: 2 }}>
                                         <Typography variant="subtitle1" fontSize={16} fontWeight="bold">{req.process_name} #{req.case_id}</Typography>
                                         <Typography variant="subtitle2" fontSize={12} fontWeight="400" color="text.secondary">{req.description}</Typography>
@@ -453,7 +457,7 @@ export const TrafficUserPage: FC = () => {
                     }
                 </Grid>
                 <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition} PaperProps={{ sx: { background: "#f5f5f5" } }}>
-                    <AppBar sx={{ position: 'relative' }} elevation={0}>
+                    <AppBar sx={{ position: 'relative', boxShadow: "0 8px 32px 0 rgba(100,100,100,0.1)" }} elevation={0}>
                         <Toolbar>
                             <IconButton
                                 edge="start"
@@ -469,7 +473,11 @@ export const TrafficUserPage: FC = () => {
                         </Toolbar>
                     </AppBar>
                     <Box sx={{ width: "80%", m: "10px auto", p: 2 }}>
-                        <Box sx={{ borderRadius: 5, background: "#FFF", p: 2 }}>
+                        <Box sx={{
+                            borderRadius: 5, boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
+                            background: "rgba(255,255,255,0.6)",
+                            backdropFilter: 'blur(6px)', p: 2
+                        }}>
 
                             <Typography variant="body1" component="p" fontWeight="bold">
                                 Descripcion del requerimiento
@@ -498,11 +506,10 @@ export const TrafficUserPage: FC = () => {
                                 {selectedTask?.vence}
                             </Typography>
                         </Box>
-                        <Button component="a" href={`/briefing/${selectedTask?.case_id}`} target={"_blank"} style={{ borderRadius: 15, background: "#FFF", padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em", }}>Ver Brief</Button>
-                        <Divider color="#FFFFFF" sx={{ marginBlock: 2, height: 2, width: "100%", border: "none" }} />
+                        <Button component="a" href={`/briefing/${selectedTask?.case_id}`} target={"_blank"} style={{ borderRadius: 15, boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", background: "#FFF", padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em", textTransform: "none" }}>Ver Brief</Button>
                         {
                             actividades && actividades.map((act: any) => (
-                                <Box key={act.id} sx={{ borderRadius: 5, background: "#FFF", display: "flex", flexFlow: "row wrap", p: 3, mt: 1, mb: 1, justifyContent: "space-between", alignItems: "center", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" }, }}>
+                                <Box key={act.id} sx={{ borderRadius: 5, background: "#FFF", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", display: "flex", flexFlow: "row wrap", p: 3, mb: 2, justifyContent: "space-between", alignItems: "center", }}>
                                     <Box sx={{ display: "flex", flexFlow: "column wrap", mb: 2 }}>
 
                                         <Typography>{act.activity_name}</Typography>
@@ -546,7 +553,7 @@ export const TrafficUserPage: FC = () => {
                 </AppBar>
                 <Box sx={{ width: "80%", m: "20px auto" }}>
                     {actividades && currentActividad ? actividades.filter((act: any) => Number(act.id) === Number(currentActividad))[0].users.map((usuario: any) => (
-                        <Box key={usuario.user_id} sx={{ p: 2, borderRadius: 5, background: "#FFF", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
+                        <Box key={usuario.user_id} sx={{ p: 2, borderRadius: 5, background: "#FFF", boxShadow: "0 8px 32p 0 rgba(100,100,100,0.2)", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
                             <Typography>{usuario.user_name}</Typography>
                             <Button color="secondary" onClick={() => selectuserDeActividad(currentActividad, usuario)}>Seleccionar</Button>
                         </Box>)) : <CircularProgress color="secondary" />}

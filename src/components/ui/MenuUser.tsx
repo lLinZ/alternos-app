@@ -58,7 +58,7 @@ export const MenuUser: FC<Props> = ({ user }) => {
                     }
                 </IconButton>
             </Tooltip>
-            <Menu {...menuProps}>
+            <Menu PaperProps={{ sx: { background: 'rgba(255,255,255,0.5)', backdropFilter: 'blur(4px)', borderRadius: 5, boxShadow: '0 8px 32px 0 rgba(100,100,100,0.5)' } }} MenuListProps={{ sx: { background: 'rgba(0,0,0,0.0)', overflow: 'hidden', borderRadius: 5 } }} {...menuProps}>
                 {
                     token && (
                         <Box sx={{ display: "flex", flexDirection: "column" }}>

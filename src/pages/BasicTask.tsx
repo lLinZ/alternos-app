@@ -320,7 +320,11 @@ export const BasicTaskPage: FC<Props> = () => {
                     {
                         myRequirements && myRequirements.map(req => (
                             <Grid item key={req.id} xs={12}>
-                                <Box sx={{ display: "flex", justifyContent: "space-between", w: "100%", borderRadius: 5, background: "#FFF", p: 2, flexWrap: "wrap", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
+                                <Box sx={{
+                                    display: "flex", justifyContent: "space-between", w: "100%", borderRadius: 5, p: 2, flexWrap: "wrap", boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
+                                    background: "rgba(255,255,255,0.6)",
+                                    backdropFilter: 'blur(6px)',
+                                }}>
                                     <Box sx={{ display: "flex", flexDirection: "column", mb: 2 }}>
                                         <Typography variant="subtitle1" fontSize={16} fontWeight="bold">{req.process_name} #{req.case_id}</Typography>
                                         <Typography variant="subtitle2" fontSize={12} fontWeight="400" color="text.secondary">{req.description}</Typography>
@@ -337,7 +341,7 @@ export const BasicTaskPage: FC<Props> = () => {
                     }
                 </Grid>
                 <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition} PaperProps={{ sx: { background: "#f5f5f5" } }}>
-                    <AppBar sx={{ position: 'relative' }} elevation={0}>
+                    <AppBar sx={{ position: 'relative', boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)', background: "rgba(255,255,255,0.6)", }} elevation={0}>
                         <Toolbar>
                             <IconButton
                                 edge="start"
@@ -356,7 +360,11 @@ export const BasicTaskPage: FC<Props> = () => {
                         </Toolbar>
                     </AppBar>
                     <Box sx={{ width: "80%", m: "20px auto" }}>
-                        <Box sx={{ borderRadius: 5, background: "#FFF", p: 3 }}>
+                        <Box sx={{
+                            borderRadius: 5, boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
+                            background: "rgba(255,255,255,0.6)",
+                            backdropFilter: 'blur(6px)', p: 3
+                        }}>
 
                             <Typography variant="body1" component="p" fontWeight="bold">
                                 Descripcion del requerimiento
@@ -398,15 +406,24 @@ export const BasicTaskPage: FC<Props> = () => {
                                 {selectedTask?.vence}
                             </Typography>
                         </Box>
-                        <Button component="a" href={`/briefing/${selectedTask?.case_id}`} target={"_blank"} style={{ borderRadius: 15, background: "#FFF", padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em" }}>Ver Brief</Button>
-                        <Divider color="#FFFFFF" sx={{ height: 2, width: "100%", marginBlock: 2, border: "none" }} />
-                        <TextField label="Respuesta de cierre de actividad" fullWidth value={respuestaReq} onChange={(e: ChangeEvent<HTMLInputElement>) => setRespuestaReq(e.currentTarget.value)} multiline color="secondary" InputProps={{ sx: { borderRadius: 3 } }} sx={{ background: "#FFF", borderRadius: 3, mt: 2, mb: 2, input: { border: "none" }, "& fieldset": { border: "none" } }} />
-                        <LoadingButton color="secondary" variant="contained" onClick={() => onSubmit()} loading={isSubmitting} fullWidth sx={{ p: 2, borderRadius: 5, textTransform: "none" }} disableElevation>Responder tarea</LoadingButton>
+                        <Button component="a" href={`/briefing/${selectedTask?.case_id}`} target={"_blank"} style={{
+                            borderRadius: 15, padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em", boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
+                            background: "rgba(255,255,255,0.6)",
+                            backdropFilter: 'blur(6px)',
+                        }}>Ver Brief</Button>
+                        <TextField label="Respuesta de cierre de actividad" fullWidth value={respuestaReq} onChange={(e: ChangeEvent<HTMLInputElement>) => setRespuestaReq(e.currentTarget.value)} multiline color="secondary" InputProps={{ sx: { borderRadius: 3 } }} sx={{
+                            boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
+                            background: "rgba(255,255,255,0.6)",
+                            backdropFilter: 'blur(6px)', borderRadius: 3, mt: 2, mb: 2, input: { border: "none" }, "& fieldset": { border: "none" }
+                        }} />
+                        <LoadingButton color="secondary" variant="contained" onClick={() => onSubmit()} loading={isSubmitting} fullWidth sx={{
+                            p: 2, borderRadius: 5, textTransform: "none", boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)'
+                        }} disableElevation>Responder tarea</LoadingButton>
                     </Box>
                 </Dialog>
-            </Box>
+            </Box >
             {/* Modal de usaurios */}
-            <Dialog onClose={() => setOpenUserModal(false)} open={openUserModal} fullScreen TransitionComponent={Transition}>
+            < Dialog onClose={() => setOpenUserModal(false)} open={openUserModal} fullScreen TransitionComponent={Transition} >
                 <AppBar sx={{ position: 'relative' }}>
                     <Toolbar>
                         <IconButton
@@ -432,7 +449,7 @@ export const BasicTaskPage: FC<Props> = () => {
                             }}>Seleccionar</Button>
                         </Box>)) : <CircularProgress color="secondary" />}
                 </Box>
-            </Dialog>
-        </Layout>
+            </Dialog >
+        </Layout >
     )
 }

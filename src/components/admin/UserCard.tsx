@@ -44,7 +44,11 @@ const BasicCard: FC<CardProps> = ({ subtitleOver, title, subtitleBelow, descript
     };
 
     return (
-        <Card variant="outlined" sx={{ width: "100%", mb: 2, border: "none", background: "#FFF", borderRadius: 5, "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
+        <Card variant="outlined" sx={{
+            width: "100%", mb: 2, border: "none", borderRadius: 5, boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
+            background: "rgba(255,255,255,0.6)",
+            backdropFilter: 'blur(6px)',
+        }}>
             <CardContent>
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                     {subtitleOver}

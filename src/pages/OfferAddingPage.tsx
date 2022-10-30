@@ -153,13 +153,11 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            mb: 1,
-            background: "#FFF",
+            mb: 2,
+            background: "rgba(255,255,255,0.8)",
+            boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)",
             borderRadius: 5,
-            p: 2,
-            "&:hover": {
-                boxShadow: "0 0 5px rgba(100,100,100,0.1)",
-            }
+            p: 3,
         },
         selectedItems: {
             display: "flex",
@@ -195,7 +193,7 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
                     </Box>
                 )
             }
-            <Dialog open={open} fullScreen onClose={handleClose} PaperProps={{ sx: { background: "#f6f6f6" } }}>
+            <Dialog open={open} fullScreen onClose={handleClose} PaperProps={{ sx: { background: "rgba(255,255,255,0.9)", backdropFilter: 'blur(6px)' } }}>
                 <AppBar sx={{ position: 'relative', boxShadow: '0 0 5px rgba(0,0,0,0.1)' }} elevation={0}>
                     <Toolbar>
                         <IconButton onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}>
@@ -306,8 +304,10 @@ const UserSelectionDialog: FC<UserSelectionProps> = ({ open, setOpen, users, set
         },
         userBox: {
             borderRadius: 5,
-            background: "#FFF",
-            p: 2,
+            background: "rgba(255,255,255,0.7)",
+            boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
+            p: 3,
+            mb: 2,
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
@@ -345,8 +345,8 @@ const UserSelectionDialog: FC<UserSelectionProps> = ({ open, setOpen, users, set
                     </Box>
                 )
             }
-            <Dialog open={open} fullScreen onClose={handleClose} PaperProps={{ sx: { background: "#f6f6f6" } }}>
-                <AppBar sx={{ position: 'relative', boxShadow: '0 0 5px rgba(0,0,0,0.1)' }} elevation={0}>
+            <Dialog open={open} fullScreen onClose={handleClose} PaperProps={{ sx: { background: "rgba(255,255,255,0.9)", backdropFilter: 'blur(6px)' } }}>
+                <AppBar sx={{ position: 'relative', boxShadow: '0 8px 32px 0 rgba(100,100,100,0.1)' }} elevation={0}>
                     <Toolbar>
                         <IconButton
                             edge="start"

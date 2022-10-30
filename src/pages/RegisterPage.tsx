@@ -138,13 +138,13 @@ export const RegisterPage: FC<Props> = () => {
                         <Form onSubmit={handleSubmit}>
                             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
                                 <Grid item xs={12}>
-                                    <TextField fullWidth onChange={handleChange} value={values.name} variant="outlined" sx={{ "& fieldset": { border: "none" }, }} InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} label="Nombre y apellido" name="name" type="text" color="secondary" />
+                                    <TextField fullWidth onChange={handleChange} value={values.name} variant="outlined" sx={{ "& fieldset": { border: "none" }, }} InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} label="Nombre y apellido" name="name" type="text" color="secondary" />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField fullWidth onChange={handleChange} value={values.username} variant="outlined" sx={{ "& fieldset": { border: "none" }, }} InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} label="Usuario" name="username" type="text" color="secondary" />
+                                    <TextField fullWidth onChange={handleChange} value={values.username} variant="outlined" sx={{ "& fieldset": { border: "none" }, }} InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} label="Usuario" name="username" type="text" color="secondary" />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField fullWidth onChange={handleChange} value={values.phone} variant="outlined" sx={{ "& fieldset": { border: "none" }, }} InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} label="Teléfono" name="phone" type="text" color="secondary" />
+                                    <TextField fullWidth onChange={handleChange} value={values.phone} variant="outlined" sx={{ "& fieldset": { border: "none" }, }} InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} label="Teléfono" name="phone" type="text" color="secondary" />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField fullWidth onChange={handleChange} value={values.password} variant="outlined" sx={{ "& fieldset": { border: "none" }, }} InputProps={{
@@ -158,7 +158,7 @@ export const RegisterPage: FC<Props> = () => {
                                                     {showPassword ? <Visibility /> : <VisibilityOff />}
                                                 </IconButton>
                                             </InputAdornment>
-                                        ), sx: { borderRadius: 5, background: "#FFF" }
+                                        ), sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" }
                                     }} label="Contraseña" name="password" type={showPassword ? "text" : "password"} color="secondary"
                                     />
                                 </Grid>
@@ -174,7 +174,7 @@ export const RegisterPage: FC<Props> = () => {
                                                     {showPassword ? <Visibility /> : <VisibilityOff />}
                                                 </IconButton>
                                             </InputAdornment>
-                                        ), sx: { borderRadius: 5, background: "#FFF" }
+                                        ), sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" }
                                     }} label="Confirmar contraseña" name="confirmPassword" type={showPassword ? "text" : "password"} color="secondary"
                                     />
                                 </Grid>
@@ -184,7 +184,7 @@ export const RegisterPage: FC<Props> = () => {
                                         onChange={(e: SelectChangeEvent) => {
                                             setSelectedFunction(Number(e.target.value))
                                         }}
-                                        sx={{ borderRadius: 5, background: "#FFF", "& fieldset": { border: "none" }, }}
+                                        sx={{ borderRadius: 5, background: "#FFF", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", "& fieldset": { border: "none" }, }}
                                         fullWidth
                                         color="secondary"
                                     >

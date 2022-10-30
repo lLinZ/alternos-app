@@ -290,7 +290,9 @@ const styles = {
     offerItem: {
         mb: 2,
         width: "100%",
-        background: "#FFF",
+        boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
+        background: "rgba(255,255,255,0.6)",
+        backdropFilter: 'blur(6px)',
         borderRadius: 5,
         p: 2,
     },

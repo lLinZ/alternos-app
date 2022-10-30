@@ -66,7 +66,11 @@ export const ExternalProcessPage: FC<Props> = () => {
                 </Box>
                 {
                     process && process.map((proceso: Process) => (
-                        <Box key={proceso.id} sx={{ p: 2, borderRadius: 5, background: "#FFF", mb: 1, "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
+                        <Box key={proceso.id} sx={{
+                            p: 2, borderRadius: 5, mb: 1, boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
+                            background: "rgba(255,255,255,0.6)",
+                            backdropFilter: 'blur(6px)',
+                        }}>
                             <Typography variant="subtitle1" fontWeight={"bold"}>{proceso.name}</Typography>
                             <Typography variant="subtitle2" fontWeight={400} color="text.primary">{proceso.owner_name}</Typography>
                             <Typography variant="subtitle2" fontWeight={300} color="text.secondary">Costo {proceso.costo}</Typography>

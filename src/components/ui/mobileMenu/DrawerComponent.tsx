@@ -1,9 +1,7 @@
 import { FC, MouseEvent, KeyboardEvent } from "react";
 
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Drawer from "@mui/material/Drawer";
-import Divider from "@mui/material/Divider";
 import { UserPlaceholder } from "../../placeholder";
 import { UserInfo } from "./UserInfo";
 import { User } from "../../../interfaces/user-type";
@@ -24,11 +22,11 @@ export const DrawerComponent: FC<Props> = ({ user, state, toggleDrawer }) => {
         router(path);
     }
     return (
-        <Drawer anchor="left" open={state} onClose={toggleDrawer(false)} PaperProps={{ sx: { background: 'rgba(255,255,255,0.6)', backdropFilter: 'blur(4px)' }, }}>
-            <Box sx={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", p: { xs: 0.6, md: 1 }, background: "rgba(0,0,0,0.7)", backdropFilter: 'blur(4px)', }}>
-                <img src='/logo.png' width='171' height='49' />
+        <Drawer anchor="left" BackdropProps={{ sx: { background: 'rgba(255,255,255,0.0)' } }} open={state} onClose={toggleDrawer(false)} PaperProps={{ sx: { background: 'rgba(255,255,255,0.5)', backdropFilter: 'blur(6px)', } }}  >
+            <Box sx={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", p: { xs: 1.2, md: 1.8 }, background: "rgba(0,0,0,1)", }}>
+                <img src='/logo.png' width='120' height='35' />
             </Box>
-            <Box sx={{ p: 1, display: "flex", justifyContent: "center", alignItems: "center", flexFlow: "column wrap", background: 'rgba(255,255,255,0.6)' }}>
+            <Box sx={{ p: 1, display: "flex", justifyContent: "center", alignItems: "center", flexFlow: "column wrap", }}>
 
                 {
                     user
@@ -37,7 +35,7 @@ export const DrawerComponent: FC<Props> = ({ user, state, toggleDrawer }) => {
                 }
             </Box>
             <Box
-                sx={{ width: 250, background: 'rgba(255,255,255,0.6)', p: 2, minHeight: '100vh', overflowX: 'hidden', }}
+                sx={{ width: 250, p: 2, minHeight: '100vh', maxHeight: '100%', overflowY: 'show' }}
                 role="presentation"
                 onClick={toggleDrawer(false)}
                 onKeyDown={toggleDrawer(false)}

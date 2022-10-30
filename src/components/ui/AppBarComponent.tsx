@@ -55,7 +55,7 @@ export const AppBarComponent: FC<Props> = ({ title, user }) => {
                     )}
                     {!token && (<>
                         <Box sx={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                            <img src='/logo.png' width='171' height='49' alt='Logo alternos' />
+                            <img src='/logo.png' width='120' height='35' alt='Logo alternos' />
                             {notLoggedPages.map((page) => (
                                 String(currentPath.pathname) !== String(page.path) && (
                                     <Button

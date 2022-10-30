@@ -102,16 +102,16 @@ export const UserEditForm: FC<Props> = ({ initialValues, setUserLogged, userLogg
                                 <Typography variant="overline" fontWeight="bold">Editar información de usuario</Typography>
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField name="name" color="secondary" onChange={handleChange} sx={{ "& fieldset": { border: "none" }, background: "#FFF", borderRadius: 5 }} InputProps={{ sx: { borderRadius: 5 } }} label="Nombre" fullWidth value={values.name} />
+                                <TextField name="name" color="secondary" onChange={handleChange} sx={{ "& fieldset": { border: "none" }, background: "#FFF", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5 }} InputProps={{ sx: { borderRadius: 5 } }} label="Nombre" fullWidth value={values.name} />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField name="phone" color="secondary" onChange={handleChange} sx={{ "& fieldset": { border: "none" }, background: "#FFF", borderRadius: 5 }} InputProps={{ sx: { borderRadius: 5 } }} label="Teléfono" fullWidth value={values.phone} />
+                                <TextField name="phone" color="secondary" onChange={handleChange} sx={{ "& fieldset": { border: "none" }, background: "#FFF", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5 }} InputProps={{ sx: { borderRadius: 5 } }} label="Teléfono" fullWidth value={values.phone} />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField name="password" color="secondary" onChange={handleChange} sx={{ "& fieldset": { border: "none" }, background: "#FFF", borderRadius: 5 }} InputProps={{ sx: { borderRadius: 5 } }} label="Contraseña" fullWidth value={values.password} />
+                                <TextField name="password" color="secondary" onChange={handleChange} sx={{ "& fieldset": { border: "none" }, background: "#FFF", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5 }} InputProps={{ sx: { borderRadius: 5 } }} label="Contraseña" fullWidth value={values.password} />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField name="confirmPassword" color="secondary" onChange={handleChange} sx={{ "& fieldset": { border: "none" }, background: "#FFF", borderRadius: 5 }} InputProps={{ sx: { borderRadius: 5 } }} label="Confirmar contraseña" fullWidth value={values.confirmPassword} />
+                                <TextField name="confirmPassword" color="secondary" onChange={handleChange} sx={{ "& fieldset": { border: "none" }, background: "#FFF", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5 }} InputProps={{ sx: { borderRadius: 5 } }} label="Confirmar contraseña" fullWidth value={values.confirmPassword} />
                             </Grid>
                             <Grid item xs={12}>
                                 <Button disabled={isSubmitting} type="submit" fullWidth disableElevation variant="contained" color="secondary" sx={{ p: 2, borderRadius: 5, textTransform: "none" }}>Editar información</Button>

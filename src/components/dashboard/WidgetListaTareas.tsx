@@ -80,7 +80,7 @@ export const WidgetListaTareas: FC<Props> = () => {
                 }
             }}>
                 {myRequirements ? myRequirements.map(req => (
-                    <Box key={req.id} sx={{ boxShadow: "0 0 5px rgba(0,0,0,0.1)", borderRadius: 5, p: 2, mb: 1 }}>
+                    <Box key={req.id} sx={{ boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)', background: "rgba(200,200,200,0.2)", borderRadius: 5, p: 2, mb: 1 }}>
                         <Typography variant="subtitle2" fontWeight="bold" fontSize={12}>{req.process_name} #{req.case_id}</Typography>
                         <Typography variant="subtitle2" fontSize={12} fontWeight="300">{req.description}</Typography>
                     </Box>

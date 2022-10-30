@@ -121,13 +121,13 @@ export const RegisterAdminPage: FC<Props> = () => {
                         <Form onSubmit={handleSubmit}>
                             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
                                 <Grid item xs={12} >
-                                    <TextField InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} variant="outlined" label="Nombre y apellido" name="name" type="text" color="secondary" />
+                                    <TextField InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} variant="outlined" label="Nombre y apellido" name="name" type="text" color="secondary" />
                                 </Grid>
                                 <Grid item xs={12} >
-                                    <TextField InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} variant="outlined" label="Usuario" name="username" type="text" color="secondary" />
+                                    <TextField InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} variant="outlined" label="Usuario" name="username" type="text" color="secondary" />
                                 </Grid>
                                 <Grid item xs={12} >
-                                    <TextField InputProps={{ sx: { borderRadius: 5, background: "#FFF" } }} sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} variant="outlined" label="Teléfono" name="phone" type="text" color="secondary" />
+                                    <TextField InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} variant="outlined" label="Teléfono" name="phone" type="text" color="secondary" />
                                 </Grid>
                                 <Grid item xs={12} sm={6} >
                                     <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} variant="outlined" label="Contraseña" name="password" type={showPassword ? "text" : "password"} color="secondary"
@@ -142,7 +142,7 @@ export const RegisterAdminPage: FC<Props> = () => {
                                                         {showPassword ? <Visibility /> : <VisibilityOff />}
                                                     </IconButton>
                                                 </InputAdornment>
-                                            ), sx: { borderRadius: 5, background: "#FFF", }
+                                            ), sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF", }
                                         }} />
                                 </Grid>
                                 <Grid item xs={12} sm={6} >
@@ -158,7 +158,7 @@ export const RegisterAdminPage: FC<Props> = () => {
                                                         {showPassword ? <Visibility /> : <VisibilityOff />}
                                                     </IconButton>
                                                 </InputAdornment>
-                                            ), sx: { borderRadius: 5, background: "#FFF", }
+                                            ), sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF", }
                                         }} />
                                 </Grid>
                                 <Grid item xs={12} >

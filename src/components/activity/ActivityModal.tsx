@@ -46,8 +46,8 @@ export const ActivityModal: FC<Props> = ({ actividades, selectedActivities, setS
         exists ? setOrden(orden - 1) : setOrden(orden + 1);
     }
     return (
-        <Dialog onClose={() => setModalActividades(false)} fullScreen open={modalActividades} TransitionComponent={Transition} PaperProps={{ sx: { background: "#f5f5f5" } }}>
-            <AppBar sx={{ position: 'relative' }} elevation={0}>
+        <Dialog onClose={() => setModalActividades(false)} fullScreen open={modalActividades} TransitionComponent={Transition} PaperProps={{ sx: { background: "rgba(255,255,255,0.9)", backdropFilter: 'blur(6px)' } }}>
+            <AppBar sx={{ position: 'relative', boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)', background: "rgba(255,255,255,0.6)", }} elevation={0}>
                 <Toolbar>
                     <IconButton onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}>
                         <InfoIcon color="info" />
@@ -70,7 +70,7 @@ export const ActivityModal: FC<Props> = ({ actividades, selectedActivities, setS
                 {actividades && actividades.map((activity: Activity) => (
                     <Box key={activity.id} sx={styles.activityContainer}>
                         <Box sx={styles.activityName}>
-                            <Typography variant="subtitle1" fontWeight={500}>{activity.name}</Typography>
+                            <Typography variant="subtitle1">{activity.name}</Typography>
                         </Box>
                         <IconButton size="small" color="secondary" onClick={() => selectActivity(activity.id, activity.name)} disabled={Boolean(selectedActivities?.filter(act => act.id === activity.id && act.orden !== orden).length)}>
                             {
@@ -98,17 +98,15 @@ const styles = {
         textAlign: "justify",
     },
     activityContainer: {
-        p: 2,
+        p: 3,
         borderRadius: 5,
-        m: 1,
-        background: "#FFF",
+        m: 2,
+        boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
+        background: "rgba(255,255,255,0.7)",
         display: "flex",
         justifyContent: "space-between",
         flexDirection: "row",
         alignItems: "center",
-        "&:hover": {
-            boxShadow: "0 0 5px rgba(0,0,0,0.1)"
-        }
     },
     activityName: {
         display: "flex",

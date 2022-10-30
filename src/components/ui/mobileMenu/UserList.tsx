@@ -29,7 +29,11 @@ export const UserList: FC<Props> = ({ user }) => {
                     page.name === 'divider'
                         ? (
                             <Box key={`${i + 42}${page.name}${i}`} sx={{ mb: -1 }}>
-                                <Divider sx={{ borderRadius: "100%", height: "1px", width: "100%", background: "radial-gradient(circle, rgba(54,54,54,1) 0%, rgba(199,199,199,1) 100%)" }} />
+                                <Divider sx={{
+                                    borderRadius: "100%", height: "1px", width: "100%",
+                                    background: "radial-gradient(circle, rgba(54,54,54,0.1) 0%, rgba(199,199,199,0.1) 100%)",
+                                    WebkitBackground: "radial-gradient(circle, rgba(54,54,54,0.1) 0%, rgba(199,199,199,0.1) 100%)",
+                                }} />
                                 <Typography sx={{ ml: 2 }} variant="overline" color="text.secondary" fontWeight="bold">{page.path}</Typography>
                             </Box>
                         ) : (
@@ -39,7 +43,7 @@ export const UserList: FC<Props> = ({ user }) => {
                                 </ListItemButton>
                             </ListItem>
                         )
-                    : (<ListItem sx={{ background: "rgba(255,255,255,1)", borderRadius: 3, mt: 0.5, boxShadow: '0 8px 32px 0 rgba(150,150,150,0.1)', overflow: 'hidden' }} key={`${i + 42}${page.name}${i}`} disablePadding>
+                    : (<ListItem sx={{ background: "rgba(255,255,255,1)", borderRadius: 3, mt: 0.5, boxShadow: '0 8px 32px 0 rgba(150,150,150,0.5)', overflow: 'hidden' }} key={`${i + 42}${page.name}${i}`} disablePadding>
                         <ListItemButton dense>
                             <ListItemText primary={page.name} primaryTypographyProps={{ fontSize: 12 }} />
                             <AdjustIcon sx={{ color: user ? user.coloravatar : 'secondary' }} />

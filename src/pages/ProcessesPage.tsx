@@ -173,16 +173,16 @@ export const ProcessesPage: FC<Props> = () => {
                 <Typography variant="overline" fontSize={16} fontWeight="bold" sx={{ mb: 2 }}>Registrar proceso</Typography>
                 <Grid container display="flex" justifyContent="center" alignItems="center" flexWrap="wrap" flexDirection="row" spacing={2}>
                     <Grid item xs={12}>
-                        <TextField fullWidth label="Nombre" name="name" color="secondary" onChange={(e) => setProcess(e.target.value)} value={process} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", borderRadius: 5, input: { border: "none" }, "& fieldset": { border: "none" }, }} />
+                        <TextField fullWidth label="Nombre" name="name" color="secondary" onChange={(e) => setProcess(e.target.value)} value={process} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.1)", borderRadius: 5, input: { border: "none" }, "& fieldset": { border: "none" }, }} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <TextField fullWidth label="Centro de costo 1" name="costouno" color="secondary" onChange={(e) => setCentroDeCostoUno(e.target.value)} value={centrodecostouno} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", borderRadius: 5, input: { border: "none" }, "& fieldset": { border: "none" }, }} />
+                        <TextField fullWidth label="Centro de costo 1" name="costouno" color="secondary" onChange={(e) => setCentroDeCostoUno(e.target.value)} value={centrodecostouno} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.1)", borderRadius: 5, input: { border: "none" }, "& fieldset": { border: "none" }, }} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <TextField fullWidth label="Centro de costo 2" name="costodos" color="secondary" onChange={(e) => setCentroDeCostoDos(e.target.value)} value={centrodecostodos} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", borderRadius: 5, input: { border: "none" }, "& fieldset": { border: "none" }, }} />
+                        <TextField fullWidth label="Centro de costo 2" name="costodos" color="secondary" onChange={(e) => setCentroDeCostoDos(e.target.value)} value={centrodecostodos} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.1)", borderRadius: 5, input: { border: "none" }, "& fieldset": { border: "none" }, }} />
                     </Grid>
                     <Grid item xs={12}>
-                        <Button onClick={() => openModal()} color="secondary" fullWidth sx={{ p: 1.8, borderRadius: 5, background: "#FFF", border: "none" }} type="button" disableElevation>Buscar departamento</Button>
+                        <Button onClick={() => openModal()} color="secondary" fullWidth sx={{ p: 1.8, borderRadius: 5, background: "#FFF", border: "none", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)" }} type="button" disableElevation>Buscar departamento</Button>
                     </Grid>
                     {
                         selectedDepartment && (
@@ -203,8 +203,8 @@ export const ProcessesPage: FC<Props> = () => {
             </Box>
 
             {/* Modal de seleccion de usuario  */}
-            <Dialog onClose={() => setOpen(false)} open={open} fullScreen TransitionComponent={Transition} PaperProps={{ sx: { background: "#f5f5f5" } }}>
-                <AppBar sx={{ position: 'relative' }} elevation={0}>
+            <Dialog onClose={() => setOpen(false)} open={open} fullScreen TransitionComponent={Transition} PaperProps={{ sx: { background: "rgba(255,255,255,0.9)", backdropFilter: "blur(6px)" } }}>
+                <AppBar sx={{ position: 'relative', boxShadow: "0 8px 32px 0 rgba(100,100,100,0.1)" }} elevation={0}>
                     <Toolbar>
                         <IconButton
                             edge="start"
@@ -221,7 +221,7 @@ export const ProcessesPage: FC<Props> = () => {
                 </AppBar>
                 <Box sx={{ width: "80%", m: "20px auto" }}>
                     {departments && departments.map((department: { id: number; name: string; }) => (
-                        <Box key={department.id} sx={{ p: 2, borderRadius: 5, background: "#FFF", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
+                        <Box key={department.id} sx={{ p: 3, borderRadius: 5, background: "rgba(255,255,255,0.7)", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", mb: 2, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center", }}>
                             <Box sx={{ display: "flex", flexDirection: "column" }}>
                                 <Typography variant="subtitle1" fontWeight={500} >{department.name}</Typography>
                             </Box>

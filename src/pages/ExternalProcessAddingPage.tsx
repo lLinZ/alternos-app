@@ -179,7 +179,7 @@ const styles = {
         "& input": {
             borderRadius: 5,
             background: "#FFF",
-            boxShadow: "0 0 5px rgba(100,100,100,0.1)"
+            boxShadow: "0 8px 32px 0 rgba(100,100,100,0.1)"
         }
     }
 }

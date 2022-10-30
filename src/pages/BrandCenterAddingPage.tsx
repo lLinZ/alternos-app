@@ -179,8 +179,8 @@ export const BrandCenterAddingPage: FC = () => {
 
                     )}
                 </Formik>
-                <Dialog onClose={handleCloseModal} open={open} fullScreen PaperProps={{ sx: { background: "#F5F5F5" } }}>
-                    <AppBar sx={{ position: 'relative' }} elevation={0}>
+                <Dialog onClose={handleCloseModal} open={open} fullScreen PaperProps={{ sx: { background: "rgba(255,255,255,0.9)", backdropFilter: "blur(6px)" } }}>
+                    <AppBar sx={{ position: 'relative', boxShadow: "0 8px 32px 0 rgba(100,100,100,0.1)" }} elevation={0}>
                         <Toolbar>
                             <Box sx={styles.toolbarContainer}>
 
@@ -227,7 +227,8 @@ const styles = {
         "& input": {
             borderRadius: 3,
             background: "#fff",
-            color: "black"
+            color: "black",
+            boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)"
         }
     },
     button: {
@@ -246,7 +247,7 @@ const styles = {
         p: 2,
         borderRadius: 3,
         textTransform: "none",
-        boxShadow: "0 0 5px rgba(0,0,0,0.1)"
+        boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)"
     },
     clientsContainer: {
         width: "80%",
@@ -257,11 +258,13 @@ const styles = {
         width: "100%",
         borderRadius: 5,
         background: "#FFF",
-        p: 2,
+        p: 3,
+        mb: 2,
         display: "flex",
         flexFlow: "row wrap",
         justifyContent: "space-between",
-        alignItems: "center"
+        alignItems: "center",
+        boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)"
     },
     buttonGuardarCambios: {
         paddingBlock: 0.5,
