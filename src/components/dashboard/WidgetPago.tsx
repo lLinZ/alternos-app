@@ -101,7 +101,7 @@ export const WidgetPago: FC<Props> = ({ userLogged }) => {
                 body.append("monto", String(payment.monto))
                 body.append("tipo", String(payment.tipo))
                 body.append("referencia", String(payment.ref))
-                body.append("fecha", String(payment.fecha))
+                body.append("fecha", fecha === payment.fecha ? String(payment.fecha) : String(new Date('YYYY-MM-DD')))
                 body.append("concepto", String(payment.concepto))
                 const options = {
                     method: "POST",
@@ -154,10 +154,10 @@ export const WidgetPago: FC<Props> = ({ userLogged }) => {
                 <Typography variant="overline" fontWeight={"bold"}>Reporte de pago</Typography>
                 <Grid container spacing={1}>
                     <Grid item xs={6}>
-                        <TextField onChange={handleChange} size="small" color='secondary' sx={styles.input} fullWidth label="Monto" value={payment.monto} name="monto" />
+                        <TextField onChange={handleChange} size="small" color='secondary' sx={styles.input} fullWidth label="Monto" value={payment.monto ? payment.monto : ''} name="monto" />
                     </Grid>
                     <Grid item xs={6}>
-                        {/* <TextField onChange={handleChange} size="small" color='secondary' sx={styles.input} fullWidth label="Fecha" value={payment.fecha} name="fecha" />
+                        {/* <TextField onChange={handleChange} size="small" color='secondary' sx={styles.input} fullWidth label="Fecha" value={payment.fecha ? payment.fecha : ''} name="fecha" />
                      */}
                         <MobileDatePicker
                             label="Fecha"
@@ -171,7 +171,7 @@ export const WidgetPago: FC<Props> = ({ userLogged }) => {
                         />
                     </Grid>
                     <Grid item xs={6}>
-                        <TextField onChange={handleChange} size="small" color='secondary' sx={styles.input} fullWidth label="Referencia" value={payment.ref} name="ref" />
+                        <TextField onChange={handleChange} size="small" color='secondary' sx={styles.input} fullWidth label="Referencia" value={payment.ref ? payment.ref : ''} name="ref" />
                     </Grid>
                     <Grid item xs={6}>
                         <Select size="small" color='secondary' sx={{
@@ -186,7 +186,7 @@ export const WidgetPago: FC<Props> = ({ userLogged }) => {
                         </Select>
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField onChange={handleChange} size="small" color='secondary' sx={styles.input} fullWidth multiline label="Descripción" value={payment.concepto} name="concepto" />
+                        <TextField onChange={handleChange} size="small" color='secondary' sx={styles.input} fullWidth multiline label="Descripción" value={payment.concepto ? payment.concepto : ''} name="concepto" />
                     </Grid>
                     <Grid item xs={12}>
                         <Button fullWidth variant="contained" size="small" color="secondary" disableElevation onClick={() => onSubmit()} sx={{ textTransform: "none", borderRadius: 3, p: 1 }}>Registrar pago</Button>
