@@ -3,7 +3,7 @@ import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Layout } from '../components/layout'
 import { User } from '../interfaces/user-type'
-import { validarToken } from '../lib/functions'
+import { numberWithDots, validarToken } from '../lib/functions'
 
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
@@ -21,11 +21,13 @@ import Swal from 'sweetalert2'
 import CircleOutlined from '@mui/icons-material/CircleOutlined'
 import CheckCircleRounded from '@mui/icons-material/CheckCircleRounded'
 import LoadingButton from '@mui/lab/LoadingButton'
+import Divider from '@mui/material/Divider'
 
 interface ItemSelection {
     product_id: number;
     description: string;
     type: string;
+    precio: number | string;
     orden: number;
 }
 
@@ -69,13 +71,14 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
         setOpen(false);
     }
 
-    const selectItem = (product_id: number, description: string, type: string) => {
+    const selectItem = (product_id: number, description: string, type: string, precio: number | string) => {
         const exists = Boolean(selectedItems?.filter((item: ItemSelection) => item.product_id === product_id).length)
 
         const newData: ItemSelection = {
             product_id,
             description,
             type,
+            precio,
             orden: orden + 1
         }
         const newItem = exists
@@ -173,6 +176,15 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
             },
         }
     }
+    const getTotal = (selectedItems: ItemSelection[] | null) => {
+        let total = 0;
+        if (!selectedItems) {
+            return 0;
+        } else {
+            selectedItems.forEach((si) => total = total + Number(si.precio))
+            return total
+        }
+    }
     return (
         <>
             <Button color="primary" variant="contained" sx={localStyles.button} disableElevation onClick={handleOpen} fullWidth >Seleccionar procesos</Button>
@@ -184,12 +196,15 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
                             selectedItems.map((item: ItemSelection) => (
                                 <>
                                     <Box sx={{ display: "flex", flexDirection: "column", mt: 2, }}>
-                                        <Typography variant="overline" fontWeight={400} >Proceso {item.type} #{item.orden}</Typography>
-                                        <Typography variant="subtitle1" fontWeight={500} >{item.description}</Typography>
+                                        <Typography variant="overline">Proceso {item.type} #{item.orden}</Typography>
+                                        <Typography variant="subtitle1">{item.description}</Typography>
+                                        <Typography variant="subtitle2">${item.precio}</Typography>
                                     </Box>
                                 </>
                             ))
                         }
+                        <Divider sx={{ marginBlock: 2 }} />
+                        <Typography variant="subtitle1" color="text.primary" fontWeight="bold">Precio total: ${numberWithDots(getTotal(selectedItems))}</Typography>
                     </Box>
                 )
             }
@@ -221,8 +236,9 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
                                     <Box>
                                         <Typography variant="subtitle2" fontWeight="bold">{item.name}</Typography>
                                         <Typography variant="subtitle2" color="text.secondary" fontWeight={400}>{item.origen}</Typography>
+                                        <Typography variant="subtitle2" color="text.secondary" fontWeight={400}>Precio {item.precio}</Typography>
                                     </Box>
-                                    <IconButton onClick={() => selectItem(Number(item.id), item.name, item.origen)} disabled={Boolean(selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id && itemSelected.orden !== orden).length)}>
+                                    <IconButton onClick={() => selectItem(Number(item.id), item.name, item.origen, item.precio)} disabled={Boolean(selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id && itemSelected.orden !== orden).length)}>
                                         {
                                             Boolean(selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id).length)
                                                 ? (<>
@@ -235,6 +251,8 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
                                 </Box>
                             ))
                         )
+                    }
+                    {
                     }
                 </Box>
             </Dialog>
