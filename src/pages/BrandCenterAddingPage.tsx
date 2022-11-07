@@ -28,6 +28,7 @@ interface BrandCenterInfo {
     nombre: string;
     ruta: string;
     archivo: string;
+    categoria: string;
 }
 
 const initialValues: BrandCenterInfo = {
@@ -35,6 +36,7 @@ const initialValues: BrandCenterInfo = {
     nombre: '',
     ruta: '',
     archivo: '',
+    categoria: '',
 }
 
 export const BrandCenterAddingPage: FC = () => {
@@ -88,6 +90,7 @@ export const BrandCenterAddingPage: FC = () => {
         body.append("etiquetas", String(values.etiquetas));
         body.append("ruta", String(values.ruta));
         body.append("archivo", String(values.archivo));
+        body.append("categoria", String(values.categoria));
         const options = {
             method: "POST",
             body
@@ -148,9 +151,12 @@ export const BrandCenterAddingPage: FC = () => {
                                     <TextField fullWidth color="secondary" label="Nombre" name="nombre" onChange={handleChange} value={values.nombre} sx={styles.input} />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    <TextField fullWidth color="secondary" label="Archivo" name="archivo" onChange={handleChange} value={values.archivo} sx={styles.input} />
+                                    <TextField fullWidth color="secondary" label="Categoría" name="categoria" onChange={handleChange} value={values.categoria} sx={styles.input} />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
+                                    <TextField fullWidth color="secondary" label="Archivo" name="archivo" onChange={handleChange} value={values.archivo} sx={styles.input} />
+                                </Grid>
+                                <Grid item xs={12}>
                                     <TextField fullWidth color="secondary" label="Ruta" name="ruta" onChange={handleChange} value={values.ruta} sx={styles.input} />
                                 </Grid>
                                 <Grid item xs={12}>
