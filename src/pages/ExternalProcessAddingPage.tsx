@@ -122,7 +122,7 @@ export const ExternalProcessAddingPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <Typography component="h2" fontWeight="bold" variant="overline" fontSize={16}>Registrar un proceso externo</Typography>
+                <Typography component="h2" fontWeight="bold" variant="overline" >Registrar un proceso externo</Typography>
 
                 <Formik
                     initialValues={initialValues}

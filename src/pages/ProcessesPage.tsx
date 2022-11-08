@@ -59,7 +59,7 @@ export const ProcessesPage: FC<Props> = () => {
 
     const onSubmit = async () => {
         setIsSubmitting(true);
-        if (!process || !selectedDepartment || !centrodecostodos || !centrodecostouno) {
+        if (!process || !selectedDepartment) {
             Swal.fire({
                 title: "Error",
                 text: "Faltan campos",
@@ -87,16 +87,16 @@ export const ProcessesPage: FC<Props> = () => {
                 const data = await respuesta.json();
                 console.log(data)
                 if (data.exito === "SI") {
-                    Swal.fire({
-                        title: "Exito",
-                        text: "Se ha registrado un proceso nuevo",
-                        icon: "success",
-                    })
                     setSelectedDepartment(null);
                     setProcess("");
                     setCentroDeCostoUno("");
                     setCentroDeCostoDos("");
                     setIsSubmitting(false);
+                    Swal.fire({
+                        title: "Exito",
+                        text: "Se ha registrado un proceso nuevo",
+                        icon: "success",
+                    }).then((click) => router("/assignment"))
                 } else {
                     Swal.fire({
                         title: "Error",
@@ -170,7 +170,7 @@ export const ProcessesPage: FC<Props> = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
-                <Typography variant="overline" fontSize={16} fontWeight="bold" sx={{ mb: 2 }}>Registrar proceso</Typography>
+                <Typography variant="overline" fontWeight="bold" sx={{ mb: 2 }}>Registrar proceso</Typography>
                 <Grid container display="flex" justifyContent="center" alignItems="center" flexWrap="wrap" flexDirection="row" spacing={2}>
                     <Grid item xs={12}>
                         <TextField fullWidth label="Nombre" name="name" color="secondary" onChange={(e) => setProcess(e.target.value)} value={process} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.1)", borderRadius: 5, input: { border: "none" }, "& fieldset": { border: "none" }, }} />

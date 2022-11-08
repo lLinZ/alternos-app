@@ -58,7 +58,7 @@ export const ActivityPage: FC<Props> = () => {
         <Layout user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
                 <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                    <Typography component="h2" fontWeight="bold" variant="overline" fontSize={16}>Lista de Actividades</Typography>
+                    <Typography component="h2" fontWeight="bold" variant="overline" fontSize={12}>Lista de Actividades</Typography>
                     <IconButton color="secondary" onClick={() => router("/activity/add")}>
                         <Tooltip title="Añadir actividad">
                             <AddCircleOutline color="info" />

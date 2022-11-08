@@ -1,13 +1,13 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { useNavigate } from 'react-router-dom';
 
-import { Box, Button, CircularProgress, Divider, Grid, IconButton, TextField, Typography } from '@mui/material'
+import { Box, CircularProgress, Grid, Typography } from '@mui/material'
 
 import { Layout } from '../../components/layout'
 import { User } from '../../interfaces/user-type'
 import { validarToken } from '../../lib/functions'
-import DataTable, { createTheme } from 'react-data-table-component';
+import DataTable from 'react-data-table-component';
 import { baseUrl } from '../../common/baseUrl';
 import { formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -51,8 +51,6 @@ const paginationComponentOptions = {
 export const RegistroCasosPage: FC = () => {
     const [userLogged, setUserLogged] = useState<User | null>(null)
     const router = useNavigate();
-    const [from, setFrom] = useState<string>("");
-    const [to, setTo] = useState<string>("");
     const [casos, setCasos] = useState<any>(null)
 
     const customStyles = {
@@ -82,18 +80,8 @@ export const RegistroCasosPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <Typography variant="overline" fontWeight={"bold"} fontSize={16}>Registro de Casos</Typography>
+                <Typography variant="overline" fontWeight={"bold"}>Registro de Casos</Typography>
                 <Grid container spacing={1}>
-                    {/* <Box sx={styles.searchContainer}>
-                        {/* <Typography variant="overline">Buscar registros por fecha</Typography> */}
-                    {/* </Grid>
-                            <Box sx={styles.fromToContainer}>
-                                <TextField label="Desde" value={from} onChange={(e: ChangeEvent<HTMLInputElement>) => setFrom(e.currentTarget.value)} color="secondary" InputProps={{ sx: { ...styles.inputSearch, borderTopRightRadius: 0, borderBottomRightRadius: 0 } }} />
-                                <Divider orientation='vertical' />
-                                <TextField label="Hasta" value={to} onChange={(e: ChangeEvent<HTMLInputElement>) => setTo(e.currentTarget.value)} color="secondary" InputProps={{ sx: { ...styles.inputSearch, borderTopLeftRadius: 0, borderBottomLeftRadius: 0, textAlign: "right" } }} />
-                            </Box>
-                            <Button variant="contained" color="secondary" sx={{ ...styles.button, borderTopLeftRadius: 0, borderTopRightRadius: 0 }} disableElevation>Buscar</Button>
-                        </Box> */}
                     {
                         casos && (
                             <Grid item xs={12}>

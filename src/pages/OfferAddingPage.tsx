@@ -187,11 +187,11 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
     }
     return (
         <>
-            <Button color="primary" variant="contained" sx={localStyles.button} disableElevation onClick={handleOpen} fullWidth >Seleccionar procesos</Button>
+            <Button color="primary" variant="contained" sx={localStyles.button} disableElevation onClick={handleOpen} fullWidth >Seleccionar producto</Button>
             {
                 selectedItems && selectedItems.length > 0 && (
                     <Box sx={localStyles.selectedItems}>
-                        <Typography variant="overline" fontWeight="bold">Items seleccionados</Typography>
+                        <Typography variant="overline" fontWeight="bold">Productos seleccionados</Typography>
                         {
                             selectedItems.map((item: ItemSelection) => (
                                 <>
@@ -215,7 +215,7 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
                             <InfoIcon color="info" />
                         </IconButton>
                         <Typography sx={localStyles.title} variant="h6" component="div">
-                            Seleccionar Procesos
+                            Seleccionar Productos
                         </Typography>
                         <Button color="success" variant="contained" disableElevation onClick={handleClose} size="small" sx={{ borderRadius: 5 }}>
                             Guardar
@@ -350,13 +350,13 @@ const UserSelectionDialog: FC<UserSelectionProps> = ({ open, setOpen, users, set
     }
     return (
         <>
-            <Button onClick={handleOpen} variant={'contained'} fullWidth disableElevation color={'primary'} sx={localStyles.button}>Seleccionar usuario</Button>
+            <Button onClick={handleOpen} variant={'contained'} fullWidth disableElevation color={'primary'} sx={localStyles.button}>Seleccionar cliente</Button>
 
             {
                 selectedUser && (
                     <Box sx={localStyles.selectedUserContainer}>
                         <Box>
-                            <Typography variant="subtitle2" fontWeight={"bold"}>Usuario seleccionado</Typography>
+                            <Typography variant="subtitle2" fontWeight={"bold"}>Cliente seleccionado</Typography>
                             <Typography variant="subtitle2" fontWeight={400} color="text.secondary">{selectedUser?.name}</Typography>
                         </Box>
                         <CheckCircle color="success" />
@@ -375,7 +375,7 @@ const UserSelectionDialog: FC<UserSelectionProps> = ({ open, setOpen, users, set
                             <CloseIcon />
                         </IconButton>
                         <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                            Seleccionar usuario
+                            Seleccionar Cliente
                         </Typography>
                     </Toolbar>
                 </AppBar>
@@ -487,7 +487,7 @@ export const OfferAddingPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <Typography component="h2" fontWeight="bold" variant="overline" fontSize={16}>Registrar oferta</Typography>
+                <Typography component="h2" fontWeight="bold" variant="overline">Registrar oferta</Typography>
                 <UserSelectionDialog {...modalUsersProps} />
                 <ItemSelectionDialog {...modalItemsProps} />
                 <LoadingButton

@@ -124,7 +124,7 @@ export const UserAddingPage = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={{ p: 1, width: "80%", margin: "auto" }}>
-                <Typography component="h2" fontWeight="bold" variant="overline" fontSize={16}>Registrar un nuevo usuario</Typography>
+                <Typography component="h2" fontWeight="bold" variant="overline">Registrar un nuevo usuario</Typography>
                 <Formik
                     initialValues={initialValues}
                     onSubmit={(values: FormikValues) => onSubmit(values)}

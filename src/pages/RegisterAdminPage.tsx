@@ -112,7 +112,7 @@ export const RegisterAdminPage: FC<Props> = () => {
     return (
         <Layout footer={false} user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
-                <Typography component="h2" fontWeight="bold" variant="overline" fontSize={16}>Registrar Administrador</Typography>
+                <Typography component="h2" fontWeight="bold" variant="overline">Registrar Administrador</Typography>
                 <Formik
                     initialValues={initialValues}
                     onSubmit={(values: FormikValues) => onSubmit(values)}

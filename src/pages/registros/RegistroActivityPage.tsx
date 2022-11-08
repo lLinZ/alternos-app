@@ -1,13 +1,13 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { useNavigate } from 'react-router-dom';
 
-import { Box, Button, CircularProgress, Divider, Grid, IconButton, TextField, Typography } from '@mui/material'
+import { Box, CircularProgress, Grid, Typography } from '@mui/material'
 
 import { Layout } from '../../components/layout'
 import { User } from '../../interfaces/user-type'
 import { validarToken } from '../../lib/functions'
-import DataTable, { createTheme } from 'react-data-table-component';
+import DataTable from 'react-data-table-component';
 import { baseUrl } from '../../common/baseUrl';
 
 const columns = [
@@ -55,8 +55,6 @@ const paginationComponentOptions = {
 export const RegistroActivityPage: FC = () => {
     const [userLogged, setUserLogged] = useState<User | null>(null)
     const router = useNavigate();
-    const [from, setFrom] = useState<string>("");
-    const [to, setTo] = useState<string>("");
     const [actividades, setActividades] = useState<any>(null)
 
     const customStyles = {
@@ -86,7 +84,7 @@ export const RegistroActivityPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <Typography variant="overline" fontWeight={"bold"} fontSize={16}>Registro de Actividades</Typography>
+                <Typography variant="overline" fontWeight={"bold"}>Registro de Actividades</Typography>
                 <Grid container spacing={1}>
                     {/* <Box sx={styles.searchContainer}>
                         {/* <Typography variant="overline">Buscar registros por fecha</Typography> */}

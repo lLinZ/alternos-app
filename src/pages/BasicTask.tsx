@@ -310,7 +310,7 @@ export const BasicTaskPage: FC<Props> = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
-                <Typography variant="overline" component="h2" fontWeight="bold" sx={{ mb: 2 }} fontSize={16}>Tareas abiertas</Typography>
+                <Typography variant="overline" component="h2" fontWeight="bold" sx={{ mb: 2 }}>Tareas abiertas</Typography>
                 {isLoading && (
                     <Box sx={{ w: "100%", m: "auto" }}>
                         <CircularProgress color="secondary" />

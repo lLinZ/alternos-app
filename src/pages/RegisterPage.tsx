@@ -129,7 +129,7 @@ export const RegisterPage: FC<Props> = () => {
     return (
         <Layout footer={false}>
             <Box sx={{ p: 1, width: "80%", margin: "auto" }}>
-                <Typography component="h2" fontWeight="bold" variant="overline" fontSize={16}>Registrarse en Alternos</Typography>
+                <Typography component="h2" fontWeight="bold" variant="overline">Registrarse en Alternos</Typography>
                 <Formik
                     initialValues={initialValues}
                     onSubmit={(values: FormikValues) => onSubmit(values)}

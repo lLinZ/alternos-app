@@ -57,8 +57,8 @@ export const ExternalProcessPage: FC<Props> = () => {
         <Layout user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
                 <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                    <Typography component="h2" fontWeight="bold" variant="overline" fontSize={16}>Lista de procesos externos</Typography>
-                    <IconButton color="secondary" onClick={() => router("/process/external/add")}>
+                    <Typography component="h2" fontWeight="bold" variant="overline" >Lista de procesos externos</Typography>
+                    <IconButton color="secondary" size="small" onClick={() => router("/process/external/add")}>
                         <Tooltip title="Añadir proceso externo">
                             <AddCircleOutline color="info" />
                         </Tooltip>

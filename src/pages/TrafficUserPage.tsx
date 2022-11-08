@@ -1,7 +1,7 @@
 import { LoadingButton } from "@mui/lab";
-import { Box, Typography, CircularProgress, Grid, Button, Dialog, AppBar, Toolbar, IconButton, Divider, TextField, Slide } from "@mui/material";
+import { Box, Typography, CircularProgress, Grid, Button, Dialog, AppBar, Toolbar, IconButton, Divider, Slide } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
-import { ChangeEvent, FC, forwardRef, ReactElement, Ref, useEffect, useState } from "react";
+import { FC, forwardRef, ReactElement, Ref, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { baseUrl } from "../common/baseUrl";
@@ -10,7 +10,6 @@ import { User } from "../interfaces/user-type";
 import { getCookieValue, validarToken } from "../lib/functions";
 import { IRequirement } from "./UserRequirementsPage";
 import CloseIcon from '@mui/icons-material/Close';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -50,57 +49,15 @@ export const TrafficUserPage: FC = () => {
     // Control del modal de usuarios
     const [openUserModal, setOpenUserModal] = useState<boolean>(false);
 
-    // Usuarios buscados
-    const [users, setUsers] = useState<User[] | null>(null);
-
-    // Usuario seleccionado
-    const [userSelected, setUserSelected] = useState<SelectedUser | null>(null)
-
-    // Funcion del siguiente usuario al actual
-    const [followingFunction, setFollowingFunction] = useState<number | null>(null);
-
-    // Ultimo usaurio de las actividades
-    const [last, setLast] = useState<boolean>(false);
-    const [listabeta, setListabeta] = useState<any>(null);
 
     const [actividades, setActividades] = useState<any>(null);
-
-    const [usersModal, setUsersModal] = useState<any>(null);
 
     const [selectedActividades, setSelectedActividades] = useState<any>(null);
 
     const [currentActividad, setCurrentActividad] = useState<any>(null)
-    const plantilla = [
-        {
-            actividad_id: 1,
-            user_id: 2,
-        }
-    ]
 
     // Router
     const router = useNavigate();
-
-    /**
-     * Funcion para obtener los usuarios por id de funcion
-     * @param functionId ID de la funcion del usuario siguiente al actual
-     */
-    const getUsers = async (functionId: number) => {
-        const url = `${baseUrl}/listausersxfunction?function_id=${functionId}`
-        try {
-            const respuesta = await fetch(url);
-
-            const data = await respuesta.json();
-            console.log(data);
-            if (data.exito === "SI") {
-                setUsers(data.registros[0].users)
-            } else {
-                setUsers(null);
-                console.log("No se logro encontrar ningún usuario")
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
 
     const selectuserDeActividad = async (actividadId: number, user: any) => {
         const currentActivityWithUser = { actividadId, userId: user.user_id, userName: user.user_name }
@@ -108,46 +65,16 @@ export const TrafficUserPage: FC = () => {
         setSelectedActividades(newArray);
         setOpenUserModal(false);
     }
-
-    const deselectUserDeActividad = async (actividadId: number) => {
-        const newArray = selectedActividades.filter((act: any) => actividadId !== act.actividadId)
-
-        setSelectedActividades(newArray);
-    }
-
     /**
      * Funcion para abrir el modal de requerimientos
      * @param id id del req
      */
     const openModal = (id: number) => {
         const thisReq = myRequirements?.filter(req => Number(req.id) === Number(id))[0];
-        setUserSelected(null);
         setSelectedTask(thisReq ? thisReq : null);
         getArrayOfUsers(thisReq ? thisReq : null);
-        // getFollowingFunction(thisReq ? thisReq.process_id : 0);
 
         setOpen(true);
-    }
-    /**
-     * Funcion para abrir modal de usaurios
-     */
-    const openModalUser = () => {
-        if (!followingFunction) return;
-
-        setOpenUserModal(true);
-        getUsers(followingFunction!);
-    }
-
-    /**
-     * Funcion para reinciar los datos del formulario 
-     */
-    const resetModal = () => {
-        setSelectedTask(null);
-        setOpen(false);
-        setOpenUserModal(false);
-        setUserSelected(null);
-        setFollowingFunction(null);
-        setRespuestaReq("")
     }
     const resetEverything = () => {
         setOpen(false);
@@ -155,7 +82,6 @@ export const TrafficUserPage: FC = () => {
         setRespuestaReq("");
         setSelectedActividades(null);
         setSelectedTask(null);
-        setUserSelected(null);
     }
     /**
      * Funcion para cerrar Modal
@@ -213,139 +139,10 @@ export const TrafficUserPage: FC = () => {
         }
     }
 
-    /**
-     * Funcion para obtener la funcion siguiente a la de trafico
-     */
-    const getFollowingFunction = async (selectedTaskProcessId: number) => {
-        const url = `${baseUrl}/listaprocesos?id_proceso=${selectedTaskProcessId}`;
-
-        try {
-
-            const respuesta = await fetch(url);
-            const data = await respuesta.json();
-            console.log(data)
-            if (data.exito === "SI") {
-                const actividadesActuales = data.registros[0].actividades;
-
-                let match = false;
-                let siguiente = 0;
-                const len = actividadesActuales.length;
-                let counter = 1;
-                for (let actividadActual of actividadesActuales) {
-                    counter++;
-                    if (match === true) {
-                        siguiente = actividadActual.owner_id;
-                        setFollowingFunction(siguiente);
-                        match = false;
-                        break;
-                    } else {
-                        if (counter === len) {
-                            setLast(true);
-                        }
-                    }
-
-                    if (Number(actividadActual.owner_id) === Number(userLogged?.function_id)) {
-                        match = true;
-                    }
-                }
-            } else {
-                console.log({ data });
-                Swal.fire({
-                    title: "Error",
-                    text: data.mensaje,
-                    icon: "error"
-                })
-            }
-        } catch (err) {
-            console.log(err)
-            Swal.fire({
-                title: "Error",
-                text: "Error al conectar con el servidor",
-                icon: "error"
-            })
-
-        }
-    }
-
     const redirect = (path: string) => {
         router(path)
     }
 
-    /**
-     * Funcion para enviar la respuesta de la tarea
-     */
-    const onSubmit = async () => {
-        setIsSubmitting(true);
-
-        if (!userSelected || !selectedTask || !respuestaReq) {
-            Swal.fire({
-                text: "Error",
-                title: "Todos los campos son obligatorios",
-                icon: "error"
-            })
-            setIsSubmitting(false);
-        } else {
-            const url = `${baseUrl}/asignatarea`
-            const body = new FormData();
-
-            body.append("task_id", String(selectedTask?.id));
-            body.append("respuesta", String(respuestaReq));
-            !last && body.append("task_assigned_id", String(userSelected.id));
-
-            const options = {
-                method: "POST",
-                body
-            }
-
-            try {
-
-                // Solicitud
-                const respuesta = await fetch(url, options);
-                // Datos de la respuesta
-                const data = await respuesta.json();
-
-                // Si tuvo exito
-                if (data.exito === "SI") {
-
-                    // Se elimina la tarea actual del array de requerimientos
-                    const newRequirements: IRequirement[] | null = myRequirements?.filter(req => req.id !== selectedTask?.id) || null;
-
-                    // Se actualiza el array de req
-                    setMyRequirements(newRequirements);
-
-                    // Se obtienen los requerimientos nuevos
-                    getMyRequirements();
-                    // Se reinician los campos
-                    resetModal();
-
-                    // Cancel loader
-                    setIsSubmitting(false);
-
-                    // Alert
-                    Swal.fire({
-                        title: "Exito",
-                        text: "Se ha respondido el requerimiento",
-                        icon: "success",
-                    })
-                } else {
-                    Swal.fire({
-                        title: "Error",
-                        text: "No se logró responder el requerimiento",
-                        icon: "error",
-                    });
-                    setIsSubmitting(false);
-                }
-            } catch (err) {
-                Swal.fire({
-                    title: "Error",
-                    text: "No se logró conectar al servidor",
-                    icon: "error",
-                });
-                console.log(err);
-                setIsSubmitting(false);
-            }
-        }
-    }
     const getArrayOfUsers = async (selectedTaskParam: IRequirement | null) => {
         if (!selectedTaskParam) {
             return false;
@@ -360,6 +157,7 @@ export const TrafficUserPage: FC = () => {
     }
 
     const asignarUsersATareas = async () => {
+        setIsSubmitting(true);
         const url = `${baseUrl}/trafico`;
         let activUsers = "";
         if (selectedActividades.length < actividades.length) {
@@ -377,6 +175,7 @@ export const TrafficUserPage: FC = () => {
                 text: "Debe seleccionar una actividad valida",
                 icon: "error"
             })
+            setIsSubmitting(false);
         } else {
 
             for (let i = 1; i <= selectedActividades.length; i++) {
@@ -403,12 +202,14 @@ export const TrafficUserPage: FC = () => {
                 })
                 resetEverything();
                 getMyRequirements();
+                setIsSubmitting(false);
             } else {
                 Swal.fire({
                     title: "Error",
                     text: data.mensaje,
                     icon: "error",
                 })
+                setIsSubmitting(false);
             }
         }
     }
@@ -418,13 +219,13 @@ export const TrafficUserPage: FC = () => {
         getMyRequirements();
         setIsLoading(false);
     }, [])
-    console.log(selectedActividades)
+
     // Render
     return (
         <Layout title="Tráfico" user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
-                <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
-                    <Typography variant="overline" component="h2" fontWeight="bold" sx={{ mb: 2 }} fontSize={16}>Tareas abiertas (Tráfico)</Typography>
+                <Box sx={{ display: "flex", flexFlow: "row wrap", alignItems: "center" }}>
+                    <Typography variant="overline" component="h2" fontWeight="bold" sx={{ mb: 2 }}>Tareas abiertas (Tráfico)</Typography>
                     <Button size="small" sx={{ ml: 1, p: 1, height: "100%", borderRadius: 5, textTransform: "none" }} variant="outlined" color="info" onClick={() => redirect("/requirements/basic")} > Ver lista de tareas comunes</Button>
                 </Box>
                 {isLoading && (

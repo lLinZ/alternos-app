@@ -5,6 +5,7 @@ import { User } from '../../interfaces/user-type';
 import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
 import { getFormatDistanceToNow, numberWithDots, ucfirst, validarToken } from '../../lib/functions';
 import Typography from '@mui/material/Typography';
 import { baseUrl } from '../../common/baseUrl';
@@ -13,6 +14,7 @@ import { Button, Collapse, Divider, IconButton, IconButtonProps, styled } from '
 import SendRounded from '@mui/icons-material/SendRounded';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CheckCircleRounded from '@mui/icons-material/CheckCircleRounded';
+import { blue, green, red } from '@mui/material/colors';
 
 
 interface Offer {
@@ -60,7 +62,30 @@ export const RegistroOfferPage: FC = () => {
     const [userLogged, setUserLogged] = useState<User | null>(null);
     const router = useNavigate()
 
-
+    const getColorByStatus = (status: string) => {
+        switch (status.toLowerCase()) {
+            case "enviada":
+                return "success";
+            case "confirmada":
+                return "info";
+            case "rechazada":
+                return "error";
+            default:
+                return "secondary"
+        }
+    }
+    const getHexColorByStatus = (status: string) => {
+        switch (status.toLowerCase()) {
+            case "enviada":
+                return green[500];
+            case "confirmada":
+                return blue[500];
+            case "rechazada":
+                return red[500];
+            default:
+                return "#000"
+        }
+    }
     const getOffers = async () => {
 
         const url = `${baseUrl}/listaofertas`
@@ -86,51 +111,6 @@ export const RegistroOfferPage: FC = () => {
             console.log(error);
         }
     }
-    // function res($response) {
-    //     return echo json_encode($response, JSON_UNESCAPED_UNICODE);
-    // }
-    // if(isset($_POST['id'])){ $id = mysqli_real_escape_string($_POST["id"]);}
-    // if(isset($_POST['accion'])){ $accion = mysqli_real_escape_string($_POST["accion"]);}
-
-    // $respuesta = [];
-
-    // if(empty($_POST['id'])){
-    //     $respuesta['exito'] = 'NO';
-    //     $respuesta['mensaje'] = 'El id es obligatorio';
-    //     res($respuesta);
-    // } 
-
-    // switch($accion){
-    //     case 'soloconfirmar':
-    //         $sql = "UPDATE `ofertas` status = 'confirmada' WHERE id = $id";
-    //         $query = mysqli_query($link, $sql);
-    //         if($query){
-    //             $respuesta['exito'] = 'SI';
-    //             $respuesta['mensaje'] = 'Se ha confirmado la oferta';
-    //         } else {
-    //             $respuesta['exito'] = 'NO';
-    //             $respuesta['mensaje'] = 'No se confirmó la oferta';
-    //         }
-    //         return res($response);
-    //     case 'confirmaryenviar':
-    //         $sql = "UPDATE `ofertas` status = 'enviada' WHERE id = $id";
-    //         $query = mysqli_query($link, $sql);
-    //         if($query){
-    //             $respuesta['exito'] = 'SI';
-    //             $respuesta['mensaje'] = 'Se ha confirmado y enviado la oferta';
-    //         } else {
-    //             $respuesta['exito'] = 'NO';
-    //             $respuesta['mensaje'] = 'No se confirmó ni se envió la oferta';
-    //         }
-    //         return res($response);
-    //     default:
-    //         $respuesta['exito'] = 'NO';
-    //         $respuesta['mensaje'] = 'Accion inválida';
-    //         return res($response);
-    // }
-
-
-
     const send = async (id: number, accion: "soloconfirmar" | "confirmaryenviar") => {
         const url = `${baseUrl}/confirmaoferta`;
 
@@ -181,7 +161,6 @@ export const RegistroOfferPage: FC = () => {
             })
         }
     }
-
     useEffect(() => {
         validarToken(router, setUserLogged);
         getOffers();
@@ -190,12 +169,13 @@ export const RegistroOfferPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <Typography variant="overline" fontWeight="bold" fontSize={16}>Resumen de ofertas</Typography>
+                <Typography variant="overline" fontWeight="bold">Resumen de ofertas</Typography>
                 <Box sx={styles.offersContainer}>
                     {
                         offers && offers.map((offer) => (
                             <Box key={offer.id} sx={styles.offerItem}>
-                                <Typography variant="subtitle2" fontWeight={400} color="text.secondary">{ucfirst(offer.status.toLowerCase())}</Typography>
+
+                                <Chip size="small" color={getColorByStatus(offer.status)} label={ucfirst(offer.status.toLowerCase())} sx={{ ...styles.chip, boxShadow: `0 0 10px ${getHexColorByStatus(offer.status)}` }} />
                                 <Typography variant="subtitle1">Cliente {offer.customer_name}</Typography>
                                 <Typography variant="subtitle1">Vendedor {offer.salesman_name}</Typography>
                                 <Typography variant="subtitle2" fontWeight={300} color="text.secondary">{getFormatDistanceToNow(new Date(offer.created_at))}</Typography>
@@ -318,5 +298,9 @@ const styles = {
         mr: 1,
         display: "flex",
         alignItems: "center"
+    },
+    chip: {
+        mb: 1,
+
     }
 }

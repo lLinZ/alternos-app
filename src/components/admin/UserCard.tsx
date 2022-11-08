@@ -50,13 +50,13 @@ const BasicCard: FC<CardProps> = ({ subtitleOver, title, subtitleBelow, descript
             backdropFilter: 'blur(6px)',
         }}>
             <CardContent>
-                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                <Typography sx={{ fontSize: 12 }} color="text.secondary" gutterBottom>
                     {subtitleOver}
                 </Typography>
-                <Typography variant="h5" component="div">
+                <Typography variant="h6" component="p">
                     {title}
                 </Typography>
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                <Typography sx={{ mb: 1.5 }} variant="subtitle2" color="text.secondary">
                     {subtitleBelow}
                 </Typography>
                 <Typography variant="body2">

@@ -1,8 +1,8 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { useNavigate } from 'react-router-dom';
 
-import { Box, Button, CircularProgress, Divider, Grid, IconButton, MenuItem, Select, TextField, Typography, DialogActions } from '@mui/material'
+import { Box, Button, CircularProgress, Divider, Grid, TextField, Typography, DialogActions } from '@mui/material'
 
 import { Layout } from '../../components/layout'
 import { User } from '../../interfaces/user-type'
@@ -70,8 +70,6 @@ const paginationComponentOptions = {
 const MyActionBar = ({
     onAccept,
     onCancel,
-    onClear,
-    onSetToday,
 }: PickersActionBarProps) => {
 
     return (
@@ -150,7 +148,7 @@ export const RegistroTransaccionesPage: FC = () => {
             <LocalizationProvider locale="es" dateAdapter={AdapterMoment}>
 
                 <Box sx={styles.mainContainer}>
-                    <Typography variant="overline" fontWeight={"bold"} fontSize={16}>Registro de Transacciones</Typography>
+                    <Typography variant="overline" fontWeight={"bold"}>Registro de Transacciones</Typography>
                     <Grid container spacing={1}>
                         <Box sx={styles.searchContainer}>
                             <Typography variant="overline">Buscar registros por fecha</Typography>

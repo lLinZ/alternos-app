@@ -64,9 +64,9 @@ export const RegistrosPage: FC = () => {
   return (
     <Layout user={userLogged}>
       <Box sx={styles.mainContainer}>
-        <Box>
-          <Typography variant="overline" fontWeight={"bold"} fontSize={16}>Registros encontrados</Typography>
-          <IconButton color="info"><AddCircleOutlineRounded /></IconButton>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Typography variant="overline" fontWeight={"bold"}>Registros encontrados</Typography>
+          <IconButton size="small" color="info"><AddCircleOutlineRounded /></IconButton>
         </Box>
         {registrosDePrueba.map((reg: any) => (
           <Box key={reg.id} sx={styles.registroBox}>

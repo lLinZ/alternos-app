@@ -99,7 +99,7 @@ export const RequirementsPage: FC = () => {
         <Layout user={userLogged} title="Requerimientos" >
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
 
-                <Typography variant="overline" component="h2" fontWeight="bold" fontSize={16}>Registrar requerimiento
+                <Typography variant="overline" component="h2" fontWeight="bold">Registrar requerimiento
                     {!open && (<IconButton onClick={() => setOpen(prev => !prev)} sx={{ transition: ".5s ease all" }}>
                         <HelpIcon />
                     </IconButton>

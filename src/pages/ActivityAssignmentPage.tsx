@@ -188,11 +188,11 @@ export const ActivityAssignmentPage = () => {
 
         <Layout user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
-                <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
+                <Box sx={{ display: "flex", flexFlow: "row wrap", alignItems: "center", mb: 1 }}>
                     <IconButton onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}>
                         <InfoIcon color="info" />
                     </IconButton>
-                    <Typography component="h2" fontWeight="bold" variant="overline" fontSize={16}>Asignacion de actividades</Typography>
+                    <Typography component="h2" fontWeight="bold" variant="overline" fontSize={12}>Asignacion de actividades</Typography>
                     <Popover
                         id="mouse-over-popover"
                         sx={{
@@ -219,7 +219,7 @@ export const ActivityAssignmentPage = () => {
                 </Box>
                 <Grid container spacing={1}>
                     <Grid item xs={12} >
-                        <Button color="secondary" fullWidth sx={{ background: "#FFF", borderRadius: 5, p: 1.8, boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)" }} onClick={openModalProcesos}>
+                        <Button color="secondary" fullWidth sx={{ background: "#FFF", borderRadius: 5, p: 1.8, boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", textTransform: "none" }} onClick={openModalProcesos}>
                             Seleccionar proceso
                         </Button>
                     </Grid>
@@ -237,7 +237,7 @@ export const ActivityAssignmentPage = () => {
                         )
                     }
                     <Grid item xs={12} >
-                        <Button color="secondary" fullWidth sx={{ background: "#FFF", borderRadius: 5, p: 1.8, boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)" }} onClick={openModalActividades}>
+                        <Button color="secondary" fullWidth sx={{ background: "#FFF", borderRadius: 5, p: 1.8, boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", textTransform: "none" }} onClick={openModalActividades}>
                             Seleccionar actividades
                         </Button>
                     </Grid>
@@ -262,7 +262,7 @@ export const ActivityAssignmentPage = () => {
                     }
                     <Grid item xs={12} >
                         <Button color="secondary" variant="contained" fullWidth sx={{ borderRadius: 5, p: 2, textTransform: "none" }} onClick={onSubmit}>
-                            Registrar nuevo Proceso
+                            Registrar nuevo proceso
                         </Button>
                     </Grid>
                 </Grid>
