@@ -34,6 +34,7 @@ import { ExternalProcessAddingPage } from './pages/ExternalProcessAddingPage';
 import { ExternalProcessPage } from './pages/ExternalProcessPage';
 import { OfferAddingPage } from './pages/OfferAddingPage';
 import { RegistroOfferPage } from './pages/registros/RegistroOfferPage';
+import { RegistroPendingOffersPage } from './pages/registros/RegistroPendingOffers';
 
 function App() {
   return (
@@ -92,6 +93,7 @@ function App() {
         {/* Resumenes */}
         <Route path="/pagos" element={<RegistroPagosPage />} />
         <Route path="/offer/resume" element={<RegistroOfferPage />} />
+        <Route path="/offer/resume/pending" element={<RegistroPendingOffersPage />} />
         <Route path="/process/resume" element={<RegistroProcesosPage />} />
         <Route path="/casos/status/resume" element={<RegistroStatusPorCasoPage />} />
         <Route path="/transacciones/resume" element={<RegistroTransaccionesPage />} />
