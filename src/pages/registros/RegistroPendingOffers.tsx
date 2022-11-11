@@ -88,7 +88,7 @@ export const RegistroPendingOffersPage: FC = () => {
     }
     const getOffers = async () => {
 
-        const url = `${baseUrl}/listaofertas`
+        const url = `${baseUrl}/listaofertas?status=confirmada`
         try {
             const respuesta = await fetch(url);
             switch (respuesta.status) {
@@ -96,12 +96,6 @@ export const RegistroPendingOffersPage: FC = () => {
                     const data = await respuesta.json();
                     if (data.exito === "SI") {
                         setOffers(data.registros)
-                    } else {
-                        Swal.fire({
-                            title: "Error",
-                            text: data.mensaje,
-                            icon: "error",
-                        });
                     }
                     break;
                 default:
@@ -199,6 +193,14 @@ export const RegistroPendingOffersPage: FC = () => {
                             </Box>
                         ))
                     }
+                    {
+                        !offers && (
+
+                            <Box sx={styles.notFound}>
+                                <Typography variant="subtitle2" color="text.secondary">No hay ofertas pendientes</Typography>
+                            </Box>
+                        )
+                    }
                 </Box>
             </Box>
         </Layout>
@@ -251,6 +253,7 @@ const CollapsibleData: FC<CollapsibleDataProps> = ({ offer }) => {
                             <Typography variant="subtitle2" fontWeight={400} color="text.secondary">Precio $ {numberWithDots(item.precio)}</Typography>
                         </Box>
                     ))}
+
                     <Typography variant="subtitle1" fontWeight="bold">Precio total $ {numberWithDots(total)}</Typography>
                 </Box>
             </Collapse>
@@ -302,5 +305,9 @@ const styles = {
     chip: {
         mb: 1,
 
+    },
+    notFound: {
+        width: "100%",
+        textAlign: "center",
     }
 }

@@ -35,6 +35,7 @@ import { ExternalProcessPage } from './pages/ExternalProcessPage';
 import { OfferAddingPage } from './pages/OfferAddingPage';
 import { RegistroOfferPage } from './pages/registros/RegistroOfferPage';
 import { RegistroPendingOffersPage } from './pages/registros/RegistroPendingOffers';
+import { RegistroAccountPage } from './pages/registros/RegistroAccount';
 
 function App() {
   return (
@@ -101,6 +102,7 @@ function App() {
         <Route path="/analisis/resume" element={<RegistroAnalisisPorCasoPage />} />
         <Route path="/tareas/resume" element={<RegistroTareasPage />} />
         <Route path="/users/cumplimiento/resume" element={<RegistroCumplimientoPage />} />
+        <Route path="/users/estadocuenta" element={<RegistroAccountPage />} />
 
         {/* <Route path="/offer" element={<ProcessesPage />} /> */}
         {/* <Route path="/traffic" element={<TrafficUserPage />} /> */}

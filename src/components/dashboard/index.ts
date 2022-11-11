@@ -6,3 +6,4 @@ export * from "./WidgetSecurity";
 export * from "./WidgetInformativo";
 export * from "./WidgetPago";
 export * from "./WidgetStats";
+export * from "./WidgetEstadoDeCuenta";
