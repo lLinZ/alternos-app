@@ -1,9 +1,15 @@
 import { Pages } from "../../interfaces/pages-type";
 
 export const pages: Pages[] = [
+    // Menu principal
     { name: 'divider', path: "Menu principal" },
+    { name: 'Dashboard', path: "/dashboard" },
     { name: 'Mis tareas', path: "/requirements" },
-    { name: 'Dashboard', path: "/dashboard" }
+    { name: 'Estado de cuenta', path: "/users/estadocuenta" },
+
+    // Ofertas
+    { name: 'divider', path: "Ofertas" },
+    { name: "Ofertas pendientes", path: "/offer/resume/pending" },
 ];
 export const adminPages: Pages[] = [
 
@@ -11,10 +17,12 @@ export const adminPages: Pages[] = [
     { name: 'divider', path: "Menu principal" },
     { name: 'Dashboard', path: "/dashboard" },
     { name: 'Mis tareas', path: "/requirements" },
+    { name: 'Estado de cuenta', path: "/users/estadocuenta" },
 
     // Ofertas
     { name: 'divider', path: "Ofertas" },
     { name: "Ofertas", path: "/offer/resume" },
+    { name: "Ofertas pendientes", path: "/offer/resume/pending" },
     { name: 'Agregar oferta', path: "/offer/add" },
 
     // Procesos
