@@ -15,7 +15,7 @@ import SendRounded from '@mui/icons-material/SendRounded';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CheckCircleRounded from '@mui/icons-material/CheckCircleRounded';
 import { blue, green, red } from '@mui/material/colors';
-
+import PdfIcon from '@mui/icons-material/PictureAsPdfRounded';
 
 interface Offer {
     id: number;
@@ -176,6 +176,10 @@ export const RegistroPendingOffersPage: FC = () => {
 
                                 <CollapsibleData offer={offer} />
                                 <Box sx={styles.offerActions}>
+                                    {/* Boton pdf */}
+                                    <Button component="a" target="_blank" href={`${baseUrl}/docoferta?offer_id=${offer.id}`} variant="outlined" size="small" color="secondary" sx={styles.button}>
+                                        Ver pdf&nbsp; <PdfIcon sx={{ width: 16, height: 16 }} />
+                                    </Button>
                                     {/* Boton confirmar */}
                                     {offer.status !== "enviada" && offer.status !== "confirmada" && (
                                         <Button variant="outlined" size="small" color="secondary" sx={styles.button} onClick={() => send(offer.id, "soloconfirmar")}>
