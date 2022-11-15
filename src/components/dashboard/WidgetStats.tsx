@@ -34,7 +34,7 @@ export const WidgetStats: FC<Props> = ({ user }) => {
         mainContainer: {
             display: user ? user.role_name === 'Administrador' ? "flex" : 'none' : "none",
             borderRadius: 5,
-            mr: 1,
+            m: 1,
             p: 2,
             minWidth: { xs: "100%", sm: 450 },
             maxWidth: { xs: "100%", sm: 450 },

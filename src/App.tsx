@@ -36,6 +36,7 @@ import { OfferAddingPage } from './pages/OfferAddingPage';
 import { RegistroOfferPage } from './pages/registros/RegistroOfferPage';
 import { RegistroPendingOffersPage } from './pages/registros/RegistroPendingOffers';
 import { RegistroAccountPage } from './pages/registros/RegistroAccount';
+import { AnnouncementAdding } from './pages/AnnouncementAdding';
 
 function App() {
   return (
@@ -104,6 +105,8 @@ function App() {
         <Route path="/users/cumplimiento/resume" element={<RegistroCumplimientoPage />} />
         <Route path="/users/estadocuenta" element={<RegistroAccountPage />} />
 
+        {/* Anuncios */}
+        <Route path="/announcement" element={<AnnouncementAdding />} />
         {/* <Route path="/offer" element={<ProcessesPage />} /> */}
         {/* <Route path="/traffic" element={<TrafficUserPage />} /> */}
         {/* <Routes path="/files" element={<RegistrosPage />} /> */}

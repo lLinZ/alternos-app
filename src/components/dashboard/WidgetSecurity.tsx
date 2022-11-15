@@ -1,22 +1,57 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import CloseRounded from '@mui/icons-material/CloseRounded';
 import { Box, IconButton, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { baseUrl } from '../../common/baseUrl';
+import moment from 'moment';
 interface Props {
 
 }
+interface IAnnouncement {
+    texto: string;
+    imagen: string;
+    hasta: string;
+    desde: string;
+    status: string;
+}
 export const WidgetSecurity: FC<Props> = () => {
     const [dismissed, setDismissed] = useState<string>("block");
+    const [image, setImage] = useState<string>("./security.jpg");
+    const [text, setText] = useState<string>("");
+    const [announcement, setAnnouncement] = useState<IAnnouncement>({
+        texto: 'En la opción "Mi perfil" en el menú de usuario puedes modificarla cuando quieras',
+        imagen: './security.jpg',
+        hasta: '',
+        desde: '',
+        status: 'Activo'
+    })
+    console.log({ announcement })
+    const getAnnouncement = async () => {
+        const url = `${baseUrl}/consultaanuncio`;
+        try {
+            const respuesta = await fetch(url);
+            const data = await respuesta.json();
+            if (data.exito === 'SI') {
+                if (moment(data.registros[0].hasta).date <= moment().date) {
+                    setAnnouncement(data.registros[0])
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
     const router = useNavigate();
+    useEffect(() => {
+        getAnnouncement();
+    }, [])
     return (
-        <Box sx={{ position: "relative", display: dismissed, width: "100%", mt: -5 }}>
+        <Box sx={{ position: "relative", display: dismissed, width: "100%", mt: -3 }}>
             <IconButton sx={{ position: "absolute", top: 0, right: 5, zIndex: 90 }} onClick={() => setDismissed('none')}><CloseRounded /></IconButton>
-            <Box sx={{ width: "100%", height: "100%", background: "#FFF", overflow: "hidden", cursor: "pointer", boxShadow: '0 8px 32px 0 rgba(100,100,100,0.1)', "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" }, position: "relative" }} onClick={() => router("/profile")}>
+            <Box sx={{ width: "100%", height: "100%", background: "#FFF", overflow: "hidden", cursor: "pointer", boxShadow: 'inset 0 8px 32px 0 rgba(100,100,100,0.1)', "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" }, position: "relative", backdropFilter: 'blur(8px)' }}>
                 <Box sx={{ display: "flex", flexFlow: "row wrap", justifyContent: "center", alignItems: "center", width: "100%", }}>
-                    <img src="./security.jpg" style={{ width: 100 }} />
+                    <img src={announcement.imagen} style={{ width: 125 }} />
                     <Box sx={{ p: 1 }}>
-                        <Typography variant="subtitle1" fontWeight="bold" textAlign="left" fontSize={{ xs: 12, md: 14 }}>Recuerda actualizar tu información</Typography>
-                        <Typography variant="subtitle2" fontWeight="400" textAlign="left" color="text.secondary" fontSize={{ xs: 12, md: 14 }}>En la opción &quot;Mi perfil&quot; en el menú de usuario puedes modificarla cuando quieras</Typography>
+                        <Typography variant="subtitle2" fontWeight="400" textAlign="left" color="text.secondary" fontSize={{ xs: 12, md: 14 }}>{announcement.texto}</Typography>
                     </Box>
                 </Box>
             </Box>

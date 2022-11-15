@@ -4,7 +4,7 @@ import { Box, Grid, IconButton, Typography, useTheme } from '@mui/material'
 
 import { useNavigate } from 'react-router-dom'
 
-import { WidgetRequirement, WidgetList, WidgetStats, WidgetListaTareas, WidgetSecurity, WidgetInformativo, WidgetPago, WidgetEstadoDeCuenta } from '../components/dashboard'
+import { WidgetRequirement, WidgetList, WidgetStats, WidgetListaTareas, WidgetSecurity, WidgetInformativo, WidgetPago, WidgetEstadoDeCuenta, WidgetBrandcenter } from '../components/dashboard'
 import { Layout } from '../components/layout'
 
 import { validarToken } from '../lib/functions'
@@ -66,78 +66,21 @@ export const DashboardPage: FC = () => {
                 <WidgetSecurity />
                 <Grid container display="flex" flexDirection="row" flexWrap="wrap" alignItems="start" spacing={1} sx={{ mb: 5, p: 1 }}>
                     <Grid item xs={12} sx={{ position: "relative", }}>
-                        <IconButton onClick={() => handleScrollLeft(ref as unknown as MutableRefObject<HTMLElement>)} sx={{ position: "absolute", top: 35, left: 0 }}>
-                            <ChevronLeftRounded />
-                        </IconButton>
-                        <IconButton onClick={() => handleScrollRight(ref as unknown as MutableRefObject<HTMLElement>)} sx={{ position: "absolute", top: 35, right: 0 }}>
-                            <ChevronRightRounded />
-                        </IconButton>
-                        <Box ref={ref} sx={{
-
-                            maxWidth: { xs: "100vw", md: "100%" }, overflowX: { xs: "auto", md: "scroll" },
-                            '&::-webkit-scrollbar': {
-                                width: '0.2em',
-                                height: "5px",
-                                borderRadius: "10px"
-                            },
-                            '&::-webkit-scrollbar-track': {
-                                boxShadow: "none",
-                                webkitBoxShadow: "none"
-                            },
-                            '&::-webkit-scrollbar-thumb': {
-                                backgroundColor: 'rgba(0,0,0,.1)',
-                                outline: '1px solid rgba(255,255,255,0.2)',
-                                borderRadius: "10px",
-                                height: "5px"
-                            },
-
-                        }}>
-
-                            <Box sx={{ display: { xs: "flex", md: "inline-block" }, flexFlow: { xs: "column nowrap", md: 'none' }, minHeight: 320 }}>
-                                <Typography variant="overline" fontWeight="bold">Widgets básicos</Typography>
-                                <Box sx={{ display: "flex", flexFlow: "row nowrap" }}>
-                                    <WidgetStats user={userLogged} />
-                                    <WidgetRequirement userLogged={userLogged} />
-                                    <WidgetEstadoDeCuenta user={userLogged} />
-                                    <WidgetListaTareas />
-                                    <WidgetPago userLogged={userLogged} />
-                                </Box>
-                            </Box>
+                        <Typography variant="overline" fontWeight="bold">Widgets básicos</Typography>
+                        <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
+                            <WidgetStats user={userLogged} />
+                            <WidgetRequirement userLogged={userLogged} />
+                            <WidgetEstadoDeCuenta user={userLogged} />
+                            <WidgetListaTareas />
+                            <WidgetPago userLogged={userLogged} />
+                            <WidgetBrandcenter />
                         </Box>
                     </Grid>
                     <Grid item xs={12} sx={{ position: "relative", }}>
-                        <IconButton onClick={() => handleScrollLeft(refList as unknown as MutableRefObject<HTMLElement>)} sx={{ position: "absolute", top: 35, left: 0 }}>
-                            <ChevronLeftRounded />
-                        </IconButton>
-                        <IconButton onClick={() => handleScrollRight(refList as unknown as MutableRefObject<HTMLElement>)} sx={{ position: "absolute", top: 35, right: 0 }}>
-                            <ChevronRightRounded />
-                        </IconButton>
-                        <Box ref={refList} sx={{
-                            maxWidth: { xs: "100vw", md: "100%" }, overflowX: { xs: "auto", md: "scroll" },
-                            '&::-webkit-scrollbar': {
-                                width: '0.2em',
-                                height: "5px",
-                                borderRadius: "10px"
-                            },
-                            '&::-webkit-scrollbar-track': {
-                                boxShadow: "none",
-                                webkitBoxShadow: "none"
-                            },
-                            '&::-webkit-scrollbar-thumb': {
-                                backgroundColor: 'rgba(0,0,0,.1)',
-                                outline: '1px solid rgba(255,255,255,0.2)',
-                                borderRadius: "10px",
-                                height: "5px",
-                                width: '10px'
-                            },
-                        }}>
-                            <Box sx={{ display: { xs: "flex", md: "inline-block" }, flexFlow: { xs: "column nowrap", md: 'none' }, minHeight: 320 }}>
-                                <Typography variant="overline" fontWeight="bold">Widgets adicionales</Typography>
-                                <Box sx={{ display: "flex", flexFlow: "row nowrap" }}>
-                                    <WidgetList widgets={widgetsS} />
-                                    <WidgetInformativo />
-                                </Box>
-                            </Box>
+                        <Typography variant="overline" fontWeight="bold">Widgets adicionales</Typography>
+                        <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
+                            <WidgetList widgets={widgetsS} />
+                            <WidgetInformativo />
                         </Box>
                     </Grid>
                 </Grid>

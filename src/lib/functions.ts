@@ -131,7 +131,10 @@ export const validarToken = async (router: any, setUserLogged: Dispatch<SetState
             const alertaError1 = await Swal.fire({
                 title: "Error",
                 text: "Autentiquese correctamente",
-                icon: "error"
+                icon: "error",
+                timer:1500,
+                showConfirmButton:false,
+                timerProgressBar:true,
             })
             router("/end");
         }

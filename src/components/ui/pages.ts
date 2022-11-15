@@ -6,6 +6,24 @@ export const pages: Pages[] = [
     { name: 'Dashboard', path: "/dashboard" },
     { name: 'Mis tareas', path: "/requirements" },
     { name: 'Estado de cuenta', path: "/users/estadocuenta" },
+];
+export const traficoPages: Pages[] = [
+    // Menu principal
+    { name: 'divider', path: "Menu principal" },
+    { name: 'Dashboard', path: "/dashboard" },
+    { name: 'Mis tareas', path: "/requirements" },
+    { name: 'Estado de cuenta', path: "/users/estadocuenta" },
+
+    // Ofertas
+    { name: 'divider', path: "Ofertas" },
+    { name: "Ofertas", path: "/offer/resume" },
+];
+export const ventasPages: Pages[] = [
+    // Menu principal
+    { name: 'divider', path: "Menu principal" },
+    { name: 'Dashboard', path: "/dashboard" },
+    { name: 'Mis tareas', path: "/requirements" },
+    { name: 'Estado de cuenta', path: "/users/estadocuenta" },
 
     // Ofertas
     { name: 'divider', path: "Ofertas" },
@@ -49,6 +67,10 @@ export const adminPages: Pages[] = [
     { name: "Analisis por caso", path: "/analisis/resume" },
     { name: "Status por caso", path: "/casos/status/resume" },
     { name: "Tareas por usuario", path: "/tareas/resume" },
+
+    // Anuncios
+    { name: 'divider', path: "Anuncios" },
+    { name: "Registrar anuncio", path: "/announcement" },
 ];
 export const notLoggedPages: Pages[] = [
     {

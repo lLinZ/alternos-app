@@ -88,7 +88,7 @@ export const RegistroOfferPage: FC = () => {
     }
     const getOffers = async () => {
 
-        const url = `${baseUrl}/listaofertas`
+        const url = `${baseUrl}/listaofertas?status=nueva`
         try {
             const respuesta = await fetch(url);
             switch (respuesta.status) {
@@ -96,12 +96,6 @@ export const RegistroOfferPage: FC = () => {
                     const data = await respuesta.json();
                     if (data.exito === "SI") {
                         setOffers(data.registros)
-                    } else {
-                        Swal.fire({
-                            title: "Error",
-                            text: data.mensaje,
-                            icon: "error",
-                        });
                     }
                     break;
                 default:
@@ -112,6 +106,9 @@ export const RegistroOfferPage: FC = () => {
         }
     }
     const send = async (id: number, accion: "soloconfirmar" | "confirmaryenviar") => {
+
+        console.log(id, accion)
+
         const url = `${baseUrl}/confirmaoferta`;
 
         const body = new FormData();
@@ -164,7 +161,11 @@ export const RegistroOfferPage: FC = () => {
     useEffect(() => {
         validarToken(router, setUserLogged);
         getOffers();
-    }, [])
+        if (userLogged && userLogged?.function_name !== 'Tráfico' && userLogged?.role_name !== 'Administrador') {
+            router("/end");
+            // console.log("Usuario", userLogged)
+        }
+    }, [userLogged])
 
     return (
         <Layout user={userLogged}>
@@ -198,6 +199,9 @@ export const RegistroOfferPage: FC = () => {
 
                             </Box>
                         ))
+                    }
+                    {
+                        !offers && (<Typography variant="subtitle2" color="text.secondary">No hay ofertas pendientes</Typography>)
                     }
                 </Box>
             </Box>

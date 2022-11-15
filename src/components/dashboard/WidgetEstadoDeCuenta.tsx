@@ -1,9 +1,14 @@
 import { FC, useEffect, useState } from 'react'
-import { Divider, Box, Typography, useTheme } from '@mui/material'
+import { Box, IconButton, Typography, useTheme } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import { baseUrl } from '../../common/baseUrl';
-import { getCookieValue } from '../../lib/functions';
 import { User } from '../../interfaces/user-type';
+import PaidIcon from '@mui/icons-material/AttachMoneyRounded';
+import Plus from '@mui/icons-material/PriceCheckRounded';
+import Minus from '@mui/icons-material/MoneyOffCsredRounded';
+import green from '@mui/material/colors/green';
+import red from '@mui/material/colors/red';
+import blue from '@mui/material/colors/blue';
 export interface ITransactionsResumed {
     id: number;
     user_name: string;
@@ -16,12 +21,20 @@ interface Props {
     user: User | null;
 }
 export const WidgetEstadoDeCuenta: FC<Props> = ({ user }) => {
-    const [MyTransactions, setMyTransactions] = useState<ITransactionsResumed[] | null>(null)
+    const [MyTransactions, setMyTransactions] = useState<ITransactionsResumed>({
+        id: 0,
+        user_name: '',
+        debitos: 0,
+        creditos: 0,
+        balance: 0,
+    })
     const theme = useTheme();
     const router = useNavigate();
     useEffect(() => {
-        getMyTransactions();
-    }, []);
+        if (user) {
+            getMyTransactions();
+        }
+    }, [user]);
 
     const getMyTransactions = async () => {
         if (!user) return false;
@@ -29,11 +42,13 @@ export const WidgetEstadoDeCuenta: FC<Props> = ({ user }) => {
         try {
             const respuesta = await fetch(url);
             const data = await respuesta.json();
+
             if (data.exito === "SI") {
-                setMyTransactions(data.registros);
+                setMyTransactions(data.registros[0]);
                 console.log(data)
             } else {
-                console.log("Ocurrio un error al solicitar la informacion de las tareas");
+                console.log("Ocurrio un error al solicitar la informacion del estado de cuenta");
+                console.log({ data })
             }
         } catch (error) {
             console.log(error);
@@ -41,11 +56,11 @@ export const WidgetEstadoDeCuenta: FC<Props> = ({ user }) => {
     }
 
     return (
-        <Box display="flex" flexDirection="column" sx={{ minWidth: { xs: "100%", sm: 450 }, maxWidth: { xs: "100%", sm: 450 }, mr: 1, mb: 1, boxShadow: '0 8px 32px 0 rgba(100,100,100,0.1)', background: theme.palette.common.white, borderRadius: 5, overflow: "hidden", cursor: "pointer", transition: ".3s ease all", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" }, minHeight: 250, maxHeight: 250 }}
+        <Box display="flex" flexDirection="column" sx={{ minWidth: { xs: "100%", sm: 450 }, maxWidth: { xs: "100%", sm: 450 }, m: 1, boxShadow: '0 8px 32px 0 rgba(100,100,100,0.1)', background: theme.palette.common.white, borderRadius: 5, overflow: "hidden", cursor: "pointer", transition: ".3s ease all", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" }, minHeight: 250, maxHeight: 250 }}
             onClick={() => router("/users/estadocuenta")}
         >
             <Box id="title" sx={{ pt: 2, pl: 2 }}>
-                <Typography variant="overline" fontWeight="bold">Transacciones recientes</Typography>
+                <Typography variant="overline" fontWeight="bold">Estado de cuenta {MyTransactions.user_name}</Typography>
             </Box>
             <Box id="content" sx={{
                 p: 2, minHeight: "200px", maxHeight: "300px", overflowY: "scroll",
@@ -65,15 +80,21 @@ export const WidgetEstadoDeCuenta: FC<Props> = ({ user }) => {
                     height: "10px"
                 }
             }}>
-                {MyTransactions ? MyTransactions.map((trx: ITransactionsResumed) => (
-                    <Box key={trx.id} sx={{ boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)', background: "rgba(200,200,200,0.2)", borderRadius: 5, p: 2, mb: 1 }}>
-                        <Typography variant="subtitle2" fontWeight="bold" fontSize={12}>Debitos {trx.debitos}</Typography>
-                        <Typography variant="subtitle2" fontWeight="bold" fontSize={12}>Creditos {trx.creditos}</Typography>
-                        <Typography variant="subtitle2" fontWeight="bold" fontSize={12}>Balance {trx.balance}</Typography>
-                    </Box>
-                ))
-                    : <Typography variant="subtitle2" color="text.secondary">Sin transacciones</Typography>
-                }
+                <Box sx={{ p: 1, display: "flex", flexFlow: "row nowrap", alignItems: "center", justifyContent: "space-between" }}>
+                    <IconButton color="info" sx={{ background: green[300], border: `2px solid ${green[500]}`, "&:hover": { background: green[500] } }}><Plus color="primary" /></IconButton>
+                    <Typography variant="overline" fontWeight="bold" fontSize={12}>Débitos</Typography>
+                    <Typography variant="subtitle2" fontWeight="bold" color="success" fontSize={12} sx={{ color: green[500] }}>+{MyTransactions.debitos}</Typography>
+                </Box>
+                <Box sx={{ p: 1, display: "flex", flexFlow: "row nowrap", alignItems: "center", justifyContent: "space-between" }}>
+                    <IconButton color="error" sx={{ background: red[300], border: `2px solid ${red[500]}`, "&:hover": { background: red[500] } }}><Minus color="primary" /></IconButton>
+                    <Typography variant="overline" fontWeight="bold" fontSize={12}>Créditos</Typography>
+                    <Typography variant="subtitle2" fontWeight="bold" color="error" fontSize={12}>-{MyTransactions.creditos}</Typography>
+                </Box>
+                <Box sx={{ p: 1, display: "flex", flexFlow: "row nowrap", alignItems: "center", justifyContent: "space-between" }}>
+                    <IconButton color="success" sx={{ background: blue[300], border: `2px solid ${blue[500]}`, "&:hover": { background: blue[500] } }}><PaidIcon color="primary" /></IconButton>
+                    <Typography variant="overline" fontWeight="bold" fontSize={12}>Balance</Typography>
+                    <Typography variant="subtitle2" fontWeight="bold" sx={{ color: MyTransactions.balance > 0 ? green[500] : MyTransactions.balance === 0 ? "#000" : red[500] }} fontSize={12}>{MyTransactions.balance}</Typography>
+                </Box>
             </Box>
         </Box>
     )
