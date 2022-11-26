@@ -16,7 +16,8 @@ interface Props {
 
 }
 export interface Actividades {
-    actividades: any[];
+    duration: any;
+    formulario?: any;
     costo?: string;
     precio?: string;
     id: number;

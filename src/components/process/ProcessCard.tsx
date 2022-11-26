@@ -9,6 +9,8 @@ import { Checkbox, FormControlLabel, Box, Card, CardActions, CardContent, Button
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import EditIcon from '@mui/icons-material/EditOutlined';
+import EditOffIcon from '@mui/icons-material/EditOffOutlined';
 
 // Props
 import { TransitionProps } from '@mui/material/transitions';
@@ -19,10 +21,12 @@ import { baseUrl } from '../../common/baseUrl';
 import Swal from 'sweetalert2';
 import { LoadingButton } from '@mui/lab';
 import { IFunction } from '../../interfaces/function-type';
+import { Formik, Form, FormikValues, FormikState } from 'formik';
 
 interface Props {
     process: Process;
     setProcesses: Dispatch<SetStateAction<Process[] | null>>;
+    processes?: Process[];
 }
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -54,7 +58,7 @@ const Transition = forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
+export const ProcessCard: FC<Props> = ({ process, setProcesses, processes }) => {
 
     // Control del collapse
     const [expanded, setExpanded] = useState(false);
@@ -92,6 +96,8 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
 
     // Usuarios Registrados en BD
     const [users, setUsers] = useState([]);
+
+    const [edit, setEdit] = useState<boolean>(false);
     const router = useNavigate();
 
     /**
@@ -166,97 +172,6 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
         });
         setUserSelected(null);
     }
-
-
-    // /**
-    //  * Funcion para 
-    //  * @returns 
-    //  */
-    // const registrarActividad = async () => {
-    //     setIsSubmitting(true);
-    //     // Url para registrar una actividad
-    //     const url = `${baseUrl}/actividades`;
-    //     let errores = [];
-
-    //     /* Validaciones
-    //         - Usuario seleccionado
-    //         - Nombre de actividad
-    //         - Duracion
-    //     */
-    //     if (!selectedFunction) {
-    //         errores.push("Debe asignar una funcion a la actividad");
-    //     }
-    //     if (!newActivity.name) {
-    //         errores.push("Debe asignar un nombre a la actividad");
-    //     }
-    //     if (!newActivity.duration) {
-    //         errores.push("Debe seleccionar una duracion");
-    //     }
-
-    //     // Si existen errores
-    //     if (errores.length > 0) {
-    //         Swal.fire({
-    //             title: "Error",
-    //             html: errores.map(e => `- ${e}</br>`),
-    //             icon: "error",
-    //         })
-    //         setIsSubmitting(false);
-    //         return false;
-    //     } else {
-    //         // Datos del formulario
-    //         const body = new FormData();
-    //         body.append("name", String(newActivity.name));
-    //         body.append("owner_id", String(selectedFunction));
-    //         body.append("duration", String(newActivity.duration));
-    //         body.append("process_id", String(newActivity.process_id));
-    //         body.append("delegable", delegable ? "SI" : "NO");
-    //         const options = {
-    //             method: "POST",
-    //             body
-    //         }
-    //         try {
-    //             const respuesta = await fetch(url, options);
-    //             const data = await respuesta.json();
-    //             if (data.exito === "SI") {
-    //                 const newActivityArray = data.registros[0];
-    //                 const newAddedActivity = {
-    //                     id: newActivityArray.id,
-    //                     name: newActivityArray.name,
-    //                     owner_id: newActivityArray.owner_id,
-    //                     owner_name: newActivityArray.owner_name,
-    //                     duration: newActivityArray.duration,
-    //                 }
-    //                 setOpenActivityModal(false);
-    //                 setIsSubmitting(false);
-    //                 setActividades(actividades && actividades.length > 0 ? [...actividades, newAddedActivity] : [newAddedActivity])
-    //                 Swal.fire({
-    //                     title: "Exito",
-    //                     text: "Se ha registrado una actividad",
-    //                     icon: "success"
-    //                 })
-    //                 // Se limpian los campos del formulario
-    //                 cleanForm();
-    //             } else {
-    //                 setIsSubmitting(false);
-    //                 setOpenActivityModal(false);
-    //                 Swal.fire({
-    //                     title: "Error",
-    //                     text: data.mensaje,
-    //                     icon: "error"
-    //                 })
-    //             }
-    //         } catch (error) {
-    //             console.log(error);
-    //             Swal.fire({
-    //                 text: "Error",
-    //                 title: "No se logró conectar con el servidor",
-    //                 icon: "error"
-    //             })
-    //             setIsSubmitting(false);
-    //         }
-    //     }
-
-    // }
     const getActividades = async (id: number) => {
         const url = `${baseUrl}/listaactividadesxproceso?process_id=${id}`;
 
@@ -275,7 +190,78 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
             console.log(err);
         }
     }
+    const onSubmit = async (values: FormikValues) => {
+        const url = `${baseUrl}/updateprocesos`;
+        const body = new FormData();
 
+        if (!values.name) {
+            Swal.fire({
+                title: "Erorr",
+                text: "El campo nombre es obligatorio",
+                icon: "error",
+            })
+            return false;
+        }
+
+        body.append("id", String(process.id));
+        body.append("owner_id", String(process.owner_id));
+        body.append("name", String(values.name));
+        body.append("centrodecosto1", String(values.centrodecosto1));
+        body.append("centrodecosto2", String(values.centrodecosto2));
+        const options = {
+            method: "POST",
+            body
+        }
+        try {
+            const respuesta = await fetch(url, options);
+
+            const data = await respuesta.json();
+
+            if (data.exito === "SI") {
+                const processesExclude = processes?.filter(p => p.id !== process.id);
+                const newProcess: Process = {
+                    id: process.id,
+                    owner_id: process.owner_id,
+                    name: values.name,
+                    centrodecosto1: values.centrodecosto1,
+                    centrodecosto2: values.centrodecosto2,
+                    owner_name: process.owner_name,
+                    costo: process.costo,
+                    precio: process.precio
+                }
+                const newProcesses: Process[] = processesExclude && processesExclude.length > 0 ? [...processesExclude, newProcess] : [newProcess]
+                Swal.fire({
+                    title: "Exito",
+                    text: "Datos editados",
+                    icon: "success",
+                    timer: 2000,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                })
+                setProcesses(newProcesses);
+            } else {
+                Swal.fire({
+                    title: "Error",
+                    text: "No se editaron los datos",
+                    icon: "error",
+                })
+            }
+
+        } catch (error) {
+            console.log(error);
+            Swal.fire({
+                title: "Error",
+                text: "Error interno del servidor",
+                icon: "error",
+            })
+        }
+    }
+
+    const initialValues = {
+        name: process.name,
+        centrodecosto1: process.centrodecosto1,
+        centrodecosto2: process.centrodecosto2,
+    }
     useEffect(() => {
         getFunctions();
         getActividades(process.id);
@@ -287,44 +273,97 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses }) => {
             backdropFilter: 'blur(6px)',
         }}>
             <CardContent>
-                <Typography variant="subtitle2" color="text.primary" fontWeight="bold" gutterBottom>
-                    {process.owner_name}
-                </Typography>
-                <Typography variant="h5" component="div">
-                    {process.name}
-                </Typography>
-                <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
-                    <Typography variant="subtitle2" color="text.primary" sx={{ mr: 1 }} fontWeight="400">
-                        Costo
-                    </Typography>
-                    <Typography variant="subtitle2" color="text.secondary" fontWeight="400">
-                        {process.costo}
-                    </Typography>
-                </Box>
-                <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
-                    <Typography variant="subtitle2" color="text.primary" sx={{ mr: 1 }} fontWeight="400">
-                        Precio
-                    </Typography>
-                    <Typography variant="subtitle2" color="text.secondary" fontWeight="400">
-                        {process.precio}
-                    </Typography>
-                </Box>
-                <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
-                    <Typography variant="subtitle2" color="text.primary" sx={{ mr: 1 }} fontWeight="400">
-                        Centro de costo 1
-                    </Typography>
-                    <Typography variant="subtitle2" color="text.secondary" fontWeight="400">
-                        {process.centrodecosto1}
-                    </Typography>
-                </Box>
-                <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
-                    <Typography variant="subtitle2" color="text.primary" sx={{ mr: 1 }} fontWeight="400">
-                        Centro de costo 2
-                    </Typography>
-                    <Typography variant="subtitle2" color="text.secondary" fontWeight="400">
-                        {process.centrodecosto2}
-                    </Typography>
-                </Box>
+
+                {edit ? (
+                    <Box>
+
+                        <Box sx={{ position: "relative" }}>
+                            <Typography variant="subtitle2" color="text.primary" fontWeight="bold" gutterBottom>
+                                {process.owner_name}
+                            </Typography>
+                            <Typography variant="h5" component="div">
+                                {process.name}
+                            </Typography>
+                            <IconButton onClick={() => setEdit(false)} color="secondary" sx={{ position: "absolute", top: 5, right: 5 }}>
+
+                                <EditOffIcon />
+                            </IconButton>
+                        </Box>
+                        <Formik
+                            initialValues={initialValues}
+                            onSubmit={(values) => onSubmit(values)}
+                        >
+                            {({ values, handleSubmit, handleChange }) => (
+
+                                <Form onSubmit={handleSubmit}>
+
+                                    <Grid container spacing={1} sx={{ mt: 2 }}>
+                                        <Grid item xs={12} sm={4}>
+                                            <TextField fullWidth name="name" value={values.name} label="Nombre" onChange={handleChange} color="secondary" variant="outlined" sx={{ borderRadius: 5 }} />
+                                        </Grid>
+                                        <Grid item xs={12} sm={4}>
+                                            <TextField fullWidth name="centrodecosto1" value={values.centrodecosto1} label="Centro de costo 1" onChange={handleChange} color="secondary" variant="outlined" sx={{ borderRadius: 5 }} />
+                                        </Grid>
+                                        <Grid item xs={12} sm={4}>
+                                            <TextField fullWidth name="centrodecosto2" value={values.centrodecosto2} label="Centro de costo 2" onChange={handleChange} color="secondary" variant="outlined" sx={{ borderRadius: 5 }} />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <Button fullWidth variant="contained" color="secondary" type="submit" disableElevation sx={{ borderRadius: 3, p: 1.8, textTransform: "none" }}>Guardar cambios</Button>
+                                        </Grid>
+
+                                    </Grid>
+                                </Form>
+                            )}
+                        </Formik>
+                    </Box>
+                )
+                    : (<Box>
+                        <Box sx={{ position: "relative" }}>
+                            <IconButton onClick={() => setEdit(true)} color="secondary" sx={{ position: "absolute", top: 5, right: 5 }}>
+
+                                <EditIcon />
+                            </IconButton>
+
+                        </Box>
+                        <Typography variant="subtitle2" color="text.primary" fontWeight="bold" gutterBottom>
+                            {process.owner_name}
+                        </Typography>
+                        <Typography variant="h5" component="div">
+                            {process.name}
+                        </Typography>
+                        <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
+                            <Typography variant="subtitle2" color="text.primary" sx={{ mr: 1 }} fontWeight="400">
+                                Costo
+                            </Typography>
+                            <Typography variant="subtitle2" color="text.secondary" fontWeight="400">
+                                {process.costo}
+                            </Typography>
+                        </Box>
+                        <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
+                            <Typography variant="subtitle2" color="text.primary" sx={{ mr: 1 }} fontWeight="400">
+                                Precio
+                            </Typography>
+                            <Typography variant="subtitle2" color="text.secondary" fontWeight="400">
+                                {process.precio}
+                            </Typography>
+                        </Box>
+                        <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
+                            <Typography variant="subtitle2" color="text.primary" sx={{ mr: 1 }} fontWeight="400">
+                                Centro de costo 1
+                            </Typography>
+                            <Typography variant="subtitle2" color="text.secondary" fontWeight="400">
+                                {process.centrodecosto1}
+                            </Typography>
+                        </Box>
+                        <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
+                            <Typography variant="subtitle2" color="text.primary" sx={{ mr: 1 }} fontWeight="400">
+                                Centro de costo 2
+                            </Typography>
+                            <Typography variant="subtitle2" color="text.secondary" fontWeight="400">
+                                {process.centrodecosto2}
+                            </Typography>
+                        </Box>
+                    </Box>)}
             </CardContent>
             <CardActions sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                 <ExpandMore

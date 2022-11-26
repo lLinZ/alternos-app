@@ -21,7 +21,7 @@ export const ProcessList: FC<Props> = ({ processes, setProcesses }) => {
                 <IconButton color="info" onClick={() => router("/process/add")}><AddIcon /></IconButton>
             </Box>
             {/* Si hay procesos */}
-            {processes?.map((p: Process) => <ProcessCard key={p.id} process={p} setProcesses={setProcesses} />)}
+            {processes?.map((p: Process) => <ProcessCard key={p.id} process={p} setProcesses={setProcesses} processes={processes} />)}
 
             {/* Si no hay procesos */}
             {!processes && (<Typography variant="body1" color="text.secondary">No existen procesos asignados a tu usuario actualmente</Typography>)}

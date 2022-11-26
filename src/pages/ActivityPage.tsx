@@ -4,6 +4,7 @@ import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { baseUrl } from '../common/baseUrl';
+import { ActivityCard } from '../components/activity/ActivityCard';
 import { Layout } from '../components/layout';
 import { User } from '../interfaces/user-type';
 import { validarToken } from '../lib/functions';
@@ -67,16 +68,7 @@ export const ActivityPage: FC<Props> = () => {
                 </Box>
                 {
                     actividades && actividades.map((actividad: Actividades) => (
-                        <Box key={actividad.id} sx={{
-                            p: 2, borderRadius: 5, mb: 1, boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
-                            background: "rgba(255,255,255,0.6)",
-                            backdropFilter: 'blur(6px)',
-                        }}>
-                            <Typography variant="subtitle1" fontWeight={"bold"}>{actividad.name}</Typography>
-                            <Typography variant="subtitle2" fontWeight={400} color="text.primary">Departamento {actividad.owner_name}</Typography>
-                            <Typography variant="subtitle2" fontWeight={300} color="text.secondary">Costo {actividad.costo}</Typography>
-                            <Typography variant="subtitle2" fontWeight={300} color="text.secondary">Precio {actividad.precio}</Typography>
-                        </Box>
+                        <ActivityCard actividades={actividades} setActividades={setActividades} actividad={actividad} />
                     ))
                 }
             </Box>
