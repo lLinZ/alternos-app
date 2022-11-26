@@ -107,16 +107,16 @@ export const ActivityCard: FC<Props> = ({ actividad, actividades, setActividades
                         <Form onSubmit={handleSubmit}>
                             <Grid container spacing={1} sx={{ mt: 1 }}>
                                 <Grid item xs={12} sm={3}>
-                                    <TextField fullWidth label="Nombre" name="name" value={values.name} color="secondary" variant="outlined" />
+                                    <TextField fullWidth label="Nombre" onChange={handleChange} name="name" value={values.name} color="secondary" variant="outlined" />
                                 </Grid>
                                 <Grid item xs={12} sm={3}>
-                                    <TextField fullWidth label="Duración" name="duration" value={values.duration} color="secondary" variant="outlined" />
+                                    <TextField fullWidth label="Duración" onChange={handleChange} name="duration" value={values.duration} color="secondary" variant="outlined" />
                                 </Grid>
                                 <Grid item xs={12} sm={3}>
-                                    <TextField fullWidth label="Costo" name="costo" value={values.costo} color="secondary" variant="outlined" />
+                                    <TextField fullWidth label="Costo" onChange={handleChange} name="costo" value={values.costo} color="secondary" variant="outlined" />
                                 </Grid>
                                 <Grid item xs={12} sm={3}>
-                                    <TextField fullWidth label="Precio" name="precio" value={values.precio} color="secondary" variant="outlined" />
+                                    <TextField fullWidth label="Precio" onChange={handleChange} name="precio" value={values.precio} color="secondary" variant="outlined" />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Button fullWidth disableElevation type="submit" color="secondary" variant="contained" sx={styles.button}>Guardar cambios</Button>
