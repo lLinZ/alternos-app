@@ -17,31 +17,46 @@ import { validarToken } from '../../lib/functions';
 import { baseUrl } from '../../common/baseUrl';
 import Swal from 'sweetalert2';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-interface SelectedUser {
+interface SelectedCase {
     id: number;
-    name: string;
-    role_name: string;
+    description: string;
+    process_name: string;
 }
-export interface KanbanData {
+interface Case {
+    id: number;
+    description: string;
     user_id: number;
     user_name: string;
+    process_id: number;
+    process_name: string;
+    process_owner_id: number;
+    process_owner_name: string;
+    status: string;
+    inicio: Date;
+    vence: Date;
+    completed_at: string;
+    comentario_cierre: string;
+}
+interface KanbanData {
+    case_id: number;
+    case_name: string;
     items: Item[];
 }
 
-export interface Item {
+interface Item {
     id: number;
     pendiente: string;
     enproceso: string;
     completada: string;
 }
 
-export const KanbanUser: FC = () => {
+export const KanbanCase: FC = () => {
     const [userLogged, setUserLogged] = useState<User | null>(null);
     const router = useNavigate();
     const [open, setOpen] = useState<boolean>(false);
-    const [users, setUsers] = useState<User[] | null>(null);
+    const [cases, setCases] = useState<Case[] | null>(null);
     const [kanbanData, setKanbanData] = useState<KanbanData | null>(null);
-    const [selectedUser, setSelectedUser] = useState<SelectedUser | null>(null);
+    const [selectedCase, setSelectedCase] = useState<SelectedCase | null>(null);
     const handleClose = () => {
         setOpen(false);
     }
@@ -49,19 +64,19 @@ export const KanbanUser: FC = () => {
         setOpen(true);
     }
 
-    const selectUser = (id: number, name: string, role_name: string) => {
+    const selectCase = (id: number, description: string, process_name: string) => {
         if (!id) {
-            setSelectedUser(null);
+            setSelectedCase(null);
             setKanbanData(null);
             setOpen(false);
         } else {
-            setSelectedUser({ id, name, role_name });
+            setSelectedCase({ id, description, process_name });
             getData(id);
             setOpen(false);
         }
     }
     const getData = async (id: number) => {
-        const url = `${baseUrl}/kanban?user_id=${id}`;
+        const url = `${baseUrl}/kanbancase?case_id=${id}`;
 
         try {
             const respuesta = await fetch(url);
@@ -96,14 +111,14 @@ export const KanbanUser: FC = () => {
             setKanbanData(null);
         }
     }
-    const getUsers = async () => {
-        const url = `${baseUrl}/listaregistros?role_id=3&status=Activo`;
+    const getCases = async () => {
+        const url = `${baseUrl}/listacasos`;
         try {
             const respuesta = await fetch(url);
             const data = await respuesta.json();
 
             if (data.exito === "SI") {
-                setUsers(data.registros)
+                setCases(data.registros)
             }
         } catch (error) {
             console.log(error);
@@ -111,30 +126,30 @@ export const KanbanUser: FC = () => {
     }
     useEffect(() => {
         validarToken(router, setUserLogged);
-        getUsers();
+        getCases();
     }, [])
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <Typography variant="overline" fontWeight="bold">Kanban por Usuario</Typography>
+                <Typography variant="overline" fontWeight="bold">Kanban por Caso</Typography>
                 <Box sx={styles.selection}>
-                    <Button disableElevation fullWidth variant="contained" onClick={handleOpen} color="secondary" sx={styles.button}>Seleccionar usuario</Button>
+                    <Button disableElevation fullWidth variant="contained" onClick={handleOpen} color="secondary" sx={styles.button}>Seleccionar caso</Button>
                 </Box>
-                {selectedUser && (
+                {selectedCase && (
                     <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Box>
-                            <Typography variant="overline" fontWeight={"bold"}>Usuario seleccionado</Typography>
-                            <Typography variant="subtitle2" color="text.secondary">{selectedUser.name}</Typography>
-                            <Typography variant="overline" fontWeight={"bold"}>Rol</Typography>
-                            <Typography variant="subtitle2" color="text.secondary">{selectedUser.role_name}</Typography>
+                            <Typography variant="overline" fontWeight={"bold"}>Caso seleccionado</Typography>
+                            <Typography variant="subtitle2" color="text.secondary">{selectedCase.description}</Typography>
+                            <Typography variant="overline" fontWeight={"bold"}>Proceso correspondiente</Typography>
+                            <Typography variant="subtitle2" color="text.secondary">{selectedCase.process_name}</Typography>
                         </Box>
                         <CheckCircleIcon color="success" />
                     </Box>
                 )}
                 {
-                    selectedUser && !kanbanData && (
+                    selectedCase && !kanbanData && (
                         <Box sx={{ p: 5, width: "100%", mt: 2 }}>
-                            <Typography color="text.secondary" textAlign={"center"} fontWeight="bold" variant="subtitle2">No hay registros para este usuario</Typography>
+                            <Typography color="text.secondary" textAlign={"center"} fontWeight="bold" variant="subtitle2">No hay registros para caso</Typography>
                         </Box>
                     )
                 }
@@ -200,16 +215,17 @@ export const KanbanUser: FC = () => {
                             <CloseIcon />
                         </IconButton>
                         <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                            Seleccionar Usuario
+                            Seleccionar Caso
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <Box sx={styles.usersContainer}>
+                <Box sx={styles.casesContainer}>
                     {
-                        users && users.map((u: User) => (
-                            <Box key={u.id} sx={styles.userCard}>
-                                <Typography variant="body1">{u.name}</Typography>
-                                <Button disabled={selectedUser && Number(selectedUser.id) === Number(u.id) ? true : false} color="secondary" variant="contained" sx={styles.button} onClick={() => selectUser(Number(u.id), u.name, u.role_name)}>{selectedUser && Number(selectedUser.id) === Number(u.id) ? "Seleccionado" : "Seleccionar"}</Button>
+                        cases && cases.map((c: Case) => (
+                            <Box key={c.id} sx={styles.userCard}>
+                                <Typography variant="subtitle2" color="text.secondary">{c.id}</Typography>
+                                <Typography variant="body1">{c.description}</Typography>
+                                <Button disabled={selectedCase && Number(selectedCase.id) === Number(c.id) ? true : false} color="secondary" variant="contained" sx={styles.button} onClick={() => selectCase(Number(c.id), c.description, c.process_name)}>{selectedCase && Number(selectedCase.id) === Number(c.id) ? "Seleccionado" : "Seleccionar"}</Button>
                             </Box>
                         ))
                     }
@@ -235,7 +251,7 @@ const styles = {
         borderRadius: 3,
         textTransform: "none"
     },
-    usersContainer: {
+    casesContainer: {
         width: "80%",
         margin: "20px auto"
     },

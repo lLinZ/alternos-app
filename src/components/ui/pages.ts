@@ -68,6 +68,7 @@ export const adminPages: Pages[] = [
     { name: "Status por caso", path: "/casos/status/resume" },
     { name: "Tareas por usuario", path: "/tareas/resume" },
     { name: "Kanban por usuario", path: "/kanban/usuario" },
+    { name: "Kanban por caso", path: "/kanban/caso" },
 
     // Anuncios
     { name: 'divider', path: "Anuncios" },
