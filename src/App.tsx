@@ -37,6 +37,7 @@ import { RegistroOfferPage } from './pages/registros/RegistroOfferPage';
 import { RegistroPendingOffersPage } from './pages/registros/RegistroPendingOffers';
 import { RegistroAccountPage } from './pages/registros/RegistroAccount';
 import { AnnouncementAdding } from './pages/AnnouncementAdding';
+import { KanbanUser } from './pages/registros/KanbanUser';
 
 function App() {
   return (
@@ -104,13 +105,10 @@ function App() {
         <Route path="/tareas/resume" element={<RegistroTareasPage />} />
         <Route path="/users/cumplimiento/resume" element={<RegistroCumplimientoPage />} />
         <Route path="/users/estadocuenta" element={<RegistroAccountPage />} />
+        <Route path="/kanban/usuario" element={<KanbanUser />} />
 
         {/* Anuncios */}
         <Route path="/announcement" element={<AnnouncementAdding />} />
-        {/* <Route path="/offer" element={<ProcessesPage />} /> */}
-        {/* <Route path="/traffic" element={<TrafficUserPage />} /> */}
-        {/* <Routes path="/files" element={<RegistrosPage />} /> */}
-
       </Routes>
     </BrowserRouter>
   );
