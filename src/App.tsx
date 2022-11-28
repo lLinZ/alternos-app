@@ -39,6 +39,7 @@ import { RegistroAccountPage } from './pages/registros/RegistroAccount';
 import { AnnouncementAdding } from './pages/AnnouncementAdding';
 import { KanbanUser } from './pages/registros/KanbanUser';
 import { KanbanCase } from './pages/registros/KanbanCase';
+import { RegistroTareasPorCasoPage } from './pages/registros/RegistroTareasPorCaso';
 
 function App() {
   return (
@@ -104,6 +105,7 @@ function App() {
         <Route path="/requirements/resume" element={<RegistroCasosPage />} />
         <Route path="/analisis/resume" element={<RegistroAnalisisPorCasoPage />} />
         <Route path="/tareas/resume" element={<RegistroTareasPage />} />
+        <Route path="/tareas/casos" element={<RegistroTareasPorCasoPage />} />
         <Route path="/users/cumplimiento/resume" element={<RegistroCumplimientoPage />} />
         <Route path="/users/estadocuenta" element={<RegistroAccountPage />} />
         <Route path="/kanban/usuario" element={<KanbanUser />} />

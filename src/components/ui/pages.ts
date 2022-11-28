@@ -61,6 +61,7 @@ export const adminPages: Pages[] = [
     { name: 'divider', path: "Resúmenes" },
     { name: "Resumen de procesos", path: "/process/resume" },
     { name: "Resumen de actividades", path: "/activity/resume" },
+    { name: "Resumen de tareas por caso", path: "/tareas/casos" },
     { name: "Resumen de casos", path: "/requirements/resume" },
     { name: "Resumen de cumplimiento", path: "/users/cumplimiento/resume" },
     { name: "Resumen de transacciones", path: "/transacciones/resume" },
