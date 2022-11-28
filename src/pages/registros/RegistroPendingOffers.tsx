@@ -96,6 +96,9 @@ export const RegistroPendingOffersPage: FC = () => {
                     const data = await respuesta.json();
                     if (data.exito === "SI") {
                         setOffers(data.registros)
+                    } else {
+                        setOffers(null)
+
                     }
                     break;
                 default:
@@ -163,7 +166,7 @@ export const RegistroPendingOffersPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <Typography variant="overline" fontWeight="bold">Resumen de ofertas</Typography>
+                <Typography variant="overline" fontWeight="bold">Resumen de ofertas pendientes</Typography>
                 <Box sx={styles.offersContainer}>
                     {
                         offers && offers.map((offer) => (

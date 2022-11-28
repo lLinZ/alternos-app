@@ -1,6 +1,6 @@
 import { LoadingButton } from '@mui/lab';
 import { Box, Typography, CircularProgress, Grid, Button, Dialog, AppBar, Toolbar, IconButton, Divider, TextField, Slide } from '@mui/material';
-import { ChangeEvent, FC, forwardRef, ReactElement, Ref, useEffect, useState } from 'react'
+import { ChangeEvent, FC, forwardRef, ReactElement, Ref, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { baseUrl } from '../common/baseUrl';
@@ -64,6 +64,10 @@ export const BasicTaskPage: FC<Props> = () => {
 
     // Ultimo usaurio de las actividades
     const [last, setLast] = useState<boolean>(false);
+
+
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const ref = useRef<HTMLInputElement>(null)
 
     // Router
     const router = useNavigate();
@@ -245,7 +249,8 @@ export const BasicTaskPage: FC<Props> = () => {
 
             body.append("task_id", String(selectedTask?.id));
             body.append("respuesta", String(respuestaReq));
-            console.log({ task_id: String(selectedTask?.id), respuesta: respuestaReq })
+            body.append("archivo", selectedFile ? selectedFile : '');
+            console.log({ task_id: String(selectedTask?.id), respuesta: respuestaReq, selectedFile })
             const options = {
                 method: "POST",
                 body
@@ -274,13 +279,14 @@ export const BasicTaskPage: FC<Props> = () => {
 
                     // Cancel loader
                     setIsSubmitting(false);
-
+                    setSelectedFile(null);
                     // Alert
                     Swal.fire({
                         title: "Exito",
                         text: "Se ha respondido el requerimiento",
                         icon: "success",
                     })
+                    console.log(data)
                 } else {
                     Swal.fire({
                         title: "Error",
@@ -411,6 +417,32 @@ export const BasicTaskPage: FC<Props> = () => {
                             background: "rgba(255,255,255,0.6)",
                             backdropFilter: 'blur(6px)',
                         }}>Ver Brief</Button>
+                        {
+                            selectedFile && (
+                                <>
+                                    <Typography variant="overline">Nombre de archivo</Typography>
+                                    <Typography variant="subtitle2" color="text.secondary">{selectedFile.name}</Typography>
+                                </>
+                            )
+                        }
+                        <Button type="button" variant="contained" color={selectedFile ? "success" : "info"} fullWidth sx={{
+                            textTransform: "none",
+                            p: 1.8,
+                            borderRadius: 5,
+                            marginBlock: 1,
+                            boxShadow: "0 8px 32px 0 rgba(0,0,0,0.2)"
+                        }} onClick={() => ref !== null && ref.current?.click()}>{selectedFile ? 'Cambiar archivo' : 'Seleccionar Archivo'}</Button>
+
+                        <input
+                            ref={ref as any}
+                            type="file"
+                            style={{ display: "none" }}
+                            accept={"image/*"}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                setSelectedFile(e.currentTarget.files ? e.currentTarget.files[0] : null);
+                                e.target.value = "";
+                            }}
+                        />
                         <TextField label="Respuesta de cierre de actividad" fullWidth value={respuestaReq} onChange={(e: ChangeEvent<HTMLInputElement>) => setRespuestaReq(e.currentTarget.value)} multiline color="secondary" InputProps={{ sx: { borderRadius: 3 } }} sx={{
                             boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
                             background: "rgba(255,255,255,0.6)",

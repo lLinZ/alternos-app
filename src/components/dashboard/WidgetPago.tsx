@@ -50,7 +50,7 @@ export const WidgetPago: FC<Props> = ({ userLogged }) => {
         concepto: null
     })
     const [fecha, setFecha] = useState<Moment | null>(
-        moment(new Date()),
+        moment(),
     );
     const changeSelect = (e: SelectChangeEvent) => {
         setPayment({
@@ -80,7 +80,7 @@ export const WidgetPago: FC<Props> = ({ userLogged }) => {
     }
     const onSubmit = async () => {
         let errores = [];
-
+        console.log(payment)
         if (!payment.tipo || payment.tipo === "0") {
             errores.push("El tipo de pago es obligatorio");
         }
@@ -99,9 +99,9 @@ export const WidgetPago: FC<Props> = ({ userLogged }) => {
 
                 body.append("user_id", String(userLogged?.id))
                 body.append("monto", String(payment.monto))
-                body.append("tipo", String(payment.tipo))
+                body.append("formapago", String(payment.tipo))
                 body.append("referencia", String(payment.ref))
-                body.append("fecha", fecha === payment.fecha ? String(payment.fecha) : String(new Date('YYYY-MM-DD')))
+                body.append("fecha", payment.fecha ? String(payment.fecha) : moment().format("YYYY-MM-DD"))
                 body.append("concepto", String(payment.concepto))
                 const options = {
                     method: "POST",
@@ -122,6 +122,7 @@ export const WidgetPago: FC<Props> = ({ userLogged }) => {
                         ref: null,
                         concepto: null
                     })
+                    setFecha(moment())
                 } else {
                     Swal.fire({
                         title: "Error",

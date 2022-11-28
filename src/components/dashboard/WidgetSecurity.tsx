@@ -11,6 +11,7 @@ interface IAnnouncement {
     texto: string;
     imagen: string;
     hasta: string;
+    url: string;
     desde: string;
     status: string;
 }
@@ -20,6 +21,7 @@ export const WidgetSecurity: FC<Props> = () => {
     const [text, setText] = useState<string>("");
     const [announcement, setAnnouncement] = useState<IAnnouncement>({
         texto: 'En la opción "Mi perfil" en el menú de usuario puedes modificarla cuando quieras',
+        url: './security.jpg',
         imagen: './security.jpg',
         hasta: '',
         desde: '',
@@ -45,11 +47,11 @@ export const WidgetSecurity: FC<Props> = () => {
         getAnnouncement();
     }, [])
     return (
-        <Box sx={{ position: "relative", display: dismissed, width: "100%", mt: -3 }}>
+        <Box sx={{ position: "relative", display: dismissed, width: "100%", mt: -5 }}>
             <IconButton sx={{ position: "absolute", top: 0, right: 5, zIndex: 90 }} onClick={() => setDismissed('none')}><CloseRounded /></IconButton>
             <Box sx={{ width: "100%", height: "100%", background: "#FFF", overflow: "hidden", cursor: "pointer", boxShadow: 'inset 0 0 10px rgba(100,100,100,0.1)', "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" }, position: "relative", backdropFilter: 'blur(8px)' }}>
                 <Box sx={{ display: "flex", flexFlow: "row wrap", justifyContent: "center", alignItems: "center", width: "100%", }}>
-                    <img src={announcement.imagen} style={{ width: 125 }} />
+                    <img src={announcement.url} style={{ width: 125 }} />
                     <Box sx={{ p: 1 }}>
                         <Typography variant="subtitle2" fontWeight="400" textAlign="left" color="text.secondary" fontSize={{ xs: 12, md: 14 }}>{announcement.texto}</Typography>
                     </Box>

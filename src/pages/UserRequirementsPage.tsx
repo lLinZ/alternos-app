@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import { AppBar, Box, Button, Card, CardActions, CardContent, CardHeader, CircularProgress, Dialog, Divider, Grid, IconButton, Slide, TextField, Toolbar, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { baseUrl } from '../common/baseUrl';
@@ -64,6 +64,10 @@ export const UserRequirementsPage: FC = () => {
 
     // Loader
     const [respuestaReq, setRespuestaReq] = useState<string>("");
+
+
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const ref = useRef<HTMLInputElement>(null)
 
     /**
      * Funcion para abrir modal
@@ -237,27 +241,6 @@ export const UserRequirementsPage: FC = () => {
                                     </Box>
                                     <Button color="secondary" onClick={() => openModal(req.id)} sx={{ p: 2 }}>Ver más</Button>
                                 </Box>
-                                {/* <Card variant="outlined">
-                                    <CardHeader
-                                        title={req.process_name}
-                                        subheader={req.inicio}
-                                    />
-                                    <CardContent>
-                                        <Box>
-                                            <Typography variant="subtitle2">
-                                                Actividad: {req.activity_name}
-                                            </Typography>
-                                        </Box>
-                                        <Box>
-                                            <Typography variant="subtitle2" fontWeight="400" color="text.secondary">
-                                                {req.description}
-                                            </Typography>
-                                        </Box>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Button variant="outlined" fullWidth color="secondary" onClick={() => openModal(req.id)}>Ver más</Button>
-                                    </CardActions>
-                                </Card> */}
                             </Grid>
                         ))
                     }
@@ -323,6 +306,32 @@ export const UserRequirementsPage: FC = () => {
                         </Typography>
 
                         <Button component="a" href={`/briefing/${selectedTask?.case_id}`} target={"_blank"} style={{ borderRadius: 5, boxShadow: "0 8px 32p 0 rgba(100,100,100,0.2)", border: "1px solid black", padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em" }}>Ver Brief</Button>
+                        {
+                            selectedFile && (
+                                <>
+                                    <Typography variant="overline">Nombre de archivo</Typography>
+                                    <Typography variant="subtitle2" color="text.secondary">{selectedFile.name}</Typography>
+                                </>
+                            )
+                        }
+                        <Button type="button" variant="contained" color={selectedFile ? "success" : "info"} fullWidth sx={{
+                            textTransform: "none",
+                            p: 1.8,
+                            borderRadius: 5,
+                            marginBlock: 1,
+                            boxShadow: "0 8px 32px 0 rgba(0,0,0,0.2)"
+                        }} onClick={() => ref !== null && ref.current?.click()}>{selectedFile ? 'Cambiar archivo' : 'Seleccionar Archivo'}</Button>
+
+                        <input
+                            ref={ref as any}
+                            type="file"
+                            style={{ display: "none" }}
+                            accept={"image/*"}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                setSelectedFile(e.currentTarget.files ? e.currentTarget.files[0] : null);
+                                e.target.value = "";
+                            }}
+                        />
                         <TextField label="Respuesta de cierre de actividad" fullWidth value={respuestaReq} onChange={(e: ChangeEvent<HTMLInputElement>) => setRespuestaReq(e.currentTarget.value)} multiline color="secondary" variant="outlined" sx={{ mt: 2, mb: 2 }} />
                         <LoadingButton color="secondary" variant="contained" onClick={() => onSubmit()} loading={isSubmitting} fullWidth sx={{ p: 1.8 }}>Responder tarea</LoadingButton>
                     </Box>

@@ -3,7 +3,7 @@ import { Box, Typography } from '@mui/material';
 
 export const WidgetBrandcenter: FC = () => {
     return (
-        <Box sx={styles.mainContainer} onClick={() => window.location.href = "https://brandcenter.io"}>
+        <Box sx={styles.mainContainer} onClick={() => window.location.href = "https://alternos.sgc-consultores.com.ve/brandcenter"}>
             <Box sx={styles.content}>
                 <img src="./brandcenter.webp" style={{ width: 160, margin: "auto" }} />
                 <Typography variant="subtitle1" fontWeight="bold" textAlign="center" fontSize={12}>¡Visita el brandcenter!</Typography>

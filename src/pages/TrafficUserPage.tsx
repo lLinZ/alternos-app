@@ -1,7 +1,7 @@
 import { LoadingButton } from "@mui/lab";
 import { Box, Typography, CircularProgress, Grid, Button, Dialog, AppBar, Toolbar, IconButton, Divider, Slide } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
-import { FC, forwardRef, ReactElement, Ref, useEffect, useState } from "react";
+import { ChangeEvent, FC, forwardRef, ReactElement, Ref, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { baseUrl } from "../common/baseUrl";
@@ -308,6 +308,7 @@ export const TrafficUserPage: FC = () => {
                             </Typography>
                         </Box>
                         <Button component="a" href={`/briefing/${selectedTask?.case_id}`} target={"_blank"} style={{ borderRadius: 15, boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", background: "#FFF", padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em", textTransform: "none" }}>Ver Brief</Button>
+
                         {
                             actividades && actividades.map((act: any) => (
                                 <Box key={act.id} sx={{ borderRadius: 5, background: "#FFF", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", display: "flex", flexFlow: "row wrap", p: 3, mb: 2, justifyContent: "space-between", alignItems: "center", }}>
@@ -337,7 +338,7 @@ export const TrafficUserPage: FC = () => {
             </Box>
             {/* Modal de usaurios */}
             <Dialog onClose={() => setOpenUserModal(false)} open={openUserModal} fullScreen TransitionComponent={Transition} PaperProps={{ sx: { background: "#f5f5f5" } }}>
-                <AppBar sx={{ position: 'relative' }} elevation={0}>
+                <AppBar sx={{ position: 'relative', boxShadow: "0 8px 32px 0 rgba(0,0,0,0.1)" }} elevation={0}>
                     <Toolbar>
                         <IconButton
                             edge="start"
@@ -354,9 +355,9 @@ export const TrafficUserPage: FC = () => {
                 </AppBar>
                 <Box sx={{ width: "80%", m: "20px auto" }}>
                     {actividades && currentActividad ? actividades.filter((act: any) => Number(act.id) === Number(currentActividad))[0].users.map((usuario: any) => (
-                        <Box key={usuario.user_id} sx={{ p: 2, borderRadius: 5, background: "#FFF", boxShadow: "0 8px 32p 0 rgba(100,100,100,0.2)", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
+                        <Box key={usuario.user_id} sx={{ p: 2, borderRadius: 5, background: "#FFF", boxShadow: "0 8px 32px 0 rgba(0,0,0,0.1)", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
                             <Typography>{usuario.user_name}</Typography>
-                            <Button color="secondary" onClick={() => selectuserDeActividad(currentActividad, usuario)}>Seleccionar</Button>
+                            <Button color="secondary" sx={{ textTransform: "none" }} onClick={() => selectuserDeActividad(currentActividad, usuario)}>Seleccionar</Button>
                         </Box>)) : <CircularProgress color="secondary" />}
                 </Box>
             </Dialog>

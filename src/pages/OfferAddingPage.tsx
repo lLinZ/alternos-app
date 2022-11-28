@@ -432,7 +432,7 @@ export const OfferAddingPage: FC = () => {
         setIsSubmitting(true);
 
 
-        const url = `${baseUrl}/ofertas`
+        const url = `${baseUrl}/ofertas.php`
         const body = JSON.stringify({
             customer_id: selectedUser ? selectedUser?.id : 0,
             salesman_id: userLogged ? userLogged?.id : 0,
