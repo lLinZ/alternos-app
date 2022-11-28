@@ -59,7 +59,7 @@ const columns = [
     },
     {
         name: 'Fecha',
-        selector: (row: IAccountTransactions) => moment(row.date).format("DD-MM-DD"),
+        selector: (row: IAccountTransactions) => moment(row.date).format("DD-MM-YYYY"),
         sortable: true,
     },
 ];
