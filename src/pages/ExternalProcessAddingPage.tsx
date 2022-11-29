@@ -16,6 +16,7 @@ const initialValues = {
     id: 'new',
     name: '',
     costo: '',
+    description: '',
     precio: '',
     centrodecosto1: '',
     centrodecosto2: '',
@@ -56,6 +57,7 @@ export const ExternalProcessAddingPage: FC = () => {
             body.append('id', String(values.id))
             body.append('name', String(values.name))
             body.append('onwer_name', String(values.onwer_name))
+            body.append('description', String(values.description))
             body.append('costo', String(values.costo))
             body.append('precio', String(values.precio))
             body.append('centrodecosto1', String(values.centrodecosto1))
@@ -149,6 +151,9 @@ export const ExternalProcessAddingPage: FC = () => {
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField fullWidth color="secondary" label="Centro de costo 2" sx={styles.input} name="centrodecosto2" value={values.centrodecosto2} onChange={handleChange} />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField fullWidth color="secondary" label="Descripcion larga" name="description" sx={styles.input} value={values.description} onChange={handleChange} />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <LoadingButton type='submit' disabled={isSubmitting} loading={isSubmitting} color="secondary" variant="contained" fullWidth sx={styles.button}>Registrar</LoadingButton>

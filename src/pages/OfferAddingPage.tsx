@@ -232,7 +232,7 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
                     {
                         items && (
                             items.map((item: IItem) => (
-                                <Box key={item.id} sx={localStyles.item}>
+                                <Box key={`${item.id}${item.name}`} sx={localStyles.item}>
                                     <Box>
                                         <Typography variant="subtitle2" color="text.secondary" fontWeight="bold">#{item.id}</Typography>
                                         <Typography variant="subtitle2" fontWeight="bold">{item.name}</Typography>
@@ -385,7 +385,7 @@ const UserSelectionDialog: FC<UserSelectionProps> = ({ open, setOpen, users, set
                     {
                         users && users?.map((u: User) => (
                             <>
-                                <Box sx={localStyles.userBox}>
+                                <Box sx={localStyles.userBox} key={`${u.id}${u.name}`}>
 
                                     <Typography>{u.name}</Typography>
                                     <Button color="secondary" variant="contained" disableElevation sx={localStyles.selectUserButton} onClick={() => selectUser(u.id)} disabled={u.id === selectedUser?.id}>{u.id === selectedUser?.id ? "Seleccionado" : "Seleccionar"}</Button>
