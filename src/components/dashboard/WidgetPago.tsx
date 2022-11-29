@@ -45,7 +45,7 @@ export const WidgetPago: FC<Props> = ({ userLogged }) => {
     const [payment, setPayment] = useState<IPayment>({
         tipo: null,
         monto: null,
-        fecha: null,
+        fecha: moment().format("YYYY-MM-DD"),
         ref: null,
         concepto: null
     })

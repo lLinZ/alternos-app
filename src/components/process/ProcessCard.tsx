@@ -193,67 +193,74 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses, processes }) => 
     const onSubmit = async (values: FormikValues) => {
         const url = `${baseUrl}/updateprocesos`;
         const body = new FormData();
-
-        if (!values.name) {
-            Swal.fire({
-                title: "Erorr",
-                text: "El campo nombre es obligatorio",
-                icon: "error",
-            })
-            return false;
-        }
-
-        body.append("id", String(process.id));
-        body.append("owner_id", String(process.owner_id));
-        body.append("name", String(values.name));
-        body.append("centrodecosto1", String(values.centrodecosto1));
-        body.append("centrodecosto2", String(values.centrodecosto2));
-        const options = {
-            method: "POST",
-            body
-        }
-        try {
-            const respuesta = await fetch(url, options);
-
-            const data = await respuesta.json();
-
-            if (data.exito === "SI") {
-                const processesExclude = processes?.filter(p => p.id !== process.id);
-                const newProcess: Process = {
-                    id: process.id,
-                    owner_id: process.owner_id,
-                    name: values.name,
-                    centrodecosto1: values.centrodecosto1,
-                    centrodecosto2: values.centrodecosto2,
-                    owner_name: process.owner_name,
-                    costo: process.costo,
-                    precio: process.precio
-                }
-                const newProcesses: Process[] = processesExclude && processesExclude.length > 0 ? [...processesExclude, newProcess] : [newProcess]
+        const click = await Swal.fire({
+            title: "¿Seguro?",
+            text: "¿Deseas editar los datos?",
+            icon: "warning",
+            showCancelButton: true,
+        })
+        if (click.isConfirmed) {
+            if (!values.name) {
                 Swal.fire({
-                    title: "Exito",
-                    text: "Datos editados",
-                    icon: "success",
-                    timer: 2000,
-                    showConfirmButton: false,
-                    timerProgressBar: true,
+                    title: "Erorr",
+                    text: "El campo nombre es obligatorio",
+                    icon: "error",
                 })
-                setProcesses(newProcesses);
-            } else {
+                return false;
+            }
+
+            body.append("id", String(process.id));
+            body.append("owner_id", String(process.owner_id));
+            body.append("name", String(values.name));
+            body.append("centrodecosto1", String(values.centrodecosto1));
+            body.append("centrodecosto2", String(values.centrodecosto2));
+            const options = {
+                method: "POST",
+                body
+            }
+            try {
+                const respuesta = await fetch(url, options);
+
+                const data = await respuesta.json();
+
+                if (data.exito === "SI") {
+                    const processesExclude = processes?.filter(p => p.id !== process.id);
+                    const newProcess: Process = {
+                        id: process.id,
+                        owner_id: process.owner_id,
+                        name: values.name,
+                        centrodecosto1: values.centrodecosto1,
+                        centrodecosto2: values.centrodecosto2,
+                        owner_name: process.owner_name,
+                        costo: process.costo,
+                        precio: process.precio
+                    }
+                    const newProcesses: Process[] = processesExclude && processesExclude.length > 0 ? [...processesExclude, newProcess] : [newProcess]
+                    Swal.fire({
+                        title: "Exito",
+                        text: "Datos editados",
+                        icon: "success",
+                        timer: 2000,
+                        showConfirmButton: false,
+                        timerProgressBar: true,
+                    })
+                    setProcesses(newProcesses);
+                } else {
+                    Swal.fire({
+                        title: "Error",
+                        text: "No se editaron los datos",
+                        icon: "error",
+                    })
+                }
+
+            } catch (error) {
+                console.log(error);
                 Swal.fire({
                     title: "Error",
-                    text: "No se editaron los datos",
+                    text: "Error interno del servidor",
                     icon: "error",
                 })
             }
-
-        } catch (error) {
-            console.log(error);
-            Swal.fire({
-                title: "Error",
-                text: "Error interno del servidor",
-                icon: "error",
-            })
         }
     }
 

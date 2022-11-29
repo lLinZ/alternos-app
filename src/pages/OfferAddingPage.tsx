@@ -234,6 +234,7 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
                             items.map((item: IItem) => (
                                 <Box key={item.id} sx={localStyles.item}>
                                     <Box>
+                                        <Typography variant="subtitle2" color="text.secondary" fontWeight="bold">#{item.id}</Typography>
                                         <Typography variant="subtitle2" fontWeight="bold">{item.name}</Typography>
                                         <Typography variant="subtitle2" color="text.secondary" fontWeight={400}>{item.origen}</Typography>
                                         <Typography variant="subtitle2" color="text.secondary" fontWeight={400}>Precio {item.precio}</Typography>

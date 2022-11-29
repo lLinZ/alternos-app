@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Layout } from '../components/layout';
 import { validarToken } from '../lib/functions';
@@ -45,6 +45,8 @@ export const BrandCenterAddingPage: FC = () => {
     const [userLogged, setUserLogged] = useState<User | null>(null);
     const [clients, setClients] = useState<User[] | null>(null);
     const [selectedClient, setSelectedClient] = useState<User | null>(null);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const ref = useRef<HTMLInputElement>(null)
 
     const router = useNavigate()
 
@@ -88,9 +90,8 @@ export const BrandCenterAddingPage: FC = () => {
         body.append("user_id", String(selectedClient?.id));
         body.append("nombre", String(values.nombre));
         body.append("etiquetas", String(values.etiquetas));
-        body.append("ruta", String(values.ruta));
-        body.append("archivo", String(values.archivo));
         body.append("categoria", String(values.categoria));
+        body.append("archivo", selectedFile ? selectedFile : '');
         const options = {
             method: "POST",
             body
@@ -108,6 +109,7 @@ export const BrandCenterAddingPage: FC = () => {
                 })
                 resetForm();
                 setSelectedClient(null);
+                setSelectedFile(null);
             } else {
                 Swal.fire({
                     title: "Error",
@@ -145,19 +147,35 @@ export const BrandCenterAddingPage: FC = () => {
                         <Form onSubmit={handleSubmit}>
                             <Grid container spacing={1}>
                                 <Grid item xs={12} sm={6}>
-                                    <TextField fullWidth color="secondary" label="Etiquetas" name="etiquetas" onChange={handleChange} value={values.etiquetas} sx={styles.input} />
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
                                     <TextField fullWidth color="secondary" label="Nombre" name="nombre" onChange={handleChange} value={values.nombre} sx={styles.input} />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField fullWidth color="secondary" label="Categoría" name="categoria" onChange={handleChange} value={values.categoria} sx={styles.input} />
                                 </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField fullWidth color="secondary" label="Archivo" name="archivo" onChange={handleChange} value={values.archivo} sx={styles.input} />
+                                <Grid item xs={12}>
+                                    <TextField fullWidth color="secondary" label="Etiquetas" name="etiquetas" onChange={handleChange} value={values.etiquetas} sx={styles.input} />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField fullWidth color="secondary" label="Ruta" name="ruta" onChange={handleChange} value={values.ruta} sx={styles.input} />
+                                    {
+                                        selectedFile && (
+                                            <>
+                                                <Typography variant="overline">Nombre de archivo</Typography>
+                                                <Typography variant="subtitle2" color="text.secondary">{selectedFile.name}</Typography>
+                                            </>
+                                        )
+                                    }
+                                    <Button type="button" variant="contained" color={selectedFile ? "success" : "info"} fullWidth sx={styles.button} onClick={() => ref !== null && ref.current?.click()}>{selectedFile ? 'Cambiar archivo' : 'Seleccionar Archivo'}</Button>
+
+                                    <input
+                                        ref={ref as any}
+                                        type="file"
+                                        style={{ display: "none" }}
+                                        accept={"image/*"}
+                                        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                            setSelectedFile(e.currentTarget.files ? e.currentTarget.files[0] : null);
+                                            e.target.value = "";
+                                        }}
+                                    />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Button fullWidth disableElevation disabled={isSubmitting} sx={styles.buttonModal} type="button" onClick={() => setOpen(true)} variant="contained">Seleccionar cliente</Button>

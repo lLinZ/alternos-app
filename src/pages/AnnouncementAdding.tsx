@@ -60,62 +60,43 @@ export const AnnouncementAdding: FC = () => {
     const onSubmit = async (values: FormikValues, resetForm: (nextState?: Partial<FormikState<{ texto: string; }>> | undefined) => void) => {
         const url = `${baseUrl}/registraanuncio`;
 
-        let errores = [];
-
-        if (!selectedFile) {
-            errores.push("Debe seleccionar un archivo");
+        const body = new FormData();
+        body.append('texto', values.texto);
+        body.append('status', 'activo');
+        body.append('desde', moment().format("YYYY-MM-DD"));
+        body.append('hasta', to ? to : moment().format("YYYY-MM-DD"));
+        body.append('file', selectedFile ? selectedFile : '');
+        const options = {
+            method: "POST",
+            body,
         }
-        if (!values.texto) {
-            errores.push("Escriba un texto");
-        }
-        if (errores.length === 0) {
-
-            const body = new FormData();
-            body.append('texto', values.texto);
-            body.append('status', 'activo');
-            body.append('desde', moment().format("YYYY-MM-DD"));
-            body.append('hasta', to ? to : moment().format("YYYY-MM-DD"));
-            body.append('file', selectedFile ? selectedFile : '');
-            const options = {
-                method: "POST",
-                body,
-            }
-            try {
-                const respuesta = await fetch(url, options);
-                const data = await respuesta.json();
-                if (data.exito === "SI") {
-                    Swal.fire({
-                        title: "Exito",
-                        text: "Se ha enviado el elemento",
-                        icon: "success",
-                    })
-                    resetForm();
-                    setSelectedFile(null);
-                    setTo(moment().format("YYYY-MM-DD"));
-                    setFechaTo(moment());
-                } else {
-                    Swal.fire({
-                        title: "Error",
-                        text: "No se logró enviar el elemento",
-                        icon: "error",
-                    })
-                }
-            } catch (error) {
+        try {
+            const respuesta = await fetch(url, options);
+            const data = await respuesta.json();
+            if (data.exito === "SI") {
+                Swal.fire({
+                    title: "Exito",
+                    text: "Se ha enviado el elemento",
+                    icon: "success",
+                })
+                resetForm();
+                setSelectedFile(null);
+                setTo(moment().format("YYYY-MM-DD"));
+                setFechaTo(moment());
+            } else {
                 Swal.fire({
                     title: "Error",
-                    text: "No se logró conectar al servidor",
+                    text: "No se logró enviar el elemento",
                     icon: "error",
                 })
-                console.log({ error })
             }
-        } else {
-            let errorString = '';
-            errores.forEach((e: string) => errorString += `<p>- ${e}</p>`)
+        } catch (error) {
             Swal.fire({
                 title: "Error",
-                html: errorString,
-                icon: "error"
+                text: "No se logró conectar al servidor",
+                icon: "error",
             })
+            console.log({ error })
         }
     }
     return (
