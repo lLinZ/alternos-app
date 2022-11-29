@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, Dispatch, SetStateAction, useEffect, useState, ChangeEvent } from 'react';
 
 import { Layout } from '../../components/layout';
 import { User } from '../../interfaces/user-type';
@@ -10,12 +10,14 @@ import { getFormatDistanceToNow, numberWithDots, ucfirst, validarToken } from '.
 import Typography from '@mui/material/Typography';
 import { baseUrl } from '../../common/baseUrl';
 import Swal from 'sweetalert2';
-import { Button, Collapse, Divider, IconButton, IconButtonProps, styled } from '@mui/material';
+import { Button, Collapse, Divider, IconButton, TextField, IconButtonProps, styled } from '@mui/material';
 import SendRounded from '@mui/icons-material/SendRounded';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CheckCircleRounded from '@mui/icons-material/CheckCircleRounded';
 import { blue, green, red } from '@mui/material/colors';
-
+import EditIcon from '@mui/icons-material/EditRounded'
+import EditOffIcon from '@mui/icons-material/EditOffRounded'
+import SaveIcon from '@mui/icons-material/SaveRounded'
 
 interface Offer {
     id: number;
@@ -35,6 +37,7 @@ interface Item {
     item_id: number;
     product_id: number;
     description: string;
+    descr_larga?: string;
     type: string;
     costo: number;
     precio: number;
@@ -181,7 +184,7 @@ export const RegistroOfferPage: FC = () => {
                                 <Typography variant="subtitle1">Vendedor {offer.salesman_name}</Typography>
                                 <Typography variant="subtitle2" fontWeight={300} color="text.secondary">{getFormatDistanceToNow(new Date(offer.created_at))}</Typography>
 
-                                <CollapsibleData offer={offer} />
+                                <CollapsibleData offer={offer} offers={offers} setOffers={setOffers} />
                                 <Box sx={styles.offerActions}>
                                     {/* Boton confirmar */}
                                     {offer.status !== "enviada" && offer.status !== "confirmada" && (
@@ -208,10 +211,88 @@ export const RegistroOfferPage: FC = () => {
         </Layout>
     )
 }
+
+
+interface ItemDataProps {
+    item: Item;
+    i: number;
+    offer: Offer;
+    offers: Offer[];
+    setOffers: Dispatch<SetStateAction<Offer[] | null>>
+}
+const ItemData: FC<ItemDataProps> = ({ item, i, offer, offers, setOffers }) => {
+    const [editPrice, setEditPrice] = useState<boolean>(false);
+    const [editCost, setEditCost] = useState<boolean>(false);
+    const [newPrice, setNewPrice] = useState<string>(String(item.precio));
+    const [newCost, setNewCost] = useState<string>(String(item.costo));
+
+    const saveCost = () => {
+        if (item) {
+            item.costo = Number(newCost)
+            setEditPrice(false);
+        } else {
+            return false;
+        }
+    }
+    const savePrice = () => {
+        if (item) {
+            item.precio = Number(newPrice)
+            setEditPrice(false);
+        } else {
+            return false;
+        }
+    }
+
+    return (
+        <Box sx={styles.item}>
+            <Typography variant="subtitle2" fontWeight={"bold"} color="text.primary">{i + 1} Proceso {item.type === "internal" ? "Interno" : "Externo"}</Typography>
+            <Typography variant="subtitle2" fontWeight={400} color="text.primary">{item.description}</Typography>
+            <Typography variant="subtitle2" fontWeight={400} color="text.secondary">Descripcion larga: {item.descr_larga}</Typography>
+
+            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                {
+                    editPrice ?
+                        (<>
+                            <IconButton size="small" onClick={() => setEditPrice(false)}><EditOffIcon color="error" /></IconButton>
+                            <TextField size="small" label="Precio" color="secondary" name="newPrice" value={newPrice} onChange={(e: ChangeEvent<HTMLInputElement>) => setNewPrice(e.target.value)} />
+                            <IconButton size="small" onClick={savePrice}><SaveIcon color="success" /></IconButton>
+                        </>
+                        )
+                        : (
+                            <>
+                                <Typography variant="subtitle2" fontWeight={400} color="text.secondary">Precio $ {numberWithDots(item.precio)}</Typography>
+                                <IconButton size="small" onClick={() => setEditPrice(true)}><EditIcon /></IconButton>
+                            </>
+                        )
+                }
+            </Box>
+            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                {
+                    editCost ?
+                        (<>
+                            <IconButton size="small" onClick={() => setEditCost(false)}><EditOffIcon color="error" /></IconButton>
+                            <TextField size="small" label="Costo" color="secondary" name="newCost" value={newCost} onChange={(e: ChangeEvent<HTMLInputElement>) => setNewCost(e.target.value)} />
+                            <IconButton size="small" onClick={saveCost}><SaveIcon color="success" /></IconButton>
+                        </>
+                        )
+                        : (
+                            <>
+                                <Typography variant="subtitle2" fontWeight={400} color="text.secondary">Costo $ {numberWithDots(item.costo)}</Typography>
+                                <IconButton size="small" onClick={() => setEditCost(true)}><EditIcon /></IconButton>
+                            </>
+                        )
+                }
+            </Box>
+        </Box>
+    )
+}
+
 interface CollapsibleDataProps {
     offer: Offer;
+    offers: Offer[];
+    setOffers: Dispatch<SetStateAction<Offer[] | null>>
 }
-const CollapsibleData: FC<CollapsibleDataProps> = ({ offer }) => {
+const CollapsibleData: FC<CollapsibleDataProps> = ({ offer, offers, setOffers }) => {
     // Control del collapse
     const [expanded, setExpanded] = useState(false);
     let total = 0;
@@ -249,11 +330,7 @@ const CollapsibleData: FC<CollapsibleDataProps> = ({ offer }) => {
                 <Typography fontWeight={"bold"} variant="overline" sx={{ mb: 2 }} >Procesos</Typography>
                 <Box display="flex" flexWrap="wrap" justifyContent="flex-start" alignItems="flex-start" flexDirection="column">
                     {offer.items.length > 0 && offer.items.map((item, i) => (
-                        <Box key={`${item.item_id} ${item.description}`} sx={styles.item}>
-                            <Typography variant="subtitle2" fontWeight={"bold"} color="text.primary">{i + 1} Proceso {item.type === "internal" ? "Interno" : "Externo"}</Typography>
-                            <Typography variant="subtitle2" fontWeight={400} color="text.primary">{item.description}</Typography>
-                            <Typography variant="subtitle2" fontWeight={400} color="text.secondary">Precio $ {numberWithDots(item.precio)}</Typography>
-                        </Box>
+                        <ItemData item={item} i={i} key={`${item.item_id} ${item.description}`} offer={offer} setOffers={setOffers} offers={offers} />
                     ))}
                     <Typography variant="subtitle1" fontWeight="bold">Precio total $ {numberWithDots(total)}</Typography>
                 </Box>

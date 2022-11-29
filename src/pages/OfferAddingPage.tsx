@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react'
+import { Dispatch, FC, ChangeEvent, SetStateAction, useEffect, useState } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 import { Layout } from '../components/layout'
@@ -16,24 +16,31 @@ import CloseIcon from '@mui/icons-material/CloseRounded'
 import InfoIcon from '@mui/icons-material/InfoOutlined'
 import { baseUrl } from '../common/baseUrl'
 import CheckCircle from '@mui/icons-material/CheckCircle'
+import EditIcon from '@mui/icons-material/EditRounded'
+import EditOffIcon from '@mui/icons-material/EditOffRounded'
+import SaveIcon from '@mui/icons-material/SaveRounded'
 import Popover from '@mui/material/Popover'
 import Swal from 'sweetalert2'
 import CircleOutlined from '@mui/icons-material/CircleOutlined'
 import CheckCircleRounded from '@mui/icons-material/CheckCircleRounded'
 import LoadingButton from '@mui/lab/LoadingButton'
 import Divider from '@mui/material/Divider'
+import TextField from '@mui/material/TextField'
 
 interface ItemSelection {
     product_id: number;
     description: string;
+    descr_larga?: string;
     type: string;
     precio: number | string;
+    costo: number | string;
     orden: number;
 }
 
 interface IItem {
     id: string | number;
     name: string;
+    description: string;
     owner_name: string;
     centrodecosto1: string;
     centrodecosto2: string;
@@ -71,14 +78,16 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
         setOpen(false);
     }
 
-    const selectItem = (product_id: number, description: string, type: string, precio: number | string) => {
+    const selectItem = (product_id: number, description: string, type: string, precio: number | string, costo: number | string, descr_larga: string) => {
         const exists = Boolean(selectedItems?.filter((item: ItemSelection) => item.product_id === product_id).length)
 
         const newData: ItemSelection = {
             product_id,
             description,
+            descr_larga,
             type,
             precio,
+            costo,
             orden: orden + 1
         }
         const newItem = exists
@@ -194,13 +203,7 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
                         <Typography variant="overline" fontWeight="bold">Productos seleccionados</Typography>
                         {
                             selectedItems.map((item: ItemSelection) => (
-                                <>
-                                    <Box sx={{ display: "flex", flexDirection: "column", mt: 2, }}>
-                                        <Typography variant="overline">Proceso {item.type} #{item.orden}</Typography>
-                                        <Typography variant="subtitle1">{item.description}</Typography>
-                                        <Typography variant="subtitle2">${item.precio}</Typography>
-                                    </Box>
-                                </>
+                                <ItemSelected i={item} selectedItems={selectedItems} setSelectedItems={setSelectedItems} />
                             ))
                         }
                         <Divider sx={{ marginBlock: 2 }} />
@@ -239,7 +242,7 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
                                         <Typography variant="subtitle2" color="text.secondary" fontWeight={400}>{item.origen}</Typography>
                                         <Typography variant="subtitle2" color="text.secondary" fontWeight={400}>Precio {item.precio}</Typography>
                                     </Box>
-                                    <IconButton onClick={() => selectItem(Number(item.id), item.name, item.origen, item.precio)} disabled={Boolean(selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id && itemSelected.orden !== orden).length)}>
+                                    <IconButton onClick={() => selectItem(Number(item.id), item.name, item.origen, item.precio, item.costo, item.description)} disabled={Boolean(selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id && itemSelected.orden !== orden).length)}>
                                         {
                                             Boolean(selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id).length)
                                                 ? (<>
@@ -260,7 +263,54 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
         </>
     )
 }
+interface PropsItemSelected {
+    i: ItemSelection | null;
+    selectedItems: ItemSelection[] | null;
+    setSelectedItems: Dispatch<SetStateAction<ItemSelection[] | null>>
+}
+const ItemSelected: FC<PropsItemSelected> = ({ i, setSelectedItems, selectedItems }) => {
+    const [edit, setEdit] = useState<boolean>(false);
+    const [newDescr, setNewDescr] = useState<any>(i?.descr_larga ? i.descr_larga : '');
 
+    const save = () => {
+        if (i) {
+            const excludeItems = selectedItems?.filter((si: ItemSelection) => si?.product_id !== i?.product_id)
+            const newSelectedItems: ItemSelection[] = excludeItems ? [...excludeItems, { ...i, descr_larga: newDescr }] : [{ ...i, descr_larga: newDescr }]
+            newSelectedItems.sort((a, b) => a.orden - b.orden)
+            setSelectedItems(newSelectedItems);
+            setEdit(false);
+        } else {
+            return false;
+        }
+    }
+    return (
+        <>
+            <Box sx={{ display: "flex", flexDirection: "column", mt: 2, }}>
+                <Typography variant="overline">Proceso {i?.type} #{i?.orden}</Typography>
+                <Typography variant="subtitle1">{i?.description}</Typography>
+                <Typography variant="subtitle2">Precio ${i?.precio} </Typography>
+                <Typography variant="subtitle2">Costo ${i?.costo} </Typography>
+                <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                    {
+                        edit ?
+                            (<>
+                                <IconButton size="small" onClick={() => setEdit(false)}><EditOffIcon color="error" /></IconButton>
+                                <TextField size="small" label="Descripcion larga" color="secondary" name="newDescr" value={newDescr} onChange={(e: ChangeEvent<HTMLInputElement>) => setNewDescr(e.target.value)} />
+                                <IconButton size="small" onClick={save}><SaveIcon color="success" /></IconButton>
+                            </>
+                            )
+                            : (
+                                <>
+                                    <Typography variant="subtitle1">Descripcion larga: {i?.descr_larga}</Typography>
+                                    <IconButton size="small" onClick={() => setEdit(true)}><EditIcon /></IconButton>
+                                </>
+                            )
+                    }
+                </Box>
+            </Box>
+        </>
+    )
+}
 interface UserSelectionProps {
     open: boolean;
     setOpen: Dispatch<SetStateAction<boolean>>;

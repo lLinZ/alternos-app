@@ -106,11 +106,12 @@ export const WidgetRequirement: FC<Props> = ({ userLogged }) => {
             try {
                 const respuesta = await fetch(url, options);
                 const data = await respuesta.json();
-
+                console.log(data)
                 if (data.exito === "SI") {
                     router(`/briefing/new/${data.registros[0].process_id}/${data.registros[0].id}`);
                 } else {
-                    Swal.fire({ title: "Error", text: "No se logró enviar el requerimiento", icon: "error" })
+                    Swal.fire({ title: "Error", text: data.mensaje, icon: "error" })
+                    setIsSubmitting(false);
                 }
             } catch (error) {
                 console.log(error);
