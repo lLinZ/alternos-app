@@ -1,4 +1,4 @@
-import { FC, Dispatch, SetStateAction, useEffect, useState, ChangeEvent } from 'react';
+import { FC, Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import { Layout } from '../../components/layout';
 import { User } from '../../interfaces/user-type';
@@ -10,16 +10,14 @@ import { getFormatDistanceToNow, numberWithDots, ucfirst, validarToken } from '.
 import Typography from '@mui/material/Typography';
 import { baseUrl } from '../../common/baseUrl';
 import Swal from 'sweetalert2';
-import { Button, Collapse, Divider, IconButton, TextField, IconButtonProps, styled } from '@mui/material';
+import { Button, Collapse, Divider, IconButton, IconButtonProps, styled } from '@mui/material';
 import SendRounded from '@mui/icons-material/SendRounded';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CheckCircleRounded from '@mui/icons-material/CheckCircleRounded';
 import { blue, green, red } from '@mui/material/colors';
 import EditIcon from '@mui/icons-material/EditRounded'
-import EditOffIcon from '@mui/icons-material/EditOffRounded'
-import SaveIcon from '@mui/icons-material/SaveRounded'
 
-interface Offer {
+export interface Offer {
     id: number;
     customer_id: number;
     customer_name: string;
@@ -33,7 +31,7 @@ interface Offer {
     items: Item[] | [];
 }
 
-interface Item {
+export interface Item {
     item_id: number;
     product_id: number;
     description: string;
@@ -110,8 +108,6 @@ export const RegistroOfferPage: FC = () => {
     }
     const send = async (id: number, accion: "soloconfirmar" | "confirmaryenviar") => {
 
-        console.log(id, accion)
-
         const url = `${baseUrl}/confirmaoferta`;
 
         const body = new FormData();
@@ -178,7 +174,9 @@ export const RegistroOfferPage: FC = () => {
                     {
                         offers && offers.map((offer) => (
                             <Box key={offer.id} sx={styles.offerItem}>
-
+                                <IconButton color="secondary" onClick={() => router(`/offers/edit/${offer.id}`)} sx={{ position: "absolute", top: 5, right: 5 }}>
+                                    <EditIcon />
+                                </IconButton>
                                 <Chip size="small" color={getColorByStatus(offer.status)} label={ucfirst(offer.status.toLowerCase())} sx={{ ...styles.chip, boxShadow: `0 0 10px ${getHexColorByStatus(offer.status)}` }} />
                                 <Typography variant="subtitle1">Cliente {offer.customer_name}</Typography>
                                 <Typography variant="subtitle1">Vendedor {offer.salesman_name}</Typography>
@@ -228,15 +226,47 @@ const ItemData: FC<ItemDataProps> = ({ item, i, offer, offers, setOffers }) => {
 
     const saveCost = () => {
         if (item) {
-            item.costo = Number(newCost)
-            setEditPrice(false);
+
+            const excludeOffer = offers.filter(o => o.id !== offer.id);
+            const excludeItem = offer.items.filter(i => i.item_id !== item.item_id);
+            const newOffer = {
+                ...offer,
+                items: [
+                    ...excludeItem,
+                    {
+                        ...item,
+                        costo: Number(newCost),
+                    }
+                ]
+            }
+            newOffer.items.sort((a, b) => a.item_id - b.item_id);
+            const newOffers = [...excludeOffer, { ...newOffer }]
+            newOffers.sort((a, b) => a.id - b.id);
+            console.log(newOffer)
+            setOffers(newOffers)
+            setEditCost(false);
         } else {
             return false;
         }
     }
     const savePrice = () => {
         if (item) {
-            item.precio = Number(newPrice)
+            const excludeOffer = offers.filter(o => o.id !== offer.id);
+            const excludeItem = offer.items.filter(i => i.item_id !== item.item_id);
+            const newOffer = {
+                ...offer,
+                items: [
+                    ...excludeItem,
+                    {
+                        ...item,
+                        precio: Number(newPrice),
+                    }
+                ]
+            }
+            newOffer.items.sort((a, b) => a.item_id - b.item_id);
+            const newOffers = [...excludeOffer, { ...newOffer }]
+            newOffers.sort((a, b) => a.id - b.id);
+            setOffers(newOffers)
             setEditPrice(false);
         } else {
             return false;
@@ -248,41 +278,8 @@ const ItemData: FC<ItemDataProps> = ({ item, i, offer, offers, setOffers }) => {
             <Typography variant="subtitle2" fontWeight={"bold"} color="text.primary">{i + 1} Proceso {item.type === "internal" ? "Interno" : "Externo"}</Typography>
             <Typography variant="subtitle2" fontWeight={400} color="text.primary">{item.description}</Typography>
             <Typography variant="subtitle2" fontWeight={400} color="text.secondary">Descripcion larga: {item.descr_larga}</Typography>
-
-            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                {
-                    editPrice ?
-                        (<>
-                            <IconButton size="small" onClick={() => setEditPrice(false)}><EditOffIcon color="error" /></IconButton>
-                            <TextField size="small" label="Precio" color="secondary" name="newPrice" value={newPrice} onChange={(e: ChangeEvent<HTMLInputElement>) => setNewPrice(e.target.value)} />
-                            <IconButton size="small" onClick={savePrice}><SaveIcon color="success" /></IconButton>
-                        </>
-                        )
-                        : (
-                            <>
-                                <Typography variant="subtitle2" fontWeight={400} color="text.secondary">Precio $ {numberWithDots(item.precio)}</Typography>
-                                <IconButton size="small" onClick={() => setEditPrice(true)}><EditIcon /></IconButton>
-                            </>
-                        )
-                }
-            </Box>
-            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                {
-                    editCost ?
-                        (<>
-                            <IconButton size="small" onClick={() => setEditCost(false)}><EditOffIcon color="error" /></IconButton>
-                            <TextField size="small" label="Costo" color="secondary" name="newCost" value={newCost} onChange={(e: ChangeEvent<HTMLInputElement>) => setNewCost(e.target.value)} />
-                            <IconButton size="small" onClick={saveCost}><SaveIcon color="success" /></IconButton>
-                        </>
-                        )
-                        : (
-                            <>
-                                <Typography variant="subtitle2" fontWeight={400} color="text.secondary">Costo $ {numberWithDots(item.costo)}</Typography>
-                                <IconButton size="small" onClick={() => setEditCost(true)}><EditIcon /></IconButton>
-                            </>
-                        )
-                }
-            </Box>
+            <Typography variant="subtitle2" fontWeight={400} color="text.secondary">Precio $ {numberWithDots(item.precio)}</Typography>
+            <Typography variant="subtitle2" fontWeight={400} color="text.secondary">Costo $ {numberWithDots(item.costo)}</Typography>
         </Box>
     )
 }
@@ -295,6 +292,7 @@ interface CollapsibleDataProps {
 const CollapsibleData: FC<CollapsibleDataProps> = ({ offer, offers, setOffers }) => {
     // Control del collapse
     const [expanded, setExpanded] = useState(false);
+    const [items, setItems] = useState<Item[] | null>(offer.items);
     let total = 0;
     offer.items.forEach((item) => total = total + item.precio)
     /**
@@ -332,8 +330,9 @@ const CollapsibleData: FC<CollapsibleDataProps> = ({ offer, offers, setOffers })
                     {offer.items.length > 0 && offer.items.map((item, i) => (
                         <ItemData item={item} i={i} key={`${item.item_id} ${item.description}`} offer={offer} setOffers={setOffers} offers={offers} />
                     ))}
-                    <Typography variant="subtitle1" fontWeight="bold">Precio total $ {numberWithDots(total)}</Typography>
                 </Box>
+                <Typography variant="subtitle1" fontWeight="bold">Precio total $ {numberWithDots(total)}</Typography>
+
             </Collapse>
         </>
     )
@@ -356,6 +355,7 @@ const styles = {
         backdropFilter: 'blur(6px)',
         borderRadius: 5,
         p: 2,
+        position: "relative",
     },
     offerActions: {
         display: "flex",

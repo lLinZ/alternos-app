@@ -40,6 +40,7 @@ import { AnnouncementAdding } from './pages/AnnouncementAdding';
 import { KanbanUser } from './pages/registros/KanbanUser';
 import { KanbanCase } from './pages/registros/KanbanCase';
 import { RegistroTareasPorCasoPage } from './pages/registros/RegistroTareasPorCaso';
+import { EditOfferPage } from './pages/EditOfferPage';
 
 function App() {
   return (
@@ -67,6 +68,9 @@ function App() {
         <Route path="/process/add" element={<ProcessesPage />} />
         <Route path="/process/external" element={<ExternalProcessPage />} />
         <Route path="/process/external/add" element={<ExternalProcessAddingPage />} />
+
+        {/* Ofertas */}
+        <Route path="/offers/edit/:id" element={<EditOfferPage />} />
 
         {/* Requerimientos */}
         <Route path="/requirements" element={<TrafficUserPage />} />
