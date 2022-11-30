@@ -3,13 +3,14 @@ import { Activity } from "./activity-type";
 export type Process = {
     id: number;
     name: string;
-    owner_id: number;
+    description: string;
+    owner_id?: number;
     owner_name: string;
     actividades?: Activity[];
     costo: string;
     precio: string;
-    centrodecosto1:string;
-    centrodecosto2:string;
+    centrodecosto1: string;
+    centrodecosto2: string;
 }
 
 export type IProcessNoDetails = {

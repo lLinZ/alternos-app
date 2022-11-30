@@ -212,6 +212,7 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses, processes }) => 
             body.append("id", String(process.id));
             body.append("owner_id", String(process.owner_id));
             body.append("name", String(values.name));
+            body.append("description", String(values.description));
             body.append("centrodecosto1", String(values.centrodecosto1));
             body.append("centrodecosto2", String(values.centrodecosto2));
             const options = {
@@ -229,6 +230,7 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses, processes }) => 
                         id: process.id,
                         owner_id: process.owner_id,
                         name: values.name,
+                        description: values.description,
                         centrodecosto1: values.centrodecosto1,
                         centrodecosto2: values.centrodecosto2,
                         owner_name: process.owner_name,
@@ -244,7 +246,9 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses, processes }) => 
                         showConfirmButton: false,
                         timerProgressBar: true,
                     })
+                    newProcesses.sort((a, b) => a.id - b.id);
                     setProcesses(newProcesses);
+                    setEdit(false);
                 } else {
                     Swal.fire({
                         title: "Error",
@@ -266,6 +270,7 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses, processes }) => 
 
     const initialValues = {
         name: process.name,
+        description: process.description,
         centrodecosto1: process.centrodecosto1,
         centrodecosto2: process.centrodecosto2,
     }
@@ -292,7 +297,6 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses, processes }) => 
                                 {process.name}
                             </Typography>
                             <IconButton onClick={() => setEdit(false)} color="secondary" sx={{ position: "absolute", top: 5, right: 5 }}>
-
                                 <EditOffIcon />
                             </IconButton>
                         </Box>
@@ -305,13 +309,16 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses, processes }) => 
                                 <Form onSubmit={handleSubmit}>
 
                                     <Grid container spacing={1} sx={{ mt: 2 }}>
-                                        <Grid item xs={12} sm={4}>
+                                        <Grid item xs={12} sm={6}>
                                             <TextField fullWidth name="name" value={values.name} label="Nombre" onChange={handleChange} color="secondary" variant="outlined" sx={{ borderRadius: 5 }} />
                                         </Grid>
-                                        <Grid item xs={12} sm={4}>
+                                        <Grid item xs={12} sm={6}>
+                                            <TextField fullWidth name="description" value={values.description} label="Descripcion larga" onChange={handleChange} color="secondary" variant="outlined" sx={{ borderRadius: 5 }} />
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
                                             <TextField fullWidth name="centrodecosto1" value={values.centrodecosto1} label="Centro de costo 1" onChange={handleChange} color="secondary" variant="outlined" sx={{ borderRadius: 5 }} />
                                         </Grid>
-                                        <Grid item xs={12} sm={4}>
+                                        <Grid item xs={12} sm={6}>
                                             <TextField fullWidth name="centrodecosto2" value={values.centrodecosto2} label="Centro de costo 2" onChange={handleChange} color="secondary" variant="outlined" sx={{ borderRadius: 5 }} />
                                         </Grid>
                                         <Grid item xs={12}>
@@ -337,6 +344,9 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses, processes }) => 
                         </Typography>
                         <Typography variant="h5" component="div">
                             {process.name}
+                        </Typography>
+                        <Typography variant="subtitle2" color="text.secondary">
+                            {process.description}
                         </Typography>
                         <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
                             <Typography variant="subtitle2" color="text.primary" sx={{ mr: 1 }} fontWeight="400">
