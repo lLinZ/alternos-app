@@ -192,7 +192,7 @@ export const RegistroPendingOffersPage: FC = () => {
                                     {/* Boton Confirmar y enviar */}
                                     {offer.status !== "enviada" && (
                                         <Button variant="outlined" size="small" color="secondary" sx={styles.button} onClick={() => send(offer.id, "confirmaryenviar")}>
-                                            Confirmar y enviar &nbsp; <SendRounded sx={{ width: 16, height: 16 }} />
+                                            Enviar &nbsp; <SendRounded sx={{ width: 16, height: 16 }} />
                                         </Button>)}
 
                                 </Box>

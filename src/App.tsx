@@ -41,6 +41,8 @@ import { KanbanUser } from './pages/registros/KanbanUser';
 import { KanbanCase } from './pages/registros/KanbanCase';
 import { RegistroTareasPorCasoPage } from './pages/registros/RegistroTareasPorCaso';
 import { EditOfferPage } from './pages/EditOfferPage';
+import { ClientAddingPage } from './pages/ClientAddingPage';
+import { RegistroTransaccionesPorPeriodoPage } from './pages/registros/RegistroTransaccionesPorPeriodo';
 
 function App() {
   return (
@@ -93,6 +95,9 @@ function App() {
         <Route path="/admin/user/add" element={<UserAddingPage />} />
         <Route path="/register/admin" element={<RegisterAdminPage />} />
 
+        {/* Clientes */}
+        <Route path="/user/add/client" element={<ClientAddingPage />} />
+
         {/* Pagina de perfil */}
         <Route path="/profile" element={<ProfilePage />} />
 
@@ -106,6 +111,7 @@ function App() {
         <Route path="/process/resume" element={<RegistroProcesosPage />} />
         <Route path="/casos/status/resume" element={<RegistroStatusPorCasoPage />} />
         <Route path="/transacciones/resume" element={<RegistroTransaccionesPage />} />
+        <Route path="/pagos/periodo/resume" element={<RegistroTransaccionesPorPeriodoPage />} />
         <Route path="/requirements/resume" element={<RegistroCasosPage />} />
         <Route path="/analisis/resume" element={<RegistroAnalisisPorCasoPage />} />
         <Route path="/tareas/resume" element={<RegistroTareasPage />} />

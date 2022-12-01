@@ -12,7 +12,6 @@ export const UserInfo: FC<Props> = ({ user }) => {
         <Avatar alt={user ? user.name : 'A'} src="/static/images/avatar/2.jpg" sx={{ bgcolor: user ? user.coloravatar : '#bdbdbd' }} />
         <Typography variant="subtitle1" color="text.primary" fontWeight="bold" fontSize={12}>
             {user ? user.name : ""}
-            {/*user.name*/}
         </Typography>
         <Typography variant="subtitle2" color="text.secondary" fontWeight="400" fontSize={12}>
             {user ? user.username : ""}

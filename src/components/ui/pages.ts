@@ -1,33 +1,61 @@
 import { Pages } from "../../interfaces/pages-type";
 
-export const pages: Pages[] = [
+export const clientePages: Pages[] = [
     // Menu principal
     { name: 'divider', path: "Menu principal" },
     { name: 'Dashboard', path: "/dashboard" },
-    { name: 'Mis tareas', path: "/requirements" },
-    { name: 'Estado de cuenta', path: "/users/estadocuenta" },
+];
+export const usuarioPages: Pages[] = [
+    // Menu principal
+    { name: 'divider', path: "Menu principal" },
+    { name: 'Dashboard', path: "/dashboard" },
+];
+export const invitadoPages: Pages[] = [
+    // Menu principal
+    { name: 'divider', path: "Menu principal" },
+    { name: 'Dashboard', path: "/dashboard" },
 ];
 export const traficoPages: Pages[] = [
     // Menu principal
     { name: 'divider', path: "Menu principal" },
     { name: 'Dashboard', path: "/dashboard" },
     { name: 'Mis tareas', path: "/requirements" },
-    { name: 'Estado de cuenta', path: "/users/estadocuenta" },
 
     // Ofertas
     { name: 'divider', path: "Ofertas" },
     { name: "Ofertas", path: "/offer/resume" },
+
+    // Resumenes
+    { name: 'divider', path: "Resúmenes" },
+    { name: "Resumen de procesos", path: "/process/resume" },
+    { name: "Resumen de actividades", path: "/activity/resume" },
+    { name: "Resumen de tareas por caso", path: "/tareas/casos" },
+    { name: "Resumen de casos", path: "/requirements/resume" },
+    { name: "Resumen de cumplimiento", path: "/users/cumplimiento/resume" },
+    { name: "Analisis por caso", path: "/analisis/resume" },
+    { name: "Status por caso", path: "/casos/status/resume" },
+    { name: "Tareas por usuario", path: "/tareas/resume" },
+    { name: "Kanban por usuario", path: "/kanban/usuario" },
+    { name: "Kanban por caso", path: "/kanban/caso" },
 ];
 export const ventasPages: Pages[] = [
     // Menu principal
     { name: 'divider', path: "Menu principal" },
     { name: 'Dashboard', path: "/dashboard" },
     { name: 'Mis tareas', path: "/requirements" },
-    { name: 'Estado de cuenta', path: "/users/estadocuenta" },
-
+    
     // Ofertas
     { name: 'divider', path: "Ofertas" },
+    { name: 'Agregar oferta', path: "/offer/add" },
     { name: "Ofertas pendientes", path: "/offer/resume/pending" },
+    
+    // Resumenes
+    { name: 'divider', path: "Resúmenes" },
+    { name: 'Resumen de casos', path: "/requirements/resume" },
+
+    // Clientes
+    { name: 'divider', path: "Clientes" },
+    { name: "Registro de cliente", path: "/user/add/client" },
 ];
 export const adminPages: Pages[] = [
 
@@ -36,6 +64,9 @@ export const adminPages: Pages[] = [
     { name: 'Dashboard', path: "/dashboard" },
     { name: 'Mis tareas', path: "/requirements" },
     { name: 'Estado de cuenta', path: "/users/estadocuenta" },
+    { name: "Administrar usuarios", path: "/admin" },
+    { name: "Agregar admin", path: "/register/admin" },
+    { name: "Revision de pagos", path: "/pagos" },
 
     // Ofertas
     { name: 'divider', path: "Ofertas" },
@@ -65,6 +96,7 @@ export const adminPages: Pages[] = [
     { name: "Resumen de casos", path: "/requirements/resume" },
     { name: "Resumen de cumplimiento", path: "/users/cumplimiento/resume" },
     { name: "Resumen de transacciones", path: "/transacciones/resume" },
+    { name: "Resumen de pagos del periodo", path: "/pagos/periodo/resume" },
     { name: "Analisis por caso", path: "/analisis/resume" },
     { name: "Status por caso", path: "/casos/status/resume" },
     { name: "Tareas por usuario", path: "/tareas/resume" },

@@ -107,7 +107,7 @@ export const EditOfferPage: FC = () => {
                                 icon: "success"
                             })
                             console.log(data);
-                            getOffer();
+                            router("/offer/resume")
                         } else {
                             Swal.fire({
                                 title: "Error",
@@ -157,7 +157,7 @@ export const EditOfferPage: FC = () => {
                         {/* Boton Confirmar y enviar */}
                         {offer?.status !== "enviada" && (
                             <Button variant="outlined" size="small" color="secondary" sx={styles.button} onClick={() => send("confirmaryenviar")}>
-                                Confirmar y enviar &nbsp; <SendRounded sx={{ width: 16, height: 16 }} />
+                                Enviar &nbsp; <SendRounded sx={{ width: 16, height: 16 }} />
                             </Button>)}
 
                     </Box>

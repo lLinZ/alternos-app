@@ -67,13 +67,65 @@ export const DashboardPage: FC = () => {
                 <Grid container display="flex" flexDirection="row" flexWrap="wrap" alignItems="start" spacing={1} sx={{ mb: 5, p: 1 }}>
                     <Grid item xs={12} sx={{ position: "relative", }}>
                         <Typography variant="overline" fontWeight="bold">Widgets básicos</Typography>
-                        <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
-                            <WidgetStats user={userLogged} />
-                            <WidgetRequirement userLogged={userLogged} />
-                            <WidgetEstadoDeCuenta user={userLogged} />
-                            <WidgetListaTareas />
-                            <WidgetPago userLogged={userLogged} />
-                            <WidgetBrandcenter />
+                        <Box sx={{ display: "flex", flexFlow: "row wrap", justifyContent: "center" }}>
+                            {
+                                // Administrador
+                                userLogged && userLogged.role_id === 1 && (
+                                    <>
+                                        <WidgetStats user={userLogged} />
+                                        <WidgetRequirement userLogged={userLogged} />
+                                        <WidgetEstadoDeCuenta user={userLogged} />
+                                        <WidgetListaTareas />
+                                        <WidgetPago userLogged={userLogged} />
+                                        <WidgetBrandcenter />
+                                    </>
+                                )
+                            }
+                            {
+                                // Rol Usuario
+                                userLogged && userLogged.role_id === 2 && (
+                                    <>
+                                        <WidgetListaTareas />
+                                    </>
+                                )
+                            }
+                            {
+                                // Rol Cliente
+                                userLogged && userLogged.role_id === 3 && (
+                                    <>
+                                        <WidgetEstadoDeCuenta user={userLogged} />
+                                        <WidgetPago userLogged={userLogged} />
+                                        <WidgetBrandcenter />
+                                    </>
+                                )
+                            }
+                            {
+                                // Rol Comercial
+                                userLogged && userLogged.role_id === 4 && (
+                                    <>
+                                        <WidgetRequirement userLogged={userLogged} />
+                                        <WidgetListaTareas />
+                                        <WidgetPago userLogged={userLogged} />
+                                    </>
+                                )
+                            }
+                            {
+                                // Rol Tráfico
+                                userLogged && userLogged.role_id === 5 && (
+                                    <>
+                                        <WidgetRequirement userLogged={userLogged} />
+                                        <WidgetListaTareas />
+                                    </>
+                                )
+                            }
+                            {
+                                // Rol Invitado
+                                userLogged && userLogged.role_id === 99 && (
+                                    <>
+                                    </>
+                                )
+
+                            }
                         </Box>
                     </Grid>
                     <Grid item xs={12} sx={{ position: "relative", }}>
