@@ -19,13 +19,13 @@ const columns = [
         sortable: true,
     },
     {
-        name: 'Fecha de Vencimiento',
-        selector: (row: IData) => `${row.vence} (${formatDistanceToNow(Date.parse(row.vence), { locale: es })})`,
+        name: 'Fecha de Inicio',
+        selector: (row: IData) => `${row.inicio} (${formatDistanceToNow(Date.parse(row.inicio), { locale: es })})`,
         sortable: true,
     },
     {
-        name: 'Fecha de Inicio',
-        selector: (row: IData) => `${row.inicio} (${formatDistanceToNow(Date.parse(row.inicio), { locale: es })})`,
+        name: 'Fecha de Vencimiento',
+        selector: (row: IData) => `${row.vence} (${formatDistanceToNow(Date.parse(row.vence), { locale: es })})`,
         sortable: true,
     },
     {
