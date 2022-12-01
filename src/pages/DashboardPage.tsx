@@ -130,7 +130,7 @@ export const DashboardPage: FC = () => {
                     </Grid>
                     <Grid item xs={12} sx={{ position: "relative", }}>
                         <Typography variant="overline" fontWeight="bold">Widgets adicionales</Typography>
-                        <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
+                        <Box sx={{ display: "flex", flexFlow: "row wrap", justifyContent: "center" }}>
                             <WidgetList widgets={widgetsS} />
                             <WidgetInformativo />
                         </Box>
