@@ -84,13 +84,13 @@ export const RegistroTransaccionesPorPeriodoPage: FC = () => {
     const router = useNavigate();
     const [Transacciones, setTransacciones] = useState<IData[] | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [from, setFrom] = useState<string>('')
-    const [to, setTo] = useState<string>('')
+    const [from, setFrom] = useState<string>(moment().format("YYYY-MM-DD"))
+    const [to, setTo] = useState<string>(moment().format("YYYY-MM-DD"))
     const [fechaFrom, setFechaFrom] = useState<Moment | null>(
-        moment(new Date()),
+        moment(),
     );
     const [fechaTo, setFechaTo] = useState<Moment | null>(
-        moment(new Date()),
+        moment(),
     );
     const customStyles = {
         rows: {
