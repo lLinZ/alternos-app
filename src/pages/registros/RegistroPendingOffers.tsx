@@ -14,6 +14,7 @@ import { Button, Collapse, Divider, IconButton, IconButtonProps, styled } from '
 import SendRounded from '@mui/icons-material/SendRounded';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CheckCircleRounded from '@mui/icons-material/CheckCircleRounded';
+import CancelIcon from '@mui/icons-material/CancelRounded';
 import { blue, green, red } from '@mui/material/colors';
 import PdfIcon from '@mui/icons-material/PictureAsPdfRounded';
 
@@ -108,54 +109,95 @@ export const RegistroPendingOffersPage: FC = () => {
             console.log(error);
         }
     }
-    const send = async (id: number, accion: "soloconfirmar" | "confirmaryenviar") => {
-        const url = `${baseUrl}/confirmaoferta`;
+    const send = async (id: number, accion: "soloconfirmar" | "confirmaryenviar" | "aprobar" | "rechazar") => {
+        if (accion === 'aprobar' || accion === 'rechazar') {
+            const url2 = `${baseUrl}/apruebaoferta`;
 
-        const body = new FormData();
-        body.append("id", String(id));
-        body.append("accion", accion);
-        console.log(id, accion)
-        const options = {
-            method: "POST",
-            body
-        }
-        try {
-            const respuesta = await fetch(url, options)
-            switch (respuesta.status) {
-                case 200:
-                    const data = await respuesta.json();
-                    if (data.exito === "SI") {
-                        Swal.fire({
-                            title: "Exito",
-                            text: `Se ha ${accion === "soloconfirmar" ? "confirmado" : "confirmado y enviado"} la oferta`,
-                            icon: "success"
-                        })
-                        console.log(data);
-                        getOffers();
-                    } else {
-                        Swal.fire({
-                            title: "Error",
-                            text: data.mensaje,
-                            icon: "error"
-                        })
-                        console.log(data)
-                    }
-                    break;
-                default:
+            const body = new FormData();
+
+            body.append("id", String(id));
+            body.append("accion", String(accion));
+
+            const options = {
+                method: "POST",
+                body
+            }
+            try {
+                const respuesta = await fetch(url2, options)
+                const data = await respuesta.json();
+
+                if (data.exito === "SI") {
+                    Swal.fire({
+                        title: "Exito",
+                        text: `Se ha ${accion === "aprobar" ? "aprobado" : "rechazado"} la oferta`,
+                        icon: "success",
+
+                    })
+                } else {
                     Swal.fire({
                         title: "Error",
-                        text: `No se logró ${accion === "soloconfirmar" ? "confirmar" : "confirmar y enviar"} la oferta`,
+                        text: `No se logró ${accion} la oferta`,
                         icon: "error",
                     })
-                    break;
+                }
+
+            } catch (error) {
+                Swal.fire({
+                    title: "Error",
+                    text: `No se logró conectar al servidor`,
+                    icon: "error",
+                })
             }
-        } catch (error) {
-            console.log(error);
-            Swal.fire({
-                title: "Error",
-                text: "No se logró conectar",
-                icon: "error"
-            })
+        } else {
+
+            const url = `${baseUrl}/confirmaoferta`;
+
+            const body = new FormData();
+            body.append("id", String(id));
+            body.append("accion", accion);
+            console.log(id, accion)
+            const options = {
+                method: "POST",
+                body
+            }
+            try {
+                const respuesta = await fetch(url, options)
+                switch (respuesta.status) {
+                    case 200:
+                        const data = await respuesta.json();
+                        if (data.exito === "SI") {
+                            Swal.fire({
+                                title: "Exito",
+                                text: `Se ha ${accion === "soloconfirmar" ? "confirmado" : "confirmado y enviado"} la oferta`,
+                                icon: "success"
+                            })
+                            console.log(data);
+                            getOffers();
+                        } else {
+                            Swal.fire({
+                                title: "Error",
+                                text: data.mensaje,
+                                icon: "error"
+                            })
+                            console.log(data)
+                        }
+                        break;
+                    default:
+                        Swal.fire({
+                            title: "Error",
+                            text: `No se logró ${accion === "soloconfirmar" ? "confirmar" : "confirmar y enviar"} la oferta`,
+                            icon: "error",
+                        })
+                        break;
+                }
+            } catch (error) {
+                console.log(error);
+                Swal.fire({
+                    title: "Error",
+                    text: "No se logró conectar",
+                    icon: "error"
+                })
+            }
         }
     }
     useEffect(() => {
@@ -173,22 +215,23 @@ export const RegistroPendingOffersPage: FC = () => {
                             <Box key={offer.id} sx={styles.offerItem}>
 
                                 <Chip size="small" color={getColorByStatus(offer.status)} label={ucfirst(offer.status.toLowerCase())} sx={{ ...styles.chip, boxShadow: `0 0 10px ${getHexColorByStatus(offer.status)}` }} />
+                                <Typography variant="subtitle2" color="text.secondary">#{offer.id}</Typography>
                                 <Typography variant="subtitle1">Cliente {offer.customer_name}</Typography>
                                 <Typography variant="subtitle1">Vendedor {offer.salesman_name}</Typography>
                                 <Typography variant="subtitle2" fontWeight={300} color="text.secondary">{getFormatDistanceToNow(new Date(offer.created_at))}</Typography>
 
                                 <CollapsibleData offer={offer} />
                                 <Box sx={styles.offerActions}>
+                                    <Button variant="outlined" size="small" color="secondary" sx={styles.button} onClick={() => send(offer.id, "aprobar")}>
+                                        Aprobada por cliente &nbsp; <CheckCircleRounded sx={{ width: 16, height: 16 }} />
+                                    </Button>
+                                    <Button variant="outlined" size="small" color="secondary" sx={styles.button} onClick={() => send(offer.id, "rechazar")}>
+                                        Rechazar &nbsp; <CancelIcon sx={{ width: 16, height: 16 }} />
+                                    </Button>
                                     {/* Boton pdf */}
                                     <Button component="a" target="_blank" href={`${baseUrl}/docoferta?offer_id=${offer.id}`} variant="outlined" size="small" color="secondary" sx={styles.button}>
                                         Ver pdf&nbsp; <PdfIcon sx={{ width: 16, height: 16 }} />
                                     </Button>
-                                    {/* Boton confirmar */}
-                                    {offer.status !== "enviada" && offer.status !== "confirmada" && (
-                                        <Button variant="outlined" size="small" color="secondary" sx={styles.button} onClick={() => send(offer.id, "soloconfirmar")}>
-                                            Confirmar&nbsp; <CheckCircleRounded sx={{ width: 16, height: 16 }} />
-                                        </Button>)}
-
                                     {/* Boton Confirmar y enviar */}
                                     {offer.status !== "enviada" && (
                                         <Button variant="outlined" size="small" color="secondary" sx={styles.button} onClick={() => send(offer.id, "confirmaryenviar")}>

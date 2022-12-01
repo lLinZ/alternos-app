@@ -178,6 +178,7 @@ export const RegistroOfferPage: FC = () => {
                                     <EditIcon />
                                 </IconButton>
                                 <Chip size="small" color={getColorByStatus(offer.status)} label={ucfirst(offer.status.toLowerCase())} sx={{ ...styles.chip, boxShadow: `0 0 10px ${getHexColorByStatus(offer.status)}` }} />
+                                <Typography variant="subtitle2" color="text.secondary">#{offer.id}</Typography>
                                 <Typography variant="subtitle1">Cliente {offer.customer_name}</Typography>
                                 <Typography variant="subtitle1">Vendedor {offer.salesman_name}</Typography>
                                 <Typography variant="subtitle2" fontWeight={300} color="text.secondary">{getFormatDistanceToNow(new Date(offer.created_at))}</Typography>
