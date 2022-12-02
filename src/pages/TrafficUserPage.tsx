@@ -1,5 +1,5 @@
 import { LoadingButton } from "@mui/lab";
-import { Box, Typography, CircularProgress, Grid, Button, Dialog, AppBar, Toolbar, IconButton, Divider, Slide } from "@mui/material";
+import { Box, Typography, CircularProgress, Grid, Button, Dialog, AppBar, Toolbar, IconButton, Divider, Slide, DialogActions, TextField } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
 import { ChangeEvent, FC, forwardRef, ReactElement, Ref, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,15 @@ import { User } from "../interfaces/user-type";
 import { getCookieValue, validarToken } from "../lib/functions";
 import { IRequirement } from "./UserRequirementsPage";
 import CloseIcon from '@mui/icons-material/Close';
+import EditIcon from '@mui/icons-material/EditRounded';
+import EditOffIcon from '@mui/icons-material/EditOffRounded';
+import SaveIcon from '@mui/icons-material/SaveRounded';
 
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import moment, { Moment } from 'moment';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { PickersActionBarProps } from '@mui/x-date-pickers/PickersActionBar';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
         children: ReactElement;
@@ -56,11 +64,12 @@ export const TrafficUserPage: FC = () => {
 
     const [currentActividad, setCurrentActividad] = useState<any>(null)
 
+    const [currentFechasVencimiento, setCurrentFechasVencimiento] = useState<any>(null);
     // Router
     const router = useNavigate();
 
-    const selectuserDeActividad = async (actividadId: number, user: any) => {
-        const currentActivityWithUser = { actividadId, userId: user.user_id, userName: user.user_name }
+    const selectuserDeActividad = async (actividadId: number, user: any, fecha: any) => {
+        const currentActivityWithUser = { actividadId, userId: user.user_id, userName: user.user_name, fecha }
         const newArray = selectedActividades ? [...selectedActividades.filter((act: any) => act.actividadId !== currentActivityWithUser.actividadId), currentActivityWithUser] : [currentActivityWithUser]
         setSelectedActividades(newArray);
         setOpenUserModal(false);
@@ -72,6 +81,7 @@ export const TrafficUserPage: FC = () => {
     const openModal = (id: number) => {
         const thisReq = myRequirements?.filter(req => Number(req.id) === Number(id))[0];
         setSelectedTask(thisReq ? thisReq : null);
+
         getArrayOfUsers(thisReq ? thisReq : null);
 
         setOpen(true);
@@ -115,7 +125,6 @@ export const TrafficUserPage: FC = () => {
                     return false;
                 }
                 const url = `${baseUrl}/listarequerimientos?&status=pendiente`;
-                console.log(userDataArray)
 
                 try {
                     const respuesta = await fetch(url);
@@ -151,7 +160,6 @@ export const TrafficUserPage: FC = () => {
             const url = `${baseUrl}/listaactivityusersxproceso?process_id=${selectedTaskParam.process_id}`;
             const respuesta = await fetch(url);
             const data = await respuesta.json();
-            console.log(data.registros.filter((task: any) => selectedTaskParam.process_id === task.id)[0].activities)
             setActividades(data.registros.filter((task: any) => selectedTaskParam.process_id === task.id)[0].activities)
         }
     }
@@ -180,8 +188,9 @@ export const TrafficUserPage: FC = () => {
 
             for (let i = 1; i <= selectedActividades.length; i++) {
                 const position = i - 1;
-                activUsers += i === selectedActividades.length ? `${selectedActividades[position].actividadId}:${selectedActividades[position].userId}` : `${selectedActividades[position].actividadId}:${selectedActividades[position].userId},`
+                activUsers += i === selectedActividades.length ? `${selectedActividades[position].actividadId}:${selectedActividades[position].userId}:${selectedActividades[position].fecha}` : `${selectedActividades[position].actividadId}:${selectedActividades[position].userId}:${selectedActividades[position].fecha},`
             }
+            console.log(activUsers)
             const body = new FormData();
             body.append("case_id", String(selectedTask ? selectedTask.case_id : ''));
             body.append("activ_users", activUsers);
@@ -189,7 +198,6 @@ export const TrafficUserPage: FC = () => {
                 method: "POST",
                 body
             }
-            console.log({ case_id: selectedTask.case_id, activUsers })
             const respuesta = await fetch(url, options)
 
             const data = await respuesta.json();
@@ -311,25 +319,7 @@ export const TrafficUserPage: FC = () => {
 
                         {
                             actividades && actividades.map((act: any) => (
-                                <Box key={act.id} sx={{ borderRadius: 5, background: "#FFF", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", display: "flex", flexFlow: "row wrap", p: 3, mb: 2, justifyContent: "space-between", alignItems: "center", }}>
-                                    <Box sx={{ display: "flex", flexFlow: "column wrap", mb: 2 }}>
-
-                                        <Typography>{act.activity_name}</Typography>
-                                        {
-                                            selectedActividades && selectedActividades.filter((activitySelected: any) => activitySelected.actividadId === act.id).length > 0 ? (<>
-                                                <Box sx={{ display: "flex", flexFlow: "row nowrap" }}>
-                                                    <Typography variant="subtitle2">Usuario asignado: {selectedActividades.filter((act3: any) => act3.actividadId === act.id)[0].userName}</Typography>
-                                                </Box>
-
-                                            </>
-                                            ) : (<></>)
-                                        }
-                                    </Box>
-                                    <Button color="secondary" variant="contained" sx={{ textTransform: "none", borderRadius: 3, p: 1 }} disableElevation size="small" onClick={() => {
-                                        setOpenUserModal(true);
-                                        setCurrentActividad(act.id);
-                                    }}>Seleccionar usuario</Button>
-                                </Box>
+                                <ActivityCard act={act} setOpenUserModal={setOpenUserModal} currentActividad={currentActividad} setCurrentActividad={setCurrentActividad} setSelectedActividades={setSelectedActividades} selectedActividades={selectedActividades} currentFechasVencimiento={currentFechasVencimiento} setCurrentFechasVencimiento={setCurrentFechasVencimiento} />
                             ))
                         }
                         <LoadingButton disabled={selectedActividades && selectedActividades.length < actividades.length} color="secondary" variant="contained" onClick={() => asignarUsersATareas()} loading={isSubmitting} fullWidth sx={{ p: 2, borderRadius: 5, textTransform: "none" }} disableElevation >Responder tarea</LoadingButton>
@@ -354,13 +344,107 @@ export const TrafficUserPage: FC = () => {
                     </Toolbar>
                 </AppBar>
                 <Box sx={{ width: "80%", m: "20px auto" }}>
-                    {actividades && currentActividad ? actividades.filter((act: any) => Number(act.id) === Number(currentActividad))[0].users.map((usuario: any) => (
+                    {actividades && currentActividad ? actividades.filter((act: any) => Number(act.id) === Number(currentActividad.id))[0].users.map((usuario: any) => (
                         <Box key={usuario.user_id} sx={{ p: 2, borderRadius: 5, background: "#FFF", boxShadow: "0 8px 32px 0 rgba(0,0,0,0.1)", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
                             <Typography>{usuario.user_name}</Typography>
-                            <Button color="secondary" sx={{ textTransform: "none" }} onClick={() => selectuserDeActividad(currentActividad, usuario)}>Seleccionar</Button>
+                            <Button color="secondary" sx={{ textTransform: "none" }} onClick={() => selectuserDeActividad(currentActividad.id, usuario, currentActividad.fecha)}>Seleccionar</Button>
                         </Box>)) : <CircularProgress color="secondary" />}
                 </Box>
             </Dialog>
         </Layout>
+    )
+}
+const MyActionBar = ({
+    onAccept,
+    onCancel,
+}: PickersActionBarProps) => {
+
+    return (
+        <DialogActions>
+            <Button sx={{ textTransform: "none" }} onClick={onCancel} color="error"> Cancelar </Button>
+            <Button sx={{ textTransform: "none" }} onClick={onAccept} color="secondary"> Seleccionar </Button>
+        </DialogActions>
+    );
+};
+interface ActivityCardProps {
+    act: any;
+    setOpenUserModal: (value: React.SetStateAction<boolean>) => void;
+    setCurrentActividad: (value: any) => void;
+    selectedActividades: any;
+    currentActividad: any,
+    currentFechasVencimiento: any;
+    setCurrentFechasVencimiento: React.Dispatch<any>;
+    setSelectedActividades: React.Dispatch<any>;
+}
+const ActivityCard: FC<ActivityCardProps> = ({ act, setOpenUserModal, currentActividad, setCurrentActividad, selectedActividades, setSelectedActividades, setCurrentFechasVencimiento, currentFechasVencimiento }) => {
+
+    const [edit, setEdit] = useState<boolean>(false);
+    const [fecha, setFecha] = useState<any>(act.vencimiento_estimado);
+    const [newFecha, setNewFecha] = useState<Moment | null>(
+        moment(),
+    );
+    const handleChangeFecha = (newValue: Moment | null) => {
+        setNewFecha(newValue);
+        setFecha(moment(newValue).format("YYYY-MM-DD HH:mm:ss"));
+    };
+    const save = () => {
+        const excludeFechas = currentFechasVencimiento && currentFechasVencimiento.filter((f: any) => f.id !== act.actividadId);
+        const newFechas = excludeFechas ? [...excludeFechas, { id: act.actividadId, vencimiento_estimado: fecha }] : [{ id: act.actividadId, vencimiento_estimado: fecha }];
+        const prevSelected = selectedActividades.filter((sa: any) => sa.actividadId === act.id).length > 0 ? selectedActividades.filter((sa: any) => sa.actividadId === act.id)[0] : false;
+        const excludeSelectedActividades = prevSelected ? selectedActividades.filter((s: any) => s.actividadId !== act.id) : false;
+        const newActividad = excludeSelectedActividades ? { actividadId: prevSelected.actividadId, userId: prevSelected.userId, userName: prevSelected.userName, fecha } : false;
+        const newSelectedActividades = excludeSelectedActividades ? [...excludeSelectedActividades, newActividad] : selectedActividades;
+        newSelectedActividades.sort((a: any, b: any) => a.actividadId - b.actividadId)
+        setCurrentFechasVencimiento(newFechas)
+        setSelectedActividades(newSelectedActividades);
+        setEdit(false);
+    }
+
+    return (
+        <LocalizationProvider locale="es" dateAdapter={AdapterMoment}>
+
+            <Box key={act.id} sx={{ borderRadius: 5, background: "#FFF", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", display: "flex", flexFlow: "row wrap", p: 3, mb: 2, justifyContent: "space-between", alignItems: "center", }}>
+                <Box sx={{ display: "flex", flexFlow: "column wrap", mb: 2 }}>
+
+                    <Typography variant="subtitle2" color="text.secondary">#{act.id}</Typography>
+                    <Typography>{act.activity_name}</Typography>
+                    <Box>
+
+                        {edit ? (
+                            <Box sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
+
+                                <IconButton onClick={() => setEdit(false)} color="error"><EditOffIcon /></IconButton>
+                                <DateTimePicker
+                                    label="Fecha de vencimiento"
+                                    value={newFecha}
+                                    onChange={handleChangeFecha}
+                                    OpenPickerButtonProps={{ color: "secondary" }}
+                                    components={{
+                                        ActionBar: MyActionBar
+                                    }}
+                                    renderInput={(params: any) => <TextField color="secondary" {...params} fullWidth variant="outlined" />}
+                                />
+                                <IconButton onClick={save} color="success" ><SaveIcon /></IconButton>
+                            </Box>
+                        ) : (<Box sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
+                            <Typography variant="subtitle2" color="text.secondary">Vence {fecha}</Typography>
+                            <IconButton onClick={() => setEdit(true)} > <EditIcon /></IconButton>
+                        </Box>)}
+                    </Box>
+                    {
+                        selectedActividades && selectedActividades.filter((activitySelected: any) => activitySelected.actividadId === act.id).length > 0 ? (<>
+                            <Box sx={{ display: "flex", flexFlow: "row nowrap" }}>
+                                <Typography variant="subtitle2">Usuario asignado: {selectedActividades.filter((act3: any) => act3.actividadId === act.id)[0].userName}</Typography>
+                            </Box>
+                        </>
+                        ) : (<></>)
+                    }
+                </Box>
+                <Button color="secondary" variant="contained" sx={{ textTransform: "none", borderRadius: 3, p: 1 }} disableElevation size="small" onClick={() => {
+                    setOpenUserModal(true);
+                    setCurrentActividad({ id: act.id, fecha: fecha });
+                }}>Seleccionar usuario</Button>
+            </Box>
+        </LocalizationProvider>
     )
 }

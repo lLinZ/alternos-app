@@ -40,8 +40,8 @@ export const DrawerComponent: FC<Props> = ({ user, state, toggleDrawer }) => {
                 onClick={toggleDrawer(false)}
                 onKeyDown={toggleDrawer(false)}
             >
-                {token && user && String(user?.role_name) === "Administrador" && (<AdminList user={user} />)}
-                {token && user && String(user?.role_name) !== "Administrador" && (<UserList user={user} />)}
+                {token && user && user?.role_id === 1 && (<AdminList user={user} />)}
+                {token && user && user?.role_id !== 1 && (<UserList user={user} />)}
             </Box>
         </Drawer>
     )

@@ -79,7 +79,7 @@ export const MenuUser: FC<Props> = ({ user }) => {
                 }
                 {token && (
                     user
-                        ? (<MenuList sx={{ p: 2 }} dense> {user.role_name === "Administrador" ? (<AdminList {...propsAdminList} />) : (<UserList {...propsUserList} />)} </MenuList>)
+                        ? (<MenuList sx={{ p: 2 }} dense> {user.role_id === 1 ? (<AdminList {...propsAdminList} />) : (<UserList {...propsUserList} />)} </MenuList>)
                         : (<MenuTextPlaceholder />)
                 )
                 }
