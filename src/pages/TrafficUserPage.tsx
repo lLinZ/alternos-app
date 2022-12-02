@@ -188,7 +188,7 @@ export const TrafficUserPage: FC = () => {
 
             for (let i = 1; i <= selectedActividades.length; i++) {
                 const position = i - 1;
-                activUsers += i === selectedActividades.length ? `${selectedActividades[position].actividadId}:${selectedActividades[position].userId}:${selectedActividades[position].fecha}` : `${selectedActividades[position].actividadId}:${selectedActividades[position].userId}:${selectedActividades[position].fecha},`
+                activUsers += i === selectedActividades.length ? `${selectedActividades[position].actividadId}*${selectedActividades[position].userId}*${selectedActividades[position].fecha}` : `${selectedActividades[position].actividadId}*${selectedActividades[position].userId}*${selectedActividades[position].fecha},`
             }
             console.log(activUsers)
             const body = new FormData();
