@@ -160,7 +160,7 @@ export const RegistroTareasPorCasoPage: FC = () => {
                                     <Select color="secondary" defaultValue={"0"} value={caso !== 0 ? caso : "0"} onChange={handleChange} sx={{ "& fieldset": { borderRadius: 0 } }}>
                                         <MenuItem disabled value={"0"}>Seleccione un caso</MenuItem>
                                         {
-                                            casos.map((u: any) => <MenuItem key={u.id + u.description} value={String(u.id)}>{u.description}</MenuItem>)
+                                            casos.map((u: any) => <MenuItem key={u.id + u.description} value={String(u.id)}>{`#${u.id} - ${u.description}`}</MenuItem>)
                                         }
                                     </Select>
                                     <Button sx={{ borderRadius: 0, p: 2, }} disableElevation color="secondary" variant="contained" onClick={() => getAnalisis(caso)}>Buscar</Button>

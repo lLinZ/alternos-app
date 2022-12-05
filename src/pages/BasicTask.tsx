@@ -1,5 +1,5 @@
 import { LoadingButton } from '@mui/lab';
-import { Box, Typography, CircularProgress, Grid, Button, Dialog, AppBar, Toolbar, IconButton, Divider, TextField, Slide } from '@mui/material';
+import { Switch, Box, Typography, CircularProgress, Grid, Button, Dialog, AppBar, Toolbar, IconButton, Divider, TextField, Slide, Chip } from '@mui/material';
 import { ChangeEvent, FC, forwardRef, ReactElement, Ref, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -152,7 +152,8 @@ export const BasicTaskPage: FC<Props> = () => {
             if (userDataArray.exito === "SI") {
 
                 const userData = userDataArray.usuario;
-                const url = `${baseUrl}/listatareas?owner_id=${userData.id}&status=pendiente`;
+                // const url = `${baseUrl}/listatareas?owner_id=${userData.id}&status=pendiente`;
+                const url = `${baseUrl}/listatareasusuario?owner_id=${userData.id}`;
                 console.log(url)
                 try {
                     const respuesta = await fetch(url);
@@ -306,7 +307,57 @@ export const BasicTaskPage: FC<Props> = () => {
             }
         }
     }
+    const changeStatus = async (id: number, status: 'en proceso' | 'pendiente') => {
+        const url = `${baseUrl}/cambiastatustarea`;
 
+        const body = new FormData();
+
+        body.append('task_id', String(id));
+        body.append('status', String(status));
+        console.log({ status })
+        const options = {
+            method: "POST",
+            body
+        }
+
+        try {
+            const respuesta = await fetch(url, options);
+
+            const data = await respuesta.json();
+            console.log(id, status);
+            if (data.exito === "SI") {
+                Swal.fire({
+                    title: "Cambió el status",
+                    icon: "success",
+                    toast: true,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                    position: 'bottom-start'
+                })
+                getMyRequirements();
+            } else {
+                Swal.fire({
+                    title: "Error",
+                    text: data.mensaje,
+                    icon: "error",
+                })
+            }
+        } catch (error) {
+
+            Swal.fire({
+                title: "No cambió el status",
+                icon: "error",
+                toast: true,
+                timer: 2000,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                position: 'bottom-start'
+            })
+            console.log(error);
+        }
+
+    }
     // Efecto secundario
     useEffect(() => {
         validarToken(router, setUserLogged);
@@ -327,11 +378,22 @@ export const BasicTaskPage: FC<Props> = () => {
                         myRequirements && myRequirements.map(req => (
                             <Grid item key={req.id} xs={12}>
                                 <Box sx={{
-                                    display: "flex", justifyContent: "space-between", w: "100%", borderRadius: 5, p: 2, flexWrap: "wrap", boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
                                     background: "rgba(255,255,255,0.6)",
-                                    backdropFilter: 'blur(6px)',
+                                    boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
+                                    display: "flex",
+                                    flexFlow: "row wrap",
+                                    justifyContent: "space-between",
+                                    borderRadius: 5,
+                                    p: 2,
+                                    width: "100%",
+                                    alignItems: "center"
                                 }}>
+
                                     <Box sx={{ display: "flex", flexDirection: "column", mb: 2 }}>
+                                        <Box sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
+                                            <Chip size="small" sx={{ boxShadow: `0 0 10px ${req.status === 'pendiente' ? 'rgba(245, 176, 65)' : 'rgba(52, 152, 219)'}` }} label={`${req.status.substring(0, 1).toUpperCase()}${req.status.substring(1).toLowerCase()}`} color={req.status === 'pendiente' ? 'warning' : 'info'} />
+                                            <Switch color="info" inputProps={{ 'aria-label': 'switch' }} defaultChecked checked={req.status === 'en proceso' ? true : false} onChange={() => changeStatus(req.id, req.status === 'pendiente' ? 'en proceso' : 'pendiente')} />
+                                        </Box>
                                         <Typography variant="subtitle1" fontSize={16} fontWeight="bold">{req.process_name} #{req.case_id}</Typography>
                                         <Typography variant="subtitle2" fontSize={12} fontWeight="400" color="text.secondary">{req.description}</Typography>
                                     </Box>
@@ -485,3 +547,4 @@ export const BasicTaskPage: FC<Props> = () => {
         </Layout >
     )
 }
+

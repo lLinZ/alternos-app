@@ -257,7 +257,7 @@ const styles = {
     },
     kanbanCategory: {
         background: "#FFF",
-        width: 350,
+        minWidth: 250,
         minHeight: 500,
         m: 2,
         p: 2,

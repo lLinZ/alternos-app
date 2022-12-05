@@ -1,8 +1,8 @@
-import { FC, useEffect, useState } from 'react'
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react'
 
 import { useNavigate } from 'react-router-dom';
 
-import { Box, Button, CircularProgress, Divider, Grid, TextField, Typography, DialogActions } from '@mui/material'
+import { Box, Button, CircularProgress, Divider, Grid, TextField, Typography, DialogActions, AppBar, Dialog, IconButton, Toolbar } from '@mui/material'
 
 import { Layout } from '../../components/layout'
 import { User } from '../../interfaces/user-type'
@@ -15,6 +15,12 @@ import moment, { Moment } from 'moment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { PickersActionBarProps } from '@mui/x-date-pickers/PickersActionBar';
 
+import CloseIcon from '@mui/icons-material/CloseRounded';
+import CircleIcon from '@mui/icons-material/RadioButtonUncheckedRounded';
+import CheckIcon from '@mui/icons-material/CheckCircleRounded';
+import Swal from 'sweetalert2';
+
+
 const columns = [
 
     {
@@ -23,12 +29,12 @@ const columns = [
         sortable: true,
     },
     {
-        name: 'Documento',
+        name: 'Tipo de Documento',
         selector: (row: IAccountTransactions) => row.type_doc.substring(0, 1).toUpperCase() + row.type_doc.substring(1).toLocaleLowerCase(),
         sortable: true,
     },
     {
-        name: 'Documento',
+        name: 'Tipo de transaccion',
         selector: (row: IAccountTransactions) => row.trx_type,
         sortable: true,
     },
@@ -100,7 +106,26 @@ const MyActionBar = ({
         </DialogActions>
     );
 };
-export const RegistroAccountPage: FC = () => {
+interface Client {
+    id: number;
+    name: string;
+    phone: string;
+    username: string;
+    password: string;
+    role_id: number;
+    role_name: string;
+    function_id: number;
+    function_name: string;
+    status: string;
+    created_at: Date;
+    updated_at: Date;
+}
+interface ISelectedClient {
+    id: number;
+    name: string;
+    phone: string;
+}
+export const RegistroAccountAdminPage: FC = () => {
 
     // Usuario conectado
     const [userLogged, setUserLogged] = useState<User | null>(null)
@@ -127,6 +152,10 @@ export const RegistroAccountPage: FC = () => {
         moment(new Date()),
     );
 
+    const [clients, setClients] = useState<Client[] | null>(null)
+    const [selectedClient, setSelectedClient] = useState<ISelectedClient | null>(null);
+
+    const [open, setOpen] = useState<boolean>(false);
     // Router
     const router = useNavigate();
     const customStyles = {
@@ -137,6 +166,25 @@ export const RegistroAccountPage: FC = () => {
                 },
             },
         },
+    }
+
+    const getClients = async () => {
+        const url = `${baseUrl}/listaclientes`
+        try {
+            const respuesta = await fetch(url);
+
+            const data = await respuesta.json();
+
+            if (data.exito === "SI") {
+                setClients(data.registros);
+            } else {
+                console.error('No se encontraron clientes', data.mensaje);
+            }
+
+        } catch (error) {
+            console.error('No se encontraron clientes', error);
+
+        }
     }
 
     /**
@@ -166,16 +214,23 @@ export const RegistroAccountPage: FC = () => {
     const getAccountState = async (from = null as string | null, to = null as string | null) => {
         setIsLoading(true);
 
-        if (!userLogged) {
+        if (!selectedClient) {
+            Swal.fire({
+                text: "Seleccione un cliente",
+                icon: "error",
+                timer: 2000,
+                timerProgressBar: true,
+                showConfirmButton: false,
+            })
             setIsLoading(false);
             return false;
         }
 
         let url = '';
-        url = from && to ? `${baseUrl}/edoctaperiodo?user_id=${userLogged?.id}&desde=${from}&hasta=${to}` : url !== '' ? url : '';
-        url = !from && to ? `${baseUrl}/edoctaperiodo?user_id=${userLogged?.id}&hasta=${to}` : url !== '' ? url : '';
-        url = from && !to ? `${baseUrl}/edoctaperiodo?user_id=${userLogged?.id}&desde=${from}` : url !== '' ? url : '';
-        url = !from && !to ? `${baseUrl}/edoctaperiodo?user_id=${userLogged?.id}` : url !== '' ? url : '';
+        url = from && to ? `${baseUrl}/edoctaperiodo?user_id=${selectedClient?.id}&desde=${from}&hasta=${to}` : url !== '' ? url : '';
+        url = !from && to ? `${baseUrl}/edoctaperiodo?user_id=${selectedClient?.id}&hasta=${to}` : url !== '' ? url : '';
+        url = from && !to ? `${baseUrl}/edoctaperiodo?user_id=${selectedClient?.id}&desde=${from}` : url !== '' ? url : '';
+        url = !from && !to ? `${baseUrl}/edoctaperiodo?user_id=${selectedClient?.id}` : url !== '' ? url : '';
         try {
             const respuesta = await fetch(url);
             const data = await respuesta.json();
@@ -184,6 +239,7 @@ export const RegistroAccountPage: FC = () => {
                 setIsLoading(false);
                 console.log(data.registros[0].transactions)
             } else {
+                setAccountTransactions(null);
                 setIsLoading(false);
             }
         } catch (error) {
@@ -195,7 +251,7 @@ export const RegistroAccountPage: FC = () => {
     // Effect
     useEffect(() => {
         validarToken(router, setUserLogged);
-        getAccountState();
+        getClients();
     }, [])
 
     // Configuración del calendario
@@ -207,13 +263,28 @@ export const RegistroAccountPage: FC = () => {
         weekdaysMin: 'Do_Lu_Ma_Mi_Ju_Vi_Sa'.split('_')
     }
     );
-
+    const handleClose = () => {
+        setOpen(false);
+    }
     return (
         <Layout user={userLogged}>
             <LocalizationProvider locale="es" dateAdapter={AdapterMoment}>
 
                 <Box sx={styles.mainContainer}>
-                    <Typography variant="overline" fontWeight={"bold"}>Estado de cuenta</Typography>
+                    <Typography variant="overline" fontWeight={"bold"}>Estado de cuenta por cliente</Typography>
+                    {
+                        selectedClient && (
+                            <Box sx={{ display: "flex", flexFlow: "row wrap", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+                                <Box sx={{ display: "flex", flexFlow: "column wrap" }}>
+                                    <Typography variant="overline" fontWeight="bold">Cliente seleccionado</Typography>
+                                    <Typography variant="subtitle2">{selectedClient.name}</Typography>
+                                    <Typography variant="subtitle2" color="text.secondary">{selectedClient.phone}</Typography>
+                                </Box>
+                                <CheckIcon color="success" />
+                            </Box>
+                        )
+                    }
+                    <Button fullWidth sx={{ borderRadius: 3, p: 1.8, textTransform: "none", marginBlock: 2 }} onClick={() => setOpen(true)} color={selectedClient ? "success" : 'warning'} disableElevation variant="contained">{selectedClient ? 'Cambiar cliente' : 'Seleccionar Cliente'}</Button>
                     <Grid container spacing={1}>
                         <Box sx={styles.searchContainer}>
                             <Box sx={styles.fromToContainer}>
@@ -279,6 +350,21 @@ export const RegistroAccountPage: FC = () => {
                         }
                     </Grid>
                 </Box>
+                <Dialog open={open} onClose={handleClose} PaperProps={{ sx: { background: "#f1f1f1" } }} fullScreen>
+                    <AppBar position="static">
+                        <Toolbar>
+                            <IconButton onClick={handleClose}>
+                                <CloseIcon />
+                            </IconButton>
+                            <Typography variant="h6">Seleccionar Cliente</Typography>
+                        </Toolbar>
+                    </AppBar>
+                    <Box sx={{ width: "80%", margin: "20px auto", }}>
+                        {clients && clients.map((c) => (
+                            <ClientCard key={c.id} client={c} selectedClient={selectedClient} setSelectedClient={setSelectedClient} setOpen={setOpen} />
+                        ))}
+                    </Box>
+                </Dialog>
             </LocalizationProvider>
         </Layout>
     )
@@ -320,4 +406,32 @@ const styles = {
         borderRadius: 5
     }
 
+}
+
+
+interface ClientCardProps {
+    client: Client;
+    selectedClient: ISelectedClient | null;
+    setSelectedClient: Dispatch<SetStateAction<ISelectedClient | null>>;
+    setOpen: Dispatch<SetStateAction<boolean>>;
+}
+const ClientCard: FC<ClientCardProps> = ({ client, selectedClient, setSelectedClient, setOpen }) => {
+
+    const select = () => {
+        setSelectedClient({ id: client.id, name: client.name, phone: String(client.phone) });
+        setOpen(false);
+    }
+
+    return (
+        <Box sx={{ width: "100%", p: 2, borderRadius: 5, boxShadow: "0 8px 32px 0 rgba(0,0,0,0.1)", display: "flex", flexFlow: "row wrap", justifyContent: "space-between", alignItems: "center", background: "#FFF", mt: 2 }} >
+            <Box sx={{ display: "flex", flexFlow: "column wrap" }}>
+                <Typography variant="subtitle1">{client.name}</Typography>
+                <Typography variant="subtitle2" color="text.secondary">{client.username}</Typography>
+                <Typography variant="subtitle2" color="text.secondary">{client.phone}</Typography>
+            </Box>
+            <IconButton disabled={selectedClient && selectedClient.id === client.id ? true : false} onClick={select}>
+                {selectedClient && selectedClient.id === client.id ? (<CheckIcon color="success" />) : (<CircleIcon />)}
+            </IconButton>
+        </Box>
+    )
 }

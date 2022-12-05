@@ -4,7 +4,7 @@ import { Box, Grid, IconButton, Typography, useTheme } from '@mui/material'
 
 import { useNavigate } from 'react-router-dom'
 
-import { WidgetRequirement, WidgetList, WidgetStats, WidgetListaTareas, WidgetSecurity, WidgetInformativo, WidgetPago, WidgetEstadoDeCuenta, WidgetBrandcenter } from '../components/dashboard'
+import { WidgetRequirement, WidgetList, WidgetStats, WidgetListaTareas, WidgetSecurity, WidgetInformativo, WidgetPago, WidgetEstadoDeCuenta, WidgetBrandcenter, WidgetPagoPorCliente } from '../components/dashboard'
 import { Layout } from '../components/layout'
 
 import { validarToken } from '../lib/functions'
@@ -83,7 +83,7 @@ export const DashboardPage: FC = () => {
                             }
                             {
                                 // Rol Usuario
-                                userLogged && userLogged.role_id === 2 && (
+                                userLogged && userLogged.role_id === 3 && (
                                     <>
                                         <WidgetListaTareas />
                                     </>
@@ -91,7 +91,7 @@ export const DashboardPage: FC = () => {
                             }
                             {
                                 // Rol Cliente
-                                userLogged && userLogged.role_id === 3 && (
+                                userLogged && userLogged.role_id === 2 && (
                                     <>
                                         <WidgetEstadoDeCuenta user={userLogged} />
                                         <WidgetPago userLogged={userLogged} />
@@ -105,7 +105,7 @@ export const DashboardPage: FC = () => {
                                     <>
                                         <WidgetRequirement userLogged={userLogged} />
                                         <WidgetListaTareas />
-                                        <WidgetPago userLogged={userLogged} />
+                                        <WidgetPagoPorCliente userLogged={userLogged} />
                                     </>
                                 )
                             }
@@ -125,6 +125,15 @@ export const DashboardPage: FC = () => {
                                     </>
                                 )
 
+                            }
+                            {
+                                // Rol Administracion
+                                userLogged && userLogged.role_id === 6 && (
+                                    <>
+                                        <WidgetRequirement userLogged={userLogged} />
+                                        <WidgetListaTareas />
+                                    </>
+                                )
                             }
                         </Box>
                     </Grid>

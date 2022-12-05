@@ -1,5 +1,19 @@
 import { Pages } from "../../interfaces/pages-type";
 
+export const administracionPages: Pages[] = [
+    // Menu principal
+    { name: 'divider', path: "Menu principal" },
+    { name: 'Dashboard', path: "/dashboard" },
+    
+    // Clientes
+    { name: 'divider', path: "Clientes" },
+    { name: "Registro de cliente", path: "/user/add/client" },
+    
+    // Resumenes
+    { name: 'divider', path: "Resúmenes" },
+    { name: "Revision de pagos", path: "/pagos" },
+    { name: "Estado de cuenta por cliente", path: "/client/estadocuenta" },
+];
 export const clientePages: Pages[] = [
     // Menu principal
     { name: 'divider', path: "Menu principal" },
@@ -9,6 +23,7 @@ export const usuarioPages: Pages[] = [
     // Menu principal
     { name: 'divider', path: "Menu principal" },
     { name: 'Dashboard', path: "/dashboard" },
+    { name: 'Mis tareas', path: "/requirements" },
 ];
 export const invitadoPages: Pages[] = [
     // Menu principal
@@ -52,6 +67,7 @@ export const ventasPages: Pages[] = [
     // Resumenes
     { name: 'divider', path: "Resúmenes" },
     { name: 'Resumen de casos', path: "/requirements/resume" },
+    { name: "Resumen de ofertas por status", path: "/offer/resume/status" },
 
     // Clientes
     { name: 'divider', path: "Clientes" },
@@ -93,10 +109,12 @@ export const adminPages: Pages[] = [
     { name: "Resumen de procesos", path: "/process/resume" },
     { name: "Resumen de actividades", path: "/activity/resume" },
     { name: "Resumen de tareas por caso", path: "/tareas/casos" },
+    { name: "Resumen de ofertas por status", path: "/offer/resume/status" },
     { name: "Resumen de casos", path: "/requirements/resume" },
     { name: "Resumen de cumplimiento", path: "/users/cumplimiento/resume" },
     { name: "Resumen de transacciones", path: "/transacciones/resume" },
     { name: "Resumen de pagos del periodo", path: "/pagos/periodo/resume" },
+    { name: "Estado de cuenta por cliente", path: "/client/estadocuenta" },
     { name: "Analisis por caso", path: "/analisis/resume" },
     { name: "Status por caso", path: "/casos/status/resume" },
     { name: "Tareas por usuario", path: "/tareas/resume" },

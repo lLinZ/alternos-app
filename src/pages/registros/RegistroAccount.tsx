@@ -23,12 +23,12 @@ const columns = [
         sortable: true,
     },
     {
-        name: 'Documento',
+        name: 'Tipo de Documento',
         selector: (row: IAccountTransactions) => row.type_doc.substring(0, 1).toUpperCase() + row.type_doc.substring(1).toLocaleLowerCase(),
         sortable: true,
     },
     {
-        name: 'Documento',
+        name: 'Tipo de transaccion',
         selector: (row: IAccountTransactions) => row.trx_type,
         sortable: true,
     },
@@ -184,6 +184,7 @@ export const RegistroAccountPage: FC = () => {
                 setIsLoading(false);
                 console.log(data.registros[0].transactions)
             } else {
+                setAccountTransactions(null);
                 setIsLoading(false);
             }
         } catch (error) {

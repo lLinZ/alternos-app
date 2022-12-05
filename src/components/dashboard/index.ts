@@ -5,6 +5,7 @@ export * from "./WidgetRequirement";
 export * from "./WidgetSecurity";
 export * from "./WidgetInformativo";
 export * from "./WidgetPago";
+export * from "./WidgetPagoPorCliente";
 export * from "./WidgetStats";
 export * from "./WidgetEstadoDeCuenta";
 export * from "./WidgetBrandcenter";

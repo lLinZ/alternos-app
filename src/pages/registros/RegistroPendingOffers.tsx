@@ -89,7 +89,7 @@ export const RegistroPendingOffersPage: FC = () => {
     }
     const getOffers = async () => {
 
-        const url = `${baseUrl}/listaofertas?status=confirmada`
+        const url = `${baseUrl}/listaofertasventas`
         try {
             const respuesta = await fetch(url);
             switch (respuesta.status) {

@@ -43,6 +43,8 @@ import { RegistroTareasPorCasoPage } from './pages/registros/RegistroTareasPorCa
 import { EditOfferPage } from './pages/EditOfferPage';
 import { ClientAddingPage } from './pages/ClientAddingPage';
 import { RegistroTransaccionesPorPeriodoPage } from './pages/registros/RegistroTransaccionesPorPeriodo';
+import { RegistroAccountAdminPage } from './pages/registros/RegistroAccountAdmin';
+import { RegistroOfertasPorStatusPage } from './pages/registros/RegistroOfertasPorStatus';
 
 function App() {
   return (
@@ -107,9 +109,11 @@ function App() {
         {/* Resumenes */}
         <Route path="/pagos" element={<RegistroPagosPage />} />
         <Route path="/offer/resume" element={<RegistroOfferPage />} />
+        <Route path="/offer/resume/status" element={<RegistroOfertasPorStatusPage />} />
         <Route path="/offer/resume/pending" element={<RegistroPendingOffersPage />} />
         <Route path="/process/resume" element={<RegistroProcesosPage />} />
         <Route path="/casos/status/resume" element={<RegistroStatusPorCasoPage />} />
+        <Route path="/client/estadocuenta" element={<RegistroAccountAdminPage />} />
         <Route path="/transacciones/resume" element={<RegistroTransaccionesPage />} />
         <Route path="/pagos/periodo/resume" element={<RegistroTransaccionesPorPeriodoPage />} />
         <Route path="/requirements/resume" element={<RegistroCasosPage />} />

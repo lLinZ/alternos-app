@@ -1,6 +1,6 @@
-import { forwardRef, ReactElement, Ref, useEffect, useState } from 'react'
+import { FC, forwardRef, ReactElement, Ref, useEffect, useState, Dispatch, SetStateAction, ChangeEvent } from 'react'
 
-import { AppBar, Box, Button, Dialog, Grid, IconButton, Popover, Slide, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Button, Divider, Dialog, Grid, IconButton, MenuItem, Popover, Slide, Toolbar, Typography, TextField } from '@mui/material';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -136,9 +136,10 @@ export const ActivityAssignmentPage = () => {
             for (let i = 1; i <= len!; i++) {
                 const position = i - 1;
                 if (selectedActivities !== null) {
-                    activitiesId += i === len ? `${selectedActivities[position].id}` : `${selectedActivities[position].id},`
+                    activitiesId += i === len ? `${selectedActivities[position].id}:${selectedActivities[position].precedencia}` : `${selectedActivities[position].id}:${selectedActivities[position].precedencia},`
                 }
             }
+            console.log(selectedProcess?.id, activitiesId);
             body.append("process_id", String(selectedProcess ? selectedProcess.id : 0));
             body.append("activities", String(activitiesId));
             const options = {
@@ -249,10 +250,11 @@ export const ActivityAssignmentPage = () => {
                                     {
                                         selectedActivities.map((activity: SelectedActivity) => (
                                             <>
-                                                <Box sx={{ display: "flex", flexDirection: "column", mt: 2, }}>
+                                                <ActivityCard activity={activity} selectedActivities={selectedActivities} setSelectedActivities={setSelectedActivities} />
+                                                {/* <Box sx={{ display: "flex", flexDirection: "column", mt: 2, }}>
                                                     <Typography variant="overline" fontWeight={400} >Actividad #{activity.orden}</Typography>
                                                     <Typography variant="subtitle1" fontWeight={500} >{activity.name}</Typography>
-                                                </Box>
+                                                </Box> */}
                                             </>
                                         ))
                                     }
@@ -296,5 +298,50 @@ export const ActivityAssignmentPage = () => {
                 </Box>
             </Dialog>
         </Layout>
+    )
+}
+
+
+interface ActivityCardProps {
+    activity: SelectedActivity;
+    selectedActivities: SelectedActivity[] | null;
+    setSelectedActivities: Dispatch<SetStateAction<SelectedActivity[] | null>>;
+}
+const ActivityCard: FC<ActivityCardProps> = ({ activity, selectedActivities, setSelectedActivities }) => {
+    const [innerPrecedencia, setInnerPrecedencia] = useState<number>(0);
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const excludeActivities = selectedActivities?.filter((a) => a.id !== activity.id);
+        const newActivity = { id: activity.id, name: activity.name, orden: activity.orden, precedencia: Number(event.target.value) };
+        const newActivities = excludeActivities ? [...excludeActivities, newActivity] : [newActivity];
+        newActivities.sort((a: any, b: any) => a.orden - b.orden);
+        setInnerPrecedencia(Number(event.target.value));
+        setSelectedActivities(newActivities)
+    }
+    return (
+        <>
+            <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                <Box sx={{ display: "flex", flexFlow: "column wrap" }}>
+                    <Typography variant="overline" fontWeight={400} >Actividad #{activity.orden}</Typography>
+                    <Typography variant="subtitle1" fontWeight={500} >{activity.name}</Typography>
+                </Box>
+                <TextField
+                    color="secondary"
+                    value={innerPrecedencia}
+                    label="Precedencia"
+                    onChange={handleChange}
+                    size="small"
+                    sx={{ width: 100 }}
+                    select
+                >
+                    <MenuItem value={0}>0</MenuItem>
+                    {
+                        selectedActivities && selectedActivities.map((sa, i) => (
+                            <MenuItem value={i + 1} key={sa.id}>{i + 1}</MenuItem>
+                        ))
+                    }
+                </TextField>
+            </Box>
+            <Divider sx={{ marginBlock: 2 }} />
+        </>
     )
 }
