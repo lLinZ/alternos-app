@@ -9,20 +9,14 @@ import { User } from '../../interfaces/user-type'
 import { validarToken } from '../../lib/functions'
 import DataTable from 'react-data-table-component';
 import { baseUrl } from '../../common/baseUrl';
-import { formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNow, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { PageTitle } from '../../components/ui';
-
-import SendIcon from '@mui/icons-material/SendRounded'
-import AttachFileIcon from '@mui/icons-material/AttachFile';
+import { BatterySaverOutlined } from '@mui/icons-material';
+import RedoIcon from '@mui/icons-material/Redo';
+import { Case } from '../../interfaces/requirement-type';
 import Swal from 'sweetalert2';
-interface IData {
-    id: number;
-    description: string;
-    vence: string;
-    inicio: string;
-    status: string;
-}
+
 const paginationComponentOptions = {
     rowsPerPageText: 'Filas por página',
     rangeSeparatorText: 'de',
@@ -30,7 +24,7 @@ const paginationComponentOptions = {
     selectAllRowsItemText: 'Todos',
 };
 
-export const RegistroCasosPage: FC = () => {
+export const RegistroCasosCerradosPage: FC = () => {
     const [userLogged, setUserLogged] = useState<User | null>(null)
     const router = useNavigate();
     const [casos, setCasos] = useState<any>(null)
@@ -47,7 +41,7 @@ export const RegistroCasosPage: FC = () => {
         },
     }
     const getCasos = async () => {
-        const url = `${baseUrl}/listacasos`
+        const url = `${baseUrl}/listacasos?status=completado`
         const respuesta = await fetch(url);
         const data = await respuesta.json();
         console.log(data);
@@ -55,89 +49,82 @@ export const RegistroCasosPage: FC = () => {
             setCasos(data.registros);
         }
     }
-    const columns = [
-        {
-            name: 'Descripcion',
-            selector: (row: IData) => row.description,
-            sortable: true,
-        },
-        {
-            name: 'Fecha de Inicio',
-            selector: (row: IData) => `${row.inicio} (${formatDistanceToNow(Date.parse(row.inicio), { locale: es })})`,
-            sortable: true,
-        },
-        {
-            name: 'Fecha de Vencimiento',
-            selector: (row: IData) => `${row.vence} (${formatDistanceToNow(Date.parse(row.vence), { locale: es })})`,
-            sortable: true,
-        },
-        {
-            name: 'Status',
-            selector: (row: IData) => row.status,
-            sortable: true,
-        },
-        {
-
-            cell: (row: IData) => (<IconButton onClick={() => window.open(`https://www.linkdeprueba.com/${row.id}`, "_blank")}><AttachFileIcon color="info" /></IconButton>),
-            button: true,
-            name: "Ver pieza",
-            sortable: false,
-        },
-        {
-            cell: (row: IData) => (<IconButton onClick={() => send(row.id)}><SendIcon color="success" /></IconButton>),
-            button: true,
-            name: "Enviar pieza",
-            sortable: false,
-        }
-    ];
-    const send = async (id: number) => {
-        const url = `${baseUrl}/enviapieza`;
+    const reabrir = async (id: number) => {
+        const url = `${baseUrl}/abreocierracaso`
         const body = new FormData();
-        body.append("task_id", String(id));
-
+        body.append("case_id", String(id));
+        body.append("status", "abierto");
         const options = {
             method: "POST",
             body
         }
+        console.log(id)
         try {
             const respuesta = await fetch(url, options);
-
             const data = await respuesta.json();
-
             if (data.exito === "SI") {
+                console.log({ data })
                 Swal.fire({
                     title: "Exito",
+                    icon: "success",
                     toast: true,
                     timer: 2000,
-                    timerProgressBar: true,
                     showConfirmButton: false,
-                    icon: "success",
+                    timerProgressBar: true,
                     position: "bottom-start"
-                });
-
+                })
                 getCasos();
             } else {
                 Swal.fire({
                     title: "Error",
-                    text: "No se logró enviar",
-                    timer: 2000,
-                    timerProgressBar: true,
-                    showConfirmButton: false,
+                    text: "No se logró reabrir el caso",
                     icon: "error",
-                });
+                    timer: 2000,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                })
             }
         } catch (error) {
+            console.error(error);
             Swal.fire({
                 title: "Error",
-                text: "No se logró conectar",
-                timer: 2000,
-                timerProgressBar: true,
-                showConfirmButton: false,
+                text: "No se logró conectar al servidor",
                 icon: "error",
-            });
-
+                timer: 2000,
+                showConfirmButton: false,
+                timerProgressBar: true,
+            })
         }
     }
+    const columns = [
+        {
+            name: 'Descripcion',
+            selector: (row: Case) => row.description,
+            sortable: true,
+        },
+        {
+            name: 'Fecha de Inicio',
+            selector: (row: Case) => `${row.inicio} (${formatDistanceToNow(parseISO(String(row.inicio)), { locale: es })})`,
+            sortable: true,
+        },
+        {
+            name: 'Fecha de Vencimiento',
+            selector: (row: Case) => `${row.vence} (${formatDistanceToNow(parseISO(String(row.vence)), { locale: es })})`,
+            sortable: true,
+        },
+        {
+            name: 'Status',
+            selector: (row: Case) => row.status,
+            sortable: true,
+        },
+        {
+            cell: (row: Case) => <IconButton onClick={() => reabrir(row.id)} color="success"><RedoIcon /></IconButton>,
+            name: "Reabrir caso",
+            button: true,
+            allowOverflow: true,
+            ignoreRowClick: true
+        },
+    ];
     useEffect(() => {
         validarToken(router, setUserLogged);
         getCasos();
@@ -145,7 +132,7 @@ export const RegistroCasosPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <PageTitle title="Registro de Casos" />
+                <PageTitle title="Registro de Casos cerrados" />
                 <Grid container spacing={1}>
                     {
                         casos && (

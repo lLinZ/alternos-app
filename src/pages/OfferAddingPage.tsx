@@ -296,7 +296,7 @@ const ItemSelected: FC<PropsItemSelected> = ({ i, setSelectedItems, selectedItem
                         edit ?
                             (<>
                                 <IconButton size="small" onClick={() => setEdit(false)}><EditOffIcon color="error" /></IconButton>
-                                <TextField size="small" label="Descripcion larga" color="secondary" name="newDescr" value={newDescr} onChange={(e: ChangeEvent<HTMLInputElement>) => setNewDescr(e.target.value)} />
+                                <TextField size="small" label="Descripcion larga" color="secondary" name="newDescr" value={newDescr} onChange={(e: ChangeEvent<HTMLInputElement>) => setNewDescr(e.target.value)} fullWidth multiline />
                                 <IconButton size="small" onClick={save}><SaveIcon color="success" /></IconButton>
                             </>
                             )

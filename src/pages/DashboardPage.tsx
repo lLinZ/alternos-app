@@ -68,7 +68,6 @@ export const DashboardPage: FC = () => {
                     <Grid item xs={12} sx={{ position: "relative", }}>
                         <Typography variant="overline" fontWeight="bold">Widgets básicos</Typography>
                         <Box sx={{ display: "flex", flexFlow: "row wrap", justifyContent: "center" }}>
-                            <WidgetCasosAbiertos user={userLogged} />
                             {
                                 // Administrador
                                 userLogged && userLogged.role_id === 1 && (
@@ -116,6 +115,7 @@ export const DashboardPage: FC = () => {
                                     <>
                                         <WidgetRequirement userLogged={userLogged} />
                                         <WidgetListaTareas />
+                                        <WidgetCasosAbiertos user={userLogged} />
                                     </>
                                 )
                             }

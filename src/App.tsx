@@ -45,6 +45,7 @@ import { ClientAddingPage } from './pages/ClientAddingPage';
 import { RegistroTransaccionesPorPeriodoPage } from './pages/registros/RegistroTransaccionesPorPeriodo';
 import { RegistroAccountAdminPage } from './pages/registros/RegistroAccountAdmin';
 import { RegistroOfertasPorStatusPage } from './pages/registros/RegistroOfertasPorStatus';
+import { RegistroCasosCerradosPage } from './pages/registros/RegistroCasosCerrados';
 
 function App() {
   return (
@@ -117,6 +118,7 @@ function App() {
         <Route path="/transacciones/resume" element={<RegistroTransaccionesPage />} />
         <Route path="/pagos/periodo/resume" element={<RegistroTransaccionesPorPeriodoPage />} />
         <Route path="/requirements/resume" element={<RegistroCasosPage />} />
+        <Route path="/requirements/closed/resume" element={<RegistroCasosCerradosPage />} />
         <Route path="/analisis/resume" element={<RegistroAnalisisPorCasoPage />} />
         <Route path="/tareas/resume" element={<RegistroTareasPage />} />
         <Route path="/tareas/casos" element={<RegistroTareasPorCasoPage />} />

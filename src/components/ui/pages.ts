@@ -4,11 +4,11 @@ export const administracionPages: Pages[] = [
     // Menu principal
     { name: 'divider', path: "Menu principal" },
     { name: 'Dashboard', path: "/dashboard" },
-    
+
     // Clientes
     { name: 'divider', path: "Clientes" },
     { name: "Registro de cliente", path: "/user/add/client" },
-    
+
     // Resumenes
     { name: 'divider', path: "Resúmenes" },
     { name: "Revision de pagos", path: "/pagos" },
@@ -46,6 +46,7 @@ export const traficoPages: Pages[] = [
     { name: "Resumen de actividades", path: "/activity/resume" },
     { name: "Resumen de tareas por caso", path: "/tareas/casos" },
     { name: "Resumen de casos", path: "/requirements/resume" },
+    { name: "Resumen casos cerrados", path: "/requirements/closed/resume" },
     { name: "Resumen de cumplimiento", path: "/users/cumplimiento/resume" },
     { name: "Analisis por caso", path: "/analisis/resume" },
     { name: "Status por caso", path: "/casos/status/resume" },
@@ -58,12 +59,12 @@ export const ventasPages: Pages[] = [
     { name: 'divider', path: "Menu principal" },
     { name: 'Dashboard', path: "/dashboard" },
     { name: 'Mis tareas', path: "/requirements" },
-    
+
     // Ofertas
     { name: 'divider', path: "Ofertas" },
     { name: 'Agregar oferta', path: "/offer/add" },
     { name: "Ofertas pendientes", path: "/offer/resume/pending" },
-    
+
     // Resumenes
     { name: 'divider', path: "Resúmenes" },
     { name: 'Resumen de casos', path: "/requirements/resume" },
@@ -111,6 +112,7 @@ export const adminPages: Pages[] = [
     { name: "Resumen de tareas por caso", path: "/tareas/casos" },
     { name: "Resumen de ofertas por status", path: "/offer/resume/status" },
     { name: "Resumen de casos", path: "/requirements/resume" },
+    { name: "Resumen casos cerrados", path: "/requirements/closed/resume" },
     { name: "Resumen de cumplimiento", path: "/users/cumplimiento/resume" },
     { name: "Resumen de transacciones", path: "/transacciones/resume" },
     { name: "Resumen de pagos del periodo", path: "/pagos/periodo/resume" },
