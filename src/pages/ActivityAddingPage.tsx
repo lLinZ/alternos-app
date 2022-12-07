@@ -11,6 +11,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircleRounded";
 import { IFunction } from "../interfaces/function-type";
 import { SelectedUser } from "../components/process/ProcessCard";
 import Swal from "sweetalert2";
+import { PageTitle } from "../components/ui";
 
 interface Props {
 
@@ -169,7 +170,8 @@ export const ActivityAddingPage: FC<Props> = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
-                <Typography component="h2" fontWeight="bold" variant="overline" fontSize={12}>Registrar una actividad</Typography>
+                <PageTitle title="Registrar una actividad" />
+
                 <Grid container display="flex" flexDirection="row" flexWrap="wrap" justifyContent="center" alignItems="center" spacing={2} >
                     <Grid item xs={12} sm={6} md={4}>
                         <TextField InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", background: "#FFF", borderRadius: 5 } }} sx={{ "& fieldset": { border: "none" }, borderRadius: 5 }} name="name" fullWidth label="Nombre de la actividad" color="secondary" value={newActivity.name} onChange={(e) => setNewActivity({ ...newActivity, name: e.target.value })} />

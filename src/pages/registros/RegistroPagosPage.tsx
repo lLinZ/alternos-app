@@ -11,6 +11,7 @@ import DataTable from 'react-data-table-component';
 import { baseUrl } from '../../common/baseUrl';
 import { ThumbDownRounded, ThumbUpRounded } from '@mui/icons-material';
 import Swal from 'sweetalert2';
+import { PageTitle } from '../../components/ui';
 
 
 interface IData {
@@ -134,7 +135,7 @@ export const RegistroPagosPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <Typography variant="overline" fontWeight={"bold"}>Registro de Pagos</Typography>
+                <PageTitle title="Registro de Pagos" />
                 <Grid container spacing={1}>
                     {
                         Pagos && (

@@ -14,7 +14,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import moment, { Moment } from 'moment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { PickersActionBarProps } from '@mui/x-date-pickers/PickersActionBar';
-
+import { PageTitle } from '../../components/ui';
 const columns = [
     {
         name: 'Usuario',
@@ -148,7 +148,7 @@ export const RegistroTransaccionesPage: FC = () => {
             <LocalizationProvider locale="es" dateAdapter={AdapterMoment}>
 
                 <Box sx={styles.mainContainer}>
-                    <Typography variant="overline" fontWeight={"bold"}>Registro de Transacciones</Typography>
+                    <PageTitle title="Registro de Transacciones" />
                     <Grid container spacing={1}>
                         <Box sx={styles.searchContainer}>
                             <Typography variant="overline">Buscar registros por fecha</Typography>

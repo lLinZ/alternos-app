@@ -17,6 +17,7 @@ import CheckCircleRounded from '@mui/icons-material/CheckCircleRounded';
 import CancelIcon from '@mui/icons-material/CancelRounded';
 import { blue, green, red } from '@mui/material/colors';
 import PdfIcon from '@mui/icons-material/PictureAsPdfRounded';
+import { PageTitle } from '../../components/ui';
 
 interface Offer {
     id: number;
@@ -133,6 +134,8 @@ export const RegistroPendingOffersPage: FC = () => {
                         icon: "success",
 
                     })
+                    getOffers();
+
                 } else {
                     Swal.fire({
                         title: "Error",
@@ -208,7 +211,7 @@ export const RegistroPendingOffersPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <Typography variant="overline" fontWeight="bold">Resumen de ofertas pendientes</Typography>
+                <PageTitle title="Resumen de ofertas pendientes" />
                 <Box sx={styles.offersContainer}>
                     {
                         offers && offers.map((offer) => (

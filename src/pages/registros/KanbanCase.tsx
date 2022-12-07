@@ -17,6 +17,7 @@ import { validarToken } from '../../lib/functions';
 import { baseUrl } from '../../common/baseUrl';
 import Swal from 'sweetalert2';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { PageTitle } from '../../components/ui';
 interface SelectedCase {
     id: number;
     description: string;
@@ -131,7 +132,7 @@ export const KanbanCase: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <Typography variant="overline" fontWeight="bold">Kanban por Caso</Typography>
+                <PageTitle title={"Kanban por Caso"} />
                 <Box sx={styles.selection}>
                     <Button disableElevation fullWidth variant="contained" onClick={handleOpen} color="secondary" sx={styles.button}>Seleccionar caso</Button>
                 </Box>

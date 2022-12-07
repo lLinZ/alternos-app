@@ -10,6 +10,7 @@ import { validarToken } from '../../lib/functions'
 import DataTable from 'react-data-table-component';
 import { baseUrl } from '../../common/baseUrl';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
+import { PageTitle } from '../../components/ui';
 const columns = [
     {
         name: 'Descripción',
@@ -150,7 +151,7 @@ export const RegistroTareasPorCasoPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <Typography variant="overline" fontWeight={"bold"} >Registro de tareas por caso</Typography>
+                <PageTitle title="Registro de tareas por caso" />
                 <Grid container spacing={1}>
                     {
                         casos && (

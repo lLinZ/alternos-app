@@ -9,6 +9,7 @@ import { User } from '../../interfaces/user-type'
 import { validarToken } from '../../lib/functions'
 import DataTable from 'react-data-table-component';
 import { baseUrl } from '../../common/baseUrl';
+import { PageTitle } from '../../components/ui';
 
 const columns = [
     {
@@ -117,7 +118,7 @@ export const RegistroOfertasPorStatusPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <Typography variant="overline" fontWeight={"bold"}>Registro de ofertas por status</Typography>
+                <PageTitle title="Registro de ofertas por status" />
 
                 <TextField label="Status" value={status} onChange={handleChange} color="secondary" variant="outlined" fullWidth sx={{ "& fieldset": { borderRadius: 3 }, borderRadius: 3, background: "#FFF", marginBlock: 2 }} select>
                     <MenuItem value={'0'} disabled>Seleccione un status</MenuItem>

@@ -17,6 +17,7 @@ import DialogActions from '@mui/material/DialogActions';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import Swal from 'sweetalert2';
+import { PageTitle } from '../components/ui';
 
 
 const initialValues = {
@@ -104,7 +105,8 @@ export const AnnouncementAdding: FC = () => {
             <LocalizationProvider locale="es" dateAdapter={AdapterMoment}>
 
                 <Box sx={styles.mainContainer}>
-                    <Typography variant="overline" fontWeight="bold" sx={{ mb: 2 }}>Agregar nuevo anuncio</Typography>
+                    <PageTitle title="Agregar nuevo anuncio" />
+
                     <Formik
                         initialValues={initialValues}
                         onSubmit={(values, { resetForm }) => onSubmit(values, resetForm)}

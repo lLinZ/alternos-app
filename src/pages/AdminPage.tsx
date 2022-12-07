@@ -10,6 +10,7 @@ import { User } from '../interfaces/user-type';
 import { useNavigate } from 'react-router-dom';
 import { validarToken } from '../lib/functions';
 import AddIcon from "@mui/icons-material/AddCircleOutlineRounded";
+import { PageTitle } from '../components/ui';
 
 export const AdminPage: FC = () => {
 
@@ -62,7 +63,8 @@ export const AdminPage: FC = () => {
 
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
                 <Box sx={{ display: "flex", alignItems: "center", flexFlow: "row nowrap" }}>
-                    <Typography fontWeight="bold" component="h2" variant="overline">Usuarios registrados</Typography>
+                    <PageTitle title="Usuarios registrados" />
+
                     <IconButton size="small" color="info" onClick={() => router("/admin/user/add")}><AddIcon /></IconButton>
                 </Box>
                 <UserList users={users} setUsers={setUsers} />

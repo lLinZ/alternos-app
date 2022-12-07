@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { User } from '../interfaces/user-type';
 import { validarToken } from '../lib/functions';
+import { PageTitle } from '../components/ui';
 
 interface Props {
 
@@ -112,7 +113,7 @@ export const RegisterAdminPage: FC<Props> = () => {
     return (
         <Layout footer={false} user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
-                <Typography component="h2" fontWeight="bold" variant="overline">Registrar Administrador</Typography>
+                <PageTitle title="Registrar Administrador" />
                 <Formik
                     initialValues={initialValues}
                     onSubmit={(values: FormikValues) => onSubmit(values)}

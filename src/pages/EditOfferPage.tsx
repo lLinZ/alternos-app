@@ -18,6 +18,7 @@ import { baseUrl } from '../common/baseUrl';
 import { Layout } from '../components/layout';
 import { User } from '../interfaces/user-type';
 import { getFormatDistanceToNow, numberWithDots, validarToken } from '../lib/functions';
+import { PageTitle } from '../components/ui';
 
 interface Item {
     id: number;
@@ -139,8 +140,7 @@ export const EditOfferPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <IconButton onClick={() => router("/offer/resume")} ><ArrowBackIcon /></IconButton>
-                <Typography variant="overline" fontWeight="bold">Edicion de oferta</Typography>
+                <PageTitle title="Edicion de oferta" />
                 <Box sx={{ background: "#FFF", borderRadius: 5, boxShadow: "0 8px 32px 0 rgba(0,0,0,0.1)", mt: 2, p: 2 }}>
                     <Typography variant="subtitle1">Cliente {offer?.customer_name}</Typography>
                     <Typography variant="subtitle1">Vendedor {offer?.salesman_name}</Typography>

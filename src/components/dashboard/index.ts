@@ -1,4 +1,5 @@
 export * from "./WidgetCard";
+export * from "./WidgetCasosAbiertos";
 export * from "./WidgetList";
 export * from "./WidgetListaTareas";
 export * from "./WidgetRequirement";

@@ -17,6 +17,7 @@ import { validarToken } from '../../lib/functions';
 import { baseUrl } from '../../common/baseUrl';
 import Swal from 'sweetalert2';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { PageTitle } from '../../components/ui';
 interface SelectedUser {
     id: number;
     name: string;
@@ -116,7 +117,7 @@ export const KanbanUser: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <Typography variant="overline" fontWeight="bold">Kanban por Usuario</Typography>
+                <PageTitle title="Kanban por usuario" />
                 <Box sx={styles.selection}>
                     <Button disableElevation fullWidth variant="contained" onClick={handleOpen} color="secondary" sx={styles.button}>Seleccionar usuario</Button>
                 </Box>

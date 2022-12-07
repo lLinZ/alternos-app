@@ -17,6 +17,7 @@ import { TransitionProps } from '@mui/material/transitions';
 import React from 'react';
 import { ActivityModal } from '../components/activity/ActivityModal';
 import { Activity, SelectedActivity } from '../interfaces/activity-type';
+import { PageTitle } from '../components/ui';
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -190,10 +191,11 @@ export const ActivityAssignmentPage = () => {
         <Layout user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
                 <Box sx={{ display: "flex", flexFlow: "row wrap", alignItems: "center", mb: 1 }}>
+                    <PageTitle title="Asignacion de actividades" />
                     <IconButton onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}>
                         <InfoIcon color="info" />
                     </IconButton>
-                    <Typography component="h2" fontWeight="bold" variant="overline" fontSize={12}>Asignacion de actividades</Typography>
+
                     <Popover
                         id="mouse-over-popover"
                         sx={{

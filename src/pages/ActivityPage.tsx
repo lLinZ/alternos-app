@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { baseUrl } from '../common/baseUrl';
 import { ActivityCard } from '../components/activity/ActivityCard';
 import { Layout } from '../components/layout';
+import { PageTitle } from '../components/ui';
 import { User } from '../interfaces/user-type';
 import { validarToken } from '../lib/functions';
 import { Actividades } from './ActivityAddingPage';
@@ -59,7 +60,8 @@ export const ActivityPage: FC<Props> = () => {
         <Layout user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
                 <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                    <Typography component="h2" fontWeight="bold" variant="overline" fontSize={12}>Lista de Actividades</Typography>
+                    <PageTitle title="Lista de Actividades" />
+
                     <IconButton color="secondary" onClick={() => router("/activity/add")}>
                         <Tooltip title="Añadir actividad">
                             <AddCircleOutline color="info" />

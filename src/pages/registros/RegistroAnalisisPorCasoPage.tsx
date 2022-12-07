@@ -9,6 +9,7 @@ import { User } from '../../interfaces/user-type'
 import { validarToken } from '../../lib/functions'
 import DataTable from 'react-data-table-component';
 import { baseUrl } from '../../common/baseUrl';
+import { PageTitle } from '../../components/ui';
 
 const columns = [
     {
@@ -114,7 +115,7 @@ export const RegistroAnalisisPorCasoPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <Typography variant="overline" fontWeight={"bold"} >Registro de analisis por caso</Typography>
+                <PageTitle title="Registro de analisis por caso" />
                 <Grid container spacing={1}>
                     {
                         casos && (

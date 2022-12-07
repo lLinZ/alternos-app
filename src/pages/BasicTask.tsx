@@ -11,6 +11,7 @@ import { IRequirement } from './UserRequirementsPage';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { TransitionProps } from '@mui/material/transitions';
+import { PageTitle } from '../components/ui';
 
 interface Props {
 
@@ -367,7 +368,8 @@ export const BasicTaskPage: FC<Props> = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
-                <Typography variant="overline" component="h2" fontWeight="bold" sx={{ mb: 2 }}>Tareas abiertas</Typography>
+                <PageTitle title="Tareas abiertas" />
+
                 {isLoading && (
                     <Box sx={{ w: "100%", m: "auto" }}>
                         <CircularProgress color="secondary" />

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { baseUrl } from '../common/baseUrl'
 import { Layout } from '../components/layout'
+import { PageTitle } from '../components/ui'
 import { IFunction } from '../interfaces/function-type'
 import { User } from '../interfaces/user-type'
 import { validarToken } from '../lib/functions'
@@ -124,7 +125,8 @@ export const UserAddingPage = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={{ p: 1, width: "80%", margin: "auto" }}>
-                <Typography component="h2" fontWeight="bold" variant="overline">Registrar un nuevo usuario</Typography>
+                <PageTitle title="Registrar un nuevo usuario" />
+
                 <Formik
                     initialValues={initialValues}
                     onSubmit={(values: FormikValues) => onSubmit(values)}

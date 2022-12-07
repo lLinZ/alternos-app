@@ -4,7 +4,7 @@ import { Box, Grid, IconButton, Typography, useTheme } from '@mui/material'
 
 import { useNavigate } from 'react-router-dom'
 
-import { WidgetRequirement, WidgetList, WidgetStats, WidgetListaTareas, WidgetSecurity, WidgetInformativo, WidgetPago, WidgetEstadoDeCuenta, WidgetBrandcenter, WidgetPagoPorCliente } from '../components/dashboard'
+import { WidgetRequirement, WidgetList, WidgetStats, WidgetListaTareas, WidgetSecurity, WidgetInformativo, WidgetPago, WidgetEstadoDeCuenta, WidgetBrandcenter, WidgetPagoPorCliente, WidgetCasosAbiertos } from '../components/dashboard'
 import { Layout } from '../components/layout'
 
 import { validarToken } from '../lib/functions'
@@ -68,6 +68,7 @@ export const DashboardPage: FC = () => {
                     <Grid item xs={12} sx={{ position: "relative", }}>
                         <Typography variant="overline" fontWeight="bold">Widgets básicos</Typography>
                         <Box sx={{ display: "flex", flexFlow: "row wrap", justifyContent: "center" }}>
+                            <WidgetCasosAbiertos user={userLogged} />
                             {
                                 // Administrador
                                 userLogged && userLogged.role_id === 1 && (

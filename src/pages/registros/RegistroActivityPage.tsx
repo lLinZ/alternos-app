@@ -9,6 +9,7 @@ import { User } from '../../interfaces/user-type'
 import { validarToken } from '../../lib/functions'
 import DataTable from 'react-data-table-component';
 import { baseUrl } from '../../common/baseUrl';
+import { PageTitle } from '../../components/ui';
 
 const columns = [
     {
@@ -84,7 +85,7 @@ export const RegistroActivityPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <Typography variant="overline" fontWeight={"bold"}>Registro de Actividades</Typography>
+                <PageTitle title="Registro de Actividades" />
                 <Grid container spacing={1}>
                     {/* <Box sx={styles.searchContainer}>
                         {/* <Typography variant="overline">Buscar registros por fecha</Typography> */}

@@ -13,6 +13,7 @@ import { User } from '../interfaces/user-type';
 import { validarToken } from '../lib/functions';
 import { Formik, Form, FormikValues } from "formik";
 import Swal from 'sweetalert2';
+import { PageTitle } from '../components/ui';
 
 export const ExternalProcessPage: FC = () => {
     const [edit, setEdit] = useState<boolean>(false);
@@ -58,7 +59,7 @@ export const ExternalProcessPage: FC = () => {
         <Layout user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
                 <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                    <Typography component="h2" fontWeight="bold" variant="overline" >Lista de procesos externos</Typography>
+                    <PageTitle title="Lista de procesos externos" />
                     <IconButton color="secondary" size="small" onClick={() => router("/process/external/add")}>
                         <Tooltip title="Añadir proceso externo">
                             <AddCircleOutline color="info" />

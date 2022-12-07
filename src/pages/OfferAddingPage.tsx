@@ -26,6 +26,7 @@ import CheckCircleRounded from '@mui/icons-material/CheckCircleRounded'
 import LoadingButton from '@mui/lab/LoadingButton'
 import Divider from '@mui/material/Divider'
 import TextField from '@mui/material/TextField'
+import { PageTitle } from '../components/ui'
 
 interface ItemSelection {
     product_id: number;
@@ -537,7 +538,7 @@ export const OfferAddingPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <Typography component="h2" fontWeight="bold" variant="overline">Registrar oferta</Typography>
+                <PageTitle title="Registrar oferta" />
                 <UserSelectionDialog {...modalUsersProps} />
                 <ItemSelectionDialog {...modalItemsProps} />
                 <LoadingButton

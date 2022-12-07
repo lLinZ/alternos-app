@@ -16,6 +16,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CheckCircleRounded from '@mui/icons-material/CheckCircleRounded';
 import { blue, green, red } from '@mui/material/colors';
 import EditIcon from '@mui/icons-material/EditRounded'
+import { PageTitle } from '../../components/ui';
 
 export interface Offer {
     id: number;
@@ -169,7 +170,7 @@ export const RegistroOfferPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <Typography variant="overline" fontWeight="bold">Resumen de ofertas</Typography>
+                <PageTitle title="Resumen de ofertas" />
                 <Box sx={styles.offersContainer}>
                     {
                         offers && offers.map((offer) => (

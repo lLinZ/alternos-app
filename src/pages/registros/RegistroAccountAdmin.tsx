@@ -19,6 +19,7 @@ import CloseIcon from '@mui/icons-material/CloseRounded';
 import CircleIcon from '@mui/icons-material/RadioButtonUncheckedRounded';
 import CheckIcon from '@mui/icons-material/CheckCircleRounded';
 import Swal from 'sweetalert2';
+import { PageTitle } from '../../components/ui';
 
 
 const columns = [
@@ -271,7 +272,7 @@ export const RegistroAccountAdminPage: FC = () => {
             <LocalizationProvider locale="es" dateAdapter={AdapterMoment}>
 
                 <Box sx={styles.mainContainer}>
-                    <Typography variant="overline" fontWeight={"bold"}>Estado de cuenta por cliente</Typography>
+                    <PageTitle title="Estado de cuenta por cliente" />
                     {
                         selectedClient && (
                             <Box sx={{ display: "flex", flexFlow: "row wrap", justifyContent: "space-between", alignItems: "center", width: "100%" }}>

@@ -22,6 +22,7 @@ import CheckCircle from '@mui/icons-material/CheckCircle';
 import CloseIcon from '@mui/icons-material/CloseRounded';
 import Circle from '@mui/icons-material/CircleOutlined';
 import { ClientRequest } from 'http';
+import { PageTitle } from '../components/ui';
 
 interface BrandCenterInfo {
     etiquetas: string;
@@ -135,7 +136,8 @@ export const BrandCenterAddingPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
-                <Typography variant="overline" fontWeight="bold">Informacion de Brancenter</Typography>
+                <PageTitle title="Informacion de Brancenter" />
+
                 <Formik
                     initialValues={initialValues}
                     onSubmit={(values, { resetForm }) => onSubmit(values, resetForm)}

@@ -11,6 +11,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Swal from "sweetalert2";
+import { PageTitle } from "../components/ui";
 
 interface Props { }
 
@@ -172,7 +173,8 @@ export const ProcessesPage: FC<Props> = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
-                <Typography variant="overline" fontWeight="bold" sx={{ mb: 2 }}>Registrar proceso</Typography>
+                <PageTitle title="Registrar proceso" />
+
                 <Grid container display="flex" justifyContent="center" alignItems="center" flexWrap="wrap" flexDirection="row" spacing={2}>
                     <Grid item xs={12}>
                         <TextField fullWidth label="Nombre" name="name" color="secondary" onChange={(e) => setProcess(e.target.value)} value={process} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.1)", borderRadius: 5, input: { border: "none" }, "& fieldset": { border: "none" }, }} />

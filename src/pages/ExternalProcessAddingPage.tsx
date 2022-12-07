@@ -11,6 +11,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { Formik, Form, FormikValues, FormikState } from 'formik';
 import { baseUrl } from '../common/baseUrl';
 import Swal from 'sweetalert2';
+import { PageTitle } from '../components/ui';
 
 const initialValues = {
     id: 'new',
@@ -124,7 +125,7 @@ export const ExternalProcessAddingPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <Typography component="h2" fontWeight="bold" variant="overline" >Registrar un proceso externo</Typography>
+                <PageTitle title="Registrar un proceso externo" />
 
                 <Formik
                     initialValues={initialValues}

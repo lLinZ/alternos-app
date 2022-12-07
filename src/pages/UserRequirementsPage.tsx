@@ -10,6 +10,7 @@ import { TransitionProps } from '@mui/material/transitions';
 import React from 'react';
 import { LoadingButton } from '@mui/lab';
 import Swal from 'sweetalert2';
+import { PageTitle } from '../components/ui';
 
 // Requerimientos
 export interface IRequirement {
@@ -224,7 +225,8 @@ export const UserRequirementsPage: FC = () => {
     return (
         <Layout title="Mis tareas" user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
-                <Typography variant="overline" component="h2" fontWeight="bold" sx={{ mb: 2 }}>Tareas abiertas</Typography>
+                <PageTitle title="Tareas abiertas" />
+
                 {isLoading && (
                     <Box sx={{ w: "100%", m: "auto" }}>
                         <CircularProgress color="secondary" />

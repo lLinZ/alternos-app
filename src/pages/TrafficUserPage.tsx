@@ -19,6 +19,7 @@ import moment, { Moment } from 'moment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { PickersActionBarProps } from '@mui/x-date-pickers/PickersActionBar';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { PageTitle } from "../components/ui";
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
         children: ReactElement;
@@ -233,7 +234,7 @@ export const TrafficUserPage: FC = () => {
         <Layout title="Tráfico" user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
                 <Box sx={{ display: "flex", flexFlow: "row wrap", alignItems: "center" }}>
-                    <Typography variant="overline" component="h2" fontWeight="bold" sx={{ mb: 2 }}>Tareas abiertas (Tráfico)</Typography>
+                    <PageTitle title="Tareas abiertas (Tráfico)" />
                     <Button size="small" sx={{ ml: 1, p: 1, height: "100%", borderRadius: 5, textTransform: "none" }} variant="outlined" color="info" onClick={() => redirect("/requirements/basic")} > Ver lista de tareas comunes</Button>
                 </Box>
                 {isLoading && (
