@@ -7,6 +7,7 @@ import green from '@mui/material/colors/green';
 import red from '@mui/material/colors/red';
 import { grey, yellow } from '@mui/material/colors';
 import { Pago } from '../../interfaces/payment-type';
+import moment from 'moment';
 
 export const WidgetPagosPorConfirmar: FC = () => {
     const [pagos, setPagos] = useState<Pago[] | null>(null)
@@ -109,9 +110,9 @@ export const PaymentCard: FC<PaymentCardProps> = ({ pago }) => {
                 <Box sx={{ display: "flex", flexFlow: "column wrap", ml: 2, flex: 6 }}>
 
                     <Typography variant="subtitle1" fontWeight="bold">{pago.concepto}</Typography>
+                    <Typography variant="subtitle2" fontWeight="bold">Monto ${pago.monto}</Typography>
                     <Typography variant="subtitle2" color="text.secondary">Ref: {pago.referencia}</Typography>
-                    <Typography variant="subtitle2" fontWeight="bold">${pago.monto}</Typography>
-                    <Typography variant="subtitle2" color="text.secondary">{String(pago.fecha)}</Typography>
+                    <Typography variant="subtitle2" color="text.secondary">{moment(pago.fecha).format('DD-MM-YYYY')}</Typography>
                 </Box>
             </Box>
             <Divider sx={{ marginBlock: 2 }} />
