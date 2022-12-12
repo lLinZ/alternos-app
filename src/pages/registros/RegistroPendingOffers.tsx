@@ -145,6 +145,7 @@ export const RegistroPendingOffersPage: FC = () => {
                 }
 
             } catch (error) {
+                console.log(error);
                 Swal.fire({
                     title: "Error",
                     text: `No se logró conectar al servidor`,

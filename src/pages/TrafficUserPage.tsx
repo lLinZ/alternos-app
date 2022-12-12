@@ -189,7 +189,7 @@ export const TrafficUserPage: FC = () => {
 
             for (let i = 1; i <= selectedActividades.length; i++) {
                 const position = i - 1;
-                activUsers += i === selectedActividades.length ? `${selectedActividades[position].actividadId}*${selectedActividades[position].userId}*${selectedActividades[position].fecha}` : `${selectedActividades[position].actividadId}*${selectedActividades[position].userId}*${selectedActividades[position].fecha},`
+                activUsers += i === selectedActividades.length ? `${selectedActividades[position].actividadId}*!*${selectedActividades[position].userId}*!*${selectedActividades[position].fecha}*!*${selectedActividades[position].observacion}` : `${selectedActividades[position].actividadId}*!*${selectedActividades[position].userId}*!*${selectedActividades[position].fecha}*!*${selectedActividades[position].observacion},`
             }
             console.log(activUsers)
             const body = new FormData();
@@ -431,6 +431,7 @@ const ActivityCard: FC<ActivityCardProps> = ({ act, setOpenUserModal, currentAct
                             <Typography variant="subtitle2" color="text.secondary">Vence {fecha}</Typography>
                             <IconButton onClick={() => setEdit(true)} > <EditIcon /></IconButton>
                         </Box>)}
+                        <TextField label="Observacion" multiline fullWidth color="secondary" variant="outlined" />
                     </Box>
                     {
                         selectedActividades && selectedActividades.filter((activitySelected: any) => activitySelected.actividadId === act.id).length > 0 ? (<>

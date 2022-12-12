@@ -277,7 +277,7 @@ const ItemData: FC<ItemDataProps> = ({ item, i, offer, offers, setOffers }) => {
 
     return (
         <Box sx={styles.item}>
-            <Typography variant="subtitle2" fontWeight={"bold"} color="text.primary">{i + 1} Proceso {item.type === "internal" ? "Interno" : "Externo"}</Typography>
+            <Typography variant="subtitle2" fontWeight={"bold"} color="text.primary">{i + 1} Proceso {item.type === "Interno" ? "Interno" : "Externo"}</Typography>
             <Typography variant="subtitle2" fontWeight={400} color="text.primary">{item.description}</Typography>
             <Typography variant="subtitle2" fontWeight={400} color="text.secondary">Descripcion larga: {item.descr_larga}</Typography>
             <Typography variant="subtitle2" fontWeight={400} color="text.secondary">Precio $ {numberWithDots(item.precio)}</Typography>
