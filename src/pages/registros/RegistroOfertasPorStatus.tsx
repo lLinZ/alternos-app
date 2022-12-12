@@ -13,6 +13,11 @@ import { PageTitle } from '../../components/ui';
 
 const columns = [
     {
+        name: 'ID',
+        selector: (row: IData) => row.id,
+        sortable: true,
+    },
+    {
         name: 'Vendedor',
         selector: (row: IData) => row.salesman_name,
         sortable: true,
@@ -125,6 +130,7 @@ export const RegistroOfertasPorStatusPage: FC = () => {
                     <MenuItem value={'aprobada'}>Aprobada</MenuItem>
                     <MenuItem value={'rechazada'}>Rechazada</MenuItem>
                     <MenuItem value={'enviada'}>Enviada</MenuItem>
+                    <MenuItem value={'nueva'}>Nueva</MenuItem>
                     <MenuItem value={'confirmada'}>Confirmada</MenuItem>
                     <MenuItem value={''}>Todas</MenuItem>
                 </TextField>
