@@ -46,6 +46,7 @@ import { RegistroTransaccionesPorPeriodoPage } from './pages/registros/RegistroT
 import { RegistroAccountAdminPage } from './pages/registros/RegistroAccountAdmin';
 import { RegistroOfertasPorStatusPage } from './pages/registros/RegistroOfertasPorStatus';
 import { RegistroCasosCerradosPage } from './pages/registros/RegistroCasosCerrados';
+import { ClientsPage } from './pages/ClientsPage';
 
 function App() {
   return (
@@ -100,6 +101,7 @@ function App() {
 
         {/* Clientes */}
         <Route path="/user/add/client" element={<ClientAddingPage />} />
+        <Route path="/clients" element={<ClientsPage />} />
 
         {/* Pagina de perfil */}
         <Route path="/profile" element={<ProfilePage />} />

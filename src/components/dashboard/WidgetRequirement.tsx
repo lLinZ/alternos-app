@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { ISelectedProcess } from '../../interfaces/process-type';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { TransitionProps } from '@mui/material/transitions';
+import { FilterBox } from '../data/FilterBox';
 
 interface Props {
     // open: boolean;
@@ -215,6 +216,7 @@ export const WidgetRequirement: FC<Props> = ({ userLogged }) => {
                                     </Toolbar>
                                 </AppBar>
                                 <Box sx={{ width: "80%", m: "20px auto" }}>
+                                    {users && (<FilterBox data={users} setData={setUsers} category1="user_name" category2="user_id" />)}
                                     {users ? users.map((usuario: any) => (
                                         <Box key={usuario.user_id} sx={{ p: 2, borderRadius: 5, m: 1, display: "flex", background: "#FFF", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
                                             <Typography>{usuario.user_name}</Typography>

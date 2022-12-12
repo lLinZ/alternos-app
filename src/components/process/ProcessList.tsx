@@ -6,6 +6,8 @@ import { Process } from '../../interfaces/process-type';
 import { ProcessCard } from './ProcessCard';
 import AddIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import { useNavigate } from 'react-router-dom';
+import { PageTitle } from '../ui';
+import { FilterBox } from '../data/FilterBox';
 
 interface Props {
     processes?: Process[];
@@ -16,15 +18,13 @@ export const ProcessList: FC<Props> = ({ processes, setProcesses }) => {
     const router = useNavigate();
     return (
         <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
-            <Box sx={{ display: "flex", flexFlow: "row wrap", alignItems: "start" }}>
-                <Typography variant="overline" component="h2" fontWeight="bold" fontSize={12} sx={{ mb: 2 }}>Lista de procesos registrados</Typography>
-                <IconButton color="info" onClick={() => router("/process/add")}><AddIcon /></IconButton>
-            </Box>
+            <PageTitle title="Lista de procesos registrados" navigate='/process/add' />
+            {processes && (<FilterBox data={processes} setData={setProcesses} category1="name" category2="description" category3="owner_name" />)}
             {/* Si hay procesos */}
-            {processes?.map((p: Process) => <ProcessCard key={p.id} process={p} setProcesses={setProcesses} processes={processes} />)}
+            {processes && processes.map((p: Process) => <ProcessCard key={p.id} process={p} setProcesses={setProcesses} processes={processes} />)}
 
             {/* Si no hay procesos */}
-            {!processes && (<Typography variant="body1" color="text.secondary">No existen procesos asignados a tu usuario actualmente</Typography>)}
+            {!processes && (<Typography variant="body1" color="text.secondary">No existen procesos</Typography>)}
         </Box>
     )
 }

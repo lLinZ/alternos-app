@@ -136,6 +136,7 @@ export const BriefingPage: FC = () => {
     return (
         <Box sx={{ width: "80%", m: "20px auto" }}>
             <Box sx={{ mb: "20px" }}>
+
                 <Typography variant="h1" sx={{ fontFamily: "Bebas Neue" }} color="text.secondary">BRIEF</Typography>
                 <Typography variant="overline" fontWeight="bold">Diseño de identidad corporativa</Typography>
                 <Typography variant="subtitle2" color="text.secondary">La informacion que nos entregará a contrinuacion es absolutamente confidencial. Nos permite conocer mejor sus ideas y necesidades para su marca y acercarnos a una mejor solución.</Typography>

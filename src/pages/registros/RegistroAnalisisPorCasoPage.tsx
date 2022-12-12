@@ -18,6 +18,11 @@ const columns = [
         sortable: true,
     },
     {
+        name: 'Usuario asignado',
+        selector: (row: IData) => row.user_name,
+        sortable: true,
+    },
+    {
         name: 'Inicio',
         selector: (row: IData) => row.inicio,
         sortable: true,
@@ -37,6 +42,7 @@ interface IData {
     activity_name: string;
     inicio: string | number;
     vence: string | number;
+    user_name: string;
     status: string | number;
 }
 const paginationComponentOptions = {

@@ -13,7 +13,6 @@ import { formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { PageTitle } from '../../components/ui';
 
-import SendIcon from '@mui/icons-material/SendRounded'
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import Swal from 'sweetalert2';
 interface IData {
@@ -76,68 +75,9 @@ export const RegistroCasosPage: FC = () => {
             selector: (row: IData) => row.status,
             sortable: true,
         },
-        {
 
-            cell: (row: IData) => (<IconButton onClick={() => window.open(`https://www.linkdeprueba.com/${row.id}`, "_blank")}><AttachFileIcon color="info" /></IconButton>),
-            button: true,
-            name: "Ver pieza",
-            sortable: false,
-        },
-        {
-            cell: (row: IData) => (<IconButton onClick={() => send(row.id)}><SendIcon color="success" /></IconButton>),
-            button: true,
-            name: "Enviar pieza",
-            sortable: false,
-        }
     ];
-    const send = async (id: number) => {
-        const url = `${baseUrl}/enviapieza`;
-        const body = new FormData();
-        body.append("task_id", String(id));
 
-        const options = {
-            method: "POST",
-            body
-        }
-        try {
-            const respuesta = await fetch(url, options);
-
-            const data = await respuesta.json();
-
-            if (data.exito === "SI") {
-                Swal.fire({
-                    title: "Exito",
-                    toast: true,
-                    timer: 2000,
-                    timerProgressBar: true,
-                    showConfirmButton: false,
-                    icon: "success",
-                    position: "bottom-start"
-                });
-
-                getCasos();
-            } else {
-                Swal.fire({
-                    title: "Error",
-                    text: "No se logró enviar",
-                    timer: 2000,
-                    timerProgressBar: true,
-                    showConfirmButton: false,
-                    icon: "error",
-                });
-            }
-        } catch (error) {
-            Swal.fire({
-                title: "Error",
-                text: "No se logró conectar",
-                timer: 2000,
-                timerProgressBar: true,
-                showConfirmButton: false,
-                icon: "error",
-            });
-
-        }
-    }
     useEffect(() => {
         validarToken(router, setUserLogged);
         getCasos();

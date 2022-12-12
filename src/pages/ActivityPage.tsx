@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { baseUrl } from '../common/baseUrl';
 import { ActivityCard } from '../components/activity/ActivityCard';
+import { FilterBox } from '../components/data/FilterBox';
 import { Layout } from '../components/layout';
 import { PageTitle } from '../components/ui';
 import { User } from '../interfaces/user-type';
@@ -59,18 +60,11 @@ export const ActivityPage: FC<Props> = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
-                <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                    <PageTitle title="Lista de Actividades" />
-
-                    <IconButton color="secondary" onClick={() => router("/activity/add")}>
-                        <Tooltip title="Añadir actividad">
-                            <AddCircleOutline color="info" />
-                        </Tooltip>
-                    </IconButton>
-                </Box>
+                <PageTitle title="Lista de Actividades" navigate='/activity/add' />
+                {actividades && (<FilterBox data={actividades} setData={setActividades} category1="name" category2='precio' category3='costo' category4='owner_name' />)}
                 {
                     actividades && actividades.map((actividad: Actividades) => (
-                        <ActivityCard actividades={actividades} setActividades={setActividades} actividad={actividad} />
+                        <ActivityCard key={actividad.id} actividades={actividades} setActividades={setActividades} actividad={actividad} />
                     ))
                 }
             </Box>

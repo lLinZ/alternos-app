@@ -10,51 +10,9 @@ import { validarToken } from '../../lib/functions'
 import DataTable from 'react-data-table-component';
 import { baseUrl } from '../../common/baseUrl';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
+import SendIcon from '@mui/icons-material/SendRounded'
 import { PageTitle } from '../../components/ui';
-const columns = [
-    {
-        name: 'Descripción',
-        selector: (row: IData) => row.descriptioncase,
-        sortable: true,
-    },
-    {
-        name: 'Proceso',
-        selector: (row: IData) => row.process_name,
-        sortable: true,
-    },
-    {
-        name: 'Actividad',
-        selector: (row: IData) => row.activity_name,
-        sortable: true,
-    },
-    {
-        name: 'Inicio',
-        selector: (row: IData) => String(row.inicio),
-        sortable: true,
-    },
-    {
-        name: 'Vence',
-        selector: (row: IData) => String(row.vence),
-        sortable: true,
-    },
-    {
-        name: 'Comentario de cierre',
-        selector: (row: IData) => row.comentario_cierre,
-        sortable: true,
-    },
-    {
-        name: 'Status',
-        selector: (row: IData) => row.status,
-        sortable: true,
-    },
-    {
-        cell: (row: IData) => <IconButton component="a" href={row.url} target="_blank" color="success"><AttachFileIcon /></IconButton>,
-        button: true,
-        sortable: false,
-        allowOverflow: true,
-        ignoreRowClick: true
-    },
-];
+import Swal from 'sweetalert2'
 interface IData {
     id: number;
     case_id: number;
@@ -144,6 +102,107 @@ export const RegistroTareasPorCasoPage: FC = () => {
     const handleChange = (e: SelectChangeEvent) => {
         setCaso(e.target.value);
     }
+
+    const columns = [
+        {
+            name: 'Descripción',
+            selector: (row: IData) => row.descriptioncase,
+            sortable: true,
+        },
+        {
+            name: 'Proceso',
+            selector: (row: IData) => row.process_name,
+            sortable: true,
+        },
+        {
+            name: 'Actividad',
+            selector: (row: IData) => row.activity_name,
+            sortable: true,
+        },
+        {
+            name: 'Inicio',
+            selector: (row: IData) => String(row.inicio),
+            sortable: true,
+        },
+        {
+            name: 'Vence',
+            selector: (row: IData) => String(row.vence),
+            sortable: true,
+        },
+        {
+            name: 'Comentario de cierre',
+            selector: (row: IData) => row.comentario_cierre,
+            sortable: true,
+        },
+        {
+            name: 'Status',
+            selector: (row: IData) => row.status,
+            sortable: true,
+        },
+        {
+            cell: (row: IData) => <IconButton component="a" href={row.url} target="_blank" color="success"><AttachFileIcon /></IconButton>,
+            button: true,
+            sortable: false,
+            name: "Ver pieza",
+            allowOverflow: true,
+            ignoreRowClick: true
+        },
+        {
+            cell: (row: IData) => (<IconButton onClick={() => send(row.id)}><SendIcon color="success" /></IconButton>),
+            button: true,
+            name: "Enviar pieza",
+            sortable: false,
+        }
+    ];
+    const send = async (id: number) => {
+        const url = `${baseUrl}/enviapieza`;
+        const body = new FormData();
+        body.append("task_id", String(id));
+
+        const options = {
+            method: "POST",
+            body
+        }
+        try {
+            const respuesta = await fetch(url, options);
+
+            const data = await respuesta.json();
+
+            if (data.exito === "SI") {
+                Swal.fire({
+                    title: "Exito",
+                    toast: true,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                    icon: "success",
+                    position: "bottom-start"
+                });
+
+                getCasos();
+            } else {
+                Swal.fire({
+                    title: "Error",
+                    text: "No se logró enviar",
+                    timer: 2000,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                    icon: "error",
+                });
+            }
+        } catch (error) {
+            Swal.fire({
+                title: "Error",
+                text: "No se logró conectar",
+                timer: 2000,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                icon: "error",
+            });
+
+        }
+    }
+
     useEffect(() => {
         validarToken(router, setUserLogged);
         getCasos();

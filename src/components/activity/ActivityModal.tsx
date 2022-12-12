@@ -6,6 +6,7 @@ import { TransitionProps } from '@mui/material/transitions';
 import InfoIcon from '@mui/icons-material/HelpRounded';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CircleIcon from '@mui/icons-material/RadioButtonUncheckedRounded';
+import { FilterBox } from '../data/FilterBox';
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -17,6 +18,7 @@ const Transition = forwardRef(function Transition(
 });
 interface Props {
     actividades: Activity[] | null;
+    setActividades: Dispatch<SetStateAction<Activity[] | null>>;
     selectedActivities: SelectedActivity[] | null;
     setSelectedActivities: Dispatch<SetStateAction<SelectedActivity[] | null>>;
     orden: number;
@@ -24,7 +26,7 @@ interface Props {
     modalActividades: boolean;
     setModalActividades: Dispatch<SetStateAction<boolean>>;
 }
-export const ActivityModal: FC<Props> = ({ actividades, selectedActivities, setSelectedActivities, orden, setOrden, setModalActividades, modalActividades }) => {
+export const ActivityModal: FC<Props> = ({ actividades, setActividades, selectedActivities, setSelectedActivities, orden, setOrden, setModalActividades, modalActividades }) => {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
     const open = Boolean(anchorEl);
@@ -67,10 +69,12 @@ export const ActivityModal: FC<Props> = ({ actividades, selectedActivities, setS
                 </Toolbar>
             </AppBar>
             <Box sx={{ width: "80%", m: "20px auto" }}>
+                {actividades && (<FilterBox data={actividades} setData={setActividades} category1="name" category2="owner_name" />)}
                 {actividades && actividades.map((activity: Activity) => (
                     <Box key={activity.id} sx={styles.activityContainer}>
                         <Box sx={styles.activityName}>
-                            <Typography variant="subtitle1">{activity.name}</Typography>
+                            <Typography variant="subtitle1" fontWeight={'bold'}>{activity.name}</Typography>
+                            <Typography variant="subtitle2" color="text.secondary">{activity.owner_name}</Typography>
                         </Box>
                         <IconButton size="small" color="secondary" onClick={() => selectActivity(activity.id, activity.name)} disabled={Boolean(selectedActivities?.filter(act => act.id === activity.id && act.orden !== orden).length)}>
                             {

@@ -18,6 +18,7 @@ import React from 'react';
 import { ActivityModal } from '../components/activity/ActivityModal';
 import { Activity, SelectedActivity } from '../interfaces/activity-type';
 import { PageTitle } from '../components/ui';
+import { FilterBox } from '../components/data/FilterBox';
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -30,6 +31,7 @@ const Transition = forwardRef(function Transition(
 interface Process {
     id: number;
     name: string;
+    description: string;
     owner_id: number;
     owner_name: string;
     formulario: string;
@@ -184,7 +186,7 @@ export const ActivityAssignmentPage = () => {
         getActividades();
     }, [])
 
-    const activityModalProps = { actividades, selectedActivities, setSelectedActivities, orden, setOrden, modalActividades, setModalActividades }
+    const activityModalProps = { actividades, setActividades, selectedActivities, setSelectedActivities, orden, setOrden, modalActividades, setModalActividades }
 
     return (
 
@@ -290,10 +292,12 @@ export const ActivityAssignmentPage = () => {
                     </Toolbar>
                 </AppBar>
                 <Box sx={{ width: "80%", m: "20px auto" }}>
+                    {procesos && (<FilterBox data={procesos} setData={setProcesos} category1="name" category2='owner_name' category3='description' />)}
                     {procesos && procesos.map((process: Process) => (
                         <Box key={process.id} sx={{ p: 3, borderRadius: 5, mb: 2, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center", boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)', background: "rgba(255,255,255,0.4)" }}>
                             <Box sx={{ display: "flex", flexDirection: "column" }}>
                                 <Typography variant="subtitle1" >{process.name}</Typography>
+                                <Typography variant="subtitle2" color="text.secondary" >{process.description}</Typography>
                             </Box>
                             <IconButton size="small" color="secondary" disabled={selectedProcess?.id === process.id} onClick={() => selectProcess(process.id, process.name)}>{selectedProcess?.id === process.id ? (<CheckCircleIcon color="success" />) : (<CircleIcon />)}</IconButton>
                         </Box>))}

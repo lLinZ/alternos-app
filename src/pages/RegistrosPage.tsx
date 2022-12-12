@@ -65,6 +65,7 @@ export const RegistrosPage: FC = () => {
     <Layout user={userLogged}>
       <Box sx={styles.mainContainer}>
         <Box sx={{ display: "flex", alignItems: "center" }}>
+
           <Typography variant="overline" fontWeight={"bold"}>Registros encontrados</Typography>
           <IconButton size="small" color="info"><AddCircleOutlineRounded /></IconButton>
         </Box>

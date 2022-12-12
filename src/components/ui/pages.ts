@@ -7,7 +7,8 @@ export const administracionPages: Pages[] = [
 
     // Clientes
     { name: 'divider', path: "Clientes" },
-    { name: "Registro de cliente", path: "/user/add/client" },
+    { name: "Añadir cliente", path: "/user/add/client" },
+    { name: "Lista de clientes", path: "/clients" },
 
     // Resumenes
     { name: 'divider', path: "Resúmenes" },
@@ -72,7 +73,9 @@ export const ventasPages: Pages[] = [
 
     // Clientes
     { name: 'divider', path: "Clientes" },
-    { name: "Registro de cliente", path: "/user/add/client" },
+    { name: "Añadir cliente", path: "/user/add/client" },
+    { name: "Lista de clientes", path: "/clients" },
+
 ];
 export const adminPages: Pages[] = [
 
@@ -104,6 +107,11 @@ export const adminPages: Pages[] = [
     { name: 'Lista de actividades', path: "/activity" },
     { name: 'Agregar actividad', path: "/activity/add" },
     { name: 'Informacion para Brandcenter', path: "/brandcenter/add" },
+
+    // Clientes
+    { name: 'divider', path: "Clientes" },
+    { name: "Añadir cliente", path: "/user/add/client" },
+    { name: "Lista de clientes", path: "/clients" },
 
     // Resumenes
     { name: 'divider', path: "Resúmenes" },

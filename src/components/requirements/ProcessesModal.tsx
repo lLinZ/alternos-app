@@ -5,6 +5,7 @@ import { baseUrl } from '../../common/baseUrl';
 import CloseIcon from '@mui/icons-material/Close';
 import { ISelectedProcess, Process } from '../../interfaces/process-type';
 import { CheckCircleRounded } from '@mui/icons-material';
+import { FilterBox } from '../data/FilterBox';
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -83,6 +84,7 @@ export const ProcessesModal: FC<Props> = ({ selectedProcess, setSelectedProcess,
                     </Toolbar>
                 </AppBar>
                 <Box sx={{ width: "80%", m: "20px auto" }}>
+                    {processes && <FilterBox data={processes} setData={setProcesses} category1="name" category2="id" />}
                     {processes ? processes.map((process: any) => (
                         <Box key={process.id} sx={{
                             p: 2, borderRadius: 5, boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',

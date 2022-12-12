@@ -11,6 +11,8 @@ import { validarToken } from '../lib/functions'
 import { User } from '../interfaces/user-type'
 import ChevronRightRounded from '@mui/icons-material/ArrowForwardRounded'
 import ChevronLeftRounded from '@mui/icons-material/ArrowBackRounded'
+import { WidgetPagosPorConfirmar } from '../components/dashboard/WidgetPagosPorConfirmar'
+import { WidgetEstadoDeCuentaPorCliente } from '../components/dashboard/WidgetEstadoDeCuentaPorCliente'
 
 export const DashboardPage: FC = () => {
     const [userLogged, setUserLogged] = useState<User | null>(null);
@@ -133,6 +135,8 @@ export const DashboardPage: FC = () => {
                                     <>
                                         <WidgetRequirement userLogged={userLogged} />
                                         <WidgetListaTareas />
+                                        <WidgetPagosPorConfirmar />
+                                        <WidgetEstadoDeCuentaPorCliente />
                                     </>
                                 )
                             }
