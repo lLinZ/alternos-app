@@ -27,6 +27,7 @@ import LoadingButton from '@mui/lab/LoadingButton'
 import Divider from '@mui/material/Divider'
 import TextField from '@mui/material/TextField'
 import { PageTitle } from '../components/ui'
+import { FilterBox } from '../components/data/FilterBox'
 
 interface ItemSelection {
     product_id: number;
@@ -232,7 +233,7 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
                     </Toolbar>
                 </AppBar>
                 <Box sx={localStyles.mainContainer}>
-
+                    {items && (<FilterBox data={items} setData={setItems} category1="name" category2="origen" category3="description" />)}
                     {
                         items && (
                             items.map((item: IItem) => (
@@ -433,12 +434,13 @@ const UserSelectionDialog: FC<UserSelectionProps> = ({ open, setOpen, users, set
                 </AppBar>
 
                 <Box sx={localStyles.mainContainer}>
+                    {users && (<FilterBox data={users} setData={setUsers} category1={'name'} category2={'phone'} />)}
                     {
                         users && users?.map((u: User) => (
                             <>
                                 <Box sx={localStyles.userBox} key={`${u.id}${u.name}`}>
-
-                                    <Typography>{u.name}</Typography>
+                                    <Typography variant={'subtitle1'} fontWeight="bold">{u.name}</Typography>
+                                    <Typography variant={'subtitle2'} color="text.secondary">{u.phone}</Typography>
                                     <Button color="secondary" variant="contained" disableElevation sx={localStyles.selectUserButton} onClick={() => selectUser(u.id)} disabled={u.id === selectedUser?.id}>{u.id === selectedUser?.id ? "Seleccionado" : "Seleccionar"}</Button>
                                 </Box>
                             </>

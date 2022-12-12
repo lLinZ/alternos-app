@@ -109,7 +109,9 @@ export const PaymentCard: FC<PaymentCardProps> = ({ pago }) => {
                 <Box sx={{ display: "flex", flexFlow: "column wrap", ml: 2, flex: 6 }}>
 
                     <Typography variant="subtitle1" fontWeight="bold">{pago.concepto}</Typography>
-                    <Typography variant="subtitle2">Tipo de pago: {pago.formapago}</Typography>
+                    <Typography variant="subtitle2" color="text.secondary">Ref: {pago.referencia}</Typography>
+                    <Typography variant="subtitle2" fontWeight="bold">${pago.monto}</Typography>
+                    <Typography variant="subtitle2" color="text.secondary">{String(pago.fecha)}</Typography>
                 </Box>
             </Box>
             <Divider sx={{ marginBlock: 2 }} />
