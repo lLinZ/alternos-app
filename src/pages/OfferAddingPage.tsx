@@ -439,8 +439,10 @@ const UserSelectionDialog: FC<UserSelectionProps> = ({ open, setOpen, users, set
                         users && users?.map((u: User) => (
                             <>
                                 <Box sx={localStyles.userBox} key={`${u.id}${u.name}`}>
-                                    <Typography variant={'subtitle1'} fontWeight="bold">{u.name}</Typography>
-                                    <Typography variant={'subtitle2'} color="text.secondary">{u.phone}</Typography>
+                                    <Box>
+                                        <Typography variant={'subtitle1'} fontWeight="bold">{u.name}</Typography>
+                                        <Typography variant={'subtitle2'} color="text.secondary">{u.phone}</Typography>
+                                    </Box>
                                     <Button color="secondary" variant="contained" disableElevation sx={localStyles.selectUserButton} onClick={() => selectUser(u.id)} disabled={u.id === selectedUser?.id}>{u.id === selectedUser?.id ? "Seleccionado" : "Seleccionar"}</Button>
                                 </Box>
                             </>
