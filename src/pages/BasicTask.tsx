@@ -177,61 +177,6 @@ export const BasicTaskPage: FC<Props> = () => {
             console.log(error);
         }
     }
-
-    /**
-     * Funcion para obtener la funcion siguiente a la de trafico
-     */
-    const getFollowingFunction = async (selectedTaskProcessId: number) => {
-        const url = `${baseUrl}/listaprocesos?id_proceso=${selectedTaskProcessId}`;
-
-        try {
-
-            const respuesta = await fetch(url);
-            const data = await respuesta.json();
-            console.log(data)
-            if (data.exito === "SI") {
-                const actividadesActuales = data.registros[0].actividades;
-
-                let match = false;
-                let siguiente = 0;
-                const len = actividadesActuales.length;
-                let counter = 1;
-                for (let actividadActual of actividadesActuales) {
-                    counter++;
-                    if (match === true) {
-                        siguiente = actividadActual.owner_id;
-                        setFollowingFunction(siguiente);
-                        match = false;
-                        break;
-                    } else {
-                        if (counter === len) {
-                            setLast(true);
-                        }
-                    }
-
-                    if (Number(actividadActual.owner_id) === Number(userLogged?.function_id)) {
-                        match = true;
-                    }
-                }
-            } else {
-                console.log({ data });
-                Swal.fire({
-                    title: "Error",
-                    text: data.mensaje,
-                    icon: "error"
-                })
-            }
-        } catch (err) {
-            console.log(err)
-            Swal.fire({
-                title: "Error",
-                text: "Error al conectar con el servidor",
-                icon: "error"
-            })
-
-        }
-    }
-
     /**
      * Funcion para enviar la respuesta de la tarea
      */

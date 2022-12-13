@@ -64,6 +64,7 @@ export const WidgetResumenReq: FC = () => {
             }
         }
     }
+
     const getColorByStatus = (status: string) => {
         switch (status.toLowerCase()) {
             case 'abierto':
@@ -76,6 +77,7 @@ export const WidgetResumenReq: FC = () => {
                 return red[500];
         }
     }
+
     return (
         <Box sx={styles.mainContainer}>
             <Typography variant="overline" fontWeight="bold">Resumen Requerimientos por status</Typography>

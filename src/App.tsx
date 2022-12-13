@@ -50,6 +50,8 @@ import { ClientsPage } from './pages/ClientsPage';
 import { RegistroCasosExternosPage } from './pages/registros/RegistroCasosExternosPage';
 import { AvisosDeCobroPage } from './pages/AvisosDeCobroPage';
 import { AvisosDeCobroAddingPage } from './pages/AvisosDeCobroAddingPage';
+import { RegistroOfertasPage } from './pages/registros/RegistroOfertasPage';
+import { OfferDetailPage } from './pages/OfferDetailPage';
 
 function App() {
   return (
@@ -80,13 +82,14 @@ function App() {
 
         {/* Ofertas */}
         <Route path="/offers/edit/:id" element={<EditOfferPage />} />
+        <Route path="/offer/add" element={<OfferAddingPage />} />
+        <Route path="/offers" element={<RegistroOfertasPage />} />
 
         {/* Requerimientos */}
         <Route path="/requirements" element={<TrafficUserPage />} />
         <Route path="/requirements/add" element={<RequirementsPage />} />
         <Route path="/requirements/basic" element={<BasicTaskPage />} />
 
-        <Route path="/offer/add" element={<OfferAddingPage />} />
         {/* Briefing */}
         <Route path="/briefing/new/:processId/:caseId" element={<BriefingPage />} />
         <Route path="/briefing/:caseId" element={<GetBriefingPage />} />
@@ -115,6 +118,7 @@ function App() {
 
         {/* Agregar info brandcenter */}
         <Route path="/brandcenter/add" element={<BrandCenterAddingPage />} />
+        <Route path="/offer/:id" element={<OfferDetailPage />} />
 
         {/* Resumenes */}
         <Route path="/pagos" element={<RegistroPagosPage />} />

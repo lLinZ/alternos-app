@@ -32,7 +32,7 @@ export const WidgetListaTareas: FC<Props> = () => {
             const userDataArray = await userResponse.json();
             if (userDataArray.exito === "SI") {
                 const userData = userDataArray.usuario;
-                const url = userData.function_id !== 2 ? `${baseUrl}/listatareas?owner_id=${userData.id}&status=pendiente` : "https://alternos.sgc-consultores.com.ve/api/listarequerimientos?status=pendiente";
+                const url = userData.function_id !== 2 ? `${baseUrl}/listatareasusuario?owner_id=${userData.id}` : "https://alternos.sgc-consultores.com.ve/api/listarequerimientos?status=pendiente";
                 try {
                     const respuesta = await fetch(url);
                     const data = await respuesta.json();
