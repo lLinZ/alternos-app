@@ -1,29 +1,26 @@
 import { FC, useEffect, useState } from 'react'
-import { Box, Chip, Divider, IconButton, Typography, useTheme } from '@mui/material'
+import { Box, Chip, Divider, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import { baseUrl } from '../../common/baseUrl';
-import { User } from '../../interfaces/user-type';
 import green from '@mui/material/colors/green';
-import red from '@mui/material/colors/red';
-import { blue, grey, yellow } from '@mui/material/colors';
-import { Case } from '../../interfaces/requirement-type';
+import grey from '@mui/material/colors/grey';
+import orange from '@mui/material/colors/orange';
 import { ucfirst } from '../../lib/functions';
+import { AvisoDeCobro } from '../../interfaces/avisodecobro-type';
+import moment from 'moment';
 
-interface Props {
-    user: User | null;
-}
-export const WidgetCasosAbiertos: FC<Props> = ({ user }) => {
-    const [casos, setCasos] = useState<Case[] | null>(null)
+export const WidgetAvisosDeCobro: FC = () => {
+    const [avisos, setAvisos] = useState<AvisoDeCobro[] | null>(null)
     const router = useNavigate();
 
-    const getCasos = async () => {
-        const url = `${baseUrl}/listacasos`;
+    const getAvisos = async () => {
+        const url = `${baseUrl}/listaavisosdecobro?status=no emitido`;
         try {
             const respuesta = await fetch(url);
             const data = await respuesta.json();
 
             if (data.exito === "SI") {
-                setCasos(data.registros);
+                setAvisos(data.registros);
                 console.log({ data })
             } else {
                 console.log("Ocurrio un error al solicitar la informacion del estado de cuenta");
@@ -34,8 +31,8 @@ export const WidgetCasosAbiertos: FC<Props> = ({ user }) => {
         }
     }
     useEffect(() => {
-        if (!casos) {
-            getCasos();
+        if (!avisos) {
+            getAvisos();
         }
     });
 
@@ -71,38 +68,34 @@ export const WidgetCasosAbiertos: FC<Props> = ({ user }) => {
         },
     }
     return (
-        <Box sx={styles.mainContainer} onClick={() => router("/requirements/resume")}>
-            <Typography variant="overline" fontWeight="bold">Casos</Typography>
+        <Box sx={styles.mainContainer} onClick={() => router("/avisosdecobro")}>
+            <Typography variant="overline" fontWeight="bold">Avisos de cobro</Typography>
 
             <Box id="title" sx={{ pt: 2, pl: 2 }}>
             </Box>
             {
-                casos && casos.map((c) => (
-                    <CaseCard key={c.id} caso={c} />
+                avisos && avisos.map((a) => (
+                    <AvisoCard key={a.id} aviso={a} />
                 ))
             }{
-                !casos && (
-                    <Typography variant="subtitle2" color="text.secondary" fontWeight="bold">No hay casos abiertos</Typography>
+                !avisos && (
+                    <Typography variant="subtitle2" color="text.secondary" fontWeight="bold">No hay avisos de cobro nuevos</Typography>
                 )
             }
         </Box>
     )
 }
-interface CaseCardProps {
-    caso: Case;
+interface AvisoCardProps {
+    aviso: AvisoDeCobro;
 }
-export const CaseCard: FC<CaseCardProps> = ({ caso }) => {
+export const AvisoCard: FC<AvisoCardProps> = ({ aviso }) => {
 
     const getColorByStatus = (status: string) => {
         switch (status.toLowerCase()) {
-            case 'completado':
+            case 'emitido':
                 return green[500]
-            case 'abierto':
-                return blue[500]
-            case 'por vencer':
-                return yellow[500];
-            case 'vencido':
-                return red[500];
+            case 'no emitido':
+                return orange[500];
             default:
                 return grey[500]
         }
@@ -111,11 +104,15 @@ export const CaseCard: FC<CaseCardProps> = ({ caso }) => {
     return (
         <>
             <Box sx={{ display: "flex", flexFlow: "row wrap", alignItems: 'flex-start', justifyContent: "start" }}>
-                <Chip size="small" sx={{ boxShadow: `0 0 8px ${getColorByStatus(caso.status)}`, color: "white", background: `${getColorByStatus(caso.status)}`, flex: 2 }} label={ucfirst(caso.status)} />
+                <Chip size="small" sx={{ boxShadow: `0 0 8px ${getColorByStatus(aviso.status)}`, color: "white", background: `${getColorByStatus(aviso.status)}`, flex: 2 }} label={ucfirst(aviso.status)} />
                 <Box sx={{ display: "flex", flexFlow: "column wrap", ml: 2, flex: 6 }}>
 
-                    <Typography variant="subtitle1" fontWeight="bold">{caso.description}</Typography>
-                    <Typography variant="subtitle2">Encargado {caso.user_name}</Typography>
+                    <Typography variant="subtitle1" fontWeight="bold">${aviso.monto}</Typography>
+                    <Typography variant="subtitle2">Cuota {aviso.cuota} de {aviso.total_cuotas}</Typography>
+                    <Typography variant="subtitle2" color="text.secondary"> {aviso.frecuencia}</Typography>
+                    <Typography variant="subtitle2" fontWeight="bold">Comprador {aviso.customer_name}</Typography>
+                    <Typography variant="subtitle2" fontWeight="bold">Vendedor {aviso.salesman_name}</Typography>
+                    <Typography variant="subtitle2" color="text.secondary">{moment(aviso.fecha).format('DD-MM-YYYY')}</Typography>
                 </Box>
             </Box>
             <Divider sx={{ marginBlock: 2 }} />

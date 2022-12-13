@@ -50,7 +50,7 @@ export const WidgetEstadoDeCuentaPorCliente: FC = () => {
                 cursor: "pointer",
                 transition: ".3s ease all",
                 "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" },
-                minHeight: 250,
+                minHeight: 300,
                 maxHeight: 300
             }}>
             <Box id="title" sx={{ pt: 2, pl: 2 }}>

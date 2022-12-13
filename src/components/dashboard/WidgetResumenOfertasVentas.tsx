@@ -5,24 +5,24 @@ import { baseUrl } from '../../common/baseUrl';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import { ucfirst } from '../../lib/functions';
 import 'react-circular-progressbar/dist/styles.css';
-import { yellow, green, blue, red } from '@mui/material/colors';
+import { yellow, green, blue, red, pink } from '@mui/material/colors';
 interface IResumenReq {
     status: string;
     cantidad: number;
     avance: number;
 }
-export const WidgetResumenReq: FC = () => {
+export const WidgetResumenOfertasVentas: FC = () => {
 
     const [stats, setStats] = useState<IResumenReq[] | null>(null)
     const [total, setTotal] = useState<number>(0);
 
 
     const getStats = async () => {
-        const url = `${baseUrl}/resumenrequerimientos`
+        const url = `${baseUrl}/resumenofertasventas`
         const respuesta = await fetch(url);
         const data = await respuesta.json();
         setStats(data.registros)
-        setTotal(data.registros[0].cantidad + data.registros[1].cantidad + data.registros[2].cantidad + data.registros[3].cantidad)
+        setTotal(data.registros[0].cantidad + data.registros[1].cantidad + data.registros[2].cantidad + data.registros[3].cantidad + data.registros[4].cantidad)
     }
     useEffect(() => {
         getStats();
@@ -66,25 +66,26 @@ export const WidgetResumenReq: FC = () => {
     }
     const getColorByStatus = (status: string) => {
         switch (status.toLowerCase()) {
-            case 'abierto':
-                return yellow[500]
-            case 'completado':
-                return green[500]
-            case 'en proceso':
+            case 'confirmada':
                 return blue[500];
+            case 'aprobada':
+                return green[500]
+            case 'enviada':
+                return pink[500]
+            case 'nueva':
+                return yellow[500]
             default:
                 return red[500];
         }
     }
     return (
         <Box sx={styles.mainContainer}>
-            <Typography variant="overline" fontWeight="bold">Resumen Requerimientos por status</Typography>
+            <Typography variant="overline" fontWeight="bold">Resumen Ofertas pendientes</Typography>
             <Box sx={styles.contentContainer}>
-                {stats && (<Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: 'Roboto', textAlign: 'center' }}>{total} Requerimientos totales</Typography>)}
-                <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
-
+                {stats && (<Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: 'Roboto', textAlign: 'center' }}>{total} Ofertas totales</Typography>)}
+                <Box sx={{ display: "flex", alignItems: "center", flexFlow: "row wrap", justifyContent: "center" }}>
                     {stats && stats.map((s, i) => (
-                        <Box key={i} sx={{ mr: 2, mb: 2, width: 80, heigth: 80 }}>
+                        <Box key={i} sx={{ mr: 2, mb: 2, width: 90, heigth: 90 }}>
 
                             <CircularProgressbarWithChildren value={Math.round((s.cantidad / total) * 100)} styles={{
                                 path: {
@@ -106,6 +107,6 @@ export const WidgetResumenReq: FC = () => {
                     ))}
                 </Box>
             </Box>
-        </Box>
+        </Box >
     )
 }

@@ -5,24 +5,22 @@ import { baseUrl } from '../../common/baseUrl';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import { ucfirst } from '../../lib/functions';
 import 'react-circular-progressbar/dist/styles.css';
-import { yellow, green, blue, red } from '@mui/material/colors';
+import { yellow, green, blue, red, orange } from '@mui/material/colors';
 interface IResumenReq {
     status: string;
     cantidad: number;
-    avance: number;
 }
-export const WidgetResumenReq: FC = () => {
+export const WidgetResumenTareas: FC = () => {
 
     const [stats, setStats] = useState<IResumenReq[] | null>(null)
     const [total, setTotal] = useState<number>(0);
 
-
     const getStats = async () => {
-        const url = `${baseUrl}/resumenrequerimientos`
+        const url = `${baseUrl}/resumentareas`
         const respuesta = await fetch(url);
         const data = await respuesta.json();
         setStats(data.registros)
-        setTotal(data.registros[0].cantidad + data.registros[1].cantidad + data.registros[2].cantidad + data.registros[3].cantidad)
+        setTotal(data.registros[0].cantidad + data.registros[1].cantidad + data.registros[2].cantidad)
     }
     useEffect(() => {
         getStats();
@@ -44,8 +42,8 @@ export const WidgetResumenReq: FC = () => {
             p: 1,
             display: "flex",
             flexFlow: "column wrap",
-            alignItems: "center",
             justifyContent: "center",
+            alignItems: "center",
             minHeight: "200px", maxHeight: "300px", overflowY: "scroll",
             '&::-webkit-scrollbar': {
                 width: '0.2em',
@@ -66,25 +64,24 @@ export const WidgetResumenReq: FC = () => {
     }
     const getColorByStatus = (status: string) => {
         switch (status.toLowerCase()) {
-            case 'abierto':
-                return yellow[500]
-            case 'completado':
+            case 'pendiente':
+                return orange[500];
+            case 'completada':
                 return green[500]
             case 'en proceso':
                 return blue[500];
             default:
-                return red[500];
+                return yellow[500]
         }
     }
     return (
         <Box sx={styles.mainContainer}>
-            <Typography variant="overline" fontWeight="bold">Resumen Requerimientos por status</Typography>
+            <Typography variant="overline" fontWeight="bold">Resumen Tareas</Typography>
             <Box sx={styles.contentContainer}>
-                {stats && (<Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: 'Roboto', textAlign: 'center' }}>{total} Requerimientos totales</Typography>)}
+                {stats && (<Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: 'Roboto', textAlign: 'center' }}>{total} Tareas totales</Typography>)}
                 <Box sx={{ display: "flex", flexFlow: "row wrap" }}>
-
                     {stats && stats.map((s, i) => (
-                        <Box key={i} sx={{ mr: 2, mb: 2, width: 80, heigth: 80 }}>
+                        <Box key={i} sx={{ mr: 2, mb: 2, width: 100, heigth: 100 }}>
 
                             <CircularProgressbarWithChildren value={Math.round((s.cantidad / total) * 100)} styles={{
                                 path: {
@@ -99,13 +96,13 @@ export const WidgetResumenReq: FC = () => {
                                     transformOrigin: 'center center',
                                 },
                             }}>
-                                <Typography variant="subtitle2" fontSize={10}>{s.cantidad} {ucfirst(s.status)}</Typography>
+                                <Typography variant="subtitle2" fontSize={10}>{ucfirst(s.status)}</Typography>
                                 <Typography fontWeight={'bold'}>{`${Math.round((s.cantidad / total) * 100)}%`}</Typography>
                             </CircularProgressbarWithChildren>
                         </Box>
                     ))}
                 </Box>
             </Box>
-        </Box>
+        </Box >
     )
 }

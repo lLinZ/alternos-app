@@ -13,6 +13,10 @@ import ChevronRightRounded from '@mui/icons-material/ArrowForwardRounded'
 import ChevronLeftRounded from '@mui/icons-material/ArrowBackRounded'
 import { WidgetPagosPorConfirmar } from '../components/dashboard/WidgetPagosPorConfirmar'
 import { WidgetEstadoDeCuentaPorCliente } from '../components/dashboard/WidgetEstadoDeCuentaPorCliente'
+import { WidgetResumenTareas } from '../components/dashboard/WidgetResumenTareas'
+import { WidgetResumenOfertasVentas } from '../components/dashboard/WidgetResumenOfertasVentas'
+import { WidgetOfertasAprobadas } from '../components/dashboard/WidgetOfertasAprobadas'
+import { WidgetAvisosDeCobro } from '../components/dashboard/WidgetAvisoDeCobro'
 
 export const DashboardPage: FC = () => {
     const [userLogged, setUserLogged] = useState<User | null>(null);
@@ -74,13 +78,17 @@ export const DashboardPage: FC = () => {
                                 // Administrador
                                 userLogged && userLogged.role_id === 1 && (
                                     <>
-                                        <WidgetStats user={userLogged} />
-                                        <WidgetRequirement userLogged={userLogged} />
+                                        <WidgetResumenReq />
+                                        <WidgetResumenTareas />
+                                        <WidgetResumenOfertasVentas />
                                         <WidgetEstadoDeCuenta user={userLogged} />
+                                        {/* <WidgetStats user={userLogged} /> */}
+                                        <WidgetRequirement userLogged={userLogged} />
+                                        <WidgetOfertasAprobadas />
                                         <WidgetListaTareas />
                                         <WidgetPago userLogged={userLogged} />
                                         <WidgetBrandcenter />
-                                        <WidgetResumenReq />
+                                        <WidgetAvisosDeCobro />
                                     </>
                                 )
                             }
@@ -106,9 +114,11 @@ export const DashboardPage: FC = () => {
                                 // Rol Comercial
                                 userLogged && userLogged.role_id === 4 && (
                                     <>
+                                        <WidgetResumenOfertasVentas />
                                         <WidgetRequirement userLogged={userLogged} />
                                         <WidgetListaTareas />
                                         <WidgetPagoPorCliente userLogged={userLogged} />
+                                        <WidgetAvisosDeCobro />
                                     </>
                                 )
                             }
@@ -119,6 +129,8 @@ export const DashboardPage: FC = () => {
                                         <WidgetRequirement userLogged={userLogged} />
                                         <WidgetListaTareas />
                                         <WidgetCasosAbiertos user={userLogged} />
+                                        <WidgetOfertasAprobadas />
+                                        <WidgetResumenReq />
                                     </>
                                 )
                             }
@@ -138,6 +150,7 @@ export const DashboardPage: FC = () => {
                                         <WidgetListaTareas />
                                         <WidgetPagosPorConfirmar />
                                         <WidgetEstadoDeCuentaPorCliente />
+                                        <WidgetAvisosDeCobro />
                                     </>
                                 )
                             }

@@ -12,9 +12,11 @@ import { baseUrl } from '../../common/baseUrl';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { PageTitle } from '../../components/ui';
+import CloseIcon from '@mui/icons-material/CancelRounded';
 import RedoIcon from '@mui/icons-material/Redo';
 import { Case } from '../../interfaces/requirement-type';
 import Swal from 'sweetalert2';
+import { ExternalCase } from '../../interfaces/externalcase-type';
 
 const paginationComponentOptions = {
     rowsPerPageText: 'Filas por página',
@@ -23,7 +25,7 @@ const paginationComponentOptions = {
     selectAllRowsItemText: 'Todos',
 };
 
-export const RegistroCasosCerradosPage: FC = () => {
+export const RegistroCasosExternosPage: FC = () => {
     const [userLogged, setUserLogged] = useState<User | null>(null)
     const router = useNavigate();
     const [casos, setCasos] = useState<any>(null)
@@ -40,7 +42,7 @@ export const RegistroCasosCerradosPage: FC = () => {
         },
     }
     const getCasos = async () => {
-        const url = `${baseUrl}/listacasos?status=completado`
+        const url = `${baseUrl}/listacasosexternos`
         const respuesta = await fetch(url);
         const data = await respuesta.json();
         console.log(data);
@@ -48,8 +50,8 @@ export const RegistroCasosCerradosPage: FC = () => {
             setCasos(data.registros);
         }
     }
-    const reabrir = async (id: number) => {
-        const url = `${baseUrl}/abreocierracaso`
+    const closeCase = async (id: number) => {
+        const url = `${baseUrl}/cambiastatuscasosexternos`
         const body = new FormData();
         body.append("case_id", String(id));
         body.append("status", "abierto");
@@ -76,7 +78,7 @@ export const RegistroCasosCerradosPage: FC = () => {
             } else {
                 Swal.fire({
                     title: "Error",
-                    text: "No se logró reabrir el caso",
+                    text: "No se logró closeCase el caso",
                     icon: "error",
                     timer: 2000,
                     showConfirmButton: false,
@@ -98,27 +100,27 @@ export const RegistroCasosCerradosPage: FC = () => {
     const columns = [
         {
             name: 'Descripcion',
-            selector: (row: Case) => row.description,
+            selector: (row: ExternalCase) => row.description,
             sortable: true,
         },
         {
-            name: 'Fecha de Inicio',
-            selector: (row: Case) => `${row.inicio} (${formatDistanceToNow(parseISO(String(row.inicio)), { locale: es })})`,
+            name: 'Nombre del proceso',
+            selector: (row: ExternalCase) => row.process_name,
             sortable: true,
         },
         {
-            name: 'Fecha de Vencimiento',
-            selector: (row: Case) => `${row.vence} (${formatDistanceToNow(parseISO(String(row.vence)), { locale: es })})`,
+            name: 'Usuario asignado',
+            selector: (row: ExternalCase) => row.user_name,
             sortable: true,
         },
         {
             name: 'Status',
-            selector: (row: Case) => row.status,
+            selector: (row: ExternalCase) => row.status,
             sortable: true,
         },
         {
-            cell: (row: Case) => <IconButton onClick={() => reabrir(row.id)} color="success"><RedoIcon /></IconButton>,
-            name: "Reabrir caso",
+            cell: (row: ExternalCase) => <IconButton onClick={() => closeCase(row.id)} color="success"><CloseIcon /></IconButton>,
+            name: "Cerrar caso",
             button: true,
             allowOverflow: true,
             ignoreRowClick: true
@@ -131,7 +133,7 @@ export const RegistroCasosCerradosPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <PageTitle title="Registro de Casos cerrados" />
+                <PageTitle title="Registro de externos" />
                 <Grid container spacing={1}>
                     {
                         casos && (

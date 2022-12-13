@@ -10,6 +10,11 @@ export const administracionPages: Pages[] = [
     { name: "Añadir cliente", path: "/user/add/client" },
     { name: "Lista de clientes", path: "/clients" },
 
+    // Avisos de cobro
+    { name: 'divider', path: "Avisos de cobro" },
+    { name: "Añadir aviso de cobro", path: "/avisosdecobro/add" },
+    { name: "Lista de avisos de cobro", path: "/avisosdecobro" },
+
     // Resumenes
     { name: 'divider', path: "Resúmenes" },
     { name: "Revision de pagos", path: "/pagos" },
@@ -48,6 +53,7 @@ export const traficoPages: Pages[] = [
     { name: "Resumen de tareas por caso", path: "/tareas/casos" },
     { name: "Resumen de casos", path: "/requirements/resume" },
     { name: "Resumen casos cerrados", path: "/requirements/closed/resume" },
+    { name: "Resumen casos externos", path: "/requirements/external/resume" },
     { name: "Resumen de cumplimiento", path: "/users/cumplimiento/resume" },
     { name: "Analisis por caso", path: "/analisis/resume" },
     { name: "Status por caso", path: "/casos/status/resume" },
@@ -70,12 +76,18 @@ export const ventasPages: Pages[] = [
     { name: 'divider', path: "Resúmenes" },
     { name: "Resumen de tareas por caso", path: "/tareas/casos" },
     { name: 'Resumen de casos', path: "/requirements/resume" },
+    { name: "Resumen casos externos", path: "/requirements/external/resume" },
     { name: "Resumen de ofertas por status", path: "/offer/resume/status" },
 
     // Clientes
     { name: 'divider', path: "Clientes" },
     { name: "Añadir cliente", path: "/user/add/client" },
     { name: "Lista de clientes", path: "/clients" },
+
+    // Avisos de cobro
+    { name: 'divider', path: "Avisos de cobro" },
+    { name: "Añadir aviso de cobro", path: "/avisosdecobro/add" },
+    { name: "Lista de avisos de cobro", path: "/avisosdecobro" },
 
 ];
 export const adminPages: Pages[] = [
@@ -114,6 +126,11 @@ export const adminPages: Pages[] = [
     { name: "Añadir cliente", path: "/user/add/client" },
     { name: "Lista de clientes", path: "/clients" },
 
+    // Avisos de cobro
+    { name: 'divider', path: "Avisos de cobro" },
+    { name: "Añadir aviso de cobro", path: "/avisosdecobro/add" },
+    { name: "Lista de avisos de cobro", path: "/avisosdecobro" },
+
     // Resumenes
     { name: 'divider', path: "Resúmenes" },
     { name: "Resumen de procesos", path: "/process/resume" },
@@ -122,6 +139,7 @@ export const adminPages: Pages[] = [
     { name: "Resumen de ofertas por status", path: "/offer/resume/status" },
     { name: "Resumen de casos", path: "/requirements/resume" },
     { name: "Resumen casos cerrados", path: "/requirements/closed/resume" },
+    { name: "Resumen casos externos", path: "/requirements/external/resume" },
     { name: "Resumen de cumplimiento", path: "/users/cumplimiento/resume" },
     { name: "Resumen de transacciones", path: "/transacciones/resume" },
     { name: "Resumen de pagos del periodo", path: "/pagos/periodo/resume" },

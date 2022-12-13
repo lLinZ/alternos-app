@@ -161,9 +161,8 @@ export const RegistroOfferPage: FC = () => {
     useEffect(() => {
         validarToken(router, setUserLogged);
         getOffers();
-        if (userLogged && userLogged?.function_name !== 'Tráfico' && userLogged?.role_name !== 'Administrador') {
+        if (userLogged && userLogged?.role_id !== 1 && userLogged?.role_id !== 5) {
             router("/end");
-            // console.log("Usuario", userLogged)
         }
     }, [userLogged])
 

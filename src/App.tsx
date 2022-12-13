@@ -47,6 +47,8 @@ import { RegistroAccountAdminPage } from './pages/registros/RegistroAccountAdmin
 import { RegistroOfertasPorStatusPage } from './pages/registros/RegistroOfertasPorStatus';
 import { RegistroCasosCerradosPage } from './pages/registros/RegistroCasosCerrados';
 import { ClientsPage } from './pages/ClientsPage';
+import { RegistroCasosExternosPage } from './pages/registros/RegistroCasosExternosPage';
+import { AvisosDeCobroPage } from './pages/AvisosDeCobroPage';
 
 function App() {
   return (
@@ -99,6 +101,10 @@ function App() {
         <Route path="/admin/user/add" element={<UserAddingPage />} />
         <Route path="/register/admin" element={<RegisterAdminPage />} />
 
+        {/* Avisos de cobro */}
+        <Route path="/avisosdecobro" element={<AvisosDeCobroPage />} />
+        <Route path="/avisosdecobro/add" element={<AvisosDeCobroPage />} />
+
         {/* Clientes */}
         <Route path="/user/add/client" element={<ClientAddingPage />} />
         <Route path="/clients" element={<ClientsPage />} />
@@ -121,6 +127,7 @@ function App() {
         <Route path="/pagos/periodo/resume" element={<RegistroTransaccionesPorPeriodoPage />} />
         <Route path="/requirements/resume" element={<RegistroCasosPage />} />
         <Route path="/requirements/closed/resume" element={<RegistroCasosCerradosPage />} />
+        <Route path="/requirements/external/resume" element={<RegistroCasosExternosPage />} />
         <Route path="/analisis/resume" element={<RegistroAnalisisPorCasoPage />} />
         <Route path="/tareas/resume" element={<RegistroTareasPage />} />
         <Route path="/tareas/casos" element={<RegistroTareasPorCasoPage />} />
