@@ -3,6 +3,7 @@ export * from "./WidgetCasosAbiertos";
 export * from "./WidgetList";
 export * from "./WidgetListaTareas";
 export * from "./WidgetRequirement";
+export * from "./WidgetResumenReq";
 export * from "./WidgetSecurity";
 export * from "./WidgetInformativo";
 export * from "./WidgetPago";

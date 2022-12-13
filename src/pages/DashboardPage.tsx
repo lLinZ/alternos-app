@@ -4,7 +4,7 @@ import { Box, Grid, IconButton, Typography, useTheme } from '@mui/material'
 
 import { useNavigate } from 'react-router-dom'
 
-import { WidgetRequirement, WidgetList, WidgetStats, WidgetListaTareas, WidgetSecurity, WidgetInformativo, WidgetPago, WidgetEstadoDeCuenta, WidgetBrandcenter, WidgetPagoPorCliente, WidgetCasosAbiertos } from '../components/dashboard'
+import { WidgetRequirement, WidgetList, WidgetStats, WidgetListaTareas, WidgetSecurity, WidgetInformativo, WidgetPago, WidgetEstadoDeCuenta, WidgetBrandcenter, WidgetPagoPorCliente, WidgetCasosAbiertos, WidgetResumenReq } from '../components/dashboard'
 import { Layout } from '../components/layout'
 
 import { validarToken } from '../lib/functions'
@@ -80,6 +80,7 @@ export const DashboardPage: FC = () => {
                                         <WidgetListaTareas />
                                         <WidgetPago userLogged={userLogged} />
                                         <WidgetBrandcenter />
+                                        <WidgetResumenReq />
                                     </>
                                 )
                             }
