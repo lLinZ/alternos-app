@@ -44,7 +44,8 @@ export const traficoPages: Pages[] = [
 
     // Ofertas
     { name: 'divider', path: "Ofertas" },
-    { name: "Ofertas", path: "/offer/resume" },
+    { name: "Lista de Ofertas", path: "/offers" },
+    { name: "Resumen de Ofertas", path: "/offer/resume" },
 
     // Resumenes
     { name: 'divider', path: "Resúmenes" },
@@ -69,8 +70,9 @@ export const ventasPages: Pages[] = [
 
     // Ofertas
     { name: 'divider', path: "Ofertas" },
-    { name: 'Agregar oferta', path: "/offer/add" },
+    { name: "Lista de Ofertas", path: "/offers" },
     { name: "Ofertas pendientes", path: "/offer/resume/pending" },
+    { name: 'Agregar oferta', path: "/offer/add" },
 
     // Resumenes
     { name: 'divider', path: "Resúmenes" },
@@ -103,6 +105,7 @@ export const adminPages: Pages[] = [
 
     // Ofertas
     { name: 'divider', path: "Ofertas" },
+    { name: "Lista de Ofertas", path: "/offers" },
     { name: "Ofertas", path: "/offer/resume" },
     { name: "Ofertas pendientes", path: "/offer/resume/pending" },
     { name: 'Agregar oferta', path: "/offer/add" },
