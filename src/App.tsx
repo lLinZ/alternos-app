@@ -49,6 +49,7 @@ import { RegistroCasosCerradosPage } from './pages/registros/RegistroCasosCerrad
 import { ClientsPage } from './pages/ClientsPage';
 import { RegistroCasosExternosPage } from './pages/registros/RegistroCasosExternosPage';
 import { AvisosDeCobroPage } from './pages/AvisosDeCobroPage';
+import { AvisosDeCobroAddingPage } from './pages/AvisosDeCobroAddingPage';
 
 function App() {
   return (
@@ -103,7 +104,7 @@ function App() {
 
         {/* Avisos de cobro */}
         <Route path="/avisosdecobro" element={<AvisosDeCobroPage />} />
-        <Route path="/avisosdecobro/add" element={<AvisosDeCobroPage />} />
+        <Route path="/avisosdecobro/add" element={<AvisosDeCobroAddingPage />} />
 
         {/* Clientes */}
         <Route path="/user/add/client" element={<ClientAddingPage />} />

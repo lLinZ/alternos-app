@@ -120,10 +120,10 @@ export const AvisosDeCobroPage: FC = () => {
 
                         <Divider textAlign="center" sx={{ fontSize: 12, fontWeight: "bold", color: "text.secondary" }}>Cambio de status</Divider>
                         <Box sx={styles.actions}>
-                            <Button variant="outlined" size="small" sx={styles.button} color="secondary" endIcon={<SendIcon />} onClick={() => changeStatus('emitido', Number(reg.id))}>Emitido</Button>
-                            <Button variant="outlined" size="small" sx={styles.button} color="secondary" endIcon={<NotEmitedIcon />} onClick={() => changeStatus('no emitido', Number(reg.id))}>No Emitido</Button>
-                            <Button variant="outlined" size="small" sx={styles.button} color="secondary" endIcon={<PayedIcon />} onClick={() => changeStatus('pagado', Number(reg.id))}>Pagado</Button>
-                            <Button variant="outlined" size="small" sx={styles.button} color="secondary" endIcon={<CancelIcon />} onClick={() => changeStatus('anulado', Number(reg.id))}>Anulado</Button>
+                            {reg.status !== "emitido" && (<Button variant="outlined" size="small" sx={styles.button} color="secondary" endIcon={<SendIcon />} onClick={() => changeStatus('emitido', Number(reg.id))}>Emitido</Button>)}
+                            {reg.status !== "no emitido" && (<Button variant="outlined" size="small" sx={styles.button} color="secondary" endIcon={<NotEmitedIcon />} onClick={() => changeStatus('no emitido', Number(reg.id))}>No Emitido</Button>)}
+                            {reg.status !== "pagado" && (<Button variant="outlined" size="small" sx={styles.button} color="secondary" endIcon={<PayedIcon />} onClick={() => changeStatus('pagado', Number(reg.id))}>Pagado</Button>)}
+                            {reg.status !== "anulado" && (<Button variant="outlined" size="small" sx={styles.button} color="secondary" endIcon={<CancelIcon />} onClick={() => changeStatus('anulado', Number(reg.id))}>Anulado</Button>)}
                         </Box>
                     </Box>
                 ))
