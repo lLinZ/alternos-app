@@ -179,10 +179,10 @@ export const AvisosDeCobroAddingPage = () => {
                             <Form onSubmit={handleSubmit}>
                                 <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
                                     <Grid item xs={12} lg={4}>
-                                        <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.name} variant="outlined" InputProps={{ sx: styles.input }} label="Monto" name="name" type="text" color="secondary" />
+                                        <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.monto} variant="outlined" InputProps={{ sx: styles.input }} label="Monto" name="monto" type="text" color="secondary" />
                                     </Grid>
                                     <Grid item xs={12} lg={4}>
-                                        <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.username} variant="outlined" InputProps={{ sx: styles.input }} label="Cuotas" name="username" type="text" color="secondary" />
+                                        <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.cuotas} variant="outlined" InputProps={{ sx: styles.input }} label="Cuotas" name="cuotas" type="text" color="secondary" />
                                     </Grid>
                                     <Grid item xs={12} lg={4}>
                                         <Select fullWidth color="secondary" sx={{ ...styles.input, "& fieldset": { border: "none" } }} defaultValue={"0"} value={values.frecuencia} onChange={handleChange} name="frecuencia" label="Frecuencia">
