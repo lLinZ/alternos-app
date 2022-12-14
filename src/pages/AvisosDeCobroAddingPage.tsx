@@ -48,6 +48,7 @@ interface SelectedOffer {
     id: number;
     salesman_name: string;
     customer_name: string;
+    customer_id: string;
     precio_oferta: number;
     costo_oferta: number;
 }
@@ -94,7 +95,7 @@ export const AvisosDeCobroAddingPage = () => {
         if (!values.frecuencia) errores.push("La fecuencia está vacía");
         if (!values.monto) errores.push("El monto está vacío");
         if (!inicio) errores.push("Debe seleccionar una fecha de inicio");
-        if (!selectedClient) errores.push("Debe seleccionar un cliente");
+        // if (!selectedClient) errores.push("Debe seleccionar un cliente");
         if (!selectedOffer) errores.push("Debe seleccionar una oferta");
 
         if (errores.length > 0) {
@@ -119,7 +120,7 @@ export const AvisosDeCobroAddingPage = () => {
 
         const body = new FormData();
 
-        body.append("customer_id", String(selectedClient?.id));
+        body.append("customer_id", String(selectedOffer?.customer_id));
         body.append("offer_id", String(selectedOffer?.id));
         body.append("cuotas", String(values.cuotas));
         body.append("frecuencia", String(values.frecuencia));
@@ -209,9 +210,9 @@ export const AvisosDeCobroAddingPage = () => {
                                             renderInput={(params: any) => <TextField color="secondary" {...params} InputProps={{ sx: styles.input }} variant="outlined" fullWidth />}
                                         />
                                     </Grid>
-                                    <Grid item xs={12}>
+                                    {/* <Grid item xs={12}>
                                         <ClientSelection selectedClient={selectedClient} setSelectedClient={setSelectedClient} open={openClient} setOpen={setOpenClient} />
-                                    </Grid>
+                                    </Grid> */}
                                     <Grid item xs={12}>
                                         <OfferSelection selectedOffer={selectedOffer} setSelectedOffer={setSelectedOffer} open={openOffer} setOpen={setOpenOffer} />
                                     </Grid>
@@ -451,6 +452,7 @@ const OfferSelection: FC<OfferSelectionProps> = ({ selectedOffer, setSelectedOff
         setSelectedOffer({
             id: offer.id,
             salesman_name: offer.salesman_name,
+            customer_id: offer.customer_id,
             customer_name: offer.customer_name,
             precio_oferta: offer.precio_oferta,
             costo_oferta: offer.costo_oferta,
