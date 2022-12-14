@@ -70,7 +70,7 @@ export const TrafficUserPage: FC = () => {
     const router = useNavigate();
 
     const selectuserDeActividad = async (actividadId: number, user: any, fecha: any) => {
-        const currentActivityWithUser = { actividadId, userId: user.user_id, userName: user.user_name, fecha }
+        const currentActivityWithUser = { actividadId, userId: user.user_id, userName: user.user_name, fecha, observacion: '' }
         const newArray = selectedActividades ? [...selectedActividades.filter((act: any) => act.actividadId !== currentActivityWithUser.actividadId), currentActivityWithUser] : [currentActivityWithUser]
         setSelectedActividades(newArray);
         setOpenUserModal(false);
@@ -380,6 +380,8 @@ interface ActivityCardProps {
 const ActivityCard: FC<ActivityCardProps> = ({ act, setOpenUserModal, currentActividad, setCurrentActividad, selectedActividades, setSelectedActividades, setCurrentFechasVencimiento, currentFechasVencimiento }) => {
 
     const [edit, setEdit] = useState<boolean>(false);
+    const [editObs, setEditObs] = useState<boolean>(false);
+    const [observacion, setObservacion] = useState<string>('');
     const [fecha, setFecha] = useState<any>(act.vencimiento_estimado);
     const [newFecha, setNewFecha] = useState<Moment | null>(
         moment(),
@@ -400,7 +402,20 @@ const ActivityCard: FC<ActivityCardProps> = ({ act, setOpenUserModal, currentAct
         setSelectedActividades(newSelectedActividades);
         setEdit(false);
     }
+    const handleChangeObs = (e: ChangeEvent<HTMLInputElement>) => {
+        setObservacion(e.target.value);
+    }
 
+    const saveObs = () => {
+
+        const prevSelected = selectedActividades.filter((sa: any) => sa.actividadId === act.id).length > 0 ? selectedActividades.filter((sa: any) => sa.actividadId === act.id)[0] : false;
+        const excludeSelectedActividades = prevSelected ? selectedActividades.filter((s: any) => s.actividadId !== act.id) : false;
+        const newActividad = excludeSelectedActividades ? { actividadId: prevSelected.actividadId, userId: prevSelected.userId, userName: prevSelected.userName, fecha, observacion } : false;
+        const newSelectedActividades = excludeSelectedActividades ? [...excludeSelectedActividades, newActividad] : selectedActividades;
+        newSelectedActividades.sort((a: any, b: any) => a.actividadId - b.actividadId)
+        setSelectedActividades(newSelectedActividades);
+        setEditObs(false);
+    }
     return (
         <LocalizationProvider locale="es" dateAdapter={AdapterMoment}>
 
@@ -431,7 +446,17 @@ const ActivityCard: FC<ActivityCardProps> = ({ act, setOpenUserModal, currentAct
                             <Typography variant="subtitle2" color="text.secondary">Vence {fecha}</Typography>
                             <IconButton onClick={() => setEdit(true)} > <EditIcon /></IconButton>
                         </Box>)}
-                        <TextField label="Observacion" multiline fullWidth color="secondary" variant="outlined" />
+                        {editObs ? (
+                            <Box sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
+
+                                <IconButton onClick={() => setEditObs(false)} color="error"><EditOffIcon /></IconButton>
+                                <TextField label="Observacion" multiline fullWidth color="secondary" variant="outlined" value={observacion} onChange={handleChangeObs} />
+                                <IconButton onClick={saveObs} color="success" ><SaveIcon /></IconButton>
+                            </Box>
+                        ) : (<Box sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
+                            <Typography variant="subtitle2" color="text.secondary">Observacion: {observacion}</Typography>
+                            <IconButton onClick={() => setEditObs(true)} > <EditIcon /></IconButton>
+                        </Box>)}
                     </Box>
                     {
                         selectedActividades && selectedActividades.filter((activitySelected: any) => activitySelected.actividadId === act.id).length > 0 ? (<>
