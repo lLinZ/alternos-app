@@ -17,6 +17,7 @@ import { WidgetResumenTareas } from '../components/dashboard/WidgetResumenTareas
 import { WidgetResumenOfertasVentas } from '../components/dashboard/WidgetResumenOfertasVentas'
 import { WidgetOfertasAprobadas } from '../components/dashboard/WidgetOfertasAprobadas'
 import { WidgetAvisosDeCobro } from '../components/dashboard/WidgetAvisoDeCobro'
+import { WidgetResumenVencimientos } from '../components/dashboard/WidgetResumenVencimientos'
 
 export const DashboardPage: FC = () => {
     const [userLogged, setUserLogged] = useState<User | null>(null);
@@ -78,6 +79,7 @@ export const DashboardPage: FC = () => {
                                 // Administrador
                                 userLogged && userLogged.role_id === 1 && (
                                     <>
+                                        <WidgetResumenVencimientos />
                                         <WidgetResumenReq />
                                         <WidgetResumenTareas />
                                         <WidgetResumenOfertasVentas />
@@ -115,6 +117,7 @@ export const DashboardPage: FC = () => {
                                 userLogged && userLogged.role_id === 4 && (
                                     <>
                                         <WidgetResumenOfertasVentas />
+                                        <WidgetResumenVencimientos />
                                         <WidgetRequirement userLogged={userLogged} />
                                         <WidgetListaTareas />
                                         <WidgetPagoPorCliente userLogged={userLogged} />
@@ -146,11 +149,12 @@ export const DashboardPage: FC = () => {
                                 // Rol Administracion
                                 userLogged && userLogged.role_id === 6 && (
                                     <>
+                                        <WidgetResumenVencimientos />
+                                        <WidgetAvisosDeCobro />
                                         <WidgetRequirement userLogged={userLogged} />
                                         <WidgetListaTareas />
                                         <WidgetPagosPorConfirmar />
                                         <WidgetEstadoDeCuentaPorCliente />
-                                        <WidgetAvisosDeCobro />
                                     </>
                                 )
                             }
