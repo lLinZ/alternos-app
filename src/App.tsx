@@ -52,6 +52,7 @@ import { AvisosDeCobroPage } from './pages/AvisosDeCobroPage';
 import { AvisosDeCobroAddingPage } from './pages/AvisosDeCobroAddingPage';
 import { RegistroOfertasPage } from './pages/registros/RegistroOfertasPage';
 import { OfferDetailPage } from './pages/OfferDetailPage';
+import { FichaClientePage } from './pages/FichaClientePage';
 
 function App() {
   return (
@@ -112,6 +113,7 @@ function App() {
         {/* Clientes */}
         <Route path="/user/add/client" element={<ClientAddingPage />} />
         <Route path="/clients" element={<ClientsPage />} />
+        <Route path="/client/:id" element={<FichaClientePage />} />
 
         {/* Pagina de perfil */}
         <Route path="/profile" element={<ProfilePage />} />

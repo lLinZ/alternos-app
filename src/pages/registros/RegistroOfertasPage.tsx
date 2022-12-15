@@ -109,6 +109,7 @@ export const RegistroOfertasPage: FC = () => {
                 {offers && offers.map((reg) => (
                     <Box key={reg.id} sx={styles.registroBox}>
                         <Chip variant="outlined" size='small' sx={{ width: 100, mb: 2, color: getColorByStatus(reg.status), border: `1px solid ${getColorByStatus(reg.status)}` }} label={ucfirst(reg.status)} />
+                        <Typography variant="subtitle2" color="text.secondary" fontWeight="bold">#{reg.id}</Typography>
                         <Typography variant="subtitle2">Comprador {reg.customer_name}</Typography>
                         <Typography variant="subtitle2">Vendedor {reg.salesman_name}</Typography>
                         <Typography variant="subtitle2" color="text.secondary">Precio {reg.precio_oferta}</Typography>
