@@ -14,6 +14,11 @@ const initialValues = {
     name: "",
     phone: "",
     username: "",
+    cedularif: "",
+    direccionfiscal: "",
+    contacto: "",
+    descripcion: "",
+    cuentacontable: "",
 }
 
 
@@ -60,6 +65,11 @@ export const ClientAddingPage = () => {
         body.append("username", String(values.username));
         body.append("name", String(values.name));
         body.append("phone", String(values.phone));
+        body.append("cedularif", String(values.cedularif));
+        body.append("direccionfiscal", String(values.direccionfiscal));
+        body.append("contacto", String(values.contacto));
+        body.append("descripcion", String(values.descripcion));
+        body.append("cuentacontable", String(values.cuentacontable));
         const options = {
             method: "POST",
             body
@@ -118,6 +128,21 @@ export const ClientAddingPage = () => {
                                 </Grid>
                                 <Grid item xs={12} lg={6}>
                                     <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.phone} variant="outlined" InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} label="Teléfono" name="phone" type="text" color="secondary" />
+                                </Grid>
+                                <Grid item xs={12} lg={6}>
+                                    <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.cedularif} variant="outlined" InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} label="Cedula / Rif" name="cedularif" type="text" color="secondary" />
+                                </Grid>
+                                <Grid item xs={12} lg={6}>
+                                    <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.contacto} variant="outlined" InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} label="Contacto" name="contacto" type="text" color="secondary" />
+                                </Grid>
+                                <Grid item xs={12} lg={6}>
+                                    <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} multiline value={values.cuentacontable} variant="outlined" InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} label="Cuenta Contable" name="cuentacontable" type="text" color="secondary" />
+                                </Grid>
+                                <Grid item xs={12} lg={6}>
+                                    <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} multiline value={values.descripcion} variant="outlined" InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} label="Descripcion" name="descripcion" type="text" color="secondary" />
+                                </Grid>
+                                <Grid item xs={12} lg={6}>
+                                    <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} multiline value={values.direccionfiscal} variant="outlined" InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} label="Direccion fiscal" name="direccionfiscal" type="text" color="secondary" />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Button type="submit" fullWidth variant="contained" color="secondary" sx={{ p: 2, borderRadius: 5, textTransform: "none" }} disableElevation>Registrar</Button>
