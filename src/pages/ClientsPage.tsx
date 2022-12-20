@@ -45,7 +45,7 @@ export const ClientsPage: FC = () => {
                             <Typography variant="subtitle1" fontWeight={'bold'}>{reg.name}</Typography>
                             <Typography variant="subtitle2" color="text.secondary">{reg.phone}</Typography>
                         </Box>
-                        <IconButton color="info" onClick={() => router(`/ficha/${reg.id}`)}><FeedIcon /></IconButton>
+                        <IconButton color="info" onClick={() => router(`/client/${reg.id}`)}><FeedIcon /></IconButton>
                     </Box>
                 ))
                 }

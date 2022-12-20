@@ -13,6 +13,7 @@ interface FichaCliente {
     phone: string;
     cedularif: string;
     direccionfiscal: string;
+    function_name: string;
     contacto: string;
     descripcion: string;
     cuentacontable: string;
@@ -21,6 +22,7 @@ const initialValues: FichaCliente = {
     id: 0,
     name: "",
     username: "",
+    function_name: "",
     phone: "",
     cedularif: "",
     direccionfiscal: "",
@@ -47,7 +49,9 @@ export const FichaClientePage: FC = () => {
 
     }
     useEffect(() => {
-        getData();
+        if (values.id === 0) {
+            getData();
+        }
     }, [values])
     return (
         <Box sx={{ width: "80%", m: "20px auto" }}>
@@ -61,6 +65,10 @@ export const FichaClientePage: FC = () => {
                     <Grid item xs={12} sm={6}>
                         <Typography color="text.primary" variant="subtitle2" fontWeight="bold">Nombre</Typography>
                         <Typography color="text.secondary" variant="subtitle2">{values.name}</Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Typography color="text.primary" variant="subtitle2" fontWeight="bold">Departamento</Typography>
+                        <Typography color="text.secondary" variant="subtitle2">{values.function_name}</Typography>
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <Typography color="text.primary" variant="subtitle2" fontWeight="bold">Cedula / RIF</Typography>
@@ -81,7 +89,7 @@ export const FichaClientePage: FC = () => {
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <Typography color="text.primary" variant="subtitle2" fontWeight="bold">Email</Typography>
-                        <Typography color="text.secondary" variant="subtitle2">{values.username}</Typography>
+                        <Typography color="text.secondary" variant="subtitle2">{values.username ? values.username : 'No posee'}</Typography>
                     </Grid>
 
                     {/* Desc. Empresa */}
@@ -90,11 +98,11 @@ export const FichaClientePage: FC = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <Typography color="text.primary" variant="subtitle2" fontWeight="bold">Direccion Fiscal</Typography>
-                        <Typography color="text.secondary" variant="subtitle2">{values.direccionfiscal}</Typography>
+                        <Typography color="text.secondary" variant="subtitle2">{values.direccionfiscal ? values.direccionfiscal : 'No posee'}</Typography>
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <Typography color="text.primary" variant="subtitle2" fontWeight="bold">Cuenta contable</Typography>
-                        <Typography color="text.secondary" variant="subtitle2">{values.cuentacontable}</Typography>
+                        <Typography color="text.secondary" variant="subtitle2">{values.cuentacontable ? values.cuentacontable : 'No posee'}</Typography>
                     </Grid>
                 </Grid>
             </Box>
