@@ -80,6 +80,10 @@ const BasicCard: FC<CardProps> = ({ subtitleOver, title, subtitleBelow, descript
                     <Box display="flex" flexWrap="wrap" justifyContent="space-between" alignItems="center">
                         <Button size="small" color="secondary" onClick={() => cambiarRoles(2, user.status, user, users)} sx={{ p: 1 }}>Cliente</Button>
                         <Button size="small" color="secondary" onClick={() => cambiarRoles(3, user.status, user, users)} sx={{ p: 1 }}>Usuario</Button>
+                        <Button size="small" color="secondary" onClick={() => cambiarRoles(4, user.status, user, users)} sx={{ p: 1 }}>Comercial</Button>
+                        <Button size="small" color="secondary" onClick={() => cambiarRoles(5, user.status, user, users)} sx={{ p: 1 }}>Tráfico</Button>
+                        <Button size="small" color="secondary" onClick={() => cambiarRoles(6, user.status, user, users)} sx={{ p: 1 }}>Administración</Button>
+                        <Button size="small" color="secondary" onClick={() => cambiarRoles(7, user.status, user, users)} sx={{ p: 1 }}>Supervisor</Button>
                         <Button size="small" color="secondary" onClick={() => cambiarRoles(99, user.status, user, users)} sx={{ p: 1 }}>Invitado</Button>
                     </Box>
                     <Divider sx={{ mt: 2, mb: 2 }} />
