@@ -180,7 +180,7 @@ export const ProcessesPage: FC<Props> = () => {
                         <TextField fullWidth label="Nombre" name="name" color="secondary" onChange={(e) => setProcess(e.target.value)} value={process} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.1)", borderRadius: 5, input: { border: "none" }, "& fieldset": { border: "none" }, }} />
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField fullWidth label="Descripcion larga" name="descripcion" color="secondary" onChange={(e) => setProcess(e.target.value)} value={descripcion} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.1)", borderRadius: 5, input: { border: "none" }, "& fieldset": { border: "none" }, }} />
+                        <TextField fullWidth label="Descripcion larga" name="descripcion" color="secondary" onChange={(e) => setDescripcion(e.target.value)} value={descripcion} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.1)", borderRadius: 5, input: { border: "none" }, "& fieldset": { border: "none" }, }} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <TextField fullWidth label="Centro de costo 1" name="costouno" color="secondary" onChange={(e) => setCentroDeCostoUno(e.target.value)} value={centrodecostouno} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.1)", borderRadius: 5, input: { border: "none" }, "& fieldset": { border: "none" }, }} />
