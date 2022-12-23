@@ -179,6 +179,9 @@ export const AvisosDeCobroAddingPage = () => {
                         {({ values, handleSubmit, handleChange, errors }) => (
                             <Form onSubmit={handleSubmit}>
                                 <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
+                                    <Grid item xs={12}>
+                                        <OfferSelection selectedOffer={selectedOffer} setSelectedOffer={setSelectedOffer} open={openOffer} setOpen={setOpenOffer} />
+                                    </Grid>
                                     <Grid item xs={12} lg={4}>
                                         <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.monto} variant="outlined" InputProps={{ sx: styles.input }} label="Monto" name="monto" type="text" color="secondary" />
                                     </Grid>
@@ -213,9 +216,6 @@ export const AvisosDeCobroAddingPage = () => {
                                     {/* <Grid item xs={12}>
                                         <ClientSelection selectedClient={selectedClient} setSelectedClient={setSelectedClient} open={openClient} setOpen={setOpenClient} />
                                     </Grid> */}
-                                    <Grid item xs={12}>
-                                        <OfferSelection selectedOffer={selectedOffer} setSelectedOffer={setSelectedOffer} open={openOffer} setOpen={setOpenOffer} />
-                                    </Grid>
                                     <Grid item xs={12}>
                                         <Button type="submit" fullWidth variant="contained" color="secondary" sx={styles.button} disableElevation>Registrar</Button>
                                     </Grid>
