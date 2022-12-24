@@ -1,6 +1,6 @@
-import { Dialog, AppBar, Toolbar, IconButton, Typography, Box, Button, CircularProgress, Slide } from '@mui/material';
+import { Dialog, AppBar, Toolbar, IconButton, Typography, Grid, TextField, Box, Button, CircularProgress, Slide } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
-import { Dispatch, FC, forwardRef, ReactElement, Ref, SetStateAction, useEffect, useState } from 'react'
+import { ChangeEvent, Dispatch, FC, forwardRef, ReactElement, Ref, SetStateAction, useEffect, useState } from 'react';
 import { baseUrl } from '../../common/baseUrl';
 import CloseIcon from '@mui/icons-material/Close';
 import { ISelectedProcess, Process } from '../../interfaces/process-type';
@@ -25,6 +25,7 @@ interface Props {
 }
 export const ProcessesModal: FC<Props> = ({ selectedProcess, setSelectedProcess, buttonColor = "secondary", setUserSelected }) => {
     const [processes, setProcesses] = useState<Process[] | null>(null)
+    const [briefing, setBriefing] = useState<string>("");
     const [open, setOpen] = useState<boolean>(false);
     const handleOpenModal = () => {
         setOpen(true);
@@ -33,8 +34,9 @@ export const ProcessesModal: FC<Props> = ({ selectedProcess, setSelectedProcess,
     const handleCloseModal = () => {
         setOpen(false);
     }
-    const selectProcess = (id: number, name: string, actividades: any[]) => {
-        setSelectedProcess({ id, name, actividades });
+    const selectProcess = (id: number, name: string, actividades: any[], briefing: string) => {
+        setSelectedProcess({ id, name, actividades, briefing });
+        setBriefing("");
         setOpen(false);
     }
 
@@ -94,8 +96,21 @@ export const ProcessesModal: FC<Props> = ({ selectedProcess, setSelectedProcess,
                             <Box sx={{ display: "flex", flexDirection: "column" }}>
                                 <Typography variant="subtitle1" fontWeight="bold">{process.name}</Typography>
                                 <Typography variant="subtitle2" fontWeight={200} color="text.secondary">{process.actividades?.length} {process.actividades && process.actividades?.length > 1 ? " actividades" : " actividad"}</Typography>
+                                <Grid item xs={12} style={{marginTop: 10, width: '50rem'}}>
+                                    <TextField
+                                        fullWidth
+                                        label="Briefing"
+                                        name="briefing"
+                                        value={briefing}
+                                        onChange={(e: ChangeEvent<HTMLInputElement>) => setBriefing(e.currentTarget.value)}
+                                        variant="outlined"
+                                        color="secondary"
+                                        InputProps={{ sx: { borderRadius: 3 } }}
+                                        size="small"
+                                    />
+                                </Grid>
                             </Box>
-                            <Button color="secondary" variant="contained" onClick={() => selectProcess(process.id, process.name, process.actividades)} sx={{ p: 2, borderRadius: 5, textTransform: "none" }} disableElevation disabled={selectedProcess?.id === process.id}>{selectedProcess?.id === process.id ? 'Seleccionado' : 'Seleccionar'}{selectedProcess?.id === process.id && <CheckCircleRounded color="success" />}</Button>
+                            <Button color="secondary" variant="contained" onClick={() => selectProcess(process.id, process.name, process.actividades, briefing)} sx={{ p: 2, borderRadius: 5, textTransform: "none" }} disableElevation disabled={selectedProcess?.id === process.id}>{selectedProcess?.id === process.id ? 'Seleccionado' : 'Seleccionar'}{selectedProcess?.id === process.id && <CheckCircleRounded color="success" />}</Button>
                         </Box>)) : <CircularProgress color="secondary" />}
                 </Box>
             </Dialog>

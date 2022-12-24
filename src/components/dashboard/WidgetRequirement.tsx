@@ -71,6 +71,7 @@ export const WidgetRequirement: FC<Props> = ({ userLogged }) => {
         }
     }
     const onSubmit = async () => {
+        console.log(selectedProcess);
         setIsSubmitting(true);
         const url = `${baseUrl}/requerimiento`;
         let errores = [];
@@ -99,6 +100,7 @@ export const WidgetRequirement: FC<Props> = ({ userLogged }) => {
             body.append("user_id", String(userLogged ? userLogged.id : ''));
             body.append("process_id", String(selectedProcess ? selectedProcess.id : ''));
             body.append("description", String(description));
+            body.append("briefing", String(selectedProcess ? selectedProcess.briefing : ''));
             body.append("task_assigned_id", String(userSelected?.id));
             const options = {
                 method: "POST",
@@ -109,7 +111,18 @@ export const WidgetRequirement: FC<Props> = ({ userLogged }) => {
                 const data = await respuesta.json();
                 console.log(data)
                 if (data.exito === "SI") {
-                    router(`/briefing/new/${data.registros[0].process_id}/${data.registros[0].id}`);
+                    Swal.fire({
+                        title: "Exito",
+                        text: "Requerimiento registrado exitosamente",
+                        icon: "success",
+                    }).then(click => {
+                        setSelectedProcess(null);
+                        setDescription("");
+                        setUserSelected(null);
+                        setIsSubmitting(false);
+                        router("/dashboard");
+                    })
+                    // router(`/briefing/new/${data.registros[0].process_id}/${data.registros[0].id}`);
                 } else {
                     Swal.fire({ title: "Error", text: data.mensaje, icon: "error" })
                     setIsSubmitting(false);
@@ -170,7 +183,7 @@ export const WidgetRequirement: FC<Props> = ({ userLogged }) => {
                 <Grid item xs={12}>
                     <TextField
                         fullWidth
-                        label="Descripcion"
+                        label="Descripción"
                         name="description"
                         value={description}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => setDescription(e.currentTarget.value)}
