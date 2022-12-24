@@ -35,6 +35,7 @@ const Transition = forwardRef(function Transition(
 });
 export const WidgetRequirement: FC<Props> = ({ userLogged }) => {
     const [selectedProcess, setSelectedProcess] = useState<ISelectedProcess | null>(null);
+    const [briefing, setBriefing] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [userSelected, setUserSelected] = useState<{ id: number; name: string } | null>(null);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -100,7 +101,7 @@ export const WidgetRequirement: FC<Props> = ({ userLogged }) => {
             body.append("user_id", String(userLogged ? userLogged.id : ''));
             body.append("process_id", String(selectedProcess ? selectedProcess.id : ''));
             body.append("description", String(description));
-            body.append("briefing", String(selectedProcess ? selectedProcess.briefing : ''));
+            body.append("briefing", String(briefing));
             body.append("task_assigned_id", String(userSelected?.id));
             const options = {
                 method: "POST",
@@ -118,6 +119,7 @@ export const WidgetRequirement: FC<Props> = ({ userLogged }) => {
                     }).then(click => {
                         setSelectedProcess(null);
                         setDescription("");
+                        setBriefing("");
                         setUserSelected(null);
                         setIsSubmitting(false);
                         router("/dashboard");
@@ -207,6 +209,19 @@ export const WidgetRequirement: FC<Props> = ({ userLogged }) => {
                                     </Box>
                                     <CheckCircleIcon color="success" />
                                 </Box>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    label="Briefing"
+                                    name="briefing"
+                                    value={briefing}
+                                    onChange={(e: ChangeEvent<HTMLInputElement>) => setBriefing(e.currentTarget.value)}
+                                    variant="outlined"
+                                    color="secondary"
+                                    InputProps={{ sx: { borderRadius: 3 } }}
+                                    size="small"
+                                />
                             </Grid>
                             <Grid item xs={12}>
                                 <Button color="secondary" sx={{ boxShadow: "0 0 5px rgba(0,0,0,0.1)", p: 1, borderRadius: 3, textTransform: "none" }} fullWidth onClick={handleModalUser} >Seleccionar Usuario</Button>

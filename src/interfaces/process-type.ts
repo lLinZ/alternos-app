@@ -24,5 +24,4 @@ export type ISelectedProcess = {
     id: number;
     name: string;
     actividades: any[];
-    briefing: string;
 }
