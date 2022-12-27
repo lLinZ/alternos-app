@@ -7,6 +7,7 @@ import CloseIcon from "@mui/icons-material/CloseRounded";
 import Swal from 'sweetalert2';
 import { baseUrl } from '../../common/baseUrl';
 import { User } from '../../interfaces/user-type';
+import { Client } from '../../interfaces/client-type';
 import { useNavigate } from 'react-router-dom';
 import { ISelectedProcess } from '../../interfaces/process-type';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -37,34 +38,59 @@ export const WidgetRequirement: FC<Props> = ({ userLogged }) => {
     const [selectedProcess, setSelectedProcess] = useState<ISelectedProcess | null>(null);
     const [briefing, setBriefing] = useState<string>("");
     const [description, setDescription] = useState<string>("");
+    const [clientSelected, setClientSelected] = useState<{ id: number; name: string } | null>(null);
     const [userSelected, setUserSelected] = useState<{ id: number; name: string } | null>(null);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [openUserModal, setOpenUserModal] = useState<boolean>(false);
+    // const [openUserModal, setOpenUserModal] = useState<boolean>(false);
+    const [openClientModal, setOpenClientModal] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
 
-    const [users, setUsers] = useState<User[] | null>(null);
+    // const [users, setUsers] = useState<User[] | null>(null);
+    const [clients, setClients] = useState<Client[] | null>(null);
     const theme = useTheme();
     const router = useNavigate();
-    const handleModalUser = () => {
-        getUsers(2);
-        setOpenUserModal(true);
+    // const handleModalUser = () => {
+    //     getUsers(2);
+    //     setOpenUserModal(true);
+    // }
+    const handleModalClient = () => {
+        getClients();
+        setOpenClientModal(true);
     }
     /**
 * Funcion para obtener los usuarios por id de funcion
 * @param functionId ID de la funcion del usuario siguiente al actual
 */
-    const getUsers = async (functionId: number) => {
-        setUserSelected(null);
-        const url = `${baseUrl}/listausersxfunction?function_id=${functionId}`
+    // const getUsers = async (functionId: number) => {
+    //     setUserSelected(null);
+    //     const url = `${baseUrl}/listausersxfunction?function_id=${functionId}`
+    //     try {
+    //         const respuesta = await fetch(url);
+
+    //         const data = await respuesta.json();
+    //         console.log(data);
+    //         if (data.exito === "SI") {
+    //             setUsers(data.registros[0].users)
+    //         } else {
+    //             setUsers(null);
+    //             console.log("No se logro encontrar ningún usuario")
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
+    const getClients = async () => {
+        setClientSelected(null);
+        const url = `${baseUrl}/listaclientes?status=Activo`
         try {
             const respuesta = await fetch(url);
 
             const data = await respuesta.json();
             console.log(data);
             if (data.exito === "SI") {
-                setUsers(data.registros[0].users)
+                setClients(data.registros);
             } else {
-                setUsers(null);
+                setClients(null);
                 console.log("No se logro encontrar ningún usuario")
             }
         } catch (error) {
@@ -86,9 +112,12 @@ export const WidgetRequirement: FC<Props> = ({ userLogged }) => {
         if (!description) {
             errores.push("La descripcion es obligatoria");
         }
-        if (!userSelected) {
-            errores.push("Debe seleccionar un usuario");
+        if (!clientSelected) {
+            errores.push("Debe seleccionar un cliente");
         }
+        // if (!userSelected) {
+        //     errores.push("Debe seleccionar un usuario");
+        // }
         if (errores.length > 0) {
             Swal.fire({
                 title: "Error",
@@ -100,9 +129,10 @@ export const WidgetRequirement: FC<Props> = ({ userLogged }) => {
             const body = new FormData();
             body.append("user_id", String(userLogged ? userLogged.id : ''));
             body.append("process_id", String(selectedProcess ? selectedProcess.id : ''));
+            body.append("customer_id", String(clientSelected?.id));
             body.append("description", String(description));
             body.append("briefing", String(briefing));
-            body.append("task_assigned_id", String(userSelected?.id));
+            // body.append("task_assigned_id", String(userSelected?.id));
             const options = {
                 method: "POST",
                 body
@@ -119,8 +149,9 @@ export const WidgetRequirement: FC<Props> = ({ userLogged }) => {
                     }).then(click => {
                         setSelectedProcess(null);
                         setDescription("");
+                        setClientSelected(null);
                         setBriefing("");
-                        setUserSelected(null);
+                        // setUserSelected(null);
                         setIsSubmitting(false);
                         router("/dashboard");
                     })
@@ -223,11 +254,45 @@ export const WidgetRequirement: FC<Props> = ({ userLogged }) => {
                                     size="small"
                                 />
                             </Grid>
+{/* //////////////// */}
                             <Grid item xs={12}>
+                                <Button color="secondary" sx={{ boxShadow: "0 0 5px rgba(0,0,0,0.1)", p: 1, borderRadius: 3, textTransform: "none" }} fullWidth onClick={handleModalClient} >Seleccionar Cliente</Button>
+                            </Grid>
+                            {/* Modal de usaurios */}
+                            <Dialog onClose={() => setOpenClientModal(false)} open={openClientModal} fullScreen TransitionComponent={Transition} PaperProps={{ sx: { background: "#F5F5F5" } }}>
+                                <AppBar sx={{ position: 'relative' }} elevation={0}>
+                                    <Toolbar>
+                                        <IconButton
+                                            edge="start"
+                                            color="inherit"
+                                            onClick={() => setOpenClientModal(false)}
+                                            aria-label="close"
+                                        >
+                                            <CloseIcon />
+                                        </IconButton>
+                                        <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                                            Seleccionar cliente
+                                        </Typography>
+                                    </Toolbar>
+                                </AppBar>
+                                <Box sx={{ width: "80%", m: "20px auto" }}>
+                                    {clients && (<FilterBox data={clients} setData={setClients} category1="name" category2="id" />)}
+                                    {clients ? clients.map((usuario: any) => (
+                                        <Box key={usuario.id} sx={{ p: 2, borderRadius: 5, m: 1, display: "flex", background: "#FFF", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
+                                            <Typography>{usuario.id} - {usuario.name}</Typography>
+                                            <Button variant="contained" disabled={Number(userSelected?.id) === Number(usuario.id)} color="secondary" sx={{ p: 2, borderRadius: 5, textTransform: "none" }} disableElevation onClick={() => {
+                                                setClientSelected({ id: usuario.id, name: usuario.name })
+                                                setOpenClientModal(false);
+                                            }}>Seleccionar</Button>
+                                        </Box>)) : <CircularProgress color="secondary" />}
+                                </Box>
+                            </Dialog>
+{/* //////////////// */}
+                            {/* <Grid item xs={12}>
                                 <Button color="secondary" sx={{ boxShadow: "0 0 5px rgba(0,0,0,0.1)", p: 1, borderRadius: 3, textTransform: "none" }} fullWidth onClick={handleModalUser} >Seleccionar Usuario</Button>
                             </Grid>
                             {/* Modal de usaurios */}
-                            <Dialog onClose={() => setOpenUserModal(false)} open={openUserModal} fullScreen TransitionComponent={Transition} PaperProps={{ sx: { background: "#F5F5F5" } }}>
+                            {/* <Dialog onClose={() => setOpenUserModal(false)} open={openUserModal} fullScreen TransitionComponent={Transition} PaperProps={{ sx: { background: "#F5F5F5" } }}>
                                 <AppBar sx={{ position: 'relative' }} elevation={0}>
                                     <Toolbar>
                                         <IconButton
@@ -254,11 +319,25 @@ export const WidgetRequirement: FC<Props> = ({ userLogged }) => {
                                             }}>Seleccionar</Button>
                                         </Box>)) : <CircularProgress color="secondary" />}
                                 </Box>
-                            </Dialog>
+                            </Dialog> */}
                         </>
                     )
                 }
                 {
+                    clientSelected && (
+                        <Grid item xs={12}>
+                            <Box sx={{ display: "flex", justifyContent: "space-between ", alignItems: "center", p: 1, width: "100%" }}>
+                                <Box>
+                                    <Typography variant="subtitle2" fontWeight={"bold"}>Cliente</Typography>
+                                    <Typography variant="subtitle2" fontWeight={400}>{clientSelected.name}</Typography>
+                                </Box>
+                                <CheckCircleIcon color="success" />
+                            </Box>
+                        </Grid>
+                    )
+                }
+
+                {/* {
                     userSelected && (
                         <Grid item xs={12}>
                             <Box sx={{ display: "flex", justifyContent: "space-between ", alignItems: "center", p: 1, width: "100%" }}>
@@ -270,9 +349,9 @@ export const WidgetRequirement: FC<Props> = ({ userLogged }) => {
                             </Box>
                         </Grid>
                     )
-                }
+                } */}
                 <Grid item xs={12}>
-                    <LoadingButton sx={{ p: 1, borderRadius: 3, textTransform: "none" }} disableElevation loading={isSubmitting} fullWidth color="secondary" variant="contained" onClick={() => onSubmit()} disabled={!userSelected}>Enviar</LoadingButton>
+                    <LoadingButton sx={{ p: 1, borderRadius: 3, textTransform: "none" }} disableElevation loading={isSubmitting} fullWidth color="secondary" variant="contained" onClick={() => onSubmit()} disabled={!clientSelected}>Enviar</LoadingButton>
                 </Grid>
             </Grid>
         </Box >
