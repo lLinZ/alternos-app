@@ -256,6 +256,9 @@ export const BasicTaskPage: FC<Props> = () => {
     const changeStatus = async (id: number, status: 'en proceso' | 'pendiente') => {
         const url = `${baseUrl}/cambiastatustarea`;
 
+        console.log('id',id);
+        console.log('status',status);
+
         const body = new FormData();
 
         body.append('task_id', String(id));
@@ -420,16 +423,29 @@ export const BasicTaskPage: FC<Props> = () => {
                             <Typography variant="body1" component="p">
                                 {selectedTask?.vence}
                             </Typography>
+                            <Divider sx={{ marginBlock: 2 }} />
+                            <Typography variant="body1" component="p" fontWeight="bold">
+                                Briefing
+                            </Typography>
+                            <Typography variant="body1" component="p">
+                                {selectedTask?.briefing}
+                            </Typography>
                         </Box>
-                        <Button component="a" href={`/briefing/${selectedTask?.case_id}`} target={"_blank"} style={{
+                        {/* <Button component="a" href={`/briefing/${selectedTask?.case_id}`} target={"_blank"} style={{
                             borderRadius: 15, padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em", boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
                             background: "rgba(255,255,255,0.6)",
                             backdropFilter: 'blur(6px)',
-                        }}>Ver Brief</Button>
+                        }}>Ver Brief</Button> */}
+                        <Button 
+                            component="a" href={`/client/${selectedTask?.customer_id}`} target={"_blank"} style={{
+                            borderRadius: 15, padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em", boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
+                            background: "rgba(255,255,255,0.6)",
+                            backdropFilter: 'blur(6px)',
+                        }}>Ver Datos del cliente</Button>
                         {
                             selectedFile && (
                                 <>
-                                    <Typography variant="overline">Nombre de archivo</Typography>
+                                    <Typography variant="overline">Nombre de archivo de resultado</Typography>
                                     <Typography variant="subtitle2" color="text.secondary">{selectedFile.name}</Typography>
                                 </>
                             )
@@ -452,14 +468,14 @@ export const BasicTaskPage: FC<Props> = () => {
                                 e.target.value = "";
                             }}
                         />
-                        <TextField label="Respuesta de cierre de actividad" fullWidth value={respuestaReq} onChange={(e: ChangeEvent<HTMLInputElement>) => setRespuestaReq(e.currentTarget.value)} multiline color="secondary" InputProps={{ sx: { borderRadius: 3 } }} sx={{
+                        <TextField label="Comentario de cierre de tarea" fullWidth value={respuestaReq} onChange={(e: ChangeEvent<HTMLInputElement>) => setRespuestaReq(e.currentTarget.value)} multiline color="secondary" InputProps={{ sx: { borderRadius: 3 } }} sx={{
                             boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
                             background: "rgba(255,255,255,0.6)",
                             backdropFilter: 'blur(6px)', borderRadius: 3, mt: 2, mb: 2, input: { border: "none" }, "& fieldset": { border: "none" }
                         }} />
                         <LoadingButton color="secondary" variant="contained" onClick={() => onSubmit()} loading={isSubmitting} fullWidth sx={{
                             p: 2, borderRadius: 5, textTransform: "none", boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)'
-                        }} disableElevation>Responder tarea</LoadingButton>
+                        }} disableElevation>Tarea completada</LoadingButton>
                     </Box>
                 </Dialog>
             </Box >

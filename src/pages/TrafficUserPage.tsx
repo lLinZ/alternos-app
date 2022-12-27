@@ -315,15 +315,23 @@ export const TrafficUserPage: FC = () => {
                             <Typography variant="body1" component="p">
                                 {selectedTask?.vence}
                             </Typography>
+                            <Divider sx={{ marginBlock: 2 }} />
+                            <Typography variant="body1" component="p" fontWeight="bold">
+                                Briefing
+                            </Typography>
+                            <Typography variant="body1" component="p">
+                                {selectedTask?.briefing}
+                            </Typography>
                         </Box>
-                        <Button component="a" href={`/briefing/${selectedTask?.case_id}`} target={"_blank"} style={{ borderRadius: 15, boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", background: "#FFF", padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em", textTransform: "none" }}>Ver Brief</Button>
+                        {/* <Button component="a" href={`/briefing/${selectedTask?.case_id}`} target={"_blank"} style={{ borderRadius: 15, boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", background: "#FFF", padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em", textTransform: "none" }}>Ver Datos del cliente</Button> */}
+                        <Button component="a" href={`/client/${selectedTask?.customer_id}`} target={"_blank"} style={{ borderRadius: 15, boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", background: "#FFF", padding: "1em", textDecoration: "none", color: "black", width: "100%", marginTop: "0.5em", marginBottom: "0.5em", textTransform: "none" }}>Ver Datos del cliente</Button>
 
                         {
                             actividades && actividades.map((act: any) => (
                                 <ActivityCard act={act} setOpenUserModal={setOpenUserModal} currentActividad={currentActividad} setCurrentActividad={setCurrentActividad} setSelectedActividades={setSelectedActividades} selectedActividades={selectedActividades} currentFechasVencimiento={currentFechasVencimiento} setCurrentFechasVencimiento={setCurrentFechasVencimiento} />
                             ))
                         }
-                        <LoadingButton disabled={selectedActividades && selectedActividades.length < actividades.length} color="secondary" variant="contained" onClick={() => asignarUsersATareas()} loading={isSubmitting} fullWidth sx={{ p: 2, borderRadius: 5, textTransform: "none" }} disableElevation >Responder tarea</LoadingButton>
+                        <LoadingButton disabled={selectedActividades && selectedActividades.length < actividades.length} color="secondary" variant="contained" onClick={() => asignarUsersATareas()} loading={isSubmitting} fullWidth sx={{ p: 2, borderRadius: 5, textTransform: "none" }} disableElevation >Asignar tareas</LoadingButton>
                     </Box>
                 </Dialog>
             </Box>
