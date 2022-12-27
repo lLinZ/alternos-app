@@ -16,6 +16,7 @@ import { PageTitle } from '../components/ui';
 export interface IRequirement {
     id: number;
     case_id: number;
+    descriptioncase: string;
     customer_id: number;
     customer_name: string;
     user_id: number;
