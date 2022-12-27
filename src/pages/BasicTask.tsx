@@ -202,7 +202,7 @@ export const BasicTaskPage: FC<Props> = () => {
                 method: "POST",
                 body
             }
-
+            
             try {
 
                 // Solicitud
@@ -344,8 +344,8 @@ export const BasicTaskPage: FC<Props> = () => {
                                             <Chip size="small" sx={{ boxShadow: `0 0 10px ${req.status === 'pendiente' ? 'rgba(245, 176, 65)' : 'rgba(52, 152, 219)'}` }} label={`${req.status.substring(0, 1).toUpperCase()}${req.status.substring(1).toLowerCase()}`} color={req.status === 'pendiente' ? 'warning' : 'info'} />
                                             <Switch color="info" inputProps={{ 'aria-label': 'switch' }} defaultChecked checked={req.status === 'en proceso' ? true : false} onChange={() => changeStatus(req.id, req.status === 'pendiente' ? 'en proceso' : 'pendiente')} />
                                         </Box>
-                                        <Typography variant="subtitle1" fontSize={16} fontWeight="bold">{req.process_name} #{req.case_id}</Typography>
-                                        <Typography variant="subtitle2" fontSize={12} fontWeight="400" color="text.secondary">{req.description}</Typography>
+                                        <Typography variant="subtitle1" fontSize={16} fontWeight="bold">Tarea #{req.id} - {req.description} ({req.activity_name})</Typography>
+                                        <Typography variant="subtitle2" fontSize={12} fontWeight="400" color="text.secondary">Requerimiento #{req.case_id} - {req.descriptioncase}</Typography>
                                     </Box>
                                     <Button disableElevation color="secondary" variant="contained" onClick={() => openModal(req.id)} sx={{ p: 2, textTransform: "none", borderRadius: 3 }}>Ver más</Button>
                                 </Box>
