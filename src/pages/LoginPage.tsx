@@ -55,11 +55,11 @@ export const LoginPage: FC<Props> = () => {
             console.log(data);
             if (data.exito === "SI") {
                 const user = data.registros[0];
-                const alerta = await Swal.fire({
-                    title: "Exito",
-                    text: "Sesion iniciada exitosamente",
-                    icon: "success",
-                })
+                // const alerta = await Swal.fire({
+                //     title: "Exito",
+                //     text: "Sesion iniciada exitosamente",
+                //     icon: "success",
+                // })
                 createCookie("token", user.token);
                 createCookie("username", user.username);
                 push("/dashboard");
