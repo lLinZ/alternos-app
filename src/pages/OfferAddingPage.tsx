@@ -31,6 +31,7 @@ import { FilterBox } from '../components/data/FilterBox'
 
 interface ItemSelection {
     product_id: number;
+    categoria: string;
     description: string;
     descr_larga?: string;
     type: string;
@@ -42,6 +43,7 @@ interface ItemSelection {
 interface IItem {
     id: string | number;
     name: string;
+    categoria: string;
     description: string;
     owner_name: string;
     centrodecosto1: string;
@@ -80,11 +82,12 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
         setOpen(false);
     }
 
-    const selectItem = (product_id: number, description: string, type: string, precio: number | string, costo: number | string, descr_larga: string) => {
+    const selectItem = (product_id: number, categoria: string, description: string, type: string, precio: number | string, costo: number | string, descr_larga: string) => {
         const exists = Boolean(selectedItems?.filter((item: ItemSelection) => item.product_id === product_id).length)
 
         const newData: ItemSelection = {
             product_id,
+            categoria,
             description,
             descr_larga,
             type,
@@ -214,7 +217,7 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
                 )
             }
             <Dialog open={open} fullScreen onClose={handleClose} PaperProps={{ sx: { background: "rgba(255,255,255,0.9)", backdropFilter: 'blur(6px)' } }}>
-                <AppBar sx={{ position: 'relative', boxShadow: '0 0 5px rgba(0,0,0,0.1)' }} elevation={0}>
+                <AppBar sx={{ position: 'sticky', boxShadow: '0 0 5px rgba(0,0,0,0.1)' }} elevation={0}>
                     <Toolbar>
                         <IconButton onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}>
                             <InfoIcon color="info" />
@@ -244,7 +247,7 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
                                         <Typography variant="subtitle2" color="text.secondary" fontWeight={400}>{item.origen}</Typography>
                                         <Typography variant="subtitle2" color="text.secondary" fontWeight={400}>Precio {item.precio}</Typography>
                                     </Box>
-                                    <IconButton onClick={() => selectItem(Number(item.id), item.name, item.origen, item.precio, item.costo, item.description)} disabled={Boolean(selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id && itemSelected.orden !== orden).length)}>
+                                    <IconButton onClick={() => selectItem(Number(item.id), item.categoria, item.name, item.origen, item.precio, item.costo, item.description)} disabled={Boolean(selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id && itemSelected.orden !== orden).length)}>
                                         {
                                             Boolean(selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id).length)
                                                 ? (<>
@@ -491,7 +494,7 @@ export const OfferAddingPage: FC = () => {
         const body = JSON.stringify({
             customer_id: selectedUser ? selectedUser?.id : 0,
             salesman_id: userLogged ? userLogged?.id : 0,
-            items: selectedItems ? selectedItems : [],
+            items: selectedItems ? selectedItems : []
         })
         const options = {
             method: "POST",
