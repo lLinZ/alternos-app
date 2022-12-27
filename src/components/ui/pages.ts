@@ -76,6 +76,7 @@ export const ventasPages: Pages[] = [
 
     // Resumenes
     { name: 'divider', path: "Resúmenes" },
+    { name: "Kanban por caso", path: "/kanban/caso" },
     { name: "Resumen de tareas por caso", path: "/tareas/casos" },
     { name: 'Resumen de casos', path: "/requirements/resume" },
     { name: "Resumen casos externos", path: "/requirements/external/resume" },
