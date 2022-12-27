@@ -51,7 +51,9 @@ import { RegistroCasosExternosPage } from './pages/registros/RegistroCasosExtern
 import { AvisosDeCobroPage } from './pages/AvisosDeCobroPage';
 import { AvisosDeCobroAddingPage } from './pages/AvisosDeCobroAddingPage';
 import { RegistroOfertasPage } from './pages/registros/RegistroOfertasPage';
+import { RegistroBriefingsPage } from './pages/registros/RegistroBriefingsPage';
 import { OfferDetailPage } from './pages/OfferDetailPage';
+import { OfferDetailBriefing } from './pages/OfferDetailBriefingPage';
 import { FichaClientePage } from './pages/FichaClientePage';
 
 function App() {
@@ -90,6 +92,8 @@ function App() {
         <Route path="/requirements" element={<TrafficUserPage />} />
         <Route path="/requirements/add" element={<RequirementsPage />} />
         <Route path="/requirements/basic" element={<BasicTaskPage />} />
+        <Route path="/requirements/briefings" element={<RegistroBriefingsPage />} />
+        <Route path="/requirements/offer/:id" element={<OfferDetailBriefing />} />
 
         {/* Briefing */}
         <Route path="/briefing/new/:processId/:caseId" element={<BriefingPage />} />

@@ -73,6 +73,7 @@ export const ventasPages: Pages[] = [
     { name: "Lista de Ofertas", path: "/offers" },
     { name: "Ofertas pendientes", path: "/offer/resume/pending" },
     { name: 'Agregar oferta', path: "/offer/add" },
+    { name: 'Briefings por oferta', path: "/requirements/briefings" },
 
     // Resumenes
     { name: 'divider', path: "Resúmenes" },
