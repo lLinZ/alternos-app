@@ -160,7 +160,7 @@ const ItemCard: FC<ItemCardProps> = ({ item, setItems, items, setTotal, total })
         <Box sx={{ background: "#FFF", borderRadius: 5, mb: 1 }}>
             <Typography variant="subtitle1" fontWeight="bold">{item.description}</Typography>
             <Typography variant="subtitle2" color='text.secondary'>{item.descr_larga}</Typography>
-            <Typography variant="subtitle2" color="text.secondary">Tipo: {item.type === 'external' ? 'Externo' : 'Interno'}</Typography>
+            <Typography variant="subtitle2" color="text.secondary">Tipo: {(item.type === 'external' || item.type === 'Externo') ? 'Externo' : 'Interno'}</Typography>
             <Typography variant="subtitle2" fontWeight={400}>Precio: ${numberWithDots(Number(item.precio))}</Typography>
             <Typography variant="subtitle2" fontWeight={400}>Costo: ${numberWithDots(Number(item.costo))}</Typography>
         </Box>
