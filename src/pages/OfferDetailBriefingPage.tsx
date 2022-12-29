@@ -128,6 +128,7 @@ const ItemList: FC<ItemListProps> = ({ items, setItems, offer, userLogged }) => 
 
    const [selectedActividades, setSelectedActividades] = useState<any>(items);
    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+   const router = useNavigate()
 
    const guardabriefings = async (items: any) => {
       setIsSubmitting(true);
@@ -162,6 +163,7 @@ const ItemList: FC<ItemListProps> = ({ items, setItems, offer, userLogged }) => 
             text: "Se han asignado los briefings",
             icon: "success",
          })
+         router("/requirements/briefings");
          setIsSubmitting(false);
       } else {
          Swal.fire({
