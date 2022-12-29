@@ -3,7 +3,6 @@ import { LoadingButton } from "@mui/lab";
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import { IconButton, TextField } from "@mui/material";
-import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/EditRounded';
 import EditOffIcon from '@mui/icons-material/EditOffRounded';
 import SaveIcon from '@mui/icons-material/SaveRounded';
@@ -14,9 +13,8 @@ import Swal from 'sweetalert2';
 import { baseUrl } from '../common/baseUrl';
 import { Layout } from '../components/layout';
 import { User } from '../interfaces/user-type';
-import { getFormatDistanceToNow, numberWithDots, ucfirst, validarToken } from '../lib/functions';
+import { getFormatDistanceToNow, validarToken } from '../lib/functions';
 import { PageTitle } from '../components/ui';
-import { orange, pink, green, blue, red } from '@mui/material/colors';
 
 interface Item {
    id: number;
@@ -42,64 +40,7 @@ export interface Offer {
 }
 
 
-const guardabriefings = async (items: any) => {
 
-   console.log('items',items);
-   // const url = `${baseUrl}/trafico`;
-   // let activUsers = "";
-   // if (selectedActividades.length < actividades.length) {
-   //    Swal.fire({
-   //       title: "Error",
-   //       text: "Faltan actividades por asignar",
-   //       icon: "error",
-   //    })
-   //    return false;
-   // }
-
-   // if (!selectedTask) {
-   //    Swal.fire({
-   //       title: "Error",
-   //       text: "Debe seleccionar una actividad valida",
-   //       icon: "error"
-   //    })
-   //    setIsSubmitting(false);
-   // } else {
-
-   //    for (let i = 1; i <= selectedActividades.length; i++) {
-   //       const position = i - 1;
-   //       activUsers += i === selectedActividades.length ? `${selectedActividades[position].actividadId}*!*${selectedActividades[position].userId}*!*${selectedActividades[position].fecha}*!*${selectedActividades[position].observacion}` : `${selectedActividades[position].actividadId}*!*${selectedActividades[position].userId}*!*${selectedActividades[position].fecha}*!*${selectedActividades[position].observacion},`
-   //    }
-   //    console.log(activUsers)
-   //    const body = new FormData();
-   //    body.append("case_id", String(selectedTask ? selectedTask.case_id : ''));
-   //    body.append("activ_users", activUsers);
-   //    const options = {
-   //       method: "POST",
-   //       body
-   //    }
-   //    const respuesta = await fetch(url, options)
-
-   //    const data = await respuesta.json();
-
-   //    if (data.exito === "SI") {
-   //       Swal.fire({
-   //          title: "Exito",
-   //          text: "Se han asignado los usuarios",
-   //          icon: "success",
-   //       })
-   //       resetEverything();
-   //       getMyRequirements();
-   //       setIsSubmitting(false);
-   //    } else {
-   //       Swal.fire({
-   //          title: "Error",
-   //          text: data.mensaje,
-   //          icon: "error",
-   //       })
-   //       setIsSubmitting(false);
-   //    }
-   // }
-}
 
 export const OfferDetailBriefing: FC = () => {
    const { id } = useParams();
@@ -117,6 +58,7 @@ export const OfferDetailBriefing: FC = () => {
          const respuesta = await fetch(url);
          const data = await respuesta.json();
          if (data.exito === "SI") {
+            console.log({ data })
             setOffer(data.registros[0]);
             setItems(data.registros[0].items);
          }
@@ -144,7 +86,7 @@ export const OfferDetailBriefing: FC = () => {
                <Typography variant="subtitle1">Vendedor {offer?.salesman_name}</Typography>
                <Typography variant="subtitle2" fontWeight={300} color="text.secondary">{offer ? getFormatDistanceToNow(new Date(offer?.fecha)) : ''}</Typography>
                <Divider sx={{ marginBlock: 2 }} />
-               {offer && (<ItemList items={items} setItems={setItems} />)}
+               {offer && (<ItemList items={items} setItems={setItems} offer={offer} userLogged={userLogged} />)}
             </Box>
          </Box>
       </Layout>
@@ -179,31 +121,75 @@ const styles = {
 interface ItemListProps {
    items: Item[] | null;
    setItems: Dispatch<SetStateAction<Item[] | null>>;
+   offer: Offer | null;
+   userLogged: User | null;
 }
-const ItemList: FC<ItemListProps> = ({ items, setItems }) => {
+const ItemList: FC<ItemListProps> = ({ items, setItems, offer, userLogged }) => {
 
-   // useEffect(() => {
-   //    if (total === 0) {
-   //       items && items.forEach((i) => setTotal(prev => prev + i.precio));
-   //    }
-   // }, [items])
+   const [selectedActividades, setSelectedActividades] = useState<any>(items);
+   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
+   const guardabriefings = async (items: any) => {
+      setIsSubmitting(true);
+      const url = `${baseUrl}/briefingporoferta`;
+
+      let offerData = [];
+      for (let i = 1; i <= selectedActividades.length; i++) {
+         const position = i - 1;
+         offerData.push({ id: selectedActividades[position].id, briefing: selectedActividades[position].briefing ? selectedActividades[position].briefing : '' })
+      }
+      const body = JSON.stringify({
+         user_id: userLogged?.id,
+         offer_id: offer?.id,
+         briefings: offerData,
+      })
+      console.log({
+         user_id: userLogged?.id,
+         offer_id: offer?.id,
+         briefings: offerData,
+      })
+      const options = {
+         method: "POST",
+         body
+      }
+      const respuesta = await fetch(url, options)
+
+      const data = await respuesta.json();
+
+      if (data.exito === "SI") {
+         Swal.fire({
+            title: "Exito",
+            text: "Se han asignado los briefings",
+            icon: "success",
+         })
+         setIsSubmitting(false);
+      } else {
+         Swal.fire({
+            title: "Error",
+            text: data.mensaje,
+            icon: "error",
+         })
+         setIsSubmitting(false);
+      }
+
+   }
    return (
       <>
          <Typography variant="overline" fontWeight="bold">Productos de la oferta</Typography>
          {
-            items && items.map(i => <ItemCard item={i} items={items} setItems={setItems} />)
+            items && items.map(i => <ItemCard item={i} items={items} selectedActividades={selectedActividades} setSelectedActividades={setSelectedActividades} />)
          }
-         <LoadingButton color="secondary" variant="contained" onClick={() => { guardabriefings(items)}} fullWidth sx={{ p: 2, borderRadius: 5, textTransform: "none", marginTop: 2 }} disableElevation >Guardar</LoadingButton>
+         <LoadingButton color="secondary" variant="contained" onClick={() => { guardabriefings(items) }} fullWidth sx={{ p: 2, borderRadius: 5, textTransform: "none", marginTop: 2 }} disableElevation >Guardar</LoadingButton>
       </>
    )
 }
 interface ItemCardProps {
    item: Item;
    items: Item[] | null;
-   setItems: Dispatch<SetStateAction<Item[] | null>>;
+   selectedActividades: any;
+   setSelectedActividades: Dispatch<any>;
 }
-const ItemCard: FC<ItemCardProps> = ({ item, items, setItems }) => {
+const ItemCard: FC<ItemCardProps> = ({ item, items, setSelectedActividades, selectedActividades }) => {
    const [edit, setEdit] = useState<boolean>(false);
    const [briefing, setBriefing] = useState<string>('');
 
@@ -212,12 +198,18 @@ const ItemCard: FC<ItemCardProps> = ({ item, items, setItems }) => {
    }
 
    const save = () => {
-      // setItems({briefing: briefing})
-      setEdit(false);
+      const excludeActividades = selectedActividades ? selectedActividades.filter((sa: any) => sa.id !== item.id) : false;
+      if (excludeActividades) {
+         setSelectedActividades([...excludeActividades, { ...item, briefing }]);
+         setEdit(false);
+      } else {
+         setSelectedActividades([{ ...item, briefing }]);
+         setEdit(false);
+      }
    }
 
    return (
-      <Box sx={{ background: "#FFF", borderRadius: 5, mb: 1 }}>
+      <Box key={item.id} sx={{ background: "#FFF", borderRadius: 5, mb: 1 }}>
          <Typography variant="subtitle1" fontWeight="bold">{item.description}</Typography>
          <Typography variant="subtitle2" color='text.secondary'>{item.descr_larga}</Typography>
          <Typography variant="subtitle2" color="text.secondary">Tipo: {item.type === 'external' ? 'Externo' : 'Interno'}</Typography>
