@@ -51,6 +51,8 @@ interface SelectedOffer {
     customer_id: string;
     precio_oferta: number;
     costo_oferta: number;
+    montoavisosgenerados: number;
+    saldoavisos: number;
 }
 
 export const AvisosDeCobroAddingPage = () => {
@@ -141,7 +143,8 @@ export const AvisosDeCobroAddingPage = () => {
                     text: data.mensaje,
                     icon: "success",
                 })
-                resetForm()
+                resetForm();
+                router("/dashboard");
             } else {
                 Swal.fire({
                     title: "Error",
@@ -191,6 +194,7 @@ export const AvisosDeCobroAddingPage = () => {
                                     <Grid item xs={12} lg={4}>
                                         <Select fullWidth color="secondary" sx={{ ...styles.input, "& fieldset": { border: "none" } }} defaultValue={"0"} value={values.frecuencia} onChange={handleChange} name="frecuencia" label="Frecuencia">
                                             <MenuItem value={"0"} disabled>Seleccionar una frecuencia</MenuItem>
+                                            <MenuItem value={"unica"}>Única</MenuItem>
                                             <MenuItem value={"semanal"}>Semanal</MenuItem>
                                             <MenuItem value={"quincenal"}>Quincenal</MenuItem>
                                             <MenuItem value={"mensual"}>Mensual</MenuItem>
@@ -456,6 +460,8 @@ const OfferSelection: FC<OfferSelectionProps> = ({ selectedOffer, setSelectedOff
             customer_name: offer.customer_name,
             precio_oferta: offer.precio_oferta,
             costo_oferta: offer.costo_oferta,
+            montoavisosgenerados: offer.montoavisosgenerados,
+            saldoavisos: offer.saldoavisos
         })
         handleClose();
     }
@@ -467,11 +473,13 @@ const OfferSelection: FC<OfferSelectionProps> = ({ selectedOffer, setSelectedOff
                 selectedOffer && (
                     <Box sx={localStyles.selectedOfferContainer}>
                         <Box>
-                            <Typography variant="subtitle2" fontWeight={"bold"}>Oferta seleccionada</Typography>
+                            <Typography variant="subtitle2" fontWeight={"bold"}>Oferta seleccionada #{selectedOffer?.id}</Typography>
                             <Typography variant="subtitle2" color="text.secondary">Comprador {selectedOffer?.customer_name}</Typography>
                             <Typography variant="subtitle2" color="text.secondary">Vendedor {selectedOffer?.salesman_name}</Typography>
                             <Typography variant="subtitle2" color="text.secondary">Precio {selectedOffer?.precio_oferta}</Typography>
                             <Typography variant="subtitle2" color="text.secondary">Costo {selectedOffer?.costo_oferta}</Typography>
+                            <Typography variant="subtitle2" color="text.secondary">Total avisos de cobro generados {selectedOffer?.montoavisosgenerados}</Typography>
+                            <Typography variant="subtitle2" color="text.secondary">Saldo por generar avisos de cobro {selectedOffer?.saldoavisos}</Typography>
                         </Box>
                         <CheckCircle color="success" />
                     </Box>
@@ -495,16 +503,18 @@ const OfferSelection: FC<OfferSelectionProps> = ({ selectedOffer, setSelectedOff
                 </AppBar>
 
                 <Box sx={localStyles.mainContainer}>
-                    {offers && (<FilterBox data={offers} setData={setOffers} category1={'precio_oferta'} category2={'costo_oferta'} category3={'customer_name'} category4={'salesman_name'} />)}
+                    {offers && (<FilterBox data={offers} setData={setOffers} category1={'id'} category2={'precio_oferta'} category3={'customer_name'} category4={'salesman_name'} />)}
                     {
                         offers && offers?.map((o) => (
                             <>
                                 <Box sx={localStyles.offerBox} key={`${o.id}${o.salesman_name}`}>
                                     <Box>
-                                        <Typography variant={'subtitle1'} fontWeight="bold">Cliente {o.customer_name}</Typography>
-                                        <Typography variant={'subtitle1'} fontWeight="bold">Vendedor {o.salesman_name}</Typography>
+                                        <Typography variant={'subtitle1'} fontWeight="bold">Oferta #{o.id} - Cliente {o.customer_name}</Typography>
+                                        <Typography variant={'subtitle1'}>Vendedor {o.salesman_name}</Typography>
                                         <Typography variant={'subtitle2'} color="text.secondary">Precio {o.precio_oferta}</Typography>
                                         <Typography variant={'subtitle2'} color="text.secondary">Costo {o.costo_oferta}</Typography>
+                                        <Typography variant="subtitle2" color="text.secondary">Total avisos de cobro generados {o.montoavisosgenerados}</Typography>
+                                        <Typography variant="subtitle2" color="text.secondary">Saldo por generar avisos de cobro {o.saldoavisos}</Typography>
                                     </Box>
                                     <Button color="secondary" variant="contained" disableElevation sx={localStyles.selectOfferButton} onClick={() => selectOffer(o)} disabled={o.id === selectedOffer?.id}>{o.id === selectedOffer?.id ? "Seleccionada" : "Seleccionar"}</Button>
                                 </Box>

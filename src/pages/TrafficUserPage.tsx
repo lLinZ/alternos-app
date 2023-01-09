@@ -426,17 +426,13 @@ const ActivityCard: FC<ActivityCardProps> = ({ act, setOpenUserModal, currentAct
     }
     return (
         <LocalizationProvider locale="es" dateAdapter={AdapterMoment}>
-
             <Box key={act.id} sx={{ borderRadius: 5, background: "#FFF", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", display: "flex", flexFlow: "row wrap", p: 3, mb: 2, justifyContent: "space-between", alignItems: "center", }}>
                 <Box sx={{ display: "flex", flexFlow: "column wrap", mb: 2 }}>
-
                     <Typography variant="subtitle2" color="text.secondary">#{act.id}</Typography>
                     <Typography>{act.activity_name}</Typography>
                     <Box>
-
                         {edit ? (
                             <Box sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
-
                                 <IconButton onClick={() => setEdit(false)} color="error"><EditOffIcon /></IconButton>
                                 <DateTimePicker
                                     label="Fecha de vencimiento"

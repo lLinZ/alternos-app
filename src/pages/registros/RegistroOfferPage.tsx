@@ -28,6 +28,8 @@ export interface Offer {
     created_at: string;
     costo_oferta: number;
     precio_oferta: number;
+    montoavisosgenerados: number;
+    saldoavisos: number;
     status: string;
     items: Item[] | [];
 }
