@@ -210,7 +210,7 @@ export const RegistroTareasPorCasoPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <PageTitle title="Registro de tareas por caso" />
+                <PageTitle title="Registro de tareas por requerimiento" />
                 <Grid container spacing={1}>
                     {
                         casos && (
@@ -218,7 +218,7 @@ export const RegistroTareasPorCasoPage: FC = () => {
                                 <Box sx={{ display: "flex", flexFlow: "row nowrap", alignItems: "center" }}>
 
                                     <Select color="secondary" defaultValue={"0"} value={caso !== 0 ? caso : "0"} onChange={handleChange} sx={{ "& fieldset": { borderRadius: 0 } }}>
-                                        <MenuItem disabled value={"0"}>Seleccione un caso</MenuItem>
+                                        <MenuItem disabled value={"0"}>Seleccione un requerimiento</MenuItem>
                                         {
                                             casos.map((u: any) => <MenuItem key={u.id + u.description} value={String(u.id)}>{`#${u.id} - ${u.description}`}</MenuItem>)
                                         }
@@ -244,7 +244,7 @@ export const RegistroTareasPorCasoPage: FC = () => {
                     {
                         !analisis && (
                             <Grid item xs={12}>
-                                <Typography variant="subtitle1" color="text.secondary" fontWeight="bold">Seleccione un caso y clickee en &quot;Buscar&quot;</Typography>
+                                <Typography variant="subtitle1" color="text.secondary" fontWeight="bold">Seleccione un requerimiento y clickee en &quot;Buscar&quot;</Typography>
                             </Grid>
                         )
                     }
@@ -262,7 +262,7 @@ export const RegistroTareasPorCasoPage: FC = () => {
                         empty && (
                             <Grid item xs={12}>
                                 <Box sx={{ display: "flex", flexFlow: "row wrap", width: "100%", justifyContent: "center", alignItems: "center" }}>
-                                    <Typography variant="subtitle2" color="error" fontWeight={"bold"}>Este caso no tiene tareas pendientes...</Typography>
+                                    <Typography variant="subtitle2" color="error" fontWeight={"bold"}>Este requerimiento no tiene tareas pendientes...</Typography>
                                 </Box>
                             </Grid>
                         )

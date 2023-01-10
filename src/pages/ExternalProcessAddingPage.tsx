@@ -16,6 +16,7 @@ import { PageTitle } from '../components/ui';
 const initialValues = {
     id: 'new',
     name: '',
+    categoria: '',
     costo: '',
     description: '',
     precio: '',
@@ -57,7 +58,8 @@ export const ExternalProcessAddingPage: FC = () => {
             const body = new FormData();
             body.append('id', String(values.id))
             body.append('name', String(values.name))
-            body.append('onwer_name', String(values.onwer_name))
+            body.append('categoria', String(values.categoria))
+            body.append('owner_name', String(values.owner_name))
             body.append('description', String(values.description))
             body.append('costo', String(values.costo))
             body.append('precio', String(values.precio))
@@ -154,8 +156,12 @@ export const ExternalProcessAddingPage: FC = () => {
                                     <TextField fullWidth color="secondary" label="Centro de costo 2" sx={styles.input} name="centrodecosto2" value={values.centrodecosto2} onChange={handleChange} />
                                 </Grid>
                                 <Grid item xs={12}>
+                                    <TextField fullWidth color="secondary" label="Categoría" name="categoria" sx={styles.input} value={values.categoria} onChange={handleChange} />
+                                </Grid>
+                                <Grid item xs={12}>
                                     <TextField fullWidth color="secondary" label="Descripcion larga" name="description" sx={styles.input} value={values.description} onChange={handleChange} />
                                 </Grid>
+
                                 <Grid item xs={12}>
                                     <LoadingButton type='submit' disabled={isSubmitting} loading={isSubmitting} color="secondary" variant="contained" fullWidth sx={styles.button}>Registrar</LoadingButton>
                                 </Grid>

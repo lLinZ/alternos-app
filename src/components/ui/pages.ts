@@ -45,22 +45,22 @@ export const traficoPages: Pages[] = [
     // Ofertas
     { name: 'divider', path: "Ofertas" },
     { name: "Lista de Ofertas", path: "/offers" },
-    { name: "Resumen de Ofertas", path: "/offer/resume" },
+    { name: "Ofertas por Confirmar", path: "/offer/resume" },
 
     // Resumenes
     { name: 'divider', path: "Resúmenes" },
     { name: "Resumen de procesos", path: "/process/resume" },
     { name: "Resumen de actividades", path: "/activity/resume" },
-    { name: "Resumen de tareas por caso", path: "/tareas/casos" },
-    { name: "Resumen de casos", path: "/requirements/resume" },
-    { name: "Resumen casos cerrados", path: "/requirements/closed/resume" },
-    { name: "Resumen casos externos", path: "/requirements/external/resume" },
+    { name: "Resumen de tareas por requerimiento", path: "/tareas/casos" },
+    { name: "Resumen de requerimientos", path: "/requirements/resume" },
+    { name: "Resumen requerimientos cerrados", path: "/requirements/closed/resume" },
+    { name: "Resumen requerimientos externos", path: "/requirements/external/resume" },
     { name: "Resumen de cumplimiento", path: "/users/cumplimiento/resume" },
-    { name: "Analisis por caso", path: "/analisis/resume" },
-    { name: "Status por caso", path: "/casos/status/resume" },
+    { name: "Analisis por requerimiento", path: "/analisis/resume" },
+    { name: "Status por requerimiento", path: "/casos/status/resume" },
     { name: "Tareas por usuario", path: "/tareas/resume" },
     { name: "Kanban por usuario", path: "/kanban/usuario" },
-    { name: "Kanban por caso", path: "/kanban/caso" },
+    { name: "Kanban por requerimiento", path: "/kanban/caso" },
 ];
 export const ventasPages: Pages[] = [
     // Menu principal
@@ -77,10 +77,10 @@ export const ventasPages: Pages[] = [
 
     // Resumenes
     { name: 'divider', path: "Resúmenes" },
-    { name: "Kanban por caso", path: "/kanban/caso" },
-    { name: "Resumen de tareas por caso", path: "/tareas/casos" },
-    { name: 'Resumen de casos', path: "/requirements/resume" },
-    { name: "Resumen casos externos", path: "/requirements/external/resume" },
+    { name: "Kanban por requerimiento", path: "/kanban/caso" },
+    { name: "Resumen de tareas por requerimiento", path: "/tareas/casos" },
+    { name: 'Resumen de requerimientos', path: "/requirements/resume" },
+    { name: "Resumen requerimientos externos", path: "/requirements/external/resume" },
     { name: "Resumen de ofertas por status", path: "/offer/resume/status" },
 
     // Clientes
@@ -140,20 +140,20 @@ export const adminPages: Pages[] = [
     { name: 'divider', path: "Resúmenes" },
     { name: "Resumen de procesos", path: "/process/resume" },
     { name: "Resumen de actividades", path: "/activity/resume" },
-    { name: "Resumen de tareas por caso", path: "/tareas/casos" },
+    { name: "Resumen de tareas por requerimiento", path: "/tareas/casos" },
     { name: "Resumen de ofertas por status", path: "/offer/resume/status" },
-    { name: "Resumen de casos", path: "/requirements/resume" },
-    { name: "Resumen casos cerrados", path: "/requirements/closed/resume" },
-    { name: "Resumen casos externos", path: "/requirements/external/resume" },
+    { name: "Resumen de requerimientos", path: "/requirements/resume" },
+    { name: "Resumen requerimientos cerrados", path: "/requirements/closed/resume" },
+    { name: "Resumen requerimientos externos", path: "/requirements/external/resume" },
     { name: "Resumen de cumplimiento", path: "/users/cumplimiento/resume" },
     { name: "Resumen de transacciones", path: "/transacciones/resume" },
     { name: "Resumen de pagos del periodo", path: "/pagos/periodo/resume" },
     { name: "Estado de cuenta por cliente", path: "/client/estadocuenta" },
-    { name: "Analisis por caso", path: "/analisis/resume" },
-    { name: "Status por caso", path: "/casos/status/resume" },
+    { name: "Analisis por requerimiento", path: "/analisis/resume" },
+    { name: "Status por requerimiento", path: "/casos/status/resume" },
     { name: "Tareas por usuario", path: "/tareas/resume" },
     { name: "Kanban por usuario", path: "/kanban/usuario" },
-    { name: "Kanban por caso", path: "/kanban/caso" },
+    { name: "Kanban por requerimiento", path: "/kanban/caso" },
 
     // Anuncios
     { name: 'divider', path: "Anuncios" },

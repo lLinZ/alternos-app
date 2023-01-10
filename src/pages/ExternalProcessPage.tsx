@@ -90,6 +90,7 @@ const ExternalProcessData: FC<ExternalProcessDataProps> = ({ proceso, process, s
 
     const initialValues = {
         name: proceso?.name,
+        categoria: proceso?.categoria,
         description: proceso?.description,
         owner_name: proceso?.owner_name,
         centrodecosto1: proceso?.centrodecosto1,
@@ -120,6 +121,7 @@ const ExternalProcessData: FC<ExternalProcessDataProps> = ({ proceso, process, s
                 body.append("owner_id", String(proceso?.owner_id));
                 body.append("name", String(values.name));
                 body.append("owner_name", String(values.owner_name));
+                body.append("categoria", String(values.categoria));
                 body.append("description", String(values.description));
                 body.append("centrodecosto1", String(values.centrodecosto1));
                 body.append("centrodecosto2", String(values.centrodecosto2));
@@ -139,6 +141,7 @@ const ExternalProcessData: FC<ExternalProcessDataProps> = ({ proceso, process, s
                         const newProcess: Process = {
                             id: proceso?.id,
                             name: values.name,
+                            categoria: values.categoria,
                             description: values.description,
                             centrodecosto1: values.centrodecosto1,
                             centrodecosto2: values.centrodecosto2,
@@ -215,6 +218,9 @@ const ExternalProcessData: FC<ExternalProcessDataProps> = ({ proceso, process, s
                                                     <TextField fullWidth name="name" value={values.name} label="Nombre" onChange={handleChange} color="secondary" variant="outlined" sx={{ borderRadius: 5, "& fieldset": { borderRadius: 3 } }} />
                                                 </Grid>
                                                 <Grid item xs={12} sm={6}>
+                                                    <TextField fullWidth name="categoria" value={values.categoria} label="Categoria" onChange={handleChange} color="secondary" variant="outlined" sx={{ borderRadius: 5, "& fieldset": { borderRadius: 3 } }} />
+                                                </Grid>
+                                                <Grid item xs={12} sm={6}>
                                                     <TextField fullWidth name="description" value={values.description} label="Descripcion larga" onChange={handleChange} color="secondary" variant="outlined" sx={{ borderRadius: 5, "& fieldset": { borderRadius: 3 } }} />
                                                 </Grid>
                                                 <Grid item xs={12} sm={6}>
@@ -250,6 +256,7 @@ const ExternalProcessData: FC<ExternalProcessDataProps> = ({ proceso, process, s
 
                                     </Box>
                                     <Typography variant="subtitle1" fontWeight={"bold"}>{proceso?.name}</Typography>
+                                    <Typography variant="subtitle2" color="text.secondary">{proceso?.categoria}</Typography>
                                     <Typography variant="subtitle2" color="text.secondary">{proceso?.description}</Typography>
                                     <Typography variant="subtitle2" fontWeight={400} color="text.primary">Proveedor: {proceso?.owner_name}</Typography>
                                     <Typography variant="subtitle2" fontWeight={300} color="text.secondary">Costo {proceso?.costo}</Typography>

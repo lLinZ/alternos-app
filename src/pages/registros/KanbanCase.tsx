@@ -132,14 +132,14 @@ export const KanbanCase: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <PageTitle title={"Kanban por Caso"} />
+                <PageTitle title={"Kanban por Requerimiento"} />
                 <Box sx={styles.selection}>
-                    <Button disableElevation fullWidth variant="contained" onClick={handleOpen} color="secondary" sx={styles.button}>Seleccionar caso</Button>
+                    <Button disableElevation fullWidth variant="contained" onClick={handleOpen} color="secondary" sx={styles.button}>Seleccionar requerimiento</Button>
                 </Box>
                 {selectedCase && (
                     <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Box>
-                            <Typography variant="overline" fontWeight={"bold"}>Caso seleccionado</Typography>
+                            <Typography variant="overline" fontWeight={"bold"}>Requerimiento seleccionado</Typography>
                             <Typography variant="subtitle2" color="text.secondary">{selectedCase.description}</Typography>
                             <Typography variant="overline" fontWeight={"bold"}>Proceso correspondiente</Typography>
                             <Typography variant="subtitle2" color="text.secondary">{selectedCase.process_name}</Typography>
@@ -150,7 +150,7 @@ export const KanbanCase: FC = () => {
                 {
                     selectedCase && !kanbanData && (
                         <Box sx={{ p: 5, width: "100%", mt: 2 }}>
-                            <Typography color="text.secondary" textAlign={"center"} fontWeight="bold" variant="subtitle2">No hay registros para caso</Typography>
+                            <Typography color="text.secondary" textAlign={"center"} fontWeight="bold" variant="subtitle2">No hay registros para requerimiento</Typography>
                         </Box>
                     )
                 }
@@ -216,7 +216,7 @@ export const KanbanCase: FC = () => {
                             <CloseIcon />
                         </IconButton>
                         <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                            Seleccionar Caso
+                            Seleccionar Requerimiento
                         </Typography>
                     </Toolbar>
                 </AppBar>

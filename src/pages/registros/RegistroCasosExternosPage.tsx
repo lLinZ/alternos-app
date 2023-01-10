@@ -78,7 +78,7 @@ export const RegistroCasosExternosPage: FC = () => {
             } else {
                 Swal.fire({
                     title: "Error",
-                    text: "No se logró closeCase el caso",
+                    text: "No se logró cerrar el requerimiento",
                     icon: "error",
                     timer: 2000,
                     showConfirmButton: false,
@@ -120,7 +120,7 @@ export const RegistroCasosExternosPage: FC = () => {
         },
         {
             cell: (row: ExternalCase) => <IconButton onClick={() => closeCase(row.id)} color="success"><CloseIcon /></IconButton>,
-            name: "Cerrar caso",
+            name: "Cerrar requerimiento",
             button: true,
             allowOverflow: true,
             ignoreRowClick: true

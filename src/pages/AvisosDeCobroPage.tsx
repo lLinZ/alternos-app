@@ -103,7 +103,7 @@ export const AvisosDeCobroPage: FC = () => {
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
                 <PageTitle title="Avisos de cobro" navigate="/avisosdecobro/add" />
-                {avisos && (<FilterBox data={avisos} setData={setAvisos} category1='monto' category2='customer_name' category3='salesman_name' category4='frecuencia' />)}
+                {avisos && (<FilterBox data={avisos} setData={setAvisos} category1='offer_id' category2='monto' category3='customer_name' category4='frecuencia' />)}
                 {avisos && avisos.map((reg: any) => (
                     <Box key={reg.id} sx={styles.registroBox}>
                         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -111,7 +111,8 @@ export const AvisosDeCobroPage: FC = () => {
                             <Typography variant="subtitle2" color="text.secondary">Cuota {reg.cuota} de {reg.total_cuotas}</Typography>
                         </Box>
                         <Box sx={{ p: 1 }}>
-                            <Typography variant="subtitle1" fontWeight={'bold'}>Monto ${numberWithDots(reg.monto)},00</Typography>
+                            <Typography variant="subtitle1" fontWeight={'bold'}>Oferta #{reg.offer_id}</Typography>
+                            <Typography variant="subtitle1">Monto ${numberWithDots(reg.monto)},00</Typography>
                             <Typography variant="subtitle2">Comprador {reg.customer_name}</Typography>
                             <Typography variant="subtitle2">Vendedor {reg.salesman_name}</Typography>
                             <Typography variant="subtitle2" color="text.secondary">Frecuencia {reg.frecuencia}</Typography>

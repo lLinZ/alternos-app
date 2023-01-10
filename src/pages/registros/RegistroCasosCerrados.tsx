@@ -76,7 +76,7 @@ export const RegistroCasosCerradosPage: FC = () => {
             } else {
                 Swal.fire({
                     title: "Error",
-                    text: "No se logró reabrir el caso",
+                    text: "No se logró reabrir el requerimiento",
                     icon: "error",
                     timer: 2000,
                     showConfirmButton: false,
@@ -118,7 +118,7 @@ export const RegistroCasosCerradosPage: FC = () => {
         },
         {
             cell: (row: Case) => <IconButton onClick={() => reabrir(row.id)} color="success"><RedoIcon /></IconButton>,
-            name: "Reabrir caso",
+            name: "Reabrir requerimiento",
             button: true,
             allowOverflow: true,
             ignoreRowClick: true
@@ -131,7 +131,7 @@ export const RegistroCasosCerradosPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <PageTitle title="Registro de Casos cerrados" />
+                <PageTitle title="Registro de Requerimientos cerrados" />
                 <Grid container spacing={1}>
                     {
                         casos && (

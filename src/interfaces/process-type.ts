@@ -3,6 +3,7 @@ import { Activity } from "./activity-type";
 export type Process = {
     id: number;
     name: string;
+    categoria: string;
     description: string;
     owner_id?: number;
     owner_name: string;

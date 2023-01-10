@@ -163,15 +163,16 @@ export const WidgetPagoPorCliente: FC<Props> = ({ userLogged }) => {
                         title: 'Exito',
                         text: "Pago notificado, espere a su aprobacion",
                         icon: "success"
-                    })
+                    });
                     setPayment({
                         tipo: null,
                         monto: null,
                         fecha: null,
                         ref: null,
                         concepto: null
-                    })
-                    setFecha(moment())
+                    });
+                    setFecha(moment());
+                    setSelectedClient(null);
                 } else {
                     Swal.fire({
                         title: "Error",
@@ -289,7 +290,7 @@ const styles = {
     input: {
 
         "& input": {
-            fontSize: 12
+            fontSize: 12,
         },
         "& label": {
             fontSize: 12,

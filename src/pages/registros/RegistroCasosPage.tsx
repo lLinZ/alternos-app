@@ -85,7 +85,7 @@ export const RegistroCasosPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <PageTitle title="Registro de Casos" />
+                <PageTitle title="Registro de Requerimientos" />
                 <Grid container spacing={1}>
                     {
                         casos && (

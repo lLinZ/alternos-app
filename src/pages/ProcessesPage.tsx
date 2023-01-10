@@ -48,6 +48,7 @@ export const ProcessesPage: FC<Props> = () => {
 
     // Procesos
     const [process, setProcess] = useState<string>("");
+    const [categoria, setCategoria] = useState<string>("");
     const [descripcion, setDescripcion] = useState<string>("");
     const [centrodecostouno, setCentroDeCostoUno] = useState<string>("");
     const [centrodecostodos, setCentroDeCostoDos] = useState<string>("");
@@ -76,6 +77,7 @@ export const ProcessesPage: FC<Props> = () => {
 
             body.append("name", process);
             body.append("owner_id", String(selectedDepartment.id));
+            body.append("categoria", categoria);
             body.append("description", descripcion);
             body.append("centrodecosto1", centrodecostouno);
             body.append("centrodecosto2", centrodecostodos);
@@ -92,6 +94,8 @@ export const ProcessesPage: FC<Props> = () => {
                 if (data.exito === "SI") {
                     setSelectedDepartment(null);
                     setProcess("");
+                    setCategoria("");
+                    setDescripcion("");
                     setCentroDeCostoUno("");
                     setCentroDeCostoDos("");
                     setIsSubmitting(false);
@@ -178,6 +182,9 @@ export const ProcessesPage: FC<Props> = () => {
                 <Grid container display="flex" justifyContent="center" alignItems="center" flexWrap="wrap" flexDirection="row" spacing={2}>
                     <Grid item xs={12}>
                         <TextField fullWidth label="Nombre" name="name" color="secondary" onChange={(e) => setProcess(e.target.value)} value={process} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.1)", borderRadius: 5, input: { border: "none" }, "& fieldset": { border: "none" }, }} />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField fullWidth label="Categoria" name="categoria" color="secondary" onChange={(e) => setCategoria(e.target.value)} value={categoria} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.1)", borderRadius: 5, input: { border: "none" }, "& fieldset": { border: "none" }, }} />
                     </Grid>
                     <Grid item xs={12}>
                         <TextField fullWidth label="Descripcion larga" name="descripcion" color="secondary" onChange={(e) => setDescripcion(e.target.value)} value={descripcion} InputProps={{ sx: { borderRadius: 5 } }} sx={{ background: "#FFF", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.1)", borderRadius: 5, input: { border: "none" }, "& fieldset": { border: "none" }, }} />

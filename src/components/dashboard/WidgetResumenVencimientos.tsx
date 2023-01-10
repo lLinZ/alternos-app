@@ -22,7 +22,13 @@ export const WidgetResumenVencimientos: FC = () => {
         const respuesta = await fetch(url);
         const data = await respuesta.json();
         setStats(data.registros)
-        setTotal(data.registros[0].monto + data.registros[1].monto)
+        let xMonto = 0;
+        data.registros.map((elemento:any) => {
+            xMonto += elemento.monto 
+        });
+        // setTotal(data.registros[0].monto + data.registros[1].monto)
+        setTotal(xMonto);
+        console.log(xMonto, total);
     }
     useEffect(() => {
         getStats();
@@ -78,10 +84,10 @@ export const WidgetResumenVencimientos: FC = () => {
         <Box sx={styles.mainContainer}>
             <Typography variant="overline" fontWeight="bold">Resumen de vencimiento avisos de cobro</Typography>
             <Box sx={styles.contentContainer}>
-                {stats && (<Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: 'Roboto', textAlign: 'center' }}>${total} monto total de avisos</Typography>)}
+                {stats && (<Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: 'Roboto', textAlign: 'center', width: '100%' }}>${total} total</Typography>)}
                 <Box sx={{ display: "flex", alignItems: "center", flexFlow: "row wrap", justifyContent: "center" }}>
                     {stats && stats.map((s, i) => (
-                        <Box key={i} sx={{ mr: 2, mb: 2, width: 120, heigth: 120 }}>
+                        <Box key={i} sx={{ mr: 2, mb: 2, width: 100, heigth: 100 }}>
 
                             <CircularProgressbarWithChildren value={Math.round((s.monto / total) * 100)} styles={{
                                 path: {
@@ -96,7 +102,7 @@ export const WidgetResumenVencimientos: FC = () => {
                                     transformOrigin: 'center center',
                                 },
                             }}>
-                                <Typography variant="subtitle2" fontSize={10}>${s.monto} monto {ucfirst(s.status)}</Typography>
+                                <Typography variant="subtitle2" fontSize={10}>${s.monto} {ucfirst(s.status)}</Typography>
                                 <Typography fontWeight={'bold'}>{`${Math.round((s.monto / total) * 100)}%`}</Typography>
                             </CircularProgressbarWithChildren>
                         </Box>

@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from 'react';
+import moment from 'moment';
 
 import { Layout } from '../../components/layout';
 import { User } from '../../interfaces/user-type';
@@ -222,7 +223,8 @@ export const RegistroPendingOffersPage: FC = () => {
                                 <Typography variant="subtitle2" color="text.secondary">#{offer.id}</Typography>
                                 <Typography variant="subtitle1">Cliente {offer.customer_name}</Typography>
                                 <Typography variant="subtitle1">Vendedor {offer.salesman_name}</Typography>
-                                <Typography variant="subtitle2" fontWeight={300} color="text.secondary">{getFormatDistanceToNow(new Date(offer.created_at))}</Typography>
+                                {/* <Typography variant="subtitle2" fontWeight={300} color="text.secondary">{getFormatDistanceToNow(new Date(offer.created_at))}</Typography> */}
+                                <Typography variant="subtitle2" fontWeight={300} color="text.secondary">Fecha: {moment(offer.created_at).format("DD-MM-YYYY")}</Typography>
 
                                 <CollapsibleData offer={offer} />
                                 <Box sx={styles.offerActions}>
@@ -302,7 +304,7 @@ const CollapsibleData: FC<CollapsibleDataProps> = ({ offer }) => {
                 <Box display="flex" flexWrap="wrap" justifyContent="flex-start" alignItems="flex-start" flexDirection="column">
                     {offer.items.length > 0 && offer.items.map((item, i) => (
                         <Box key={`${item.item_id} ${item.description}`} sx={styles.item}>
-                            <Typography variant="subtitle2" fontWeight={"bold"} color="text.primary">{i + 1} Proceso {item.type === "internal" ? "Interno" : "Externo"}</Typography>
+                            <Typography variant="subtitle2" fontWeight={"bold"} color="text.primary">{i + 1} Proceso {(item.type === "internal" || item.type === "Interno") ? "Interno" : "Externo"}</Typography>
                             <Typography variant="subtitle2" fontWeight={400} color="text.primary">{item.description}</Typography>
                             <Typography variant="subtitle2" fontWeight={400} color="text.secondary">Precio $ {numberWithDots(item.precio)}</Typography>
                         </Box>

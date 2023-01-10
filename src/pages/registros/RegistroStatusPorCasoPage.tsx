@@ -78,7 +78,7 @@ export const RegistroStatusPorCasoPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <PageTitle title="Registro de Status por caso" />
+                <PageTitle title="Registro de Status por requerimiento" />
                 <Grid container spacing={1}>
                     {
                         Cumplimiento && (

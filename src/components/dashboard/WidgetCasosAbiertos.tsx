@@ -72,7 +72,7 @@ export const WidgetCasosAbiertos: FC<Props> = ({ user }) => {
     }
     return (
         <Box sx={styles.mainContainer} onClick={() => router("/requirements/resume")}>
-            <Typography variant="overline" fontWeight="bold">Casos</Typography>
+            <Typography variant="overline" fontWeight="bold">Requerimientos</Typography>
 
             <Box id="title" sx={{ pt: 2, pl: 2 }}>
             </Box>
@@ -82,7 +82,7 @@ export const WidgetCasosAbiertos: FC<Props> = ({ user }) => {
                 ))
             }{
                 !casos && (
-                    <Typography variant="subtitle2" color="text.secondary" fontWeight="bold">No hay casos abiertos</Typography>
+                    <Typography variant="subtitle2" color="text.secondary" fontWeight="bold">No hay requerimientos abiertos</Typography>
                 )
             }
         </Box>
