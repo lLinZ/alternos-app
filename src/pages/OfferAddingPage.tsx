@@ -496,11 +496,12 @@ export const OfferAddingPage: FC = () => {
             salesman_id: userLogged ? userLogged?.id : 0,
             items: selectedItems ? selectedItems : []
         })
+        console.log('body', body);
         const options = {
             method: "POST",
             body
         }
-        try {
+        // try {
             const respuesta = await fetch(url, options)
 
             switch (respuesta.status) {
@@ -532,14 +533,14 @@ export const OfferAddingPage: FC = () => {
                     setIsSubmitting(false);
                     break;
             }
-        } catch (error) {
-            Swal.fire({
-                title: "Error",
-                text: "No se logró conectar",
-                icon: "error",
-            })
-            setIsSubmitting(false);
-        }
+        // } catch (error) {
+        //     Swal.fire({
+        //         title: "Error",
+        //         text: "No se logró conectar",
+        //         icon: "error",
+        //     })
+        //     setIsSubmitting(false);
+        // }
     }
 
     return (
