@@ -168,6 +168,8 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
         },
         item: {
             display: "flex",
+            width: "32.6%",
+            height: "8rem",
             justifyContent: "space-between",
             alignItems: "center",
             mb: 2,
@@ -237,32 +239,34 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
                 </AppBar>
                 <Box sx={localStyles.mainContainer}>
                     {items && (<FilterBox data={items} setData={setItems} category1="name" category2="origen" category3="description" />)}
-                    {
-                        items && (
-                            items.map((item: IItem) => (
-                                <Box key={`${item.id}${item.name}`} sx={localStyles.item}>
-                                    <Box>
-                                        <Typography variant="subtitle2" color="text.secondary" fontWeight="bold">#{item.id}</Typography>
-                                        <Typography variant="subtitle2" fontWeight="bold">{item.name}</Typography>
-                                        <Typography variant="subtitle2" color="text.secondary" fontWeight={400}>{item.origen}</Typography>
-                                        <Typography variant="subtitle2" color="text.secondary" fontWeight={400}>Precio {item.precio}</Typography>
+                    <Box sx={{ display: "flex", alignItems: "flex-start", flexFlow: "wrap", gap: 1, width: "100%", margin: "20px auto" }}>
+                        {
+                            items && (
+                                items.map((item: IItem) => (
+                                    <Box key={`${item.id}${item.name}`} sx={localStyles.item}>
+                                        <Box>
+                                            <Typography variant="subtitle2" color="text.secondary" fontWeight="bold">#{item.id}</Typography>
+                                            <Typography variant="subtitle2" fontWeight="bold">{item.name}</Typography>
+                                            <Typography variant="subtitle2" color="text.secondary" fontWeight={400}>{item.origen}</Typography>
+                                            <Typography variant="subtitle2" color="text.secondary" fontWeight={400}>Precio {item.precio}</Typography>
+                                        </Box>
+                                        <IconButton onClick={() => selectItem(Number(item.id), item.categoria, item.name, item.origen, item.precio, item.costo, item.description)} disabled={Boolean(selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id && itemSelected.orden !== orden).length)}>
+                                            {
+                                                Boolean(selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id).length)
+                                                    ? (<>
+                                                        {selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id)[0].orden}
+                                                        <CheckCircleRounded color={Boolean(selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id && itemSelected.orden !== orden).length) ? "secondary" : "success"} />
+                                                    </>)
+                                                    : (<CircleOutlined />)
+                                            }
+                                        </IconButton>
                                     </Box>
-                                    <IconButton onClick={() => selectItem(Number(item.id), item.categoria, item.name, item.origen, item.precio, item.costo, item.description)} disabled={Boolean(selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id && itemSelected.orden !== orden).length)}>
-                                        {
-                                            Boolean(selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id).length)
-                                                ? (<>
-                                                    {selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id)[0].orden}
-                                                    <CheckCircleRounded color={Boolean(selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id && itemSelected.orden !== orden).length) ? "secondary" : "success"} />
-                                                </>)
-                                                : (<CircleOutlined />)
-                                        }
-                                    </IconButton>
-                                </Box>
-                            ))
-                        )
-                    }
-                    {
-                    }
+                                ))
+                            )
+                        }
+                    </Box>
+                    {/* {
+                    } */}
                 </Box>
             </Dialog>
         </>

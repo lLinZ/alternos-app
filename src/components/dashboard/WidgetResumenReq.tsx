@@ -22,7 +22,13 @@ export const WidgetResumenReq: FC = () => {
         const respuesta = await fetch(url);
         const data = await respuesta.json();
         setStats(data.registros)
-        setTotal(data.registros[0].cantidad + data.registros[1].cantidad + data.registros[2].cantidad + data.registros[3].cantidad)
+        let xCant = 0;
+        data.registros.map((elemento:any) => {
+            xCant += elemento.cantidad 
+        });
+        // setTotal(data.registros[0].monto + data.registros[1].monto)
+        // let aux = data.registros[0].cantidad + data.registros[1].cantidad + data.registros[2].cantidad + data.registros[3].cantidad;
+        setTotal(xCant)
     }
     useEffect(() => {
         getStats();
@@ -88,7 +94,7 @@ export const WidgetResumenReq: FC = () => {
                     {stats && stats.map((s, i) => (
                         <Box key={i} sx={{ mr: 2, mb: 2, width: 80, heigth: 80 }}>
 
-                            <CircularProgressbarWithChildren value={Math.round((s.cantidad / total) * 100)} styles={{
+                            <CircularProgressbarWithChildren value={Math.round(((total===0) ? 0 : (s.cantidad / total)) * 100)} styles={{
                                 path: {
                                     // Path color
                                     stroke: `${getColorByStatus(s.status)}`,
@@ -102,7 +108,7 @@ export const WidgetResumenReq: FC = () => {
                                 },
                             }}>
                                 <Typography variant="subtitle2" fontSize={10}>{s.cantidad} {ucfirst(s.status)}</Typography>
-                                <Typography fontWeight={'bold'}>{`${Math.round((s.cantidad / total) * 100)}%`}</Typography>
+                                <Typography fontWeight={'bold'}>{`${Math.round(((total===0) ? 0 : (s.cantidad / total)) * 100)}%`}</Typography>
                             </CircularProgressbarWithChildren>
                         </Box>
                     ))}

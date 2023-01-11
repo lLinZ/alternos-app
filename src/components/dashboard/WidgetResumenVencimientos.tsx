@@ -26,9 +26,7 @@ export const WidgetResumenVencimientos: FC = () => {
         data.registros.map((elemento:any) => {
             xMonto += elemento.monto 
         });
-        // setTotal(data.registros[0].monto + data.registros[1].monto)
         setTotal(xMonto);
-        console.log(xMonto, total);
     }
     useEffect(() => {
         getStats();
@@ -89,7 +87,7 @@ export const WidgetResumenVencimientos: FC = () => {
                     {stats && stats.map((s, i) => (
                         <Box key={i} sx={{ mr: 2, mb: 2, width: 100, heigth: 100 }}>
 
-                            <CircularProgressbarWithChildren value={Math.round((s.monto / total) * 100)} styles={{
+                            <CircularProgressbarWithChildren value={Math.round(((total===0) ? 0 : (s.monto / total)) * 100)} styles={{
                                 path: {
                                     // Path color
                                     stroke: `${getColorByStatus(s.status)}`,
@@ -103,7 +101,7 @@ export const WidgetResumenVencimientos: FC = () => {
                                 },
                             }}>
                                 <Typography variant="subtitle2" fontSize={10}>${s.monto} {ucfirst(s.status)}</Typography>
-                                <Typography fontWeight={'bold'}>{`${Math.round((s.monto / total) * 100)}%`}</Typography>
+                                <Typography fontWeight={'bold'}>{`${Math.round(((total===0) ? 0 : (s.monto / total)) * 100)}%`}</Typography>
                             </CircularProgressbarWithChildren>
                         </Box>
                     ))}

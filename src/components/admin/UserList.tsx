@@ -7,11 +7,13 @@ import { UserCard } from './UserCard'
 interface Props {
     users: User[] | null;
     setUsers: Dispatch<SetStateAction<User[] | null>>
+    matches: any;
 }
-export const UserList: FC<Props> = ({ users, setUsers }) => {
+export const UserList: FC<Props> = ({ users, setUsers, matches }) => {
     return (
-        <Box sx={{ width: "100%", margin: "20px auto", minHeight: "100vh" }}>
-            {users && users.map(user => <UserCard user={user} setUsers={setUsers} users={users} key={user.id} />)}
+
+        <Box sx={{ display: "flex", alignItems: "center", flexFlow: "wrap", gap: 1, width: "100%", margin: "20px auto", minHeight: "100vh" }}>
+            {users && users.map(user => <UserCard user={user} setUsers={setUsers} users={users} key={user.id} matches={matches} />)}
             {!users && (<Box sx={{ mt: 2 }}><Typography variant="body2" color="text.secondary" >No existen usuarios pendientes</Typography></Box>)}
         </Box>
     )

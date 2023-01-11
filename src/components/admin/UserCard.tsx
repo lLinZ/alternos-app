@@ -19,6 +19,7 @@ type CardProps = {
     users: User[];
     rolActual: any;
     statusActual: any;
+    anchocard: any;
 }
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
@@ -37,18 +38,23 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 
 
 
-const BasicCard: FC<CardProps> = ({ subtitleOver, title, subtitleBelow, description, cambiarRoles, user, rolActual, statusActual, users }) => {
+const BasicCard: FC<CardProps> = ({ subtitleOver, title, subtitleBelow, description, cambiarRoles, user, rolActual, statusActual, users, anchocard }) => {
     const [expanded, setExpanded] = useState(false);
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
+    // width: "32.6%", mb: 2, border: "none", borderRadius: 5, boxShadow: '0 8px 32px 0 rgba(100,100,100,0.
+
     return (
-        <Card variant="outlined" sx={{
-            width: "100%", mb: 2, border: "none", borderRadius: 5, boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
-            background: "rgba(255,255,255,0.6)",
-            backdropFilter: 'blur(6px)',
-        }}>
+        <Card 
+            variant="outlined"
+            sx={{
+                width: anchocard, mb: 2, border: "none", borderRadius: 5, boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
+                background: "rgba(255,255,255,0.6)",
+                backdropFilter: 'blur(6px)',
+            }}
+        >
             <CardContent>
                 <Typography sx={{ fontSize: 12 }} color="text.secondary" gutterBottom>
                     {subtitleOver}
@@ -112,8 +118,9 @@ interface Props {
     user: User;
     users: User[];
     setUsers: Dispatch<SetStateAction<User[] | null>>
+    matches: any;
 }
-export const UserCard: FC<Props> = ({ user, setUsers, users }) => {
+export const UserCard: FC<Props> = ({ user, setUsers, users, matches }) => {
     /**
      * Funcion npara cambiar el rol y el status de un usuario
      * @param rol Rol del usuario
@@ -170,8 +177,14 @@ export const UserCard: FC<Props> = ({ user, setUsers, users }) => {
             })
         }
     }
-    return (<>
-        <BasicCard subtitleOver={user.role_name} title={user.name} subtitleBelow={user.status} description={user.username} cambiarRoles={cambiarRoles} rolActual={user.role_id} statusActual={user.status} user={user} users={users} />
-    </>
+    return (
+        <>
+            {matches && (
+                <BasicCard subtitleOver={user.role_name} title={user.name} subtitleBelow={user.status} description={user.username} cambiarRoles={cambiarRoles} rolActual={user.role_id} statusActual={user.status} user={user} users={users} anchocard='24.4%' />
+            )}
+            {!matches && (
+                <BasicCard subtitleOver={user.role_name} title={user.name} subtitleBelow={user.status} description={user.username} cambiarRoles={cambiarRoles} rolActual={user.role_id} statusActual={user.status} user={user} users={users} anchocard='100%' />
+            )}
+        </>
     )
 }

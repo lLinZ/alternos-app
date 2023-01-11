@@ -20,6 +20,15 @@ export const AdminPage: FC = () => {
     //Usuario logeado
     const [userLogged, setUserLogged] = useState<User | null>(null);
 
+    
+    const [matches, setMatches] = useState(window.matchMedia("(min-width: 768px)").matches);
+
+    useEffect(() => {
+        window
+        .matchMedia("(min-width: 768px)")
+        .addEventListener('change', e => setMatches( e.matches ));
+    }, []);
+
     //Router
     const router = useNavigate();
 
@@ -64,10 +73,9 @@ export const AdminPage: FC = () => {
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
                 <Box sx={{ display: "flex", alignItems: "center", flexFlow: "row nowrap" }}>
                     <PageTitle title="Usuarios registrados" />
-
                     <IconButton size="small" color="info" onClick={() => router("/admin/user/add")}><AddIcon /></IconButton>
                 </Box>
-                <UserList users={users} setUsers={setUsers} />
+                <UserList users={users} setUsers={setUsers} matches={matches} />
             </Box>
         </Layout>
     )
