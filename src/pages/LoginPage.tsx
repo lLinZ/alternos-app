@@ -1,10 +1,11 @@
 import { FC, useEffect } from 'react';
 
-import { Button, Grid, Link, TextField, Typography, useTheme } from '@mui/material';
+// import { Button, Grid, Link, TextField, Typography, useTheme } from '@mui/material';
+import { Grid, TextField, Typography, useTheme } from '@mui/material';
 
 import { Formik, Form, FormikValues } from 'formik';
 import { Layout } from '../components/layout';
-import { baseUrl } from '../common/baseUrl';
+// import { baseUrl } from '../common/baseUrl';
 import { LoadingButton } from '@mui/lab';
 import Swal from 'sweetalert2';
 import { useNavigate, Link as RouterLink } from "react-router-dom";
@@ -20,7 +21,8 @@ const initialValues = {
 
 export const LoginPage: FC<Props> = () => {
     // Tema
-    const theme = useTheme();
+    // const theme = useTheme();
+    useTheme();
 
     // Router
     const push = useNavigate();
@@ -64,7 +66,8 @@ export const LoginPage: FC<Props> = () => {
                 createCookie("username", user.username);
                 push("/dashboard");
             } else {
-                const error = await Swal.fire({
+                // const error = await Swal.fire({
+                await Swal.fire({
                     title: "Error",
                     text: data.mensaje,
                     icon: "error"
@@ -78,7 +81,7 @@ export const LoginPage: FC<Props> = () => {
 
     return (
         <Layout footer={false}>
-            <img src="./logo.png" width={171} height={49} />
+            <img src="./logo.png" width={171} height={49} alt="Logo Alternos" />
             <Formik
                 initialValues={initialValues}
                 onSubmit={(values: FormikValues) => onSubmit(values)}
@@ -87,7 +90,7 @@ export const LoginPage: FC<Props> = () => {
                     <Form onSubmit={handleSubmit}>
                         <Grid container display="flex" justifyContent="center" alignItems="center" sx={{ width: { xs: "80%", md: "65%", lg: "50%" }, margin: "20px auto", }}>
                             <Grid item xs={12} sx={{ mt: 4 }}>
-                                <TextField fullWidth onChange={handleChange} label="Usuario" name="usuario" type="text" variant="standard" color="secondary" />
+                                <TextField fullWidth onChange={handleChange} label="Correo electrónico" name="usuario" type="text" variant="standard" color="secondary" />
                             </Grid>
                             <Grid item xs={12} sx={{ mt: 4 }}>
                                 <TextField fullWidth onChange={handleChange} label="Contraseña" name="password" type="password" variant="standard" color="secondary" />

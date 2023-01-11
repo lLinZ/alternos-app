@@ -1,5 +1,6 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material'
-import { Box, Typography, Grid, TextField, InputAdornment, IconButton, Select, SelectChangeEvent, MenuItem, Button } from '@mui/material'
+// import { Box, Typography, Grid, TextField, InputAdornment, IconButton, Select, SelectChangeEvent, MenuItem, Button } from '@mui/material'
+import { Box, Grid, TextField, InputAdornment, IconButton, Select, SelectChangeEvent, MenuItem, Button } from '@mui/material'
 import { Formik, FormikValues, Form } from 'formik'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -39,7 +40,7 @@ export const UserAddingPage = () => {
         }
         const errores = [];
 
-        if (!values.username) errores.push("El campo usuario está vacío");
+        if (!values.username) errores.push("El campo correo electrónico está vacío");
         if (!values.password) errores.push("El campo contraseña está vacío");
         if (!values.phone) errores.push("El campo teléfono está vacío");
         if (!values.name) errores.push("El campo nombre está vacío");
@@ -49,7 +50,8 @@ export const UserAddingPage = () => {
         if (errores.length > 0) {
             let errorList: string = "";
             errores.forEach(error => errorList += `- ${error} <br />`);
-            const alertaCamposVacios = await Swal.fire({
+            // const alertaCamposVacios = await Swal.fire({
+            await Swal.fire({
                 title: "Error",
                 html: errorList,
                 icon: "error",
@@ -57,7 +59,8 @@ export const UserAddingPage = () => {
             return false;
         }
         if (values.confirmPassword !== values.password) {
-            const alertaError = await Swal.fire({
+            // const alertaError = await Swal.fire({
+            await Swal.fire({
                 title: "Error",
                 text: "Las contraseñas no coinciden",
                 icon: "error",
@@ -83,7 +86,8 @@ export const UserAddingPage = () => {
             const data = await respuesta.json();
             console.log(data)
             if (data.exito === "SI") {
-                const alertaExito = await Swal.fire({
+                // const alertaExito = await Swal.fire({
+                await Swal.fire({
                     title: "Exito",
                     text: data.mensaje,
                     icon: "success",
@@ -141,7 +145,7 @@ export const UserAddingPage = () => {
                                     <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.name} variant="outlined" InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} label="Nombre y apellido" name="name" type="text" color="secondary" />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.username} variant="outlined" InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} label="Usuario" name="username" type="text" color="secondary" />
+                                    <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.username} variant="outlined" InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} label="Correo electrónico" name="username" type="text" color="secondary" />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.phone} variant="outlined" InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} label="Teléfono" name="phone" type="text" color="secondary" />

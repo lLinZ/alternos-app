@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 
-import { Box, Button, Grid, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
+// import { Box, Button, Grid, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
+import { Box, Button, Grid, IconButton, InputAdornment, TextField } from '@mui/material';
 
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -40,7 +41,7 @@ export const RegisterAdminPage: FC<Props> = () => {
         }
         const errores = [];
 
-        if (!values.username) errores.push("El campo usuario está vacío");
+        if (!values.username) errores.push("El campo correo electrónico está vacío");
         if (!values.password) errores.push("El campo contraseña está vacío");
         if (!values.phone) errores.push("El campo teléfono está vacío");
         if (!values.name) errores.push("El campo nombre está vacío");
@@ -49,7 +50,8 @@ export const RegisterAdminPage: FC<Props> = () => {
         if (errores.length > 0) {
             let errorList: string = "";
             errores.forEach(error => errorList += `- ${error} <br />`);
-            const alertaCamposVacios = await Swal.fire({
+            // const alertaCamposVacios = await Swal.fire({
+            await Swal.fire({
                 title: "Error",
                 html: errorList,
                 icon: "error",
@@ -57,7 +59,8 @@ export const RegisterAdminPage: FC<Props> = () => {
             return false;
         }
         if (values.confirmPassword !== values.password) {
-            const alertaError = await Swal.fire({
+            // const alertaError = await Swal.fire({
+            await Swal.fire({
                 title: "Error",
                 text: "Las contraseñas no coinciden",
                 icon: "error",
@@ -83,7 +86,8 @@ export const RegisterAdminPage: FC<Props> = () => {
             const data = await respuesta.json();
 
             if (data.exito === "SI") {
-                const alertaExito = await Swal.fire({
+                // const alertaExito = await Swal.fire({
+                await Swal.fire({
                     title: "Exito",
                     text: data.mensaje,
                     icon: "success",
@@ -125,7 +129,7 @@ export const RegisterAdminPage: FC<Props> = () => {
                                     <TextField InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} variant="outlined" label="Nombre y apellido" name="name" type="text" color="secondary" />
                                 </Grid>
                                 <Grid item xs={12} >
-                                    <TextField InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} variant="outlined" label="Usuario" name="username" type="text" color="secondary" />
+                                    <TextField InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} variant="outlined" label="Correo electrónico" name="username" type="text" color="secondary" />
                                 </Grid>
                                 <Grid item xs={12} >
                                     <TextField InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} variant="outlined" label="Teléfono" name="phone" type="text" color="secondary" />
