@@ -153,14 +153,16 @@ export const UserCard: FC<Props> = ({ user, setUsers, users, matches }) => {
                     userToAdd
                 ]
                 setUsers(newUserArray);
-                const alertaExito = await Swal.fire({
+                // const alertaExito = await Swal.fire({
+                await Swal.fire({
                     title: "Exito",
                     text: "Se modificó la informacion del usuario",
                     icon: "success",
                 })
 
             } else {
-                const alertaError = await Swal.fire({
+                // const alertaError = await Swal.fire({
+                await Swal.fire({
                     title: "Error",
                     text: "Ocurrió un error al conectar con  el servidor",
                     icon: "error",
@@ -170,7 +172,8 @@ export const UserCard: FC<Props> = ({ user, setUsers, users, matches }) => {
         } catch (error) {
             console.log(error);
 
-            const alertaError = await Swal.fire({
+            // const alertaError = await Swal.fire({
+            await Swal.fire({
                 title: "Error",
                 text: "Ocurrió un error al conectar con  el servidor",
                 icon: "error",
@@ -180,7 +183,7 @@ export const UserCard: FC<Props> = ({ user, setUsers, users, matches }) => {
     return (
         <>
             {matches && (
-                <BasicCard subtitleOver={user.role_name} title={user.name} subtitleBelow={user.status} description={user.username} cambiarRoles={cambiarRoles} rolActual={user.role_id} statusActual={user.status} user={user} users={users} anchocard='24.4%' />
+                <BasicCard subtitleOver={user.role_name} title={user.name} subtitleBelow={user.status} description={user.username} cambiarRoles={cambiarRoles} rolActual={user.role_id} statusActual={user.status} user={user} users={users} anchocard='32.6%' />
             )}
             {!matches && (
                 <BasicCard subtitleOver={user.role_name} title={user.name} subtitleBelow={user.status} description={user.username} cambiarRoles={cambiarRoles} rolActual={user.role_id} statusActual={user.status} user={user} users={users} anchocard='100%' />
