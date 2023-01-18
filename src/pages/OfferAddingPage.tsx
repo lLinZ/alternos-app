@@ -82,6 +82,8 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
         setOpen(false);
     }
 
+    const [matches, setMatches] = useState(window.matchMedia("(min-width: 768px)").matches);
+
     const selectItem = (product_id: number, categoria: string, description: string, type: string, precio: number | string, costo: number | string, descr_larga: string) => {
         const exists = Boolean(selectedItems?.filter((item: ItemSelection) => item.product_id === product_id).length)
 
@@ -144,6 +146,10 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
 
     useEffect(() => {
         getItems();
+
+        window
+        .matchMedia("(min-width: 768px)")
+        .addEventListener('change', e => setMatches( e.matches ));
     }, [])
 
     const PopOverText = "El último item seleccionado tendrá color verde, indicando que puede ser deseleccionado, esto es así para mantener el orden de los items. Puedes deseleccionar los items clickeando en el orden en que las seleccionaste pero de manera invertida.";
@@ -256,7 +262,7 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
                         {
                             items && (
                                 items.map((item: IItem) => (
-                                    <Box key={`${item.id}${item.name}`} sx={localStyles.item}>
+                                    <Box key={`${item.id}${item.name}`} sx={matches ? localStyles.item : localStyles.item2}>
                                         <Box>
                                             <Typography variant="subtitle2" color="text.secondary" fontWeight="bold">#{item.id}</Typography>
                                             <Typography variant="subtitle2" fontWeight="bold">{item.name}</Typography>
