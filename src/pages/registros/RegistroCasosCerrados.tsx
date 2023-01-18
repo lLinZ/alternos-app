@@ -1,8 +1,8 @@
-import { FC, useEffect, useState } from 'react'
+import { Dispatch, FC, useEffect, useState } from 'react'
 
 import { useNavigate } from 'react-router-dom';
 
-import { Box, CircularProgress, Grid, IconButton, Typography } from '@mui/material'
+import { AppBar, Box, CircularProgress, Dialog, Grid, IconButton, Toolbar, Typography } from '@mui/material'
 
 import { Layout } from '../../components/layout'
 import { User } from '../../interfaces/user-type'
@@ -12,6 +12,7 @@ import { baseUrl } from '../../common/baseUrl';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { PageTitle } from '../../components/ui';
+import CloseIcon from '@mui/icons-material/Close';
 import RedoIcon from '@mui/icons-material/Redo';
 import { Case } from '../../interfaces/requirement-type';
 import Swal from 'sweetalert2';
@@ -22,11 +23,27 @@ const paginationComponentOptions = {
     selectAllRowsItem: true,
     selectAllRowsItemText: 'Todos',
 };
-
+interface Caso {
+    id: number;
+    description: string;
+    user_id: number;
+    user_name: string;
+    process_id: number;
+    process_name: string;
+    process_owner_id: number;
+    process_owner_name: string;
+    status: string;
+    inicio: Date;
+    vence: Date;
+    completed_at: string;
+    comentario_cierre: string;
+}
 export const RegistroCasosCerradosPage: FC = () => {
     const [userLogged, setUserLogged] = useState<User | null>(null)
     const router = useNavigate();
-    const [casos, setCasos] = useState<any>(null)
+    const [caso, setCaso] = useState<Caso | null>(null)
+    const [casos, setCasos] = useState<Caso[] | null>(null)
+    const [open, setOpen] = useState<boolean>(false)
 
     const customStyles = {
         rows: {
@@ -47,6 +64,11 @@ export const RegistroCasosCerradosPage: FC = () => {
         if (data.exito === "SI") {
             setCasos(data.registros);
         }
+    }
+
+    const abrirModal = (id: number) => {
+        const newCaso = casos?.filter((c: Caso) => c.id === id)[0];
+        setCaso(newCaso ? newCaso : null);
     }
     const reabrir = async (id: number) => {
         const url = `${baseUrl}/abreocierracaso`
@@ -159,6 +181,39 @@ export const RegistroCasosCerradosPage: FC = () => {
                 </Grid>
             </Box>
         </Layout>
+    )
+}
+interface PropsModal {
+    open: boolean;
+    setOpen: Dispatch<any>;
+    caso: Caso | null;
+}
+
+const ModalReapertura: FC<PropsModal> = ({ setOpen, open, caso }) => {
+    const handleClose = () => {
+        setOpen(false);
+    }
+    return (
+        <Dialog fullScreen open={open} onClose={handleClose}>
+            <AppBar sx={{ position: 'relative' }} elevation={0}>
+                <Toolbar>
+                    <IconButton
+                        edge="start"
+                        color="inherit"
+                        onClick={handleClose}
+                        aria-label="close"
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                    <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                        Reabrir caso
+                    </Typography>
+                </Toolbar>
+            </AppBar>
+            <Box>
+
+            </Box>
+        </Dialog>
     )
 }
 const styles = {
