@@ -66,8 +66,9 @@ export const BasicTaskPage: FC<Props> = () => {
     // Ultimo usaurio de las actividades
     const [last, setLast] = useState<boolean>(false);
 
-
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [selectedFile1, setSelectedFile1] = useState<File | null>(null);
+    const [selectedFile2, setSelectedFile2] = useState<File | null>(null);
+    const [selectedFile3, setSelectedFile3] = useState<File | null>(null);
     const ref = useRef<HTMLInputElement>(null)
 
     // Router
@@ -183,29 +184,30 @@ export const BasicTaskPage: FC<Props> = () => {
     const onSubmit = async () => {
         setIsSubmitting(true);
 
-        if (!selectedTask || !respuestaReq) {
+        if (!respuestaReq && !selectedFile1) {
             Swal.fire({
-                text: "Error",
-                title: "Todos los campos son obligatorios",
+                title: "Error",
+                text: "No se completó la tarea, debe subir al menos un archivo o colocar un comentario",
                 icon: "error"
             })
             setIsSubmitting(false);
+            resetModal();
         } else {
             const url = `${baseUrl}/respuesta`
             const body = new FormData();
 
             body.append("task_id", String(selectedTask?.id));
             body.append("respuesta", String(respuestaReq));
-            body.append("archivo", selectedFile ? selectedFile : '');
-            console.log({ task_id: String(selectedTask?.id), respuesta: respuestaReq, selectedFile })
+            body.append("archivo1", selectedFile1 ? selectedFile1 : '');
+            body.append("archivo2", selectedFile2 ? selectedFile2 : '');
+            body.append("archivo3", selectedFile3 ? selectedFile3 : '');
+            console.log({ task_id: String(selectedTask?.id), respuesta: respuestaReq, selectedFile1 })
             const options = {
                 method: "POST",
                 body
             }
             
             try {
-
-                // Solicitud
                 const respuesta = await fetch(url, options);
                 // Datos de la respuesta
                 const data = await respuesta.json();
@@ -226,7 +228,9 @@ export const BasicTaskPage: FC<Props> = () => {
 
                     // Cancel loader
                     setIsSubmitting(false);
-                    setSelectedFile(null);
+                    setSelectedFile1(null);
+                    setSelectedFile2(null);
+                    setSelectedFile3(null);
                     // Alert
                     Swal.fire({
                         title: "Exito",
@@ -370,7 +374,7 @@ export const BasicTaskPage: FC<Props> = () => {
                                 <CloseIcon />
                             </IconButton>
                             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                                {selectedTask?.process_name}
+                                Tarea #{selectedTask?.id}
                             </Typography>
                             <Button autoFocus color="inherit" onClick={handleClose}>
 
@@ -385,49 +389,53 @@ export const BasicTaskPage: FC<Props> = () => {
                         }}>
 
                             <Typography variant="body1" component="p" fontWeight="bold">
+                                {selectedTask?.process_name}
+                            </Typography>
+                            <Divider sx={{ marginBlock: 2 }} />
+                            <Typography variant="body2" component="p" fontWeight="bold">
                                 Descripcion del requerimiento
                             </Typography>
-                            <Typography variant="body1" component="p">
+                            <Typography variant="body2" component="p">
                                 {selectedTask?.description}
                             </Typography>
                             <Divider sx={{ marginBlock: 2 }} />
-                            <Typography variant="body1" component="p" fontWeight="bold">
+                            <Typography variant="body2" component="p" fontWeight="bold">
                                 Actividad
                             </Typography>
-                            <Typography variant="body1" component="p">
+                            <Typography variant="body2" component="p">
                                 {selectedTask?.activity_name}
                             </Typography>
-                            <Typography variant="body1" component="p" fontWeight="bold">
+                            <Typography variant="body2" component="p" fontWeight="bold">
                                 Encargado de la actividad
                             </Typography>
-                            <Typography variant="body1" component="p">
+                            <Typography variant="body2" component="p">
                                 {selectedTask?.activity_owner_name}
                             </Typography>
                             <Divider sx={{ marginBlock: 2 }} />
-                            <Typography variant="body1" component="p" fontWeight="bold">
+                            <Typography variant="body2" component="p" fontWeight="bold">
                                 Proceso
                             </Typography>
-                            <Typography variant="body1" component="p">
+                            <Typography variant="body2" component="p">
                                 {selectedTask?.process_name}
                             </Typography>
-                            <Typography variant="body1" component="p" fontWeight="bold">
+                            <Typography variant="body2" component="p" fontWeight="bold">
                                 Encargado del proceso
                             </Typography>
-                            <Typography variant="body1" component="p">
+                            <Typography variant="body2" component="p">
                                 {selectedTask?.process_owner_name}
                             </Typography>
                             <Divider sx={{ marginBlock: 2 }} />
-                            <Typography variant="body1" component="p" fontWeight="bold">
+                            <Typography variant="body2" component="p" fontWeight="bold">
                                 Fecha de vencimiento
                             </Typography>
-                            <Typography variant="body1" component="p">
+                            <Typography variant="body2" component="p">
                                 {selectedTask?.vence}
                             </Typography>
                             <Divider sx={{ marginBlock: 2 }} />
-                            <Typography variant="body1" component="p" fontWeight="bold">
+                            <Typography variant="body2" component="p" fontWeight="bold">
                                 Briefing
                             </Typography>
-                            <Typography variant="body1" component="p">
+                            <Typography variant="body2" component="p">
                                 {selectedTask?.briefing}
                             </Typography>
                         </Box>
@@ -443,20 +451,20 @@ export const BasicTaskPage: FC<Props> = () => {
                             backdropFilter: 'blur(6px)',
                         }}>Ver Datos del cliente</Button>
                         {
-                            selectedFile && (
+                            selectedFile1 && (
                                 <>
-                                    <Typography variant="overline">Nombre de archivo de resultado</Typography>
-                                    <Typography variant="subtitle2" color="text.secondary">{selectedFile.name}</Typography>
+                                    <Typography variant="overline">Nombre de archivo</Typography>
+                                    <Typography variant="subtitle2" color="text.secondary">{selectedFile1.name}</Typography>
                                 </>
                             )
                         }
-                        <Button type="button" variant="contained" color={selectedFile ? "success" : "info"} fullWidth sx={{
+                        <Button type="button" variant="contained" color={selectedFile1 ? "success" : "info"} fullWidth sx={{
                             textTransform: "none",
                             p: 1.8,
                             borderRadius: 5,
                             marginBlock: 1,
                             boxShadow: "0 8px 32px 0 rgba(0,0,0,0.2)"
-                        }} onClick={() => ref !== null && ref.current?.click()}>{selectedFile ? 'Cambiar archivo' : 'Seleccionar Archivo'}</Button>
+                        }} onClick={() => ref !== null && ref.current?.click()}>{selectedFile1 ? 'Cambiar archivo' : 'Seleccionar Archivo'}</Button>
 
                         <input
                             ref={ref as any}
@@ -464,10 +472,63 @@ export const BasicTaskPage: FC<Props> = () => {
                             style={{ display: "none" }}
                             accept={"image/*"}
                             onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                                setSelectedFile(e.currentTarget.files ? e.currentTarget.files[0] : null);
+                                setSelectedFile1(e.currentTarget.files ? e.currentTarget.files[0] : null);
                                 e.target.value = "";
                             }}
                         />
+                        {/* {
+                            selectedFile2 && (
+                                <>
+                                    <Typography variant="overline">Nombre de archivo 2</Typography>
+                                    <Typography variant="subtitle2" color="text.secondary">{selectedFile2.name}</Typography>
+                                </>
+                            )
+                        }
+                        <Button type="button" variant="contained" color={selectedFile2 ? "success" : "info"} fullWidth sx={{
+                            textTransform: "none",
+                            p: 1.8,
+                            borderRadius: 5,
+                            marginBlock: 1,
+                            boxShadow: "0 8px 32px 0 rgba(0,0,0,0.2)"
+                        }} onClick={() => ref !== null && ref.current?.click()}>{selectedFile2 ? 'Cambiar archivo 2' : 'Seleccionar Archivo 2'}</Button>
+
+                        <input
+                            ref={ref as any}
+                            type="file"
+                            style={{ display: "none" }}
+                            accept={"image/*"}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                setSelectedFile2(e.currentTarget.files ? e.currentTarget.files[9] : null);
+                                e.target.value = "";
+                            }}
+                        />
+                        {
+                            selectedFile3 && (
+                                <>
+                                    <Typography variant="overline">Nombre de archivo 3</Typography>
+                                    <Typography variant="subtitle2" color="text.secondary">{selectedFile3.name}</Typography>
+                                </>
+                            )
+                        }
+                        <Button type="button" variant="contained" color={selectedFile3 ? "success" : "info"} fullWidth sx={{
+                            textTransform: "none",
+                            p: 1.8,
+                            borderRadius: 5,
+                            marginBlock: 1,
+                            boxShadow: "0 8px 32px 0 rgba(0,0,0,0.2)"
+                        }} onClick={() => ref !== null && ref.current?.click()}>{selectedFile3 ? 'Cambiar archivo 3' : 'Seleccionar Archivo 3'}</Button>
+
+                        <input
+                            ref={ref as any}
+                            type="file"
+                            style={{ display: "none" }}
+                            accept={"image/*"}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                setSelectedFile3(e.currentTarget.files ? e.currentTarget.files[0] : null);
+                                e.target.value = "";
+                            }}
+                        /> */}
+
                         <TextField label="Comentario de cierre de tarea" fullWidth value={respuestaReq} onChange={(e: ChangeEvent<HTMLInputElement>) => setRespuestaReq(e.currentTarget.value)} multiline color="secondary" InputProps={{ sx: { borderRadius: 3 } }} sx={{
                             boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
                             background: "rgba(255,255,255,0.6)",
