@@ -9,7 +9,7 @@ import { User } from '../interfaces/user-type'
 import { getCookieValue, validarToken } from '../lib/functions';
 import { IRequirement } from './UserRequirementsPage';
 import CloseIcon from '@mui/icons-material/Close';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+// import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { TransitionProps } from '@mui/material/transitions';
 import { PageTitle } from '../components/ui';
 
@@ -17,13 +17,21 @@ interface Props {
 
 }
 
+// const Transition = forwardRef(function Transition(
+//     props: TransitionProps & {
+//         children: ReactElement;
+//     },
+//     ref: Ref<unknown>,
+// ) {
+//     return <Slide direction="up" ref={ref} {...props} />;
+// });
+
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
         children: ReactElement;
     },
-    ref: Ref<unknown>,
 ) {
-    return <Slide direction="up" ref={ref} {...props} />;
+    return <Slide direction="up" {...props} />;
 });
 
 interface SelectedUser {
@@ -69,7 +77,9 @@ export const BasicTaskPage: FC<Props> = () => {
     const [selectedFile1, setSelectedFile1] = useState<File | null>(null);
     const [selectedFile2, setSelectedFile2] = useState<File | null>(null);
     const [selectedFile3, setSelectedFile3] = useState<File | null>(null);
-    const ref = useRef<HTMLInputElement>(null)
+    const ref1 = useRef<HTMLInputElement>(null)
+    const ref2 = useRef<HTMLInputElement>(null)
+    const ref3 = useRef<HTMLInputElement>(null)
 
     // Router
     const router = useNavigate();
@@ -184,7 +194,7 @@ export const BasicTaskPage: FC<Props> = () => {
     const onSubmit = async () => {
         setIsSubmitting(true);
 
-        if (!respuestaReq && !selectedFile1) {
+        if (!respuestaReq && !selectedFile1 && !selectedFile2 && !selectedFile3) {
             Swal.fire({
                 title: "Error",
                 text: "No se completó la tarea, debe subir al menos un archivo o colocar un comentario",
@@ -201,7 +211,6 @@ export const BasicTaskPage: FC<Props> = () => {
             body.append("archivo1", selectedFile1 ? selectedFile1 : '');
             body.append("archivo2", selectedFile2 ? selectedFile2 : '');
             body.append("archivo3", selectedFile3 ? selectedFile3 : '');
-            console.log({ task_id: String(selectedTask?.id), respuesta: respuestaReq, selectedFile1 })
             const options = {
                 method: "POST",
                 body
@@ -464,19 +473,19 @@ export const BasicTaskPage: FC<Props> = () => {
                             borderRadius: 5,
                             marginBlock: 1,
                             boxShadow: "0 8px 32px 0 rgba(0,0,0,0.2)"
-                        }} onClick={() => ref !== null && ref.current?.click()}>{selectedFile1 ? 'Cambiar archivo' : 'Seleccionar Archivo'}</Button>
+                        }} onClick={() => ref1 !== null && ref1.current?.click()}>{selectedFile1 ? 'Cambiar archivo 1' : 'Seleccionar Archivo 1'}</Button>
 
                         <input
-                            ref={ref as any}
+                            ref={ref1 as any}
                             type="file"
                             style={{ display: "none" }}
-                            accept={"image/*"}
+                            accept={"*/*"}
                             onChange={(e: ChangeEvent<HTMLInputElement>) => {
                                 setSelectedFile1(e.currentTarget.files ? e.currentTarget.files[0] : null);
                                 e.target.value = "";
                             }}
                         />
-                        {/* {
+                        {
                             selectedFile2 && (
                                 <>
                                     <Typography variant="overline">Nombre de archivo 2</Typography>
@@ -490,15 +499,15 @@ export const BasicTaskPage: FC<Props> = () => {
                             borderRadius: 5,
                             marginBlock: 1,
                             boxShadow: "0 8px 32px 0 rgba(0,0,0,0.2)"
-                        }} onClick={() => ref !== null && ref.current?.click()}>{selectedFile2 ? 'Cambiar archivo 2' : 'Seleccionar Archivo 2'}</Button>
+                        }} onClick={() => ref2 !== null && ref2.current?.click()}>{selectedFile2 ? 'Cambiar archivo 2' : 'Seleccionar Archivo 2'}</Button>
 
                         <input
-                            ref={ref as any}
+                            ref={ref2 as any}
                             type="file"
                             style={{ display: "none" }}
-                            accept={"image/*"}
+                            accept={"*/*"}
                             onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                                setSelectedFile2(e.currentTarget.files ? e.currentTarget.files[9] : null);
+                                setSelectedFile2(e.currentTarget.files ? e.currentTarget.files[0] : null);
                                 e.target.value = "";
                             }}
                         />
@@ -516,18 +525,18 @@ export const BasicTaskPage: FC<Props> = () => {
                             borderRadius: 5,
                             marginBlock: 1,
                             boxShadow: "0 8px 32px 0 rgba(0,0,0,0.2)"
-                        }} onClick={() => ref !== null && ref.current?.click()}>{selectedFile3 ? 'Cambiar archivo 3' : 'Seleccionar Archivo 3'}</Button>
+                        }} onClick={() => ref3 !== null && ref3.current?.click()}>{selectedFile3 ? 'Cambiar archivo 3' : 'Seleccionar Archivo 3'}</Button>
 
                         <input
-                            ref={ref as any}
+                            ref={ref3 as any}
                             type="file"
                             style={{ display: "none" }}
-                            accept={"image/*"}
+                            accept={"*/*"}
                             onChange={(e: ChangeEvent<HTMLInputElement>) => {
                                 setSelectedFile3(e.currentTarget.files ? e.currentTarget.files[0] : null);
                                 e.target.value = "";
                             }}
-                        /> */}
+                        />
 
                         <TextField label="Comentario de cierre de tarea" fullWidth value={respuestaReq} onChange={(e: ChangeEvent<HTMLInputElement>) => setRespuestaReq(e.currentTarget.value)} multiline color="secondary" InputProps={{ sx: { borderRadius: 3 } }} sx={{
                             boxShadow: '0 8px 32px 0 rgba(100,100,100,0.2)',
@@ -541,7 +550,7 @@ export const BasicTaskPage: FC<Props> = () => {
                 </Dialog>
             </Box >
             {/* Modal de usaurios */}
-            < Dialog onClose={() => setOpenUserModal(false)} open={openUserModal} fullScreen TransitionComponent={Transition} >
+            {/* < Dialog onClose={() => setOpenUserModal(false)} open={openUserModal} fullScreen TransitionComponent={Transition} >
                 <AppBar sx={{ position: 'relative' }}>
                     <Toolbar>
                         <IconButton
@@ -564,11 +573,10 @@ export const BasicTaskPage: FC<Props> = () => {
                             <Button color="secondary" onClick={() => {
                                 setUserSelected({ id: usuario.user_id, name: usuario.user_name })
                                 setOpenUserModal(false);
-                            }}>Seleccionar</Button>
+                            }}>Seleccionarxxx</Button>
                         </Box>)) : <CircularProgress color="secondary" />}
                 </Box>
-            </Dialog >
+            </Dialog > */}
         </Layout >
     )
 }
-
