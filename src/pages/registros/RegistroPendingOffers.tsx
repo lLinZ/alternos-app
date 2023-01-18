@@ -115,6 +115,10 @@ export const RegistroPendingOffersPage: FC = () => {
         if (accion === 'aprobar' || accion === 'rechazar') {
             const url2 = `${baseUrl}/apruebaoferta`;
 
+            console.log('url2',url2);
+            console.log('id',id);
+            console.log('accion',accion);
+
             const body = new FormData();
 
             body.append("id", String(id));

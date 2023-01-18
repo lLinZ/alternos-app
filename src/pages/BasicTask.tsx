@@ -155,13 +155,13 @@ export const BasicTaskPage: FC<Props> = () => {
                 const userData = userDataArray.usuario;
                 // const url = `${baseUrl}/listatareas?owner_id=${userData.id}&status=pendiente`;
                 const url = `${baseUrl}/listatareasusuario?owner_id=${userData.id}`;
-                console.log(url)
+                // console.log(url)
                 try {
                     const respuesta = await fetch(url);
                     const data = await respuesta.json();
                     if (data.exito === "SI") {
                         setMyRequirements(data.registros);
-                        console.log(data.registros)
+                        // console.log(data.registros)
                     } else {
                         setMyRequirements(null);
 
@@ -256,14 +256,14 @@ export const BasicTaskPage: FC<Props> = () => {
     const changeStatus = async (id: number, status: 'en proceso' | 'pendiente') => {
         const url = `${baseUrl}/cambiastatustarea`;
 
-        console.log('id',id);
-        console.log('status',status);
+        // console.log('id',id);
+        // console.log('status',status);
 
         const body = new FormData();
 
         body.append('task_id', String(id));
         body.append('status', String(status));
-        console.log({ status })
+        // console.log({ status })
         const options = {
             method: "POST",
             body
@@ -273,7 +273,7 @@ export const BasicTaskPage: FC<Props> = () => {
             const respuesta = await fetch(url, options);
 
             const data = await respuesta.json();
-            console.log(id, status);
+            // console.log(id, status);
             if (data.exito === "SI") {
                 Swal.fire({
                     title: "Cambió el status",

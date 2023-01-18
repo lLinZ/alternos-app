@@ -6,6 +6,7 @@ import { IconButton, TextField } from "@mui/material";
 import EditIcon from '@mui/icons-material/EditRounded';
 import EditOffIcon from '@mui/icons-material/EditOffRounded';
 import SaveIcon from '@mui/icons-material/SaveRounded';
+import moment from 'moment';
 
 import { ChangeEvent, Dispatch, FC, SetStateAction, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
@@ -84,7 +85,8 @@ export const OfferDetailBriefing: FC = () => {
             <Box sx={{ background: "#FFF", borderRadius: 5, boxShadow: "0 8px 32px 0 rgba(0,0,0,0.1)", mt: 2, p: 2 }}>
                <Typography variant="subtitle1">Cliente {offer?.customer_name}</Typography>
                <Typography variant="subtitle1">Vendedor {offer?.salesman_name}</Typography>
-               <Typography variant="subtitle2" fontWeight={300} color="text.secondary">{offer ? getFormatDistanceToNow(new Date(offer?.fecha)) : ''}</Typography>
+               <Typography variant="subtitle2" fontWeight={300} color="text.secondary">Fecha {moment(offer?.fecha).format("DD-MM-YYYY")}</Typography>
+               {/* <Typography variant="subtitle2" fontWeight={300} color="text.secondary">{offer ? getFormatDistanceToNow(new Date(offer?.fecha)) : ''}</Typography> */}
                <Divider sx={{ marginBlock: 2 }} />
                {offer && (<ItemList items={items} setItems={setItems} offer={offer} userLogged={userLogged} />)}
             </Box>
