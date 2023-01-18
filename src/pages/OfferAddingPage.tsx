@@ -65,7 +65,7 @@ interface ItemSelectionProps {
     orden: number,
     setOrden: Dispatch<SetStateAction<number>>,
 }
-const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, open, setOpen, items, setItems, selectedItems, setSelectedItems, orden, setOrden }) => {
+const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, open, setOpen, items, setItems, selectedItems, setSelectedItems, orden, setOrden}) => {
 
     const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -145,6 +145,7 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
     useEffect(() => {
         getItems();
     }, [])
+
     const PopOverText = "El último item seleccionado tendrá color verde, indicando que puede ser deseleccionado, esto es así para mantener el orden de los items. Puedes deseleccionar los items clickeando en el orden en que las seleccionaste pero de manera invertida.";
     const localStyles = {
         button: {
@@ -169,6 +170,18 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
         item: {
             display: "flex",
             width: "32.6%",
+            height: "8rem",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 2,
+            background: "rgba(255,255,255,0.8)",
+            boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)",
+            borderRadius: 5,
+            p: 3,
+        },
+        item2: {
+            display: "flex",
+            width: "100%",
             height: "8rem",
             justifyContent: "space-between",
             alignItems: "center",
@@ -253,11 +266,12 @@ const ItemSelectionDialog: FC<ItemSelectionProps> = ({ anchorEl, setAnchorEl, op
                                         <IconButton onClick={() => selectItem(Number(item.id), item.categoria, item.name, item.origen, item.precio, item.costo, item.description)} disabled={Boolean(selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id && itemSelected.orden !== orden).length)}>
                                             {
                                                 Boolean(selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id).length)
-                                                    ? (<>
-                                                        {selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id)[0].orden}
-                                                        <CheckCircleRounded color={Boolean(selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id && itemSelected.orden !== orden).length) ? "secondary" : "success"} />
+                                                ? (<>
+                                                    {selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id)[0].orden}
+                                                    <CheckCircleRounded color={Boolean(selectedItems?.filter((itemSelected: ItemSelection) => itemSelected.product_id === item.id && itemSelected.orden !== orden).length) ? "secondary"
+                                                    : "success"} />
                                                     </>)
-                                                    : (<CircleOutlined />)
+                                                : (<CircleOutlined />)
                                             }
                                         </IconButton>
                                     </Box>
