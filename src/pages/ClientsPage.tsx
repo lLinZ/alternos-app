@@ -1,5 +1,5 @@
 import FeedIcon from '@mui/icons-material/Feed';
-import { Chip, Box, IconButton, Typography } from '@mui/material';
+import { Chip, Box, Button, IconButton, Typography } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { baseUrl } from '../common/baseUrl';
@@ -43,9 +43,17 @@ export const ClientsPage: FC = () => {
                         <Box>
                             <Chip variant="outlined" color='info' label={reg.status} />
                             <Typography variant="subtitle1" fontWeight={'bold'}>{reg.name}</Typography>
-                            <Typography variant="subtitle2" color="text.secondary">{reg.phone}</Typography>
+                            <Typography variant="subtitle2" color="text.secondary">Contacto: {reg.contacto}</Typography>
+                            <Typography variant="subtitle2" color="text.secondary">{reg.phone} - {reg.username}</Typography>
                         </Box>
-                        <IconButton color="info" onClick={() => router(`/client/${reg.id}`)}><FeedIcon /></IconButton>
+
+                        <Button 
+                            component="a" href={`/client/${reg.id}`} target={"_blank"} style={{
+                            borderRadius: 15, padding: "1em", textDecoration: "none"}}>
+                            <IconButton color="info"><FeedIcon /></IconButton>
+                        </Button>
+
+                        {/* <IconButton color="info" onClick={() => router(`/client/${reg.id}`)}><FeedIcon /></IconButton> */}
                     </Box>
                 ))
                 }

@@ -3,6 +3,7 @@ export interface Client {
     name: string;
     phone: string;
     username: string;
+    contacto: string;
     password: string;
     role_id: number;
     role_name: string;
