@@ -16,6 +16,7 @@ import SendRounded from '@mui/icons-material/SendRounded';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CheckCircleRounded from '@mui/icons-material/CheckCircleRounded';
 import CancelIcon from '@mui/icons-material/CancelRounded';
+import BlockRoundedIcon from '@mui/icons-material/BlockRounded';
 import { blue, green, red } from '@mui/material/colors';
 import PdfIcon from '@mui/icons-material/PictureAsPdfRounded';
 import { PageTitle } from '../../components/ui';
@@ -111,13 +112,17 @@ export const RegistroPendingOffersPage: FC = () => {
             console.log(error);
         }
     }
-    const send = async (id: number, accion: "soloconfirmar" | "confirmaryenviar" | "aprobar" | "rechazar") => {
-        if (accion === 'aprobar' || accion === 'rechazar') {
-            const url2 = `${baseUrl}/apruebaoferta`;
-
-            console.log('url2',url2);
-            console.log('id',id);
-            console.log('accion',accion);
+    const send = async (id: number, accion: "soloconfirmar" | "confirmaryenviar" | "aprobar" | "rechazar" | "anular") => {
+        if (accion === 'aprobar' || accion === 'rechazar' || accion === 'anular') {
+            let aux:any, msg:any;
+            if (accion === 'aprobar' || accion === 'rechazar') {
+                aux = `${baseUrl}/apruebaoferta`;
+                msg = `Se ha ${accion === "aprobar" ? "aprobado" : "rechazado"} la oferta`;
+            } else {
+                aux = `${baseUrl}/anulaoferta`;
+                msg = `Se ha anulado la oferta`;
+            }
+            const url2 = aux;
 
             const body = new FormData();
 
@@ -135,7 +140,7 @@ export const RegistroPendingOffersPage: FC = () => {
                 if (data.exito === "SI") {
                     Swal.fire({
                         title: "Exito",
-                        text: `Se ha ${accion === "aprobar" ? "aprobado" : "rechazado"} la oferta`,
+                        text: msg,
                         icon: "success",
 
                     })
@@ -158,7 +163,6 @@ export const RegistroPendingOffersPage: FC = () => {
                 })
             }
         } else {
-
             const url = `${baseUrl}/confirmaoferta`;
 
             const body = new FormData();
@@ -237,6 +241,9 @@ export const RegistroPendingOffersPage: FC = () => {
                                     </Button>
                                     <Button variant="outlined" size="small" color="secondary" sx={styles.button} onClick={() => send(offer.id, "rechazar")}>
                                         Rechazar &nbsp; <CancelIcon sx={{ width: 16, height: 16 }} />
+                                    </Button>
+                                    <Button variant="outlined" size="small" color="secondary" sx={styles.button} onClick={() => send(offer.id, "anular")}>
+                                        Anular &nbsp; <BlockRoundedIcon sx={{ width: 16, height: 16 }} />
                                     </Button>
                                     {/* Boton pdf */}
                                     <Button component="a" target="_blank" href={`${baseUrl}/docoferta?offer_id=${offer.id}`} variant="outlined" size="small" color="secondary" sx={styles.button}>
