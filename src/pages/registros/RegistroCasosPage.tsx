@@ -12,6 +12,7 @@ import { baseUrl } from '../../common/baseUrl';
 import { formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { PageTitle } from '../../components/ui';
+import moment from 'moment';
 
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import Swal from 'sweetalert2';
@@ -54,28 +55,39 @@ export const RegistroCasosPage: FC = () => {
             setCasos(data.registros);
         }
     }
+    // selector: (row: IData) => `${row.inicio} (${   formatDistanceToNow(Date.parse(row.inicio), { locale: es })})`,
+
     const columns = [
+        {
+            name: 'ID',
+            selector: (row: IData) => row.id,
+            sortable: true,
+            width: '4rem'
+        },
         {
             name: 'Descripcion',
             selector: (row: IData) => row.description,
             sortable: true,
-        },
-        {
-            name: 'Fecha de Inicio',
-            selector: (row: IData) => `${row.inicio} (${formatDistanceToNow(Date.parse(row.inicio), { locale: es })})`,
-            sortable: true,
-        },
-        {
-            name: 'Fecha de Vencimiento',
-            selector: (row: IData) => `${row.vence} (${formatDistanceToNow(Date.parse(row.vence), { locale: es })})`,
-            sortable: true,
+            maxWidth: '70rem'
         },
         {
             name: 'Status',
             selector: (row: IData) => row.status,
             sortable: true,
+            maxWidth: '7rem'
         },
-
+        {
+            name: 'Fecha de Inicio',
+            selector: (row: IData) => `${moment(row.inicio).format("DD-MM-YYYY HH:mm:ss")} (${formatDistanceToNow(Date.parse(row.inicio), { locale: es })})`,
+            sortable: true,
+            maxWidth: '19rem'
+        },
+        {
+            name: 'Fecha de Vencimiento',
+            selector: (row: IData) => `${moment(row.vence).format("DD-MM-YYYY HH:mm:ss")} (${formatDistanceToNow(Date.parse(row.vence), { locale: es })})`,
+            sortable: true,
+            maxWidth: '19rem'
+        },
     ];
 
     useEffect(() => {

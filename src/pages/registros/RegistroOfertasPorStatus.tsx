@@ -127,12 +127,13 @@ export const RegistroOfertasPorStatusPage: FC = () => {
 
                 <TextField label="Status" value={status} onChange={handleChange} color="secondary" variant="outlined" fullWidth sx={{ "& fieldset": { borderRadius: 3 }, borderRadius: 3, background: "#FFF", marginBlock: 2 }} select>
                     <MenuItem value={'0'} disabled>Seleccione un status</MenuItem>
+                    <MenuItem value={''}>Todas</MenuItem>
                     <MenuItem value={'aprobada'}>Aprobada</MenuItem>
                     <MenuItem value={'rechazada'}>Rechazada</MenuItem>
                     <MenuItem value={'enviada'}>Enviada</MenuItem>
-                    <MenuItem value={'nueva'}>Nueva</MenuItem>
                     <MenuItem value={'confirmada'}>Confirmada</MenuItem>
-                    <MenuItem value={''}>Todas</MenuItem>
+                    <MenuItem value={'nueva'}>Nueva</MenuItem>
+                    <MenuItem value={'anulada'}>Anulada</MenuItem>
                 </TextField>
                 <Grid container spacing={1}>
                     {
