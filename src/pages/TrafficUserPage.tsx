@@ -1,7 +1,7 @@
 import { LoadingButton } from "@mui/lab";
 import { Box, Typography, CircularProgress, Grid, Button, Dialog, AppBar, Toolbar, IconButton, Divider, Slide, DialogActions, TextField } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
-import { ChangeEvent, FC, forwardRef, ReactElement, Ref, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FC, forwardRef, ReactElement, Ref, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { baseUrl } from "../common/baseUrl";
@@ -29,10 +29,10 @@ const Transition = forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-interface SelectedUser {
-    id: number;
-    name: string;
-}
+// interface SelectedUser {
+//     id: number;
+//     name: string;
+// }
 export const TrafficUserPage: FC = () => {
     // Datos del usuario loggeado
     const [userLogged, setUserLogged] = useState<User | null>(null);
@@ -53,7 +53,7 @@ export const TrafficUserPage: FC = () => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     // Loader
-    const [respuestaReq, setRespuestaReq] = useState<string>("");
+    // const [respuestaReq, setRespuestaReq] = useState<string>("");
 
     // Control del modal de usuarios
     const [openUserModal, setOpenUserModal] = useState<boolean>(false);
@@ -71,7 +71,16 @@ export const TrafficUserPage: FC = () => {
 
     const selectuserDeActividad = async (actividadId: number, user: any, fecha: any) => {
         const currentActivityWithUser = { actividadId, userId: user.user_id, userName: user.user_name, fecha, observacion: '' }
-        const newArray = selectedActividades ? [...selectedActividades.filter((act: any) => act.actividadId !== currentActivityWithUser.actividadId), currentActivityWithUser] : [currentActivityWithUser]
+        let newArray:any;
+        if (selectedActividades===null) {
+            let arreglo:any = [];
+            actividades.map((element:any) => {
+                arreglo.push({ actividadId: element.id, userId: user.user_id, userName: user.user_name, fecha, observacion: '' })
+            });
+            newArray = arreglo;
+        } else {
+            newArray = selectedActividades ? [...selectedActividades.filter((act: any) => act.actividadId !== currentActivityWithUser.actividadId), currentActivityWithUser] : [currentActivityWithUser]
+        }
         setSelectedActividades(newArray);
         setOpenUserModal(false);
     }
@@ -90,7 +99,7 @@ export const TrafficUserPage: FC = () => {
     const resetEverything = () => {
         setOpen(false);
         setOpenUserModal(false);
-        setRespuestaReq("");
+        // setRespuestaReq("");
         setSelectedActividades(null);
         setSelectedTask(null);
     }
@@ -132,7 +141,7 @@ export const TrafficUserPage: FC = () => {
                     const data = await respuesta.json();
                     if (data.exito === "SI") {
                         setMyRequirements(data.registros);
-                        console.log(data.registros)
+                        // console.log(data.registros)
                     } else {
                         setMyRequirements(null);
 
@@ -234,8 +243,8 @@ export const TrafficUserPage: FC = () => {
         <Layout title="Tráfico" user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
                 <Box sx={{ display: "flex", flexFlow: "row wrap", alignItems: "center" }}>
-                    <PageTitle title="Tareas abiertas (Tráfico)" />
-                    <Button size="small" sx={{ ml: 1, p: 1, height: "100%", borderRadius: 5, textTransform: "none" }} variant="outlined" color="info" onClick={() => redirect("/requirements/basic")} > Ver lista de tareas comunes</Button>
+                    <PageTitle title="Requerimientos para asignar recursos (Tráfico)" />
+                    <Button size="small" sx={{ ml: 1, p: 1, height: "100%", borderRadius: 5, textTransform: "none" }} variant="outlined" color="info" onClick={() => redirect("/requirements/basic")} > Ver lista de tareas asignadas a este usuario</Button>
                 </Box>
                 {isLoading && (
                     <Box sx={{ w: "100%", m: "auto" }}>
@@ -252,7 +261,7 @@ export const TrafficUserPage: FC = () => {
                                     backdropFilter: 'blur(6px)',
                                 }}>
                                     <Box sx={{ display: "flex", flexDirection: "column", mb: 2 }}>
-                                        <Typography variant="subtitle1" fontSize={16} fontWeight="bold">{req.process_name} #{req.case_id}</Typography>
+                                        <Typography variant="subtitle1" fontSize={16} fontWeight="bold">Requerimiento #{req.case_id} - {req.process_name} - Cliente: {req.customer_name}</Typography>
                                         <Typography variant="subtitle2" fontSize={12} fontWeight="400" color="text.secondary">{req.description}</Typography>
                                     </Box>
                                     <Button color="secondary" variant="contained" onClick={() => openModal(req.id)} sx={{ p: 1, borderRadius: 3, textTransform: "none", }} disableElevation>Ver más</Button>
