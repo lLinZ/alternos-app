@@ -2,11 +2,11 @@ import { Dispatch, FC, useEffect, useState } from 'react'
 
 import { useNavigate } from 'react-router-dom';
 
-import { AppBar, Box, CircularProgress, Dialog, Grid, IconButton, Toolbar, Typography } from '@mui/material'
+import { AppBar, Box, Button, Chip, CircularProgress, Dialog, Grid, IconButton, Switch, Toolbar, Typography } from '@mui/material'
 
 import { Layout } from '../../components/layout'
 import { User } from '../../interfaces/user-type'
-import { validarToken } from '../../lib/functions'
+import { ucfirst, validarToken } from '../../lib/functions'
 import DataTable from 'react-data-table-component';
 import { baseUrl } from '../../common/baseUrl';
 import { formatDistanceToNow, parseISO } from 'date-fns';
@@ -35,15 +35,34 @@ interface Caso {
     status: string;
     inicio: Date;
     vence: Date;
+    tareas: Tarea[];
     completed_at: string;
     comentario_cierre: string;
+}
+interface Tarea {
+    activity_id: number;
+    activity_name: string;
+    archivo1: string;
+    archivo2: string;
+    archivo3: string;
+    comentario_cierre: string;
+    completed_at: Date;
+    description: string;
+    inicio: Date;
+    observaciones: string;
+    status: string;
+    task_id: number;
+    user_id: number;
+    user_name: string;
 }
 export const RegistroCasosCerradosPage: FC = () => {
     const [userLogged, setUserLogged] = useState<User | null>(null)
     const router = useNavigate();
     const [caso, setCaso] = useState<Caso | null>(null)
+    const [tareas, setTareas] = useState<Tarea[] | null>(null)
     const [casos, setCasos] = useState<Caso[] | null>(null)
     const [open, setOpen] = useState<boolean>(false)
+    const [switches, setSwitches] = useState<any[]>([])
 
     const customStyles = {
         rows: {
@@ -68,6 +87,8 @@ export const RegistroCasosCerradosPage: FC = () => {
 
     const abrirModal = (id: number) => {
         const newCaso = casos?.filter((c: Caso) => c.id === id)[0];
+        setOpen(true);
+        setTareas(newCaso ? newCaso.tareas : null);
         setCaso(newCaso ? newCaso : null);
     }
     const reabrir = async (id: number) => {
@@ -79,7 +100,6 @@ export const RegistroCasosCerradosPage: FC = () => {
             method: "POST",
             body
         }
-        console.log(id)
         try {
             const respuesta = await fetch(url, options);
             const data = await respuesta.json();
@@ -139,7 +159,7 @@ export const RegistroCasosCerradosPage: FC = () => {
             sortable: true,
         },
         {
-            cell: (row: Case) => <IconButton onClick={() => reabrir(row.id)} color="success"><RedoIcon /></IconButton>,
+            cell: (row: Case) => <IconButton onClick={() => abrirModal(row.id)} color="success"><RedoIcon /></IconButton>,
             name: "Reabrir requerimiento",
             button: true,
             allowOverflow: true,
@@ -180,6 +200,7 @@ export const RegistroCasosCerradosPage: FC = () => {
                     }
                 </Grid>
             </Box>
+            <ModalReapertura switches={switches} getCasos={getCasos} setSwitches={setSwitches} setOpen={setOpen} open={open} caso={caso} tareas={tareas} />
         </Layout>
     )
 }
@@ -187,14 +208,79 @@ interface PropsModal {
     open: boolean;
     setOpen: Dispatch<any>;
     caso: Caso | null;
+    tareas: Tarea[] | null;
+    switches: any[];
+    setSwitches: Dispatch<any>;
+    getCasos: () => void;
 }
 
-const ModalReapertura: FC<PropsModal> = ({ setOpen, open, caso }) => {
+const ModalReapertura: FC<PropsModal> = ({ setOpen, open, caso, tareas, switches, setSwitches, getCasos }) => {
+    const reabrir = async () => {
+        const url = `${baseUrl}/abreocierracaso`
+        const body = JSON.stringify({
+            case_id: caso?.id,
+            status: 'abierto',
+            tareas: [...switches]
+        })
+        const options = {
+            method: "POST",
+            body
+        }
+        try {
+            const respuesta = await fetch(url, options);
+            const data = await respuesta.json();
+            if (data.exito === "SI") {
+                console.log({ data })
+                Swal.fire({
+                    title: "Exito",
+                    icon: "success",
+                    toast: true,
+                    timer: 2000,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                    position: "bottom-start"
+                })
+                getCasos();
+            } else {
+                Swal.fire({
+                    title: "Error",
+                    text: "No se logró reabrir el requerimiento",
+                    icon: "error",
+                    timer: 2000,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                })
+            }
+        } catch (error) {
+            console.error(error);
+            Swal.fire({
+                title: "Error",
+                text: "No se logró conectar al servidor",
+                icon: "error",
+                timer: 2000,
+                showConfirmButton: false,
+                timerProgressBar: true,
+            })
+        }
+    }
     const handleClose = () => {
         setOpen(false);
     }
+    const handleChange = (id: number) => {
+        const newValue = switches.filter((a) => a === id);
+        if (newValue.length > 0) {
+            const exclude = switches.filter((a) => a !== id);
+            setSwitches(exclude)
+        } else {
+            setSwitches(switches && switches.length > 0 ? [...switches, id] : [id])
+        }
+    }
     return (
-        <Dialog fullScreen open={open} onClose={handleClose}>
+        <Dialog fullScreen open={open} onClose={handleClose} PaperProps={{
+            sx: {
+                background: "#f1f1f1"
+            }
+        }}>
             <AppBar sx={{ position: 'relative' }} elevation={0}>
                 <Toolbar>
                     <IconButton
@@ -206,12 +292,24 @@ const ModalReapertura: FC<PropsModal> = ({ setOpen, open, caso }) => {
                         <CloseIcon />
                     </IconButton>
                     <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                        Reabrir caso
+                        Seleccion de tareas (Reabrir)
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <Box>
+            <Box sx={{ margin: "20px auto", width: "80%" }}>
+                {/* {JSON.stringify(switches)} */}
+                {tareas && tareas.map((t) => (
+                    <Box key={t.activity_id} sx={{ width: "100%", borderRadius: 3, boxShadow: "0 0 8px rgba(0,0,0,0.1)", background: "#FFF", p: 2, mb: 2 }}>
+                        <Box>
+                            <Chip color="info" label={ucfirst(t.status)} />
+                            <Switch color="info" onChange={() => handleChange(t.activity_id)} inputProps={{ 'aria-label': 'controlled' }} checked={switches.filter((a) => a === t.activity_id)[0]} />
+                        </Box>
+                        <Typography variant="subtitle1" fontWeight="bold">{t.activity_name}</Typography>
+                        <Typography variant="subtitle2">{t.user_name}</Typography>
+                    </Box>
+                ))}
 
+                <Button color="secondary" sx={{ p: 1.8, borderRadius: 3, textTransform: 'none' }} variant='contained' disableElevation fullWidth onClick={reabrir}>Reabrir caso</Button>
             </Box>
         </Dialog>
     )
