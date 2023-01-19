@@ -241,6 +241,7 @@ const ModalReapertura: FC<PropsModal> = ({ setOpen, open, caso, tareas, switches
                     position: "bottom-start"
                 })
                 getCasos();
+                handleClose();
             } else {
                 Swal.fire({
                     title: "Error",
@@ -250,6 +251,7 @@ const ModalReapertura: FC<PropsModal> = ({ setOpen, open, caso, tareas, switches
                     showConfirmButton: false,
                     timerProgressBar: true,
                 })
+                handleClose();
             }
         } catch (error) {
             console.error(error);
@@ -261,6 +263,7 @@ const ModalReapertura: FC<PropsModal> = ({ setOpen, open, caso, tareas, switches
                 showConfirmButton: false,
                 timerProgressBar: true,
             })
+            handleClose();
         }
     }
     const handleClose = () => {
