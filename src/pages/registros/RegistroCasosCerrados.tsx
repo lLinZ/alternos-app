@@ -226,6 +226,7 @@ const ModalReapertura: FC<PropsModal> = ({ setOpen, open, caso, tareas, switches
             method: "POST",
             body
         }
+        console.log(body);
         try {
             const respuesta = await fetch(url, options);
             const data = await respuesta.json();
@@ -305,7 +306,7 @@ const ModalReapertura: FC<PropsModal> = ({ setOpen, open, caso, tareas, switches
                     <Box key={t.activity_id} sx={{ width: "100%", borderRadius: 3, boxShadow: "0 0 8px rgba(0,0,0,0.1)", background: "#FFF", p: 2, mb: 2 }}>
                         <Box>
                             <Chip color="info" label={ucfirst(t.status)} />
-                            <Switch color="info" onChange={() => handleChange(t.activity_id)} inputProps={{ 'aria-label': 'controlled' }} checked={switches.filter((a) => a === t.activity_id)[0]} />
+                            <Switch color="info" onChange={() => handleChange(t.task_id)} inputProps={{ 'aria-label': 'controlled' }} checked={switches.filter((a) => a === t.activity_id)[0]} />
                         </Box>
                         <Typography variant="subtitle1" fontWeight="bold">{t.activity_name}</Typography>
                         <Typography variant="subtitle2">{t.user_name}</Typography>
