@@ -103,7 +103,7 @@ export const adminPages: Pages[] = [
     { name: 'Estado de cuenta', path: "/users/estadocuenta" },
     { name: "Administrar usuarios", path: "/admin" },
     { name: "Agregar admin", path: "/register/admin" },
-    { name: "Adminstrar parámetros", path: "/register/params" },
+    { name: "Administrar parámetros", path: "/register/params" },
     { name: "Revision de pagos", path: "/pagos" },
 
     // Ofertas

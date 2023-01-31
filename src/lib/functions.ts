@@ -8,6 +8,11 @@ export const getFormatDistanceToNow = (date: any) => {
     const fromNow = formatDistanceToNow(date, { locale: es });
     return `Creada hace ${fromNow}`;
 }
+
+export const getFormatDistanceToNow2 = (date: any) => {
+    const fromNow = formatDistanceToNow(date, { locale: es });
+    return `${fromNow}`;
+}
 /**
  * Función para el manejo de alertas en base al status de la solicitud HTTP enviada
  * @param {number} status Status de la respuesta HTTP

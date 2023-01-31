@@ -20,6 +20,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { PickersActionBarProps } from '@mui/x-date-pickers/PickersActionBar';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { PageTitle } from "../components/ui";
+import { getFormatDistanceToNow2 } from '../lib/functions';
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
         children: ReactElement;
@@ -367,7 +368,7 @@ export const TrafficUserPage: FC = () => {
                             <Box>
                                 <Typography>{usuario.user_name}</Typography>
                                 <Typography>{usuario.function_name}</Typography>
-                                <Typography>Disponible en {5} horas</Typography>
+                                <Typography>Disponible {usuario.disponible} {getFormatDistanceToNow2(new Date(usuario.vence))} - tarea {usuario.current_task_id} - vence: {usuario.vence}</Typography>
                             </Box> 
                             <Button color="secondary" variant="contained" sx={{ textTransform: "none", background: 'black', color: 'white', borderRadius: 3, p: 1 }} onClick={() => selectuserDeActividad(currentActividad.id, usuario, currentActividad.fecha)}>Seleccionar</Button>
                         </Box>)) : <CircularProgress color="secondary" />}
