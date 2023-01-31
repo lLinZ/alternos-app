@@ -323,7 +323,7 @@ export const TrafficUserPage: FC = () => {
                                 Fecha de vencimiento
                             </Typography>
                             <Typography variant="body1" component="p">
-                                {selectedTask?.vence}
+                                {moment(selectedTask?.vence).format("DD-MM-YYYY")}
                             </Typography>
                             <Divider sx={{ marginBlock: 2 }} />
                             <Typography variant="body1" component="p" fontWeight="bold">
@@ -368,7 +368,12 @@ export const TrafficUserPage: FC = () => {
                             <Box>
                                 <Typography>{usuario.user_name}</Typography>
                                 <Typography>{usuario.function_name}</Typography>
-                                <Typography>Disponible {usuario.disponible} {getFormatDistanceToNow2(new Date(usuario.vence))} - tarea {usuario.current_task_id} - vence: {usuario.vence}</Typography>
+                                {
+                                (usuario.current_task_id===0) ? 
+                                (<Typography>{usuario.disponible}</Typography>)
+                                : 
+                                (<Typography>{usuario.disponible} {getFormatDistanceToNow2(new Date(usuario.vence))} - tarea {usuario.current_task_id} - vence: {moment(usuario.vence).format("DD-MM-YYYY")}</Typography>)
+                                }
                             </Box> 
                             <Button color="secondary" variant="contained" sx={{ textTransform: "none", background: 'black', color: 'white', borderRadius: 3, p: 1 }} onClick={() => selectuserDeActividad(currentActividad.id, usuario, currentActividad.fecha)}>Seleccionar</Button>
                         </Box>)) : <CircularProgress color="secondary" />}
@@ -461,7 +466,7 @@ const ActivityCard: FC<ActivityCardProps> = ({ act, setOpenUserModal, currentAct
                                 <IconButton onClick={save} color="success" ><SaveIcon /></IconButton>
                             </Box>
                         ) : (<Box sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
-                            <Typography variant="subtitle2" color="text.secondary">Vence {fecha}</Typography>
+                            <Typography variant="subtitle2" color="text.secondary">Vence {moment(fecha).format("DD-MM-YYYY")}</Typography>
                             <IconButton onClick={() => setEdit(true)} > <EditIcon /></IconButton>
                         </Box>)}
                         {editObs ? (
