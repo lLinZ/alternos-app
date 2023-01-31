@@ -40,7 +40,7 @@ export const ActivityAddingPage: FC<Props> = () => {
     // Parámetros
     const [valorhora, setValorhora] = useState(1);
     const [factorprecio, setFactorprecio] = useState(1);
-    const [duracionminima, setDuracionminima] = useState(60);
+    const [duracionminima, setDuracionminima] = useState(0);
 
     // Funcion seleccionada
     const [selectedFunction, setSelectedFunction] = useState<number | null>(null);
@@ -48,7 +48,7 @@ export const ActivityAddingPage: FC<Props> = () => {
     // Actividad a registrar
     const [newActivity, setNewActivity] = useState({
         name: "",
-        duration: 60,
+        duration: 0,
         costo: 1,
         precio: 1,
     })
@@ -79,7 +79,7 @@ export const ActivityAddingPage: FC<Props> = () => {
     const cleanForm = () => {
         setNewActivity({
             name: "",
-            duration: 60,
+            duration: 0,
             costo: 1,
             precio: 1,
         });
@@ -185,21 +185,6 @@ export const ActivityAddingPage: FC<Props> = () => {
                         <TextField InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", background: "#FFF", borderRadius: 5 } }} sx={{ "& fieldset": { border: "none" }, borderRadius: 5 }} name="name" fullWidth label="Nombre de la actividad" color="secondary" value={newActivity.name} onChange={(e) => setNewActivity({ ...newActivity, name: e.target.value })} />
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <TextField InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", background: "#FFF", borderRadius: 5 }, startAdornment: <InputAdornment position="start">$</InputAdornment> }} sx={{ "& fieldset": { border: "none" }, borderRadius: 5 }} name="costo" fullWidth label="Costo" color="secondary" value={newActivity.costo} onChange={(e) => setNewActivity({ ...newActivity, costo: Number(e.target.value) })} />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <TextField InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", background: "#FFF", borderRadius: 5 }, startAdornment: <InputAdornment position="start">$</InputAdornment> }} sx={{ "& fieldset": { border: "none" }, borderRadius: 5 }} name="precio" fullWidth label="Precio" color="secondary" value={newActivity.precio} onChange={(e) => setNewActivity({ ...newActivity, precio: Number(e.target.value) })} />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", background: "#FFF", borderRadius: 5 }, }} sx={{ "& fieldset": { border: "none" }, borderRadius: 5 }} name="duration" fullWidth label="Minutos de duracion" color="secondary" value={newActivity.duration} onChange={(e) => {
-                                console.log(Number(e.target.value));
-                                console.log(valorhora);
-                                console.log(factorprecio);
-                                setNewActivity({ ...newActivity, duration: Number(e.target.value), costo: Number(e.target.value)*(valorhora/60), precio: Number(e.target.value)*(valorhora/60)*factorprecio });
-                            }
-                        } />
-                    </Grid>
-                    <Grid item xs={12} sm={6} >
                         <Select
                             value={selectedFunction ? String(selectedFunction) : '0'}
                             onChange={
@@ -210,13 +195,29 @@ export const ActivityAddingPage: FC<Props> = () => {
                             sx={{ "& fieldset": { border: "none" }, borderRadius: 5, background: "#FFF", boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)" }}
                             color="secondary"
                         >
-                            <MenuItem value={'0'} disabled>Seleccione un departamento</MenuItem>
+                            <MenuItem value={'0'} disabled>Departamento responsable</MenuItem>
                             {
                                 departamentos?.map((func: IFunction) => (
                                     <MenuItem key={func.id} value={String(func.id)}>{func.name}</MenuItem>
                                 ))
                             }
                         </Select>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <TextField InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", background: "#FFF", borderRadius: 5 }, }} sx={{ "& fieldset": { border: "none" }, borderRadius: 5 }} name="duration" fullWidth label="Minutos de duracion" color="secondary" value={newActivity.duration} onChange={(e) => {
+                                console.log(Number(e.target.value));
+                                console.log(valorhora);
+                                console.log(factorprecio);
+                                setNewActivity({ ...newActivity, duration: Number(e.target.value), costo: Number(e.target.value)*(valorhora/60), precio: Number(e.target.value)*(valorhora/60)*factorprecio });
+                            }
+                        } />
+                    </Grid>
+
+                    <Grid item xs={12} sm={6} md={6}>
+                        <TextField InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", background: "#FFF", borderRadius: 5 }, startAdornment: <InputAdornment position="start">$</InputAdornment> }} sx={{ "& fieldset": { border: "none" }, borderRadius: 5 }} name="costo" fullWidth label="Costo teórico" color="secondary" value={newActivity.costo} onChange={(e) => setNewActivity({ ...newActivity, costo: Number(e.target.value) })} />
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={6}>
+                        <TextField InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", background: "#FFF", borderRadius: 5 }, startAdornment: <InputAdornment position="start">$</InputAdornment> }} sx={{ "& fieldset": { border: "none" }, borderRadius: 5 }} name="precio" fullWidth label="Precio Teórico" color="secondary" value={newActivity.precio} onChange={(e) => setNewActivity({ ...newActivity, precio: Number(e.target.value) })} />
                     </Grid>
                     <Grid item xs={12}>
                         <LoadingButton loading={isSubmitting} type="button" color="secondary"

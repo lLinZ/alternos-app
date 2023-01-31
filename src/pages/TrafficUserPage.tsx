@@ -364,8 +364,12 @@ export const TrafficUserPage: FC = () => {
                 <Box sx={{ width: "80%", m: "20px auto" }}>
                     {actividades && currentActividad ? actividades.filter((act: any) => Number(act.id) === Number(currentActividad.id))[0].users.map((usuario: any) => (
                         <Box key={usuario.user_id} sx={{ p: 2, borderRadius: 5, background: "#FFF", boxShadow: "0 8px 32px 0 rgba(0,0,0,0.1)", m: 1, display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center", "&:hover": { boxShadow: "0 0 5px rgba(0,0,0,0.1)" } }}>
-                            <Typography>{usuario.user_name}</Typography>
-                            <Button color="secondary" sx={{ textTransform: "none" }} onClick={() => selectuserDeActividad(currentActividad.id, usuario, currentActividad.fecha)}>Seleccionar</Button>
+                            <Box>
+                                <Typography>{usuario.user_name}</Typography>
+                                <Typography>{usuario.function_name}</Typography>
+                                <Typography>Disponible en {5} horas</Typography>
+                            </Box> 
+                            <Button color="secondary" variant="contained" sx={{ textTransform: "none", background: 'black', color: 'white', borderRadius: 3, p: 1 }} onClick={() => selectuserDeActividad(currentActividad.id, usuario, currentActividad.fecha)}>Seleccionar</Button>
                         </Box>)) : <CircularProgress color="secondary" />}
                 </Box>
             </Dialog>

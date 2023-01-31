@@ -5,6 +5,7 @@ import { AdminPage } from './pages/AdminPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { RegisterAdminPage } from './pages/RegisterAdminPage';
+import { RegisterParamsPage } from './pages/RegisterParamsPage';
 import { ProcessesPage } from './pages/ProcessesPage';
 import { ProcessListPage } from './pages/ProcessListPage';
 import { RequirementsPage } from './pages/RequirementsPage';
@@ -109,6 +110,7 @@ function App() {
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/admin/user/add" element={<UserAddingPage />} />
         <Route path="/register/admin" element={<RegisterAdminPage />} />
+        <Route path="/register/params" element={<RegisterParamsPage />} />
 
         {/* Avisos de cobro */}
         <Route path="/avisosdecobro" element={<AvisosDeCobroPage />} />
