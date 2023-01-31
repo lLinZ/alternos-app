@@ -13,6 +13,7 @@ import { validarToken } from '../lib/functions'
 
 const initialValues = {
     name: "",
+    brand: "",
     phone: "",
     username: "",
     cedularif: "",
@@ -59,6 +60,7 @@ export const ClientAddingPage = () => {
         if (!values.username) errores.push("El campo correo electrónico está vacío");
         if (!values.phone) errores.push("El campo teléfono está vacío");
         if (!values.name) errores.push("El campo nombre está vacío");
+        if (!values.brand) errores.push("El campo marca está vacío");
 
         if (errores.length > 0) {
             let errorList: string = "";
@@ -86,6 +88,7 @@ export const ClientAddingPage = () => {
 
         body.append("username", String(values.username));
         body.append("name", String(values.name));
+        body.append("brand", String(values.brand));
         body.append("phone", String(values.phone));
         body.append("cedularif", String(values.cedularif));
         body.append("direccionfiscal", String(values.direccionfiscal));
@@ -159,6 +162,12 @@ export const ClientAddingPage = () => {
                     {({ values, handleSubmit, handleChange, errors }) => (
                         <Form onSubmit={handleSubmit}>
                             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
+                                <Grid item xs={6}>
+                                    <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.name} variant="outlined" InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} label="Marca" name="brand" type="text" color="secondary" />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.name} variant="outlined" InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} label="Nombre o razón social" name="name" type="text" color="secondary" />
+                                </Grid>
                                 <Grid item xs={12}>
                                     <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.name} variant="outlined" InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} label="Nombre o razón social" name="name" type="text" color="secondary" />
                                 </Grid>

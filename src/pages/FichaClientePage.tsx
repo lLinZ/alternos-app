@@ -8,6 +8,7 @@ import { Briefing } from '../interfaces/briefing-type';
 import { useParams } from 'react-router-dom';
 interface FichaCliente {
     id: number;
+    brand: string;
     name: string;
     username: string;
     phone: string;
@@ -30,6 +31,7 @@ interface FichaCliente {
 }
 const initialValues: FichaCliente = {
     id: 0,
+    brand: "",
     name: "",
     username: "",
     function_name: "",
@@ -83,10 +85,14 @@ export const FichaClientePage: FC = () => {
                 <Typography variant="overline" fontWeight="bold" fontSize="110%">Informacion del negocio</Typography>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={3}>
-                        <Typography color="text.primary" variant="subtitle2" fontWeight="bold">Nombre</Typography>
+                        <Typography color="text.primary" variant="subtitle2" fontWeight="bold">Marca</Typography>
+                        <Typography color="text.secondary" variant="subtitle2">{values.brand}</Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={3}>
+                        <Typography color="text.primary" variant="subtitle2" fontWeight="bold">Nombre o razón social</Typography>
                         <Typography color="text.secondary" variant="subtitle2">{values.name}</Typography>
                     </Grid>
-                    <Grid item xs={12} sm={9}>
+                    <Grid item xs={12} sm={6}>
                         <Typography color="text.primary" variant="subtitle2" fontWeight="bold">Descripción del negocio o actividad</Typography>
                         <Typography color="text.secondary" variant="subtitle2">{values.descripcion}</Typography>
                     </Grid>

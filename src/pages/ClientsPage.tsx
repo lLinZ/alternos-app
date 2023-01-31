@@ -42,9 +42,10 @@ export const ClientsPage: FC = () => {
                     <Box key={reg.id} sx={styles.registroBox}>
                         <Box>
                             <Chip variant="outlined" color='info' label={reg.status} />
-                            <Typography variant="subtitle1" fontWeight={'bold'}>{reg.name}</Typography>
+                            <Typography variant="subtitle1" fontWeight={'bold'}>{reg.brand}</Typography>
                             <Typography variant="subtitle2" color="text.secondary">Contacto: {reg.contacto}</Typography>
                             <Typography variant="subtitle2" color="text.secondary">{reg.phone} - {reg.username}</Typography>
+                            <Typography variant="subtitle2" color="text.secondary">Razón social: {reg.name}</Typography>
                         </Box>
 
                         <Button 
