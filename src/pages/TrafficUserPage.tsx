@@ -47,6 +47,8 @@ export const TrafficUserPage: FC = () => {
     // Tarea seleccionada
     const [selectedTask, setSelectedTask] = useState<IRequirement | null>(null);
 
+    const [durationProcess, setDurationProcess] = useState(0);
+
     // Loader
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -92,6 +94,8 @@ export const TrafficUserPage: FC = () => {
     const openModal = (id: number) => {
         const thisReq = myRequirements?.filter(req => Number(req.id) === Number(id))[0];
         setSelectedTask(thisReq ? thisReq : null);
+
+        setDurationProcess(thisReq ? thisReq.duration/60 : 0);
 
         getArrayOfUsers(thisReq ? thisReq : null);
 
@@ -319,11 +323,20 @@ export const TrafficUserPage: FC = () => {
                                 {selectedTask?.process_owner_name}
                             </Typography>
                             <Divider sx={{ marginBlock: 2 }} />
+
+                            <Typography variant="body1" component="p" fontWeight="bold">
+                                Duración
+                            </Typography>
+                            <Typography variant="body1" component="p">
+                                {durationProcess} horas
+                            </Typography>
+                            <Divider sx={{ marginBlock: 2 }} />
+
                             <Typography variant="body1" component="p" fontWeight="bold">
                                 Fecha de vencimiento
                             </Typography>
                             <Typography variant="body1" component="p">
-                                {moment(selectedTask?.vence).format("DD-MM-YYYY")}
+                                {moment(selectedTask?.vence).format("DD-MM-YYYY HH:MM")}
                             </Typography>
                             <Divider sx={{ marginBlock: 2 }} />
                             <Typography variant="body1" component="p" fontWeight="bold">
@@ -409,6 +422,7 @@ const ActivityCard: FC<ActivityCardProps> = ({ act, setOpenUserModal, currentAct
     const [edit, setEdit] = useState<boolean>(false);
     const [editObs, setEditObs] = useState<boolean>(false);
     const [observacion, setObservacion] = useState<string>('');
+    const [duracion, setDuracion] = useState<any>(act.duration);
     const [fecha, setFecha] = useState<any>(act.vencimiento_estimado);
     const [newFecha, setNewFecha] = useState<Moment | null>(
         moment(),
@@ -466,7 +480,7 @@ const ActivityCard: FC<ActivityCardProps> = ({ act, setOpenUserModal, currentAct
                                 <IconButton onClick={save} color="success" ><SaveIcon /></IconButton>
                             </Box>
                         ) : (<Box sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
-                            <Typography variant="subtitle2" color="text.secondary">Vence {moment(fecha).format("DD-MM-YYYY")}</Typography>
+                            <Typography variant="subtitle2" color="text.secondary">Duración: {duracion/60} horas - Vence: {moment(fecha).format("DD-MM-YYYY HH:MM")}</Typography>
                             <IconButton onClick={() => setEdit(true)} > <EditIcon /></IconButton>
                         </Box>)}
                         {editObs ? (

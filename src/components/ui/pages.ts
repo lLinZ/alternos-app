@@ -47,6 +47,19 @@ export const traficoPages: Pages[] = [
     { name: "Lista de Ofertas", path: "/offers" },
     { name: "Ofertas por Confirmar", path: "/offer/resume" },
 
+    // Procesos
+    { name: 'divider', path: "Procesos" },
+    { name: 'Procesos', path: "/process" },
+    { name: 'Agregar procesos', path: "/process/add" },
+    { name: 'Procesos externos', path: "/process/external" },
+    { name: 'Agregar procesos externos', path: "/process/external/add" },
+
+    // Actividades
+    { name: 'divider', path: "Actividades" },
+    { name: 'Asignacion', path: "/assignment" },
+    { name: 'Lista de actividades', path: "/activity" },
+    { name: 'Agregar actividad', path: "/activity/add" },
+
     // Resumenes
     { name: 'divider', path: "Resúmenes" },
     { name: "Resumen de procesos", path: "/process/resume" },
