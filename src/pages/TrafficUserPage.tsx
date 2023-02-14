@@ -324,20 +324,25 @@ export const TrafficUserPage: FC = () => {
                             </Typography>
                             <Divider sx={{ marginBlock: 2 }} />
 
-                            <Typography variant="body1" component="p" fontWeight="bold">
-                                Duración
+                            <Typography variant="body1" component="p">
+                                <b>Duración:</b> {durationProcess} horas 
+                            </Typography>
+                            {/* <Typography variant="body1" component="p" fontWeight="bold"> */}
+                            <Typography variant="body1" component="p">
+                                <b>Inicio estimado:</b> {moment(selectedTask?.inicio).format("DD-MM-YYYY HH:MM")}
                             </Typography>
                             <Typography variant="body1" component="p">
-                                {durationProcess} horas
+                                <b>Fin estimado:</b> {moment(selectedTask?.vence).format("DD-MM-YYYY HH:MM")}
                             </Typography>
+                            {/* </Typography>
                             <Divider sx={{ marginBlock: 2 }} />
 
                             <Typography variant="body1" component="p" fontWeight="bold">
                                 Fecha de vencimiento
                             </Typography>
-                            <Typography variant="body1" component="p">
-                                {moment(selectedTask?.vence).format("DD-MM-YYYY HH:MM")}
-                            </Typography>
+                            <Typography variant="body1" component="p"> */}
+                                {/* {moment(selectedTask?.vence).format("DD-MM-YYYY HH:MM")}
+                            </Typography> */}
                             <Divider sx={{ marginBlock: 2 }} />
                             <Typography variant="body1" component="p" fontWeight="bold">
                                 Briefing
@@ -423,6 +428,7 @@ const ActivityCard: FC<ActivityCardProps> = ({ act, setOpenUserModal, currentAct
     const [editObs, setEditObs] = useState<boolean>(false);
     const [observacion, setObservacion] = useState<string>('');
     const [duracion, setDuracion] = useState<any>(act.duration);
+    const [actInicio, setActInicio] = useState<any>(act.inicio_estimado);
     const [fecha, setFecha] = useState<any>(act.vencimiento_estimado);
     const [newFecha, setNewFecha] = useState<Moment | null>(
         moment(),
@@ -448,7 +454,6 @@ const ActivityCard: FC<ActivityCardProps> = ({ act, setOpenUserModal, currentAct
     }
 
     const saveObs = () => {
-
         const prevSelected = selectedActividades.filter((sa: any) => sa.actividadId === act.id).length > 0 ? selectedActividades.filter((sa: any) => sa.actividadId === act.id)[0] : false;
         const excludeSelectedActividades = prevSelected ? selectedActividades.filter((s: any) => s.actividadId !== act.id) : false;
         const newActividad = excludeSelectedActividades ? { actividadId: prevSelected.actividadId, userId: prevSelected.userId, userName: prevSelected.userName, fecha, observacion } : false;
@@ -480,7 +485,7 @@ const ActivityCard: FC<ActivityCardProps> = ({ act, setOpenUserModal, currentAct
                                 <IconButton onClick={save} color="success" ><SaveIcon /></IconButton>
                             </Box>
                         ) : (<Box sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
-                            <Typography variant="subtitle2" color="text.secondary">Duración: {duracion/60} horas - Vence: {moment(fecha).format("DD-MM-YYYY HH:MM")}</Typography>
+                            <Typography variant="subtitle2" color="text.secondary">Duración: {duracion/60} horas - Inicio previsto: {moment(actInicio).format("DD-MM-YYYY HH:MM")} Fin previsto: {moment(fecha).format("DD-MM-YYYY HH:MM")}</Typography>
                             <IconButton onClick={() => setEdit(true)} > <EditIcon /></IconButton>
                         </Box>)}
                         {editObs ? (
