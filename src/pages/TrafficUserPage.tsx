@@ -441,6 +441,7 @@ const ActivityCard: FC<ActivityCardProps> = ({ act, setOpenUserModal, currentAct
         const excludeFechas = currentFechasVencimiento && currentFechasVencimiento.filter((f: any) => f.id !== act.actividadId);
         const newFechas = excludeFechas ? [...excludeFechas, { id: act.actividadId, vencimiento_estimado: fecha }] : [{ id: act.actividadId, vencimiento_estimado: fecha }];
         const prevSelected = selectedActividades.filter((sa: any) => sa.actividadId === act.id).length > 0 ? selectedActividades.filter((sa: any) => sa.actividadId === act.id)[0] : false;
+
         const excludeSelectedActividades = prevSelected ? selectedActividades.filter((s: any) => s.actividadId !== act.id) : false;
         const newActividad = excludeSelectedActividades ? { actividadId: prevSelected.actividadId, userId: prevSelected.userId, userName: prevSelected.userName, fecha } : false;
         const newSelectedActividades = excludeSelectedActividades ? [...excludeSelectedActividades, newActividad] : selectedActividades;
@@ -468,7 +469,14 @@ const ActivityCard: FC<ActivityCardProps> = ({ act, setOpenUserModal, currentAct
                 <Box sx={{ display: "flex", flexFlow: "column wrap", mb: 2 }}>
                     <Typography variant="subtitle2" color="text.secondary">#{act.id}</Typography>
                     <Typography>{act.activity_name}</Typography>
+                    <Typography>Duración: {duracion/60} horas - Inicio previsto: {moment(actInicio).format("DD-MM-YYYY HH:MM")}</Typography>
                     <Box>
+                        {/* <Box sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
+                            <Typography variant="subtitle2" color="text.secondary">Duración: {duracion/60} horas</Typography>
+                        </Box>
+                        <Box sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
+                            <Typography variant="subtitle2" color="text.secondary">Inicio previsto: {moment(actInicio).format("DD-MM-YYYY HH:MM")}</Typography>
+                        </Box> */}
                         {edit ? (
                             <Box sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
                                 <IconButton onClick={() => setEdit(false)} color="error"><EditOffIcon /></IconButton>
@@ -485,9 +493,12 @@ const ActivityCard: FC<ActivityCardProps> = ({ act, setOpenUserModal, currentAct
                                 <IconButton onClick={save} color="success" ><SaveIcon /></IconButton>
                             </Box>
                         ) : (<Box sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
-                            <Typography variant="subtitle2" color="text.secondary">Duración: {duracion/60} horas - Inicio previsto: {moment(actInicio).format("DD-MM-YYYY HH:MM")} Fin previsto: {moment(fecha).format("DD-MM-YYYY HH:MM")}</Typography>
-                            <IconButton onClick={() => setEdit(true)} > <EditIcon /></IconButton>
-                        </Box>)}
+                                <Typography variant="subtitle2" color="text.secondary">
+                                    Fin previsto: {moment(fecha).format("DD-MM-YYYY HH:MM")}
+                                </Typography>
+                                <IconButton onClick={() => setEdit(true)} > <EditIcon /></IconButton>
+                            </Box>)
+                        }
                         {editObs ? (
                             <Box sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
 
