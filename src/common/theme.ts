@@ -5,7 +5,7 @@ export const theme = createTheme({
     palette: {
         mode: 'light',
         background: {
-            default: '#F4F4F4'
+            default: '#ecf0f3'
         },
         primary: {
             main: '#FFF',
@@ -16,7 +16,7 @@ export const theme = createTheme({
     },
     typography: {
         allVariants: {
-            fontFamily: ['Roboto', 'Helvetica', 'sans-serif'].join(','),
+            fontFamily: ['Montserrat', 'sans-serif'].join(','),
         },
         htmlFontSize: 16,
     },
@@ -24,10 +24,12 @@ export const theme = createTheme({
         MuiCssBaseline: {
             styleOverrides: {
                 body: {
-                    backgroundColor: "#f4f4f4",
+                    backgroundColor: "#ecf0f3",
                     backgroundImage: `linear-gradient(90deg, rgba(250,250,250,1) 0%, rgba(235,236,235,1) 100%);`,
                 },
             },
         },
     }
 });
+
+// fontFamily: ['Roboto', 'Helvetica', 'sans-serif'].join(','),

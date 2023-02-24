@@ -88,17 +88,17 @@ export const LoginPage: FC<Props> = () => {
             >
                 {({ values, errors, handleChange, handleSubmit, isSubmitting }) => (
                     <Form onSubmit={handleSubmit}>
-                        <Grid container display="flex" justifyContent="center" alignItems="center" sx={{ width: { xs: "80%", md: "65%", lg: "50%" }, margin: "20px auto", }}>
-                            <Grid item xs={12} sx={{ mt: 4 }}>
+                        <Grid container display="flex" justifyContent="center" alignItems="center" sx={{ width: { xs: "80%", md: "65%", lg: "50%", boxShadow: "10px 10px 10px #d1d9e6, -10px -10px 10px #f9f9f9", padding: "25px"}, margin: "20px auto", }}>
+                            <Grid item xs={12} sx={{ mt: 4, boxShadow: "inset 2px 2px 4px #d1d9e6, inset -2px -2px 4px #f9f9f9", borderRadius: "8px", margin: "4px", paddingLeft: "25px", paddingRight: "25px" }}>
                                 <TextField fullWidth onChange={handleChange} label="Correo electrónico" name="usuario" type="text" variant="standard" color="secondary" />
                             </Grid>
-                            <Grid item xs={12} sx={{ mt: 4 }}>
+                            <Grid item xs={12} sx={{ mt: 4, boxShadow: "inset 2px 2px 4px #d1d9e6, inset -2px -2px 4px #f9f9f9", borderRadius: "8px", margin: "25px 4px 4px", paddingLeft: "25px", paddingRight: "25px" }}>
                                 <TextField fullWidth onChange={handleChange} label="Contraseña" name="password" type="password" variant="standard" color="secondary" />
                             </Grid>
-                            <Grid item xs={12} sx={{ mt: 4 }}>
-                                <LoadingButton type="submit" disabled={isSubmitting} loading={isSubmitting} fullWidth variant="text" color="secondary" sx={{ p: 2 }}>Iniciar sesion</LoadingButton>
+                            <Grid item xs={12} sx={{ mt: 4, textAlign: "center" }}>
+                                <LoadingButton type="submit" disabled={isSubmitting} loading={isSubmitting} fullWidth variant="text" color="secondary" sx={{ p: 2, width: "180px", borderRadius: "25px", backgroundColor: "#4B70E2", color: "#fffff", boxShadow: "8px 8px 16px #d1d9e6, -8px -8px 16px #f9f9f9;", border: "none" }}>Iniciar sesion</LoadingButton>
                             </Grid>
-                            <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                            <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "25px auto 0" }}>
                                 <RouterLink to="/register" style={{ textDecoration: "none" }}>
                                     <Typography color="text.secondary" variant="subtitle2" sx={{ underline: "none" }}>
                                         ¿No tienes cuenta? Regístrate

@@ -13,7 +13,10 @@ export const Layout: React.FC<Props> = ({ title = "ALTERNOS", children, footer =
     const theme = useTheme();
     return (
         <Box sx={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", flexWrap: "nowrap" }}>
-            <AppBarComponent title={title} user={user ? user : null} />
+            {/* <AppBarComponent title={title} user={user ? user : null} /> */}
+            {user && (
+                <AppBarComponent title={title} user={user} />
+            )}
             <Box sx={{ width: "100%", minHeight: "500px", margin: "40px auto", flexGrow: 1, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", }}>
                 {children}
             </Box>
