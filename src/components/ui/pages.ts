@@ -74,6 +74,7 @@ export const traficoPages: Pages[] = [
     { name: "Tareas por usuario", path: "/tareas/resume" },
     { name: "Kanban por usuario", path: "/kanban/usuario" },
     { name: "Kanban por requerimiento", path: "/kanban/caso" },
+    { name: "Gantt por requerimiento", path: "/gantt/caso" },
 ];
 export const ventasPages: Pages[] = [
     // Menu principal
@@ -168,6 +169,7 @@ export const adminPages: Pages[] = [
     { name: "Tareas por usuario", path: "/tareas/resume" },
     { name: "Kanban por usuario", path: "/kanban/usuario" },
     { name: "Kanban por requerimiento", path: "/kanban/caso" },
+    { name: "Gantt por requerimiento", path: "/gantt/caso" },
 
     // Anuncios
     { name: 'divider', path: "Anuncios" },

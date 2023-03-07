@@ -40,6 +40,7 @@ import { RegistroAccountPage } from './pages/registros/RegistroAccount';
 import { AnnouncementAdding } from './pages/AnnouncementAdding';
 import { KanbanUser } from './pages/registros/KanbanUser';
 import { KanbanCase } from './pages/registros/KanbanCase';
+import { GanttCase } from './pages/registros/GanttCase';
 import { RegistroTareasPorCasoPage } from './pages/registros/RegistroTareasPorCaso';
 import { EditOfferPage } from './pages/EditOfferPage';
 import { ClientAddingPage } from './pages/ClientAddingPage';
@@ -148,6 +149,7 @@ function App() {
         <Route path="/users/estadocuenta" element={<RegistroAccountPage />} />
         <Route path="/kanban/usuario" element={<KanbanUser />} />
         <Route path="/kanban/caso" element={<KanbanCase />} />
+        <Route path="/gantt/caso" element={<GanttCase />} />
 
         {/* Anuncios */}
         <Route path="/announcement" element={<AnnouncementAdding />} />
