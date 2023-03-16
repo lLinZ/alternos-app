@@ -22,6 +22,10 @@ interface IData {
     vence: string;
     inicio: string;
     status: string;
+    duration: string;
+    inicio_real: string;
+    fin_real: string;
+    duration_real: string;
 }
 const paginationComponentOptions = {
     rowsPerPageText: 'Filas por página',
@@ -58,17 +62,17 @@ export const RegistroCasosPage: FC = () => {
     // selector: (row: IData) => `${row.inicio} (${   formatDistanceToNow(Date.parse(row.inicio), { locale: es })})`,
 
     const columns = [
-        {
-            name: 'ID',
-            selector: (row: IData) => row.id,
-            sortable: true,
-            width: '4rem'
-        },
+        // {
+        //     name: 'ID',
+        //     selector: (row: IData) => row.id,
+        //     sortable: true,
+        //     width: '4rem'
+        // },
         {
             name: 'Descripcion',
-            selector: (row: IData) => row.description,
+            selector: (row: IData) => `(#${row.id}) ${row.description}`,
             sortable: true,
-            maxWidth: '35rem'
+            width: '25rem'
         },
         {
             name: 'Status',
@@ -77,16 +81,16 @@ export const RegistroCasosPage: FC = () => {
             maxWidth: '10rem'
         },
         {
-            name: 'Inicio previsto',
-            selector: (row: IData) => `${moment(row.inicio).format("DD-MM-YYYY HH:mm:ss")}`,
+            name: 'Planificado (Inicio / Fin / Horas)',
+            selector: (row: IData) => `${moment(row.inicio).format("DD-MM-YYYY HH:mm:ss")} / ${moment(row.vence).format("DD-MM-YYYY HH:mm:ss")} / ${row.duration}`,
             sortable: true,
-            maxWidth: '15rem'
+            width: '20rem'
         },
         {
-            name: 'Fin previsto',
-            selector: (row: IData) => `${moment(row.vence).format("DD-MM-YYYY HH:mm:ss")}`,
+            name: 'Real (Inicio / Fin / Horas)',
+            selector: (row: IData) => `${moment(row.inicio_real).format("DD-MM-YYYY HH:mm:ss")} / ${moment(row.fin_real).format("DD-MM-YYYY HH:mm:ss")} / ${row.duration_real}`,
             sortable: true,
-            maxWidth: '15rem'
+            width: '20rem'
         },
     ];
 
@@ -97,7 +101,7 @@ export const RegistroCasosPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <PageTitle title="Registro de Requerimientos" />
+                <PageTitle title="Lista de Requerimientos" />
                 <Grid container spacing={1}>
                     {
                         casos && (
@@ -130,7 +134,7 @@ export const RegistroCasosPage: FC = () => {
 const styles = {
     mainContainer: {
         minHeight: "100vh",
-        width: '80%',
+        width: '90%',
         margin: "20px auto",
         position: "relative"
     },

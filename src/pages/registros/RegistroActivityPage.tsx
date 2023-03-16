@@ -18,7 +18,7 @@ const columns = [
         sortable: true,
     },
     {
-        name: 'Duracion',
+        name: 'Duracion (minutos)',
         selector: (row: IData) => row.duration,
         sortable: true,
         right: true
