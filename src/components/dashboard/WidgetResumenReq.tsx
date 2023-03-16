@@ -86,7 +86,7 @@ export const WidgetResumenReq: FC = () => {
 
     return (
         <Box sx={styles.mainContainer}>
-            <Typography variant="overline" fontWeight="bold">Resumen Requerimientos por status</Typography>
+            <Typography variant="overline" fontWeight="bold">Status por Requerimiento</Typography>
             <Box sx={styles.contentContainer}>
                 {stats && (<Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: 'Roboto', textAlign: 'center' }}>{total} Requerimientos totales</Typography>)}
                 <Box sx={{ display: "flex", flexFlow: "row wrap" }}>

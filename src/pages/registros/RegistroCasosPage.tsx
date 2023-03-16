@@ -68,25 +68,25 @@ export const RegistroCasosPage: FC = () => {
             name: 'Descripcion',
             selector: (row: IData) => row.description,
             sortable: true,
-            maxWidth: '70rem'
+            maxWidth: '35rem'
         },
         {
             name: 'Status',
             selector: (row: IData) => row.status,
             sortable: true,
-            maxWidth: '7rem'
+            maxWidth: '10rem'
         },
         {
-            name: 'Fecha de Inicio',
-            selector: (row: IData) => `${moment(row.inicio).format("DD-MM-YYYY HH:mm:ss")} (${formatDistanceToNow(Date.parse(row.inicio), { locale: es })})`,
+            name: 'Inicio previsto',
+            selector: (row: IData) => `${moment(row.inicio).format("DD-MM-YYYY HH:mm:ss")}`,
             sortable: true,
-            maxWidth: '19rem'
+            maxWidth: '15rem'
         },
         {
-            name: 'Fecha de Vencimiento',
-            selector: (row: IData) => `${moment(row.vence).format("DD-MM-YYYY HH:mm:ss")} (${formatDistanceToNow(Date.parse(row.vence), { locale: es })})`,
+            name: 'Fin previsto',
+            selector: (row: IData) => `${moment(row.vence).format("DD-MM-YYYY HH:mm:ss")}`,
             sortable: true,
-            maxWidth: '19rem'
+            maxWidth: '15rem'
         },
     ];
 

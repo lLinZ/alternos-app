@@ -173,7 +173,7 @@ export const RegistroCasosCerradosPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <PageTitle title="Registro de Requerimientos cerrados" />
+                <PageTitle title="Reporte de Requerimientos cerrados" />
                 <Grid container spacing={1}>
                     {
                         casos && (

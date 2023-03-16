@@ -80,7 +80,7 @@ export const WidgetResumenVencimientos: FC = () => {
     }
     return (
         <Box sx={styles.mainContainer}>
-            <Typography variant="overline" fontWeight="bold">Resumen de vencimiento avisos de cobro</Typography>
+            <Typography variant="overline" fontWeight="bold">Vencimiento de avisos de cobro</Typography>
             <Box sx={styles.contentContainer}>
                 {stats && (<Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: 'Roboto', textAlign: 'center', width: '100%' }}>${total} total</Typography>)}
                 <Box sx={{ display: "flex", alignItems: "center", flexFlow: "row wrap", justifyContent: "center" }}>

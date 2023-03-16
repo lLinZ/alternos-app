@@ -21,6 +21,7 @@ const columns = [
         name: 'Duracion',
         selector: (row: IData) => row.duration,
         sortable: true,
+        right: true
     },
     {
         name: 'departamento',
@@ -31,11 +32,19 @@ const columns = [
         name: 'Costo',
         selector: (row: IData) => row.costo,
         sortable: true,
+        right: true
     },
     {
         name: 'Precio',
         selector: (row: IData) => row.precio,
         sortable: true,
+        right: true
+    },
+    {
+        name: 'Margen',
+        selector: (row: IData) => row.margen,
+        sortable: true,
+        right: true
     },
 ];
 interface IData {
@@ -45,6 +54,7 @@ interface IData {
     owner_name: string;
     costo: string | number;
     precio: string | number;
+    margen: string | number;
 }
 const paginationComponentOptions = {
     rowsPerPageText: 'Filas por página',
@@ -85,7 +95,7 @@ export const RegistroActivityPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <PageTitle title="Registro de Actividades" />
+                <PageTitle title="Lista de Actividades" />
                 <Grid container spacing={1}>
                     {/* <Box sx={styles.searchContainer}>
                         {/* <Typography variant="overline">Buscar registros por fecha</Typography> */}

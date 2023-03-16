@@ -148,7 +148,7 @@ export const GanttCase: FC = () => {
                      type:'task',
                      progress: progreso,
                      isDisabled: true,
-                     styles: { progressColor: 'coral' }
+                     styles: { progressColor: 'lightgreen' }
                   });
                } else {
                   xtasks.push({
@@ -159,7 +159,7 @@ export const GanttCase: FC = () => {
                      type:'task',
                      progress: progreso,
                      isDisabled: true,
-                     styles: { progressColor: 'coral' },
+                     styles: { progressColor: 'lightgreen' },
                      dependencies: [element.precedente[0]]
                   });
                }
@@ -243,7 +243,7 @@ export const GanttCase: FC = () => {
                      <Gantt
                         tasks={tasks}
                         todayColor='gray'
-                        barBackgroundColor='lightgreen'
+                        barBackgroundColor='coral'
                         listCellWidth={"150px"}
                         locale="es"
                      />

@@ -171,7 +171,7 @@ export const RegistroOfferPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <PageTitle title="Resumen de ofertas" />
+                <PageTitle title="Lista de ofertas" />
                 <Box sx={styles.offersContainer}>
                     {
                         offers && offers.map((offer) => (

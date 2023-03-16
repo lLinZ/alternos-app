@@ -16,21 +16,28 @@ const columns = [
         name: 'Descripcion',
         selector: (row: IData) => row.description,
         sortable: true,
+        width: "30rem"
     },
     {
-        name: 'Tareas totales',
+        name: 'Tareas planificadas',
         selector: (row: IData) => row.total_tareas,
         sortable: true,
+        right: true,
+        width: "12rem"
     },
     {
         name: 'Tareas completadas',
         selector: (row: IData) => row.total_completadas,
         sortable: true,
+        right: true,
+        width: "12rem"
     },
     {
-        name: 'Efectividad',
-        selector: (row: IData) => row.efectividad,
+        name: 'Porcentaje de logro',
+        selector: (row: IData) => row.efectividad+"%",
         sortable: true,
+        right: true,
+        width: "12rem"
     },
 ];
 interface IData {
@@ -78,7 +85,7 @@ export const RegistroStatusPorCasoPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <PageTitle title="Registro de Status por requerimiento" />
+                <PageTitle title="Porcentaje de culminación por requerimiento" />
                 <Grid container spacing={1}>
                     {
                         Cumplimiento && (

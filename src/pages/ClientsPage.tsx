@@ -36,7 +36,7 @@ export const ClientsPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <PageTitle title="Listado de clientes" />
+                <PageTitle title="Lista de clientes" />
                 {clients && (<FilterBox data={clients} setData={setClients} category1='name' category2='status' category3='phone' />)}
                 {clients && clients.map((reg: any) => (
                     <Box key={reg.id} sx={styles.registroBox}>

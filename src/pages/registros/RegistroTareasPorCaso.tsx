@@ -104,36 +104,36 @@ export const RegistroTareasPorCasoPage: FC = () => {
     }
 
     const columns = [
-        {
-            name: 'Descripción',
-            selector: (row: IData) => row.descriptioncase,
-            sortable: true,
-        },
-        {
-            name: 'Proceso',
-            selector: (row: IData) => row.process_name,
-            sortable: true,
-        },
+        // {
+        //     name: 'Descripción',
+        //     selector: (row: IData) => row.descriptioncase,
+        //     sortable: true,
+        // },
+        // {
+        //     name: 'Proceso',
+        //     selector: (row: IData) => row.process_name,
+        //     sortable: true,
+        // },
         {
             name: 'Actividad',
             selector: (row: IData) => row.activity_name,
             sortable: true,
         },
         {
-            name: 'Inicio',
+            name: 'Inicio planificado',
             selector: (row: IData) => String(row.inicio),
             sortable: true,
         },
         {
-            name: 'Vence',
+            name: 'Fin planificado',
             selector: (row: IData) => String(row.vence),
             sortable: true,
         },
-        {
-            name: 'Comentario de cierre',
-            selector: (row: IData) => row.comentario_cierre,
-            sortable: true,
-        },
+        // {
+        //     name: 'Comentario de cierre',
+        //     selector: (row: IData) => row.comentario_cierre,
+        //     sortable: true,
+        // },
         {
             name: 'Status',
             selector: (row: IData) => row.status,
@@ -210,17 +210,17 @@ export const RegistroTareasPorCasoPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <PageTitle title="Registro de tareas por requerimiento" />
+                <PageTitle title="Lista de tareas por requerimiento" />
                 <Grid container spacing={1}>
                     {
                         casos && (
                             <Grid item xs={12}>
                                 <Box sx={{ display: "flex", flexFlow: "row nowrap", alignItems: "center" }}>
 
-                                    <Select color="secondary" defaultValue={"0"} value={caso !== 0 ? caso : "0"} onChange={handleChange} sx={{ "& fieldset": { borderRadius: 0 } }}>
-                                        <MenuItem disabled value={"0"}>Seleccione un requerimiento</MenuItem>
+                                    <Select color="secondary" defaultValue={"0"} value={caso !== 0 ? caso : "0"} onChange={handleChange} style={{width: "500px"}} sx={{ "& fieldset": { borderRadius: 0 } }}>
+                                        <MenuItem disabled value={"0"} style={{ width:"500px" }}>Seleccione un requerimiento</MenuItem>
                                         {
-                                            casos.map((u: any) => <MenuItem key={u.id + u.description} value={String(u.id)}>{`#${u.id} - ${u.description}`}</MenuItem>)
+                                            casos.map((u: any) => <MenuItem key={u.id + u.description} value={String(u.id)}  style={{ width:"500px" }}>{`#${u.id} - ${u.description.substr(0,50)}`}</MenuItem>)
                                         }
                                     </Select>
                                     <Button sx={{ borderRadius: 0, p: 2, }} disableElevation color="secondary" variant="contained" onClick={() => getAnalisis(caso)}>Buscar</Button>

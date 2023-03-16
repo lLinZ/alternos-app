@@ -148,7 +148,7 @@ export const RegistroTransaccionesPage: FC = () => {
             <LocalizationProvider locale="es" dateAdapter={AdapterMoment}>
 
                 <Box sx={styles.mainContainer}>
-                    <PageTitle title="Registro de Transacciones" />
+                    <PageTitle title="Lista de Transacciones" />
                     <Grid container spacing={1}>
                         <Box sx={styles.searchContainer}>
                             <Typography variant="overline">Buscar registros por fecha</Typography>

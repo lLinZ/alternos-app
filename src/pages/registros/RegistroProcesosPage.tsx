@@ -21,11 +21,19 @@ const columns = [
         name: 'Costo',
         selector: (row: IData) => row.costo,
         sortable: true,
+        right: true
     },
     {
         name: 'Precio',
         selector: (row: IData) => row.precio,
         sortable: true,
+        right: true
+    },
+    {
+        name: 'Margen',
+        selector: (row: IData) => row.margen,
+        sortable: true,
+        right: true
     },
 ];
 interface IData {
@@ -33,6 +41,7 @@ interface IData {
     name: string;
     costo: string | number;
     precio: string | number;
+    margen: string | number;
 }
 const paginationComponentOptions = {
     rowsPerPageText: 'Filas por página',
@@ -139,5 +148,4 @@ const styles = {
         p: 2,
         borderRadius: 5
     }
-
 }

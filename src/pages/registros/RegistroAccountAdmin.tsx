@@ -34,35 +34,39 @@ const columns = [
         selector: (row: IAccountTransactions) => row.type_doc.substring(0, 1).toUpperCase() + row.type_doc.substring(1).toLocaleLowerCase(),
         sortable: true,
     },
-    {
-        name: 'Tipo de transaccion',
-        selector: (row: IAccountTransactions) => row.trx_type,
-        sortable: true,
-    },
-    {
-        name: 'Nombre de transaccion',
-        selector: (row: IAccountTransactions) => row.trx_name,
-        sortable: true,
-    },
+    // {
+    //     name: 'Tipo de transaccion',
+    //     selector: (row: IAccountTransactions) => row.trx_type,
+    //     sortable: true,
+    // },
+    // {
+    //     name: 'Transaccion',
+    //     selector: (row: IAccountTransactions) => row.trx_name,
+    //     sortable: true,
+    // },
     {
         name: 'Inicial',
         selector: (row: IAccountTransactions) => row.initial,
         sortable: true,
+        right: true
     },
     {
         name: 'Débito',
         selector: (row: IAccountTransactions) => row.debits,
         sortable: true,
+        right: true
     },
     {
         name: 'Crédito',
         selector: (row: IAccountTransactions) => row.credits,
         sortable: true,
+        right: true
     },
     {
         name: 'Balance',
         selector: (row: IAccountTransactions) => row.balance,
         sortable: true,
+        right: true
     },
     {
         name: 'Fecha',

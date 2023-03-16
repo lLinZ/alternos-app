@@ -2,6 +2,7 @@ import { FC, useEffect } from 'react';
 
 // import { Button, Grid, Link, TextField, Typography, useTheme } from '@mui/material';
 import { Grid, TextField, Typography, useTheme } from '@mui/material';
+// import Input from '@mui/joy/Input';
 
 import { Formik, Form, FormikValues } from 'formik';
 import { Layout } from '../components/layout';
@@ -96,7 +97,7 @@ export const LoginPage: FC<Props> = () => {
                                 <TextField fullWidth onChange={handleChange} label="Contraseña" name="password" type="password" variant="standard" color="secondary" sx={{ '.css-265z88-MuiInputBase-root-MuiInput-root:before': {borderBottom: "none"}, '.css-265z88-MuiInputBase-root-MuiInput-root:after': {borderBottom: "none"} }} />
                             </Grid>
                             <Grid item xs={12} sx={{ mt: 4, textAlign: "center" }}>
-                                <LoadingButton type="submit" disabled={isSubmitting} loading={isSubmitting} fullWidth variant="text" color="secondary" sx={{ p: 2, width: "180px", borderRadius: "25px", backgroundColor: "#4B70E2", color: "#fffff", boxShadow: "8px 8px 16px #d1d9e6, -8px -8px 16px #f9f9f9;", border: "none" }}>Iniciar sesion</LoadingButton>
+                                <LoadingButton type="submit" disabled={isSubmitting} loading={false} fullWidth variant="contained" color="primary" sx={{ p: 2, width: "180px", borderRadius: "25px", color: "white", backgroundColor: "#4B70E2", boxShadow: "8px 8px 16px #d1d9e6, -8px -8px 16px #f9f9f9;", border: "none" }}>Iniciar sesion</LoadingButton>
                             </Grid>
                             <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "25px auto 0" }}>
                                 <RouterLink to="/register" style={{ textDecoration: "none" }}>

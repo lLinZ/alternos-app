@@ -26,26 +26,31 @@ const columns = [
         name: 'Tareas totales',
         selector: (row: IData) => row.total_tareas,
         sortable: true,
+        right: true
     },
     {
         name: 'Tareas completadas',
         selector: (row: IData) => row.total_completadas,
         sortable: true,
+        right: true
     },
     {
         name: 'Tareas atrasadas',
         selector: (row: IData) => row.total_atrasadas,
         sortable: true,
+        right: true
     },
     {
         name: 'Tareas pendientes',
         selector: (row: IData) => row.total_pendientes_en_tiempo,
         sortable: true,
+        right: true
     },
     {
         name: 'Efectividad',
-        selector: (row: IData) => row.efectividad,
+        selector: (row: IData) => row.efectividad+'%',
         sortable: true,
+        right: true
     },
 ];
 interface IData {
@@ -96,7 +101,7 @@ export const RegistroCumplimientoPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <PageTitle title="Registro de Cumplimiento" />
+                <PageTitle title="Efectividad por usuario" />
                 <Grid container spacing={1}>
                     {
                         Cumplimiento && (

@@ -16,26 +16,31 @@ const columns = [
         name: 'Tarea',
         selector: (row: IData) => row.activity_name,
         sortable: true,
+        width: "19rem"
     },
     {
         name: 'Usuario asignado',
         selector: (row: IData) => row.user_name,
         sortable: true,
+        width: "19rem"
     },
     {
-        name: 'Inicio',
+        name: 'Inicio planificado',
         selector: (row: IData) => row.inicio,
         sortable: true,
+        width: "10rem"
     },
     {
-        name: 'Vence',
+        name: 'Fin planificado',
         selector: (row: IData) => row.vence,
         sortable: true,
+        width: "10rem"
     },
     {
         name: 'Status',
         selector: (row: IData) => row.status,
         sortable: true,
+        width: "9rem"
     },
 ];
 interface IData {
@@ -121,17 +126,17 @@ export const RegistroAnalisisPorCasoPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <PageTitle title="Registro de analisis por requerimiento" />
+                <PageTitle title="Analisis por requerimiento" />
                 <Grid container spacing={1}>
                     {
                         casos && (
                             <Grid item xs={12}>
                                 <Box sx={{ display: "flex", flexFlow: "row nowrap", alignItems: "center" }}>
 
-                                    <Select color="secondary" defaultValue={"0"} value={caso !== 0 ? caso : "0"} onChange={handleChange} sx={{ "& fieldset": { borderRadius: 0 } }}>
-                                        <MenuItem disabled value={"0"}>Seleccione un requerimiento</MenuItem>
+                                    <Select color="secondary" defaultValue={"0"} value={caso !== 0 ? caso : "0"} onChange={handleChange} sx={{ "& fieldset": { borderRadius: 0 } }} style={{ width: "1000px" }}>
+                                        <MenuItem disabled value={"0"} style={{ width: "1000px" }}>Seleccione un requerimiento</MenuItem>
                                         {
-                                            casos.map((u: any) => <MenuItem key={u.id + u.description} value={String(u.id)}>{u.description}</MenuItem>)
+                                            casos.map((u: any) => <MenuItem key={u.id + u.description} value={String(u.id)} style={{ width: "1000px" }}>{u.description}</MenuItem>)
                                         }
                                     </Select>
                                     <Button sx={{ borderRadius: 0, p: 2, }} disableElevation color="secondary" variant="contained" onClick={() => getAnalisis(caso)}>Buscar</Button>

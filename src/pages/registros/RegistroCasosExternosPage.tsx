@@ -133,7 +133,7 @@ export const RegistroCasosExternosPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <PageTitle title="Registro de externos" />
+                <PageTitle title="Registro de requerimientos externos" />
                 <Grid container spacing={1}>
                     {
                         casos && (

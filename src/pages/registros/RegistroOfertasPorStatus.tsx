@@ -36,11 +36,13 @@ const columns = [
         name: 'Precio',
         selector: (row: IData) => row.precio_oferta,
         sortable: true,
+        right: true
     },
     {
         name: 'Costo',
         selector: (row: IData) => row.costo_oferta,
         sortable: true,
+        right: true
     },
     {
         name: 'Status',
@@ -101,19 +103,22 @@ export const RegistroOfertasPorStatusPage: FC = () => {
             const respuesta = await fetch(url);
             const data = await respuesta.json();
             console.log(data);
-            if (data.exito === "SI") {
+            // if (data.exito === "SI") {
                 setOfertas(data.registros);
-            }
+            // } else {
+
+            // }
         } catch (error) {
 
         }
     }
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const newStatus = event?.target.value
+        let xstatus = (event?.target.value==='todas') ? "" : event?.target.value ;
+        const newStatus = xstatus;
 
         getOfertas(newStatus)
-        setStatus(newStatus);
+        setStatus(event?.target.value);
     }
 
     useEffect(() => {
@@ -123,11 +128,11 @@ export const RegistroOfertasPorStatusPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <PageTitle title="Registro de ofertas por status" />
+                <PageTitle title="Lista de ofertas" />
 
                 <TextField label="Status" value={status} onChange={handleChange} color="secondary" variant="outlined" fullWidth sx={{ "& fieldset": { borderRadius: 3 }, borderRadius: 3, background: "#FFF", marginBlock: 2 }} select>
                     <MenuItem value={'0'} disabled>Seleccione un status</MenuItem>
-                    <MenuItem value={''}>Todas</MenuItem>
+                    <MenuItem value={'todas'}>Todas</MenuItem>
                     <MenuItem value={'aprobada'}>Aprobada</MenuItem>
                     <MenuItem value={'rechazada'}>Rechazada</MenuItem>
                     <MenuItem value={'enviada'}>Enviada</MenuItem>
@@ -138,6 +143,7 @@ export const RegistroOfertasPorStatusPage: FC = () => {
                 <Grid container spacing={1}>
                     {
                         ofertas && (
+                            (ofertas.length>0) ?
                             <Grid item xs={12}>
                                 <DataTable
                                     columns={columns}
@@ -146,6 +152,11 @@ export const RegistroOfertasPorStatusPage: FC = () => {
                                     pagination
                                     paginationComponentOptions={paginationComponentOptions}
                                 />
+                            </Grid> :
+                            <Grid item xs={12}>
+                                <Box sx={{ display: "flex", flexFlow: "row wrap", width: "100%", justifyContent: "center", alignItems: "center" }}>
+                                    <Typography variant="subtitle2" fontWeight={"bold"}>No hay registros que mostrar</Typography>
+                                </Box>
                             </Grid>
                         )
                     }

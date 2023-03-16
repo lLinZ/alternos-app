@@ -13,32 +13,38 @@ import { PageTitle } from '../../components/ui';
 
 const columns = [
     {
-        name: 'Caso',
-        selector: (row: IData) => row.description,
+        name: 'Requerimiento',
+        selector: (row: IData) => '(#' + row.line_id + ') ' + row.description,
         sortable: true,
+        width: "14rem"
     },
     {
         name: 'Tarea',
         selector: (row: IData) => row.activity_name,
         sortable: true,
+        width: "15rem"
     },
     {
-        name: 'Inicio',
+        name: 'Inicio planificado',
         selector: (row: IData) => row.inicio,
         sortable: true,
+        width: "14rem"
     },
     {
-        name: 'Vence',
+        name: 'Fin planificado',
         selector: (row: IData) => row.vence,
         sortable: true,
+        width: "14rem"
     },
     {
         name: 'Status',
         selector: (row: IData) => row.status,
         sortable: true,
+        width: "10rem"
     },
 ];
 interface IData {
+    line_id: string;
     description: string;
     activity_name: string;
     inicio: string | number;
@@ -116,7 +122,7 @@ export const RegistroTareasPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <PageTitle title="Registro de Tareas" />
+                <PageTitle title="Tareas por usuario" />
                 <Grid container spacing={1}>
                     {
                         users && (

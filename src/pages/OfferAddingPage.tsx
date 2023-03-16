@@ -316,7 +316,23 @@ const ItemSelected: FC<PropsItemSelected> = ({ i, setSelectedItems, selectedItem
         <>
             <Box sx={{ display: "flex", flexDirection: "column", mt: 2, }}>
                 <Typography variant="overline">Proceso {i?.type} #{i?.orden}</Typography>
-                <Typography variant="subtitle1">{i?.description}</Typography>
+                <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                    {
+                        // edit ?
+                        //     (<>
+                        //         <IconButton size="small" onClick={() => setEdit(false)}><EditOffIcon color="error" /></IconButton>
+                        //         <TextField size="small" label="Descripcion larga" color="secondary" name="newDescr" value={newDescr} onChange={(e: ChangeEvent<HTMLInputElement>) => setNewDescr(e.target.value)} fullWidth multiline />
+                        //         <IconButton size="small" onClick={save}><SaveIcon color="success" /></IconButton>
+                        //     </>
+                        //     )
+                        //     : (
+                                <>
+                                    <Typography variant="subtitle1">{i?.description}</Typography>
+                                    <IconButton size="small" onClick={() => alert('En cosntrucción')}><EditIcon /></IconButton>
+                                </>
+                            // )
+                    }
+                </Box>
                 <Typography variant="subtitle2">Precio ${i?.precio} </Typography>
                 <Typography variant="subtitle2">Costo ${i?.costo} </Typography>
                 <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>

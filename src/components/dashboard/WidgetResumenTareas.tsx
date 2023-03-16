@@ -81,7 +81,7 @@ export const WidgetResumenTareas: FC = () => {
     }
     return (
         <Box sx={styles.mainContainer}>
-            <Typography variant="overline" fontWeight="bold">Resumen Tareas</Typography>
+            <Typography variant="overline" fontWeight="bold">Lista de Tareas</Typography>
             <Box sx={styles.contentContainer}>
                 {stats && (<Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: 'Roboto', textAlign: 'center' }}>{total} Tareas totales</Typography>)}
                 <Box sx={{ display: "flex", flexFlow: "row wrap" }}>

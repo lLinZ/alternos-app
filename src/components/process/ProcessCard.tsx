@@ -22,6 +22,8 @@ import Swal from 'sweetalert2';
 import { LoadingButton } from '@mui/lab';
 import { IFunction } from '../../interfaces/function-type';
 import { Formik, Form, FormikValues, FormikState } from 'formik';
+// import AddIcon from "@mui/icons-material/AddCircleOutlineRounded";
+import ControlPointDuplicateIcon from '@mui/icons-material/ControlPointDuplicate';
 
 interface Props {
     process: Process;
@@ -340,7 +342,6 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses, processes }) => 
                     : (<Box>
                         <Box sx={{ position: "relative" }}>
                             <IconButton onClick={() => setEdit(true)} color="secondary" sx={{ position: "absolute", top: 5, right: 5 }}>
-
                                 <EditIcon />
                             </IconButton>
 
@@ -350,6 +351,9 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses, processes }) => 
                         </Typography>
                         <Typography variant="h5" component="div">
                             {process.name}
+                            <IconButton onClick={() => alert("en construcción")} color="secondary">
+                                <ControlPointDuplicateIcon />
+                            </IconButton>
                         </Typography>
                         <Typography variant="subtitle2" color="text.secondary">
                             {process.description}
