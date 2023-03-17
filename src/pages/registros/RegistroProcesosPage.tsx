@@ -30,8 +30,8 @@ const columns = [
         right: true
     },
     {
-        name: 'Margen',
-        selector: (row: IData) => row.margen,
+        name: 'Utilidad (Margen)',
+        selector: (row: IData) => `${row.utilidad} (${row.margen}%)`,
         sortable: true,
         right: true
     },
@@ -41,6 +41,7 @@ interface IData {
     name: string;
     costo: string | number;
     precio: string | number;
+    utilidad: string | number;
     margen: string | number;
 }
 const paginationComponentOptions = {
@@ -82,7 +83,7 @@ export const RegistroProcesosPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <PageTitle title="Registro de procesos" />
+                <PageTitle title="Lista de procesos" />
 
                 <Grid container spacing={1}>
                     {

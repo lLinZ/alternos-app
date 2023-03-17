@@ -41,8 +41,8 @@ const columns = [
         right: true
     },
     {
-        name: 'Margen',
-        selector: (row: IData) => row.margen,
+        name: 'Utilidad (Margen)',
+        selector: (row: IData) => `${row.utilidad} (${row.margen}%)`,
         sortable: true,
         right: true
     },
@@ -54,6 +54,7 @@ interface IData {
     owner_name: string;
     costo: string | number;
     precio: string | number;
+    utilidad: string | number;
     margen: string | number;
 }
 const paginationComponentOptions = {

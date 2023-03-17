@@ -10,6 +10,7 @@ import { validarToken } from '../../lib/functions'
 import DataTable from 'react-data-table-component';
 import { baseUrl } from '../../common/baseUrl';
 import { PageTitle } from '../../components/ui';
+import moment from 'moment';
 
 const columns = [
     {
@@ -25,22 +26,34 @@ const columns = [
         width: "15rem"
     },
     {
-        name: 'Inicio planificado',
-        selector: (row: IData) => row.inicio,
-        sortable: true,
-        width: "14rem"
-    },
-    {
-        name: 'Fin planificado',
-        selector: (row: IData) => row.vence,
-        sortable: true,
-        width: "14rem"
-    },
-    {
         name: 'Status',
         selector: (row: IData) => row.status,
         sortable: true,
-        width: "10rem"
+        width: "9rem"
+    },
+    {
+        name: 'Inicio planificado',
+        selector: (row: IData) => `${moment(row.inicio).format("DD-MM-YYYY HH:mm")}`,
+        sortable: true,
+        width: "9.5rem"
+    },
+    {
+        name: 'Fin planificado',
+        selector: (row: IData) => `${moment(row.vence).format("DD-MM-YYYY HH:mm")}`,
+        sortable: true,
+        width: "9.5rem"
+    },
+    {
+        name: 'Inicio real',
+        selector: (row: IData) => (row.inicio_real==='0000-00-00 00:00:00') ? "" : `${moment(row.inicio_real).format("DD-MM-YYYY HH:mm")}`,
+        sortable: true,
+        width: "9.5rem"
+    },
+    {
+        name: 'Fin real',
+        selector: (row: IData) => (row.fin_real==='0000-00-00 00:00:00') ? "" : `${moment(row.fin_real).format("DD-MM-YYYY HH:mm")}`,
+        sortable: true,
+        width: "9.5rem"
     },
 ];
 interface IData {
@@ -50,6 +63,8 @@ interface IData {
     inicio: string | number;
     vence: string | number;
     status: string | number;
+    inicio_real: string | number;
+    fin_real: string | number;
 }
 const paginationComponentOptions = {
     rowsPerPageText: 'Filas por página',

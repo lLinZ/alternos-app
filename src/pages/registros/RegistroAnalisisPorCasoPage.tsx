@@ -10,6 +10,7 @@ import { validarToken } from '../../lib/functions'
 import DataTable from 'react-data-table-component';
 import { baseUrl } from '../../common/baseUrl';
 import { PageTitle } from '../../components/ui';
+import moment from 'moment';
 
 const columns = [
     {
@@ -22,19 +23,7 @@ const columns = [
         name: 'Usuario asignado',
         selector: (row: IData) => row.user_name,
         sortable: true,
-        width: "19rem"
-    },
-    {
-        name: 'Inicio planificado',
-        selector: (row: IData) => row.inicio,
-        sortable: true,
-        width: "10rem"
-    },
-    {
-        name: 'Fin planificado',
-        selector: (row: IData) => row.vence,
-        sortable: true,
-        width: "10rem"
+        width: "12rem"
     },
     {
         name: 'Status',
@@ -42,13 +31,55 @@ const columns = [
         sortable: true,
         width: "9rem"
     },
+    {
+        name: 'Inicio planificado',
+        selector: (row: IData) => `${moment(row.inicio).format("DD-MM-YYYY HH:mm")}`,
+        sortable: true,
+        width: "9.5rem"
+    },
+    {
+        name: 'Fin planificado',
+        selector: (row: IData) => `${moment(row.vence).format("DD-MM-YYYY HH:mm")}`,
+        sortable: true,
+        width: "9.5rem"
+    },
+    {
+        name: 'Duración (min)',
+        selector: (row: IData) => row.duration,
+        sortable: true,
+        right: true,
+        width: "9rem"
+    },
+    {
+        name: 'Inicio real',
+        selector: (row: IData) => (row.inicio_real==='0000-00-00 00:00:00') ? "" : `${moment(row.inicio_real).format("DD-MM-YYYY HH:mm")}`,
+        sortable: true,
+        width: "9.5rem"
+    },
+    {
+        name: 'Fin real',
+        selector: (row: IData) => (row.fin_real==='0000-00-00 00:00:00') ? "" : `${moment(row.fin_real).format("DD-MM-YYYY HH:mm")}`,
+        sortable: true,
+        width: "9.5rem"
+    },
+    {
+        name: 'Dur. real (min)',
+        selector: (row: IData) => row.duration_real,
+        sortable: true,
+        right: true,
+        width: "9rem"
+    },
 ];
 interface IData {
     activity_name: string;
     inicio: string | number;
     vence: string | number;
+    duration: string | number;
     user_name: string;
     status: string | number;
+    inicio_real: string | number;
+    fin_real: string | number;
+    duration_real: string | number;
 }
 const paginationComponentOptions = {
     rowsPerPageText: 'Filas por página',
@@ -136,7 +167,7 @@ export const RegistroAnalisisPorCasoPage: FC = () => {
                                     <Select color="secondary" defaultValue={"0"} value={caso !== 0 ? caso : "0"} onChange={handleChange} sx={{ "& fieldset": { borderRadius: 0 } }} style={{ width: "1000px" }}>
                                         <MenuItem disabled value={"0"} style={{ width: "1000px" }}>Seleccione un requerimiento</MenuItem>
                                         {
-                                            casos.map((u: any) => <MenuItem key={u.id + u.description} value={String(u.id)} style={{ width: "1000px" }}>{u.description}</MenuItem>)
+                                            casos.map((u: any) => <MenuItem key={u.id + u.description} value={String(u.id)} style={{ width: "1000px" }}>(#{u.id}) {u.description}</MenuItem>)
                                         }
                                     </Select>
                                     <Button sx={{ borderRadius: 0, p: 2, }} disableElevation color="secondary" variant="contained" onClick={() => getAnalisis(caso)}>Buscar</Button>

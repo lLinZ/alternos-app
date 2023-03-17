@@ -72,25 +72,51 @@ export const RegistroCasosPage: FC = () => {
             name: 'Descripcion',
             selector: (row: IData) => `(#${row.id}) ${row.description}`,
             sortable: true,
-            width: '25rem'
+            width: '20rem'
         },
         {
             name: 'Status',
             selector: (row: IData) => row.status,
             sortable: true,
-            maxWidth: '10rem'
+            maxWidth: '9rem'
         },
         {
-            name: 'Planificado (Inicio / Fin / Horas)',
-            selector: (row: IData) => `${moment(row.inicio).format("DD-MM-YYYY HH:mm:ss")} / ${moment(row.vence).format("DD-MM-YYYY HH:mm:ss")} / ${row.duration}`,
+            name: 'Inicio Planificado',
+            selector: (row: IData) => `${moment(row.inicio).format("DD-MM-YYYY HH:mm")}`,
             sortable: true,
-            width: '20rem'
+            width: '9.5rem'
         },
         {
-            name: 'Real (Inicio / Fin / Horas)',
-            selector: (row: IData) => `${moment(row.inicio_real).format("DD-MM-YYYY HH:mm:ss")} / ${moment(row.fin_real).format("DD-MM-YYYY HH:mm:ss")} / ${row.duration_real}`,
+            name: 'Fin Planificado',
+            selector: (row: IData) => `${moment(row.vence).format("DD-MM-YYYY HH:mm")}`,
             sortable: true,
-            width: '20rem'
+            width: '9.5rem'
+        },
+        {
+            name: 'Dur. planificada',
+            selector: (row: IData) => `${row.duration}`,
+            sortable: true,
+            right: true,
+            width: '9rem'
+        },
+        {
+            name: 'Inicio Real',
+            selector: (row: IData) => `${moment(row.inicio_real).format("DD-MM-YYYY HH:mm")}`,
+            sortable: true,
+            width: '9.5rem'
+        },
+        {
+            name: 'Fin Real',
+            selector: (row: IData) => `${moment(row.fin_real).format("DD-MM-YYYY HH:mm")}`,
+            sortable: true,
+            width: '9rem'
+        },
+        {
+            name: 'Duración Real',
+            selector: (row: IData) => `${row.duration_real}`,
+            sortable: true,
+            right: true,
+            width: '8.5rem'
         },
     ];
 
