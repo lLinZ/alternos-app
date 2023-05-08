@@ -293,7 +293,6 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses, processes }) => 
 
                 {edit ? (
                     <Box>
-
                         <Box sx={{ position: "relative" }}>
                             <Typography variant="subtitle2" color="text.primary" fontWeight="bold" gutterBottom>
                                 {process.owner_name}
@@ -351,7 +350,7 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses, processes }) => 
                         </Typography>
                         <Typography variant="h5" component="div">
                             {process.name}
-                            <IconButton onClick={() => alert("en construcción")} color="secondary">
+                            <IconButton onClick={() => router(`/process/copy/${process.id}`)} color="secondary">
                                 <ControlPointDuplicateIcon />
                             </IconButton>
                         </Typography>

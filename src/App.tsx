@@ -7,6 +7,7 @@ import { DashboardPage } from './pages/DashboardPage';
 import { RegisterAdminPage } from './pages/RegisterAdminPage';
 import { RegisterParamsPage } from './pages/RegisterParamsPage';
 import { ProcessesPage } from './pages/ProcessesPage';
+import { ProcessesPageCopy } from './pages/ProcessesPageCopy';
 import { ProcessListPage } from './pages/ProcessListPage';
 import { RequirementsPage } from './pages/RequirementsPage';
 import { UserRequirementsPage } from './pages/UserRequirementsPage';
@@ -82,6 +83,7 @@ function App() {
         {/* Procesos  */}
         <Route path="/process" element={<ProcessListPage />} />
         <Route path="/process/add" element={<ProcessesPage />} />
+        <Route path="/process/copy/:process_id" element={<ProcessesPageCopy />} />
         <Route path="/process/external" element={<ExternalProcessPage />} />
         <Route path="/process/external/add" element={<ExternalProcessAddingPage />} />
 
