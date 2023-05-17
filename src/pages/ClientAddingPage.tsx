@@ -163,14 +163,14 @@ export const ClientAddingPage = () => {
                         <Form onSubmit={handleSubmit}>
                             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
                                 <Grid item xs={6}>
-                                    <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.name} variant="outlined" InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} label="Marca" name="brand" type="text" color="secondary" />
+                                    <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.brand} variant="outlined" InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} label="Marca" name="brand" type="text" color="secondary" />
                                 </Grid>
                                 <Grid item xs={6}>
                                     <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.name} variant="outlined" InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} label="Nombre o razón social" name="name" type="text" color="secondary" />
                                 </Grid>
-                                <Grid item xs={12}>
+                                {/* <Grid item xs={12}>
                                     <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} value={values.name} variant="outlined" InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} label="Nombre o razón social" name="name" type="text" color="secondary" />
-                                </Grid>
+                                </Grid> */}
                                 <Grid item xs={12}>
                                     <TextField sx={{ "& fieldset": { border: "none" }, }} fullWidth onChange={handleChange} multiline value={values.descripcion} variant="outlined" InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", borderRadius: 5, background: "#FFF" } }} label="Descripcion del negocio o actividad" name="descripcion" type="text" color="secondary" />
                                 </Grid>
