@@ -10,7 +10,7 @@ import { ProcessesPage } from './pages/ProcessesPage';
 import { ProcessesPageCopy } from './pages/ProcessesPageCopy';
 import { ProcessListPage } from './pages/ProcessListPage';
 import { RequirementsPage } from './pages/RequirementsPage';
-import { UserRequirementsPage } from './pages/UserRequirementsPage';
+// import { UserRequirementsPage } from './pages/UserRequirementsPage';
 import { BriefingPage } from './pages/BriefingPage';
 import { TrafficUserPage } from './pages/TrafficUserPage';
 import { GetBriefingPage } from './pages/GetBriefingPage';
@@ -21,7 +21,7 @@ import { DepartmentAddingPage } from './pages/DepartmentAddingPage';
 import { ActivityAssignmentPage } from './pages/ActivityAssignmentPage';
 import { BasicTaskPage } from './pages/BasicTask';
 import { ProfilePage } from './pages/ProfilePage';
-import { RegistrosPage } from './pages/RegistrosPage';
+// import { RegistrosPage } from './pages/RegistrosPage';
 import { RegistroProcesosPage } from './pages/registros/RegistroProcesosPage'
 import { RegistroActivityPage } from './pages/registros/RegistroActivityPage'
 import { RegistroCasosPage } from './pages/registros/RegistroCasosPage'

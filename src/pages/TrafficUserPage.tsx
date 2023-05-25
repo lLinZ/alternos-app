@@ -19,6 +19,7 @@ import moment, { Moment } from 'moment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { PickersActionBarProps } from '@mui/x-date-pickers/PickersActionBar';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+// import { DateTimeField } from '@mui/x-date-pickers/DateTimeField';
 import { PageTitle } from "../components/ui";
 import { getFormatDistanceToNow2 } from '../lib/functions';
 const Transition = forwardRef(function Transition(
@@ -205,7 +206,7 @@ export const TrafficUserPage: FC = () => {
                 const position = i - 1;
                 activUsers += i === selectedActividades.length ? `${selectedActividades[position].actividadId}*!*${selectedActividades[position].userId}*!*${selectedActividades[position].fecha}*!*${selectedActividades[position].observacion}` : `${selectedActividades[position].actividadId}*!*${selectedActividades[position].userId}*!*${selectedActividades[position].fecha}*!*${selectedActividades[position].observacion},`
             }
-            console.log(activUsers)
+
             const body = new FormData();
             body.append("case_id", String(selectedTask ? selectedTask.case_id : ''));
             body.append("activ_users", activUsers);
@@ -329,10 +330,10 @@ export const TrafficUserPage: FC = () => {
                             </Typography>
                             {/* <Typography variant="body1" component="p" fontWeight="bold"> */}
                             <Typography variant="body1" component="p">
-                                <b>Inicio estimado:</b> {moment(selectedTask?.inicio).format("DD-MM-YYYY HH:MM")}
+                                <b>Inicio estimado:</b> {moment(selectedTask?.inicio).format("DD-MM-YYYY hh:mm a")}
                             </Typography>
                             <Typography variant="body1" component="p">
-                                <b>Fin estimado:</b> {moment(selectedTask?.vence).format("DD-MM-YYYY HH:MM")}
+                                <b>Fin estimado:</b> {moment(selectedTask?.vence).format("DD-MM-YYYY hh:mm a")}
                             </Typography>
                             {/* </Typography>
                             <Divider sx={{ marginBlock: 2 }} />
@@ -435,19 +436,26 @@ const ActivityCard: FC<ActivityCardProps> = ({ act, setOpenUserModal, currentAct
     );
     const handleChangeFecha = (newValue: Moment | null) => {
         setNewFecha(newValue);
-        setFecha(moment(newValue).format("YYYY-MM-DD HH:mm:ss"));
+        setFecha(moment(newValue).format("YYYY-MM-DD hh:mm a"));
     };
     const save = () => {
-        const excludeFechas = currentFechasVencimiento && currentFechasVencimiento.filter((f: any) => f.id !== act.actividadId);
-        const newFechas = excludeFechas ? [...excludeFechas, { id: act.actividadId, vencimiento_estimado: fecha }] : [{ id: act.actividadId, vencimiento_estimado: fecha }];
-        const prevSelected = selectedActividades.filter((sa: any) => sa.actividadId === act.id).length > 0 ? selectedActividades.filter((sa: any) => sa.actividadId === act.id)[0] : false;
+        const excludeFechas = currentFechasVencimiento && currentFechasVencimiento.filter((f: any) => f.id !== act.id);
+
+        const newFechas = excludeFechas ? [...excludeFechas, { id: act.id, vencimiento_estimado: fecha }] : [{ id: act.id, vencimiento_estimado: fecha }];
+
+        const prevSelected = selectedActividades.filter((sa: any) => sa.actividadId === act.id).length > 0 ? selectedActividades.filter((sa: any) => sa.actividadId === act.id)[0] : false ;
 
         const excludeSelectedActividades = prevSelected ? selectedActividades.filter((s: any) => s.actividadId !== act.id) : false;
+
         const newActividad = excludeSelectedActividades ? { actividadId: prevSelected.actividadId, userId: prevSelected.userId, userName: prevSelected.userName, fecha } : false;
+        
         const newSelectedActividades = excludeSelectedActividades ? [...excludeSelectedActividades, newActividad] : selectedActividades;
+
         newSelectedActividades.sort((a: any, b: any) => a.actividadId - b.actividadId)
+
         setCurrentFechasVencimiento(newFechas)
         setSelectedActividades(newSelectedActividades);
+
         setEdit(false);
     }
     const handleChangeObs = (e: ChangeEvent<HTMLInputElement>) => {
@@ -469,19 +477,23 @@ const ActivityCard: FC<ActivityCardProps> = ({ act, setOpenUserModal, currentAct
                 <Box sx={{ display: "flex", flexFlow: "column wrap", mb: 2 }}>
                     <Typography variant="subtitle2" color="text.secondary">#{act.id}</Typography>
                     <Typography>{act.activity_name}</Typography>
-                    <Typography>Duración: {duracion/60} horas - Inicio previsto: {moment(actInicio).format("DD-MM-YYYY HH:MM")}</Typography>
+                    <Typography>Duración: {duracion/60} horas - Inicio previsto: {moment(actInicio).format("DD-MM-YYYY hh:mm a")}</Typography>
                     <Box>
                         {/* <Box sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
                             <Typography variant="subtitle2" color="text.secondary">Duración: {duracion/60} horas</Typography>
                         </Box>
                         <Box sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
-                            <Typography variant="subtitle2" color="text.secondary">Inicio previsto: {moment(actInicio).format("DD-MM-YYYY HH:MM")}</Typography>
+                            <Typography variant="subtitle2" color="text.secondary">Inicio previsto: {moment(actInicio).format("DD-MM-YYYY HH:MM A")}</Typography>
                         </Box> */}
                         {edit ? (
                             <Box sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
-                                <IconButton onClick={() => setEdit(false)} color="error"><EditOffIcon /></IconButton>
+                                <IconButton onClick={() => {
+                                    setCurrentActividad({ id: act.id, fecha: fecha });
+                                    setEdit(false);
+                                }} color="error"><EditOffIcon /></IconButton>
                                 <DateTimePicker
                                     label="Fecha de vencimiento"
+                                    inputFormat="DD-MM-YYYY hh:mm a"
                                     value={newFecha}
                                     onChange={handleChangeFecha}
                                     OpenPickerButtonProps={{ color: "secondary" }}
@@ -494,9 +506,11 @@ const ActivityCard: FC<ActivityCardProps> = ({ act, setOpenUserModal, currentAct
                             </Box>
                         ) : (<Box sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
                                 <Typography variant="subtitle2" color="text.secondary">
-                                    Fin previsto: {moment(fecha).format("DD-MM-YYYY HH:MM")}
+                                    Fin previsto: {moment(fecha).format("DD-MM-YYYY hh:mm a")}
                                 </Typography>
-                                <IconButton onClick={() => setEdit(true)} > <EditIcon /></IconButton>
+                                {currentActividad &&
+                                    <IconButton onClick={() => setEdit(true)} > <EditIcon /></IconButton>
+                                }
                             </Box>)
                         }
                         {editObs ? (
@@ -508,7 +522,9 @@ const ActivityCard: FC<ActivityCardProps> = ({ act, setOpenUserModal, currentAct
                             </Box>
                         ) : (<Box sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
                             <Typography variant="subtitle2" color="text.secondary">Observacion: {observacion}</Typography>
-                            <IconButton onClick={() => setEditObs(true)} > <EditIcon /></IconButton>
+                            {currentActividad &&
+                                <IconButton onClick={() => setEditObs(true)} > <EditIcon /></IconButton>
+                            }
                         </Box>)}
                     </Box>
                     {

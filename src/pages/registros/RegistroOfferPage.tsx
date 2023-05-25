@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
-import { getFormatDistanceToNow, numberWithDots, ucfirst, validarToken } from '../../lib/functions';
+import { numberWithDots, ucfirst, validarToken } from '../../lib/functions';
 import Typography from '@mui/material/Typography';
 import { baseUrl } from '../../common/baseUrl';
 import Swal from 'sweetalert2';
@@ -17,6 +17,7 @@ import CheckCircleRounded from '@mui/icons-material/CheckCircleRounded';
 import { blue, green, red } from '@mui/material/colors';
 import EditIcon from '@mui/icons-material/EditRounded'
 import { PageTitle } from '../../components/ui';
+import moment from 'moment';
 
 export interface Offer {
     id: number;
@@ -183,7 +184,8 @@ export const RegistroOfferPage: FC = () => {
                                 <Typography variant="subtitle2" color="text.secondary">#{offer.id}</Typography>
                                 <Typography variant="subtitle1">Cliente {offer.customer_name}</Typography>
                                 <Typography variant="subtitle1">Vendedor {offer.salesman_name}</Typography>
-                                <Typography variant="subtitle2" fontWeight={300} color="text.secondary">{getFormatDistanceToNow(new Date(offer.created_at))}</Typography>
+                                <Typography variant="subtitle2" fontWeight={300} color="text.secondary">Creada el {moment(offer.created_at).format("DD-MM-YYYY")}</Typography>
+                                {/* <Typography variant="subtitle2" fontWeight={300} color="text.secondary">Creada el {moment(offer.created_at).format("DD-MM-YYYY HH:MM:SS")}</Typography> */}
 
                                 <CollapsibleData offer={offer} offers={offers} setOffers={setOffers} />
                                 <Box sx={styles.offerActions}>
