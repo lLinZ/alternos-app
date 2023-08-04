@@ -555,6 +555,7 @@ export const OfferAddingPage: FC = () => {
                         })
                         resetAll();
                         setIsSubmitting(false);
+                        router("/offers")
                     } else {
                         Swal.fire({
                             title: "Error",

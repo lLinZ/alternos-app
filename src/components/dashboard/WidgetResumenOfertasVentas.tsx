@@ -6,12 +6,14 @@ import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import { ucfirst } from '../../lib/functions';
 import 'react-circular-progressbar/dist/styles.css';
 import { yellow, green, blue, red, pink } from '@mui/material/colors';
+import { useNavigate } from 'react-router-dom';
 interface IResumenReq {
     status: string;
     cantidad: number;
     avance: number;
 }
 export const WidgetResumenOfertasVentas: FC = () => {
+    const router = useNavigate()
 
     const [stats, setStats] = useState<IResumenReq[] | null>(null)
     const [total, setTotal] = useState<number>(0);
@@ -44,7 +46,8 @@ export const WidgetResumenOfertasVentas: FC = () => {
             minHeight: 300,
             maxHeight: 300,
             flexFlow: "column wrap",
-            boxShadow: '0 8px 32px 0 rgba(100,100,100,0.1)'
+            boxShadow: '0 8px 32px 0 rgba(100,100,100,0.1)',
+            cursor: 'pointer'
         },
         contentContainer: {
             p: 1,
@@ -85,14 +88,13 @@ export const WidgetResumenOfertasVentas: FC = () => {
         }
     }
     return (
-        <Box sx={styles.mainContainer}>
+        <Box sx={styles.mainContainer} onClick={() => router("/offer/resume/pending")}>
             <Typography variant="overline" fontWeight="bold">Reporte de Ofertas pendientes</Typography>
             <Box sx={styles.contentContainer}>
                 {stats && (<Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: 'Roboto', textAlign: 'center' }}>{total} Ofertas totales</Typography>)}
                 <Box sx={{ display: "flex", alignItems: "center", flexFlow: "row wrap", justifyContent: "center" }}>
                     {stats && stats.map((s, i) => (
                         <Box key={i} sx={{ mr: 2, mb: 2, width: 90, heigth: 90 }}>
-
                             <CircularProgressbarWithChildren value={Math.round(((total===0) ? 0 : (s.cantidad / total)) * 100)} styles={{
                                 path: {
                                     // Path color

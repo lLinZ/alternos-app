@@ -221,7 +221,7 @@ export const RegistroPendingOffersPage: FC = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <PageTitle title="Lista de ofertas pendientes" />
+                <PageTitle title="Ofertas Confirmadas en proceso de aprobación" />
                 <Box sx={styles.offersContainer}>
                     {
                         offers && offers.map((offer) => (

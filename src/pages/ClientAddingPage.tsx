@@ -112,7 +112,6 @@ export const ClientAddingPage = () => {
             body
         }
         try {
-
             const respuesta = await fetch(url, options);
             const data = await respuesta.json();
             console.log(data)
