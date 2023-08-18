@@ -24,6 +24,7 @@ import { IFunction } from '../../interfaces/function-type';
 import { Formik, Form, FormikValues, FormikState } from 'formik';
 // import AddIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import ControlPointDuplicateIcon from '@mui/icons-material/ControlPointDuplicate';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface Props {
     process: Process;
@@ -61,7 +62,6 @@ const Transition = forwardRef(function Transition(
 });
 
 export const ProcessCard: FC<Props> = ({ process, setProcesses, processes }) => {
-
     // Control del collapse
     const [expanded, setExpanded] = useState(false);
 
@@ -100,6 +100,7 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses, processes }) => 
     const [users, setUsers] = useState([]);
 
     const [edit, setEdit] = useState<boolean>(false);
+    const [deleted, setDeleted] = useState<boolean>(false);
     const router = useNavigate();
 
     /**
@@ -272,6 +273,48 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses, processes }) => 
         }
     }
 
+    const onDelete = async () => {
+        const url = `${baseUrl}/deleteprocesos?id=${process.id}`;
+        const click = await Swal.fire({
+            title: "¿Seguro?",
+            text: "¿Deseas eliminar el proceso?",
+            icon: "warning",
+            showCancelButton: true,
+        })
+        if (click.isConfirmed) {
+            try {
+                const respuesta = await fetch(url);
+
+                const data = await respuesta.json();
+
+                if (data.exito === "SI") {
+                    Swal.fire({
+                        title: "Exito",
+                        text: "Proceso eliminado",
+                        icon: "success",
+                        timer: 2000,
+                        showConfirmButton: false,
+                        timerProgressBar: true,
+                    })
+                    router("/");
+                } else {
+                    Swal.fire({
+                        title: "Error",
+                        text: data.mensaje,
+                        icon: "error",
+                    })
+                }
+            } catch (error) {
+                console.log(error);
+                Swal.fire({
+                    title: "Error",
+                    text: "Error interno del servidor",
+                    icon: "error",
+                })
+            }
+        }
+    }
+
     const initialValues = {
         name: process.name,
         categoria: process.categoria,
@@ -352,6 +395,9 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses, processes }) => 
                             {process.name}
                             <IconButton onClick={() => router(`/process/copy/${process.id}`)} color="secondary">
                                 <ControlPointDuplicateIcon />
+                            </IconButton>
+                            <IconButton onClick={() => onDelete()} color="secondary">
+                                <DeleteIcon />
                             </IconButton>
                         </Typography>
                         <Typography variant="subtitle2" color="text.secondary">

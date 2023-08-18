@@ -87,6 +87,7 @@ export const ActivityAssignmentPage = () => {
     const getActividades = async () => {
         const url = `${baseUrl}/listaactividades?id_activity=&id_owner=`
         try {
+            console.log(url);
             const respuesta = await fetch(url);
             const data = await respuesta.json();
             if (data.exito === "SI") {

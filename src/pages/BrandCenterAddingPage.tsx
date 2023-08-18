@@ -30,6 +30,7 @@ interface BrandCenterInfo {
     ruta: string;
     archivo: string;
     categoria: string;
+    miniatura: string;
 }
 
 const initialValues: BrandCenterInfo = {
@@ -38,6 +39,7 @@ const initialValues: BrandCenterInfo = {
     ruta: '',
     archivo: '',
     categoria: '',
+    miniatura: ''
 }
 
 export const BrandCenterAddingPage: FC = () => {
@@ -47,7 +49,9 @@ export const BrandCenterAddingPage: FC = () => {
     const [clients, setClients] = useState<User[] | null>(null);
     const [selectedClient, setSelectedClient] = useState<User | null>(null);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [miniatura, setMiniatura] = useState<File | null>(null);
     const ref = useRef<HTMLInputElement>(null)
+    const ref2 = useRef<HTMLInputElement>(null)
 
     const router = useNavigate()
 
@@ -80,6 +84,9 @@ export const BrandCenterAddingPage: FC = () => {
         if (!values.etiquetas) {
             errores.push("Las etiquetas son obligatorias")
         }
+        if (!values.miniatura) {
+            errores.push("La miniatura es obligatoria")
+        }
 
         const url = `${baseUrl}/registrobrandcenter`;
         const body = new FormData()
@@ -93,6 +100,7 @@ export const BrandCenterAddingPage: FC = () => {
         body.append("etiquetas", String(values.etiquetas));
         body.append("categoria", String(values.categoria));
         body.append("archivo", selectedFile ? selectedFile : '');
+        body.append("miniatura", miniatura ? miniatura : '');
         const options = {
             method: "POST",
             body
@@ -111,6 +119,7 @@ export const BrandCenterAddingPage: FC = () => {
                 resetForm();
                 setSelectedClient(null);
                 setSelectedFile(null);
+                setMiniatura(null);
             } else {
                 Swal.fire({
                     title: "Error",
@@ -158,16 +167,6 @@ export const BrandCenterAddingPage: FC = () => {
                                     <TextField fullWidth color="secondary" label="Etiquetas" name="etiquetas" onChange={handleChange} value={values.etiquetas} sx={styles.input} />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    {
-                                        selectedFile && (
-                                            <>
-                                                <Typography variant="overline">Nombre de archivo</Typography>
-                                                <Typography variant="subtitle2" color="text.secondary">{selectedFile.name}</Typography>
-                                            </>
-                                        )
-                                    }
-                                    <Button type="button" variant="contained" color={selectedFile ? "success" : "info"} fullWidth sx={styles.button} onClick={() => ref !== null && ref.current?.click()}>{selectedFile ? 'Cambiar archivo' : 'Seleccionar Archivo'}</Button>
-
                                     <input
                                         ref={ref as any}
                                         type="file"
@@ -178,7 +177,39 @@ export const BrandCenterAddingPage: FC = () => {
                                             e.target.value = "";
                                         }}
                                     />
+                                    <Button type="button" variant="contained" color={selectedFile ? "success" : "info"} fullWidth sx={styles.button} onClick={() => ref !== null && ref.current?.click()}>{selectedFile ? 'Cambiar archivo' : 'Seleccionar Archivo'}</Button>
+                                    {
+                                        selectedFile && (
+                                            <>
+                                                <Typography variant="overline">Nombre de archivo</Typography>
+                                                <Typography variant="subtitle2" color="text.secondary">{selectedFile.name}</Typography>
+                                            </>
+                                        )
+                                    }
                                 </Grid>
+
+                                <Grid item xs={12}>
+                                    <input
+                                        ref={ref2 as any}
+                                        type="file"
+                                        style={{ display: "none" }}
+                                        accept={"image/*"}
+                                        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                            setMiniatura(e.currentTarget.files ? e.currentTarget.files[0] : null);
+                                            e.target.value = "";
+                                        }}
+                                    />
+                                    <Button type="button" variant="contained" color={miniatura ? "success" : "info"} fullWidth sx={styles.button} onClick={() => ref2 !== null && ref2.current?.click()}>{miniatura ? 'Cambiar Miniatura' : 'Seleccionar Miniatura'}</Button>
+                                    {
+                                        miniatura && (
+                                            <>
+                                                <Typography variant="overline">Miniatura de portada</Typography>
+                                                <Typography variant="subtitle2" color="text.secondary">{miniatura.name}</Typography>
+                                            </>
+                                        )
+                                    }
+                                </Grid>
+
                                 <Grid item xs={12}>
                                     <Button fullWidth disableElevation disabled={isSubmitting} sx={styles.buttonModal} type="button" onClick={() => setOpen(true)} variant="contained">Seleccionar cliente</Button>
                                 </Grid>

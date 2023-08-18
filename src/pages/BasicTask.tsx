@@ -420,6 +420,7 @@ export const BasicTaskPage: FC<Props> = () => {
                             <Typography variant="body2" component="p">
                                 {selectedTask?.activity_owner_name}
                             </Typography>
+
                             <Divider sx={{ marginBlock: 2 }} />
                             <Typography variant="body2" component="p" fontWeight="bold">
                                 Proceso
@@ -433,6 +434,15 @@ export const BasicTaskPage: FC<Props> = () => {
                             <Typography variant="body2" component="p">
                                 {selectedTask?.process_owner_name}
                             </Typography>
+
+                            <Divider sx={{ marginBlock: 2 }} />
+                            <Typography variant="body2" component="p" fontWeight="bold">
+                                Otros colaboradores con tareas asignadas vinculadas a este requerimiento
+                            </Typography>
+                            <Typography variant="body2" component="p">
+                                {selectedTask?.equipo}
+                            </Typography>
+
                             <Divider sx={{ marginBlock: 2 }} />
                             <Typography variant="body2" component="p" fontWeight="bold">
                                 Fecha de vencimiento

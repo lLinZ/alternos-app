@@ -34,6 +34,7 @@ export interface IRequirement {
     activity_owner_name: string;
     duration: number;
     status: string;
+    equipo: string;
     inicio: string;
     vence: string;
     completed_at: string;
