@@ -29,7 +29,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 interface Props {
     process: Process;
     setProcesses: Dispatch<SetStateAction<Process[] | null>>;
-    processes?: Process[];
+    processes: Process[] | null;
 }
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -288,6 +288,7 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses, processes }) => 
                 const data = await respuesta.json();
 
                 if (data.exito === "SI") {
+
                     Swal.fire({
                         title: "Exito",
                         text: "Proceso eliminado",
@@ -296,7 +297,9 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses, processes }) => 
                         showConfirmButton: false,
                         timerProgressBar: true,
                     })
-                    router("/");
+                    const newState = processes ? processes?.filter((processP) => processP.id !== process.id) : processes;
+                    setProcesses(newState);
+                    //router("/");
                 } else {
                     Swal.fire({
                         title: "Error",

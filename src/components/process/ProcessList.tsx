@@ -10,7 +10,7 @@ import { PageTitle } from '../ui';
 import { FilterBox } from '../data/FilterBox';
 
 interface Props {
-    processes?: Process[];
+    processes: Process[] | null;
     setProcesses: Dispatch<SetStateAction<Process[] | null>>
 }
 

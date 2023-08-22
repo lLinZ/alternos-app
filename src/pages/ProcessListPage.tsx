@@ -53,7 +53,7 @@ export const ProcessListPage: FC = () => {
     return (
         <Layout user={userLogged} title="Procesos registrados">
 
-            <ProcessList processes={processes && processes.length > 0 ? processes : undefined} setProcesses={setProcesses} />
+            <ProcessList processes={processes && processes.length > 0 ? processes : null} setProcesses={setProcesses} />
 
         </Layout>
     )
