@@ -11,16 +11,29 @@ interface Props {
     actividad: Actividades;
     setActividades: Dispatch<SetStateAction<Actividades[] | null>>;
     actividades: Actividades[];
+    valorhora?: number;
+    factorprecio?: number;
 }
 
-export const ActivityCard: FC<Props> = ({ actividad, actividades, setActividades }) => {
+export const ActivityCard: FC<Props> = ({ actividad, actividades, setActividades, valorhora, factorprecio }) => {
     const [edit, setEdit] = useState<boolean>(false)
+
     const initialValues = {
         name: actividad.name,
         duration: actividad.duration,
         costo: actividad.costo,
         precio: actividad.precio,
     }
+
+    // Actividad a editar
+    const [xActivity, setxActivity] = useState({
+        name: actividad.name,
+        duration: actividad.duration,
+        costo: actividad.costo,
+        precio: actividad.precio,
+    })
+    
+    
     const onSubmit = async (values: FormikValues) => {
         const url = `${baseUrl}/updateactividades`;
         const body = new FormData();
@@ -44,10 +57,10 @@ export const ActivityCard: FC<Props> = ({ actividad, actividades, setActividades
             body.append("id", String(actividad.id));
             body.append("owner_id", String(actividad.owner_id));
             body.append("name", String(values.name));
-            body.append("duration", String(values.duration));
+            body.append("duration", String(xActivity.duration));
             body.append("formulario", String(actividad.formulario));
-            body.append("costo", String(values.costo));
-            body.append("precio", String(values.precio));
+            body.append("costo", String(xActivity.costo));
+            body.append("precio", String(xActivity.precio));
             const options = {
                 method: "POST",
                 body
@@ -63,11 +76,11 @@ export const ActivityCard: FC<Props> = ({ actividad, actividades, setActividades
                         id: actividad.id,
                         owner_id: actividad.owner_id,
                         name: values.name,
-                        duration: values.duration,
+                        duration: xActivity.duration,
                         formulario: actividad.formulario,
                         owner_name: actividad.owner_name,
-                        costo: actividad.costo,
-                        precio: actividad.precio,
+                        costo: xActivity.costo,
+                        precio: xActivity.precio,
                     }
                     const newActividades: Actividades[] = actividadesExclude && actividadesExclude.length > 0 ? [...actividadesExclude, newActividad] : [newActividad]
                     Swal.fire({
@@ -79,6 +92,7 @@ export const ActivityCard: FC<Props> = ({ actividad, actividades, setActividades
                         timerProgressBar: true,
                     })
                     setActividades(newActividades);
+                    setEdit(false);
                 } else {
                     Swal.fire({
                         title: "Error",
@@ -118,13 +132,18 @@ export const ActivityCard: FC<Props> = ({ actividad, actividades, setActividades
                                     <TextField fullWidth label="Nombre" onChange={handleChange} name="name" value={values.name} color="secondary" variant="outlined" />
                                 </Grid>
                                 <Grid item xs={12} sm={3}>
-                                    <TextField fullWidth label="Duración" onChange={handleChange} name="duration" value={values.duration} color="secondary" variant="outlined" />
+                                    {/* <TextField fullWidth label="Duración" onChange={handleChange} name="duration" value={values.duration} color="secondary" variant="outlined" /> */}
+                                    <TextField fullWidth label="Duración" onChange={
+                                        (e) => {
+                                            setxActivity({ ...xActivity, duration: Number(e.target.value), costo: String(Number(e.target.value)*(Number(valorhora)/60)), precio: String(Number(e.target.value)*(Number(valorhora)/60)*Number(factorprecio)) });
+                                        }
+                                    } name="duration" value={xActivity.duration}  color="secondary" variant="outlined" />
                                 </Grid>
                                 <Grid item xs={12} sm={3}>
-                                    <TextField fullWidth label="Costo" onChange={handleChange} name="costo" value={values.costo} color="secondary" variant="outlined" />
+                                    <TextField fullWidth label="Costo" onChange={handleChange} name="costo" value={xActivity.costo} color="secondary" variant="outlined" />
                                 </Grid>
                                 <Grid item xs={12} sm={3}>
-                                    <TextField fullWidth label="Precio" onChange={handleChange} name="precio" value={values.precio} color="secondary" variant="outlined" />
+                                    <TextField fullWidth label="Precio" onChange={handleChange} name="precio" value={xActivity.precio} color="secondary" variant="outlined" />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Button fullWidth disableElevation type="submit" color="secondary" variant="contained" sx={styles.button}>Guardar cambios</Button>

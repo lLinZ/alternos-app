@@ -205,9 +205,6 @@ export const ActivityAddingPage: FC<Props> = () => {
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
                         <TextField InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", background: "#FFF", borderRadius: 5 }, }} sx={{ "& fieldset": { border: "none" }, borderRadius: 5 }} name="duration" fullWidth label="Minutos de duracion" color="secondary" value={newActivity.duration} onChange={(e) => {
-                                console.log(Number(e.target.value));
-                                console.log(valorhora);
-                                console.log(factorprecio);
                                 setNewActivity({ ...newActivity, duration: Number(e.target.value), costo: Number(e.target.value)*(valorhora/60), precio: Number(e.target.value)*(valorhora/60)*factorprecio });
                             }
                         } />

@@ -22,7 +22,24 @@ export const ActivityPage: FC<Props> = () => {
 
     const [actividades, setActividades] = useState<Actividades[] | null>(null)
 
+    // Parámetros
+    const [valorhora, setValorhora] = useState(1);
+    const [factorprecio, setFactorprecio] = useState(1);
+    
     const router = useNavigate();
+
+    const getDepartamentos = async () => {
+        const url = `${baseUrl}/listafunctions`;
+
+        const respuesta = await fetch(url);
+
+        const data = await respuesta.json();
+
+        if (data.exito === "SI") {
+            setValorhora(data.valorhora);
+            setFactorprecio(data.factorprecio);
+        }
+    }
 
     const getActividades = async () => {
         const url = `${baseUrl}/listaactividades`;
@@ -55,6 +72,7 @@ export const ActivityPage: FC<Props> = () => {
     useEffect(() => {
         validarToken(router, setUserLogged);
         getActividades();
+        getDepartamentos();
     }, [])
 
     return (
@@ -64,7 +82,14 @@ export const ActivityPage: FC<Props> = () => {
                 {actividades && (<FilterBox data={actividades} setData={setActividades} category1="name" category2='precio' category3='costo' category4='owner_name' />)}
                 {
                     actividades && actividades.map((actividad: Actividades) => (
-                        <ActivityCard key={actividad.id} actividades={actividades} setActividades={setActividades} actividad={actividad} />
+                        <ActivityCard 
+                            key={actividad.id} 
+                            actividades={actividades} 
+                            setActividades={setActividades} 
+                            actividad={actividad} 
+                            valorhora={valorhora} 
+                            factorprecio={factorprecio} 
+                        />
                     ))
                 }
             </Box>
