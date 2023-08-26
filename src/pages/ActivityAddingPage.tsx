@@ -178,7 +178,7 @@ export const ActivityAddingPage: FC<Props> = () => {
     return (
         <Layout user={userLogged}>
             <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
-                <PageTitle title="Registrar una actividad" />
+                <PageTitle title="Registrar actividad" />
 
                 <Grid container display="flex" flexDirection="row" flexWrap="wrap" justifyContent="center" alignItems="center" spacing={2} >
                     <Grid item xs={12} sm={6} md={4}>

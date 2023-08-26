@@ -1,5 +1,5 @@
 import { useState, Dispatch, FC, SetStateAction } from 'react'
-import { Actividades } from '../../pages/ActivityAddingPage'
+import { Departamentos } from '../../pages/DepartmentAddingPage'
 import EditIcon from "@mui/icons-material/EditOutlined";
 import EditOffIcon from "@mui/icons-material/EditOffOutlined";
 import { Formik, Form, FormikValues } from "formik";
@@ -9,34 +9,26 @@ import { baseUrl } from '../../common/baseUrl';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 interface Props {
-    actividad: Actividades;
-    setActividades: Dispatch<SetStateAction<Actividades[] | null>>;
-    actividades: Actividades[];
-    valorhora?: number;
-    factorprecio?: number;
+    departamento: Departamentos;
+    setDepartamentos: Dispatch<SetStateAction<Departamentos[] | null>>;
+    departamentos: Departamentos[];
 }
 
-export const ActivityCard: FC<Props> = ({ actividad, actividades, setActividades, valorhora, factorprecio }) => {
+export const DepartmentCard: FC<Props> = ({ departamento, departamentos, setDepartamentos }) => {
     const [edit, setEdit] = useState<boolean>(false)
 
     const initialValues = {
-        name: actividad.name,
-        duration: actividad.duration,
-        costo: actividad.costo,
-        precio: actividad.precio,
+        name: departamento.name,
     }
 
-    // Actividad a editar
-    const [xActivity, setxActivity] = useState({
-        name: actividad.name,
-        duration: actividad.duration,
-        costo: actividad.costo,
-        precio: actividad.precio,
+    // departamento a editar
+    const [xDepartment, setxDepartment] = useState({
+        name: departamento.name,
     })
     
     
     const onSubmit = async (values: FormikValues) => {
-        const url = `${baseUrl}/updateactividades`;
+        const url = `${baseUrl}/updatedepartamentos`;
         const body = new FormData();
         const click = await Swal.fire({
             title: "¿Seguro?",
@@ -55,13 +47,8 @@ export const ActivityCard: FC<Props> = ({ actividad, actividades, setActividades
                 return false;
             }
 
-            body.append("id", String(actividad.id));
-            body.append("owner_id", String(actividad.owner_id));
+            body.append("id", String(departamento.id));
             body.append("name", String(values.name));
-            body.append("duration", String(xActivity.duration));
-            body.append("formulario", String(actividad.formulario));
-            body.append("costo", String(xActivity.costo));
-            body.append("precio", String(xActivity.precio));
             const options = {
                 method: "POST",
                 body
@@ -72,18 +59,12 @@ export const ActivityCard: FC<Props> = ({ actividad, actividades, setActividades
                 const data = await respuesta.json();
 
                 if (data.exito === "SI") {
-                    const actividadesExclude = actividades?.filter(a => a.id !== actividad.id);
-                    const newActividad: Actividades = {
-                        id: actividad.id,
-                        owner_id: actividad.owner_id,
+                    const departamentosExclude = departamentos?.filter(a => a.id !== departamento.id);
+                    const newDepartmento: Departamentos = {
+                        id: departamento.id,
                         name: values.name,
-                        duration: xActivity.duration,
-                        formulario: actividad.formulario,
-                        owner_name: actividad.owner_name,
-                        costo: xActivity.costo,
-                        precio: xActivity.precio,
                     }
-                    const newActividades: Actividades[] = actividadesExclude && actividadesExclude.length > 0 ? [...actividadesExclude, newActividad] : [newActividad]
+                    const newDepartamentos: Departamentos[] = departamentosExclude && departamentosExclude.length > 0 ? [...departamentosExclude, newDepartmento] : [newDepartmento]
                     Swal.fire({
                         title: "Exito",
                         text: "Datos editados",
@@ -92,7 +73,7 @@ export const ActivityCard: FC<Props> = ({ actividad, actividades, setActividades
                         showConfirmButton: false,
                         timerProgressBar: true,
                     })
-                    setActividades(newActividades);
+                    setDepartamentos(newDepartamentos);
                     setEdit(false);
                 } else {
                     Swal.fire({
@@ -114,10 +95,10 @@ export const ActivityCard: FC<Props> = ({ actividad, actividades, setActividades
     }
 
     const onDelete = async () => {
-        const url = `${baseUrl}/deleteactivity?id=${actividad.id}`;
+        const url = `${baseUrl}/deletedepartment?id=${departamento.id}`;
         const click = await Swal.fire({
             title: "¿Seguro?",
-            text: "¿Deseas eliminar la actividad?",
+            text: "¿Deseas eliminar el departamento?",
             icon: "warning",
             showCancelButton: true,
         })
@@ -131,14 +112,14 @@ export const ActivityCard: FC<Props> = ({ actividad, actividades, setActividades
 
                     Swal.fire({
                         title: "Exito",
-                        text: "Actividad eliminada",
+                        text: "Actividad eliminado",
                         icon: "success",
                         timer: 2000,
                         showConfirmButton: false,
                         timerProgressBar: true,
                     })
-                    const newState = actividades ? actividades?.filter((activityP) => activityP.id !== actividad.id) : actividades;
-                    setActividades(newState);
+                    const newState = departamentos ? departamentos?.filter((departmentP) => departmentP.id !== departamento.id) : departamentos;
+                    setDepartamentos(newState);
                     //router("/");
                 } else {
                     Swal.fire({
@@ -159,17 +140,16 @@ export const ActivityCard: FC<Props> = ({ actividad, actividades, setActividades
     }
 
     return (
-        <Box key={actividad.id} sx={styles.mainContainer}>
+        <Box key={departamento.id} sx={styles.mainContainer}>
             {edit ? (<Formik
                 initialValues={initialValues}
                 onSubmit={(values: FormikValues) => onSubmit(values)}
             >
                 {({ values, handleSubmit, handleChange }) => (
                     <Box sx={{ position: "relative" }}>
-                        <Typography variant="subtitle1" fontWeight={"bold"}>{actividad.name}</Typography>
-                        <Typography variant="subtitle2" fontWeight={400} color="text.primary">Departamento {actividad.owner_name}</Typography>
+                        {/* <Typography variant="subtitle1" fontWeight={"bold"}>{departamento.name}</Typography> */}
+                        {/* <Typography variant="subtitle2" fontWeight={400} color="text.primary">Departamento {departamento.owner_name}</Typography> */}
                         <IconButton onClick={() => setEdit(false)} color="secondary" sx={{ position: "absolute", top: 5, right: 5 }}>
-
                             <EditOffIcon />
                         </IconButton>
 
@@ -177,20 +157,6 @@ export const ActivityCard: FC<Props> = ({ actividad, actividades, setActividades
                             <Grid container spacing={1} sx={{ mt: 1 }}>
                                 <Grid item xs={12} sm={3}>
                                     <TextField fullWidth label="Nombre" onChange={handleChange} name="name" value={values.name} color="secondary" variant="outlined" />
-                                </Grid>
-                                <Grid item xs={12} sm={3}>
-                                    {/* <TextField fullWidth label="Duración" onChange={handleChange} name="duration" value={values.duration} color="secondary" variant="outlined" /> */}
-                                    <TextField fullWidth label="Duración" onChange={
-                                        (e) => {
-                                            setxActivity({ ...xActivity, duration: Number(e.target.value), costo: String(Number(e.target.value)*(Number(valorhora)/60)), precio: String(Number(e.target.value)*(Number(valorhora)/60)*Number(factorprecio)) });
-                                        }
-                                    } name="duration" value={xActivity.duration}  color="secondary" variant="outlined" />
-                                </Grid>
-                                <Grid item xs={12} sm={3}>
-                                    <TextField fullWidth label="Costo" onChange={handleChange} name="costo" value={xActivity.costo} color="secondary" variant="outlined" />
-                                </Grid>
-                                <Grid item xs={12} sm={3}>
-                                    <TextField fullWidth label="Precio" onChange={handleChange} name="precio" value={xActivity.precio} color="secondary" variant="outlined" />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Button fullWidth disableElevation type="submit" color="secondary" variant="contained" sx={styles.button}>Guardar cambios</Button>
@@ -202,17 +168,13 @@ export const ActivityCard: FC<Props> = ({ actividad, actividades, setActividades
                 )}
             </Formik>)
                 : (<Box sx={{ position: "relative" }}>
-                    <IconButton onClick={() => setEdit(true)} color="secondary" sx={{ position: "absolute", top: 5, right: 5 }}>
+                    <IconButton onClick={() => setEdit(true)} color="secondary" sx={{ position: "absolute", top: -5, right: 5 }}>
                         <EditIcon />
                     </IconButton>
-                    <Typography variant="subtitle1" fontWeight={"bold"}>{actividad.name}
-                        <IconButton onClick={() => onDelete()} color="secondary">
+                    <IconButton onClick={() => onDelete()} color="secondary" sx={{ position: "absolute", top: -5, right: 35 }}>
                             <DeleteIcon />
                         </IconButton>
-                    </Typography>
-                    <Typography variant="subtitle2" fontWeight={400} color="text.primary">Departamento {actividad.owner_name}</Typography>
-                    <Typography variant="subtitle2" fontWeight={300} color="text.secondary">Costo {actividad.costo}</Typography>
-                    <Typography variant="subtitle2" fontWeight={300} color="text.secondary">Precio {actividad.precio}</Typography>
+                    <Typography variant="subtitle1">{departamento.name}</Typography>
                 </Box>)}
         </Box>
     )

@@ -50,15 +50,15 @@ export const traficoPages: Pages[] = [
     // Procesos
     { name: 'divider', path: "Procesos" },
     { name: 'Procesos', path: "/process" },
-    { name: 'Agregar procesos', path: "/process/add" },
-    { name: 'Procesos externos', path: "/process/external" },
-    { name: 'Agregar procesos externos', path: "/process/external/add" },
+    // { name: 'Agregar procesos', path: "/process/add" },
+    // { name: 'Procesos externos', path: "/process/external" },
+    // { name: 'Agregar procesos externos', path: "/process/external/add" },
 
     // Actividades
     { name: 'divider', path: "Actividades" },
-    { name: 'Asignacion de actividades a procesos', path: "/assignment" },
     { name: 'Lista de actividades', path: "/activity" },
-    { name: 'Agregar actividad', path: "/activity/add" },
+    { name: 'Asignacion de actividades a procesos', path: "/assignment" },
+    // { name: 'Agregar actividad', path: "/activity/add" },
 
     // Resumenes
     { name: 'divider', path: "Reportes" },
@@ -84,7 +84,7 @@ export const ventasPages: Pages[] = [
 
     // Ofertas
     { name: 'divider', path: "Ofertas" },
-    { name: "Lista de Ofertas general", path: "/offers" },
+    { name: "Lista de Ofertas", path: "/offers" },
     { name: "Ofertas Confirmadas en proceso de aprobación", path: "/offer/resume/pending" },
     { name: 'Agregar oferta', path: "/offer/add" },
     { name: 'Briefings por oferta', path: "/requirements/briefings" },
@@ -114,42 +114,35 @@ export const adminPages: Pages[] = [
     { name: 'divider', path: "Menu principal" },
     { name: 'Dashboard', path: "/dashboard" },
     { name: 'Mis tareas', path: "/requirements" },
-    { name: 'Estado de cuenta', path: "/users/estadocuenta" },
-    { name: "Administrar usuarios", path: "/admin" },
-    { name: "Agregar admin", path: "/register/admin" },
-    { name: "Administrar parámetros", path: "/register/params" },
-    { name: "Revision de pagos", path: "/pagos" },
 
     // Ofertas
-    { name: 'divider', path: "Ofertas" },
-    { name: "Lista de Ofertas", path: "/offers" },
-    { name: "Ofertas", path: "/offer/resume" },
-    { name: "Ofertas pendientes", path: "/offer/resume/pending" },
+    { name: 'divider', path: "Comercial" },
+    { name: "Añadir cliente", path: "/user/add/client" },
     { name: 'Agregar oferta', path: "/offer/add" },
+    { name: "Ofertas Confirmadas en proceso de aprobación", path: "/offer/resume/pending" },
+    { name: "Lista de clientes", path: "/clients" },
+    { name: "Lista de Ofertas", path: "/offers" },
+    // { name: "Ofertas", path: "/offer/resume" },
 
     // Procesos
-    { name: 'divider', path: "Procesos" },
+    { name: 'divider', path: "Procesos y Actividades" },
     { name: 'Procesos', path: "/process" },
-    { name: 'Agregar procesos', path: "/process/add" },
-    { name: 'Procesos externos', path: "/process/external" },
-    { name: 'Agregar procesos externos', path: "/process/external/add" },
+    // { name: 'Agregar procesos', path: "/process/add" },
+    // { name: 'Procesos externos', path: "/process/external" },
+    // { name: 'Agregar procesos externos', path: "/process/external/add" },
 
     // Actividades
-    { name: 'divider', path: "Actividades" },
-    { name: 'Asignacion', path: "/assignment" },
-    { name: 'Lista de actividades', path: "/activity" },
-    { name: 'Agregar actividad', path: "/activity/add" },
-    { name: 'Informacion para Brandcenter', path: "/brandcenter/add" },
-
-    // Clientes
-    { name: 'divider', path: "Clientes" },
-    { name: "Añadir cliente", path: "/user/add/client" },
-    { name: "Lista de clientes", path: "/clients" },
+    // { name: 'divider', path: "Actividades" },
+    { name: 'Actividades', path: "/activity" },
+    { name: 'Asociar actividades y procesos', path: "/assignment" },
+    // { name: 'Agregar actividad', path: "/activity/add" },
 
     // Avisos de cobro
-    { name: 'divider', path: "Avisos de cobro" },
-    { name: "Añadir aviso de cobro", path: "/avisosdecobro/add" },
+    { name: 'divider', path: "Administración" },
+    { name: 'Estado de cuenta', path: "/users/estadocuenta" },
     { name: "Lista de avisos de cobro", path: "/avisosdecobro" },
+    { name: "Añadir aviso de cobro", path: "/avisosdecobro/add" },
+    { name: "Revision de pagos", path: "/pagos" },
 
     // Resumenes
     { name: 'divider', path: "Reportes" },
@@ -171,9 +164,16 @@ export const adminPages: Pages[] = [
     { name: "Kanban por requerimiento", path: "/kanban/caso" },
     { name: "Gantt por requerimiento", path: "/gantt/caso" },
 
-    // Anuncios
-    { name: 'divider', path: "Anuncios" },
+    // Administración del sistema
+    { name: 'divider', path: "Admin. del sistema" },
+    { name: "Administrar parámetros", path: "/register/params" },
+    { name: "Administrar usuarios", path: "/admin" },
+    { name: "Administrar departamentos", path: "/departamentos" },
+    { name: "Agregar administradores", path: "/register/admin" },
+
+    { name: 'divider', path: "Otras funciones" },
     { name: "Registrar anuncio", path: "/announcement" },
+    { name: 'Informacion para Brandcenter', path: "/brandcenter/add" },
 ];
 export const notLoggedPages: Pages[] = [
     {

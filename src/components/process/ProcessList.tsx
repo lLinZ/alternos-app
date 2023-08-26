@@ -18,7 +18,7 @@ export const ProcessList: FC<Props> = ({ processes, setProcesses }) => {
     const router = useNavigate();
     return (
         <Box sx={{ width: "80%", margin: "20px auto", minHeight: "100vh" }}>
-            <PageTitle title="Lista de procesos registrados" navigate='/process/add' />
+            <PageTitle title="Lista de procesos" navigate='/process/add' />
             {processes && (<FilterBox data={processes} setData={setProcesses} category1="name" category2="description" category3="owner_name" />)}
             {/* Si hay procesos */}
             {processes && processes.map((p: Process) => <ProcessCard key={p.id} process={p} setProcesses={setProcesses} processes={processes} />)}

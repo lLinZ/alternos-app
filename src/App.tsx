@@ -17,6 +17,7 @@ import { GetBriefingPage } from './pages/GetBriefingPage';
 import { UserAddingPage } from './pages/UserAddingPage';
 import { ActivityPage } from './pages/ActivityPage';
 import { ActivityAddingPage } from './pages/ActivityAddingPage';
+import { DepartmentPage } from './pages/DepartmentPage';
 import { DepartmentAddingPage } from './pages/DepartmentAddingPage';
 import { ActivityAssignmentPage } from './pages/ActivityAssignmentPage';
 import { BasicTaskPage } from './pages/BasicTask';
@@ -104,7 +105,8 @@ function App() {
         <Route path="/briefing/:caseId" element={<GetBriefingPage />} />
 
         {/* Agregar departamento */}
-        <Route path="/departamentos/add" element={<DepartmentAddingPage />} />
+        <Route path="/departamentos" element={<DepartmentPage />} />
+        <Route path="/departments/add" element={<DepartmentAddingPage />} />
 
         {/* Asignacion de tareas */}
         <Route path="/assignment" element={<ActivityAssignmentPage />} />
