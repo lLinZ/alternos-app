@@ -31,6 +31,7 @@ import { RegistroStatusPorCasoPage } from './pages/registros/RegistroStatusPorCa
 import { RegistroAnalisisPorCasoPage } from './pages/registros/RegistroAnalisisPorCasoPage';
 import { RegistroCumplimientoPage } from './pages/registros/RegistroCumplimientoPage';
 import { RegistroPagosPage } from './pages/registros/RegistroPagosPage';
+import { BrandCenterPage } from './pages/BrandCenterPage';
 import { BrandCenterAddingPage } from './pages/BrandCenterAddingPage';
 import { RegistroTransaccionesPage } from './pages/registros/RegistroTransaccionesPage';
 import { ExternalProcessAddingPage } from './pages/ExternalProcessAddingPage';
@@ -130,6 +131,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
 
         {/* Agregar info brandcenter */}
+        <Route path="/brandcenter" element={<BrandCenterPage />} />
         <Route path="/brandcenter/add" element={<BrandCenterAddingPage />} />
         <Route path="/offer/:id" element={<OfferDetailPage />} />
 

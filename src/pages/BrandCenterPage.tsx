@@ -4,36 +4,24 @@ import { useNavigate } from 'react-router-dom';
 
 import { Box, Button, CircularProgress, Grid, MenuItem, Select, Typography, SelectChangeEvent, IconButton } from '@mui/material'
 
-import { Layout } from '../../components/layout'
-import { User } from '../../interfaces/user-type'
-import { validarToken } from '../../lib/functions'
+import { Layout } from '../components/layout'
+import { User } from '../interfaces/user-type'
+import { validarToken } from '../lib/functions'
 import DataTable from 'react-data-table-component';
-import { baseUrl } from '../../common/baseUrl';
+import { baseUrl } from '../common/baseUrl';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import SendIcon from '@mui/icons-material/SendRounded'
-import { PageTitle } from '../../components/ui';
+import { PageTitle } from '../components/ui';
 import Swal from 'sweetalert2'
+import DeleteIcon from '@mui/icons-material/Delete';
+
 interface IData {
-    id: number;
-    case_id: number;
-    descriptioncase: string;
-    user_id: number;
-    user_name: string;
-    description: string;
-    process_id: number;
-    process_name: string;
-    process_owner_id: number;
-    process_owner_name: string;
-    activity_id: number;
-    activity_name: string;
-    activity_owner_id: number;
-    activity_owner_name: string;
-    status: string;
-    inicio: any;
-    vence: string;
-    completed_at: any;
-    comentario_cierre: string;
-    archivo: string;
+    client_id: number;
+    client_name: string;
+    item_id: number;
+    name: string;
+    categoria: string;
+    etiquetas: string;
     url: string;
 }
 
@@ -44,14 +32,17 @@ const paginationComponentOptions = {
     selectAllRowsItemText: 'Todos',
 };
 
-export const RegistroTareasPorCasoPage: FC = () => {
+export const BrandCenterPage: FC = () => {
     const [userLogged, setUserLogged] = useState<User | null>(null)
     const router = useNavigate();
     const [analisis, setAnalisis] = useState<any>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [empty, setEmpty] = useState<boolean>(false)
-    const [casos, setCasos] = useState<any>(null);
-    const [caso, setCaso] = useState<any>(0);
+    const [clientes, setClientes] = useState<any>(null);
+    const [cliente, setCliente] = useState<any>(0);
+
+    const [isDeleted, setIsDeleted] = useState<any>(false);
+
     const customStyles = {
         rows: {
             style: {
@@ -63,20 +54,20 @@ export const RegistroTareasPorCasoPage: FC = () => {
             },
         },
     }
-    const getAnalisis = async (caseId: string | number) => {
+    const getAnalisis = async (clientId: string | number) => {
         setIsLoading(true);
         setEmpty(false);
-        console.log(caseId)
-        const url = `${baseUrl}/listatareasxcaso?case_id=${caseId}`
+        console.log(clientId)
+        const url = `${baseUrl}/brandcenter?user_id=${clientId}`
         const options = {
             method: "GET",
         }
         try {
             const respuesta = await fetch(url, options);
             const data = await respuesta.json();
-            console.log(data);
+            console.log(data.registros[0].items);
             if (data.exito === "SI") {
-                setAnalisis(data.registros);
+                setAnalisis(data.registros[0].items);
                 setIsLoading(false);
             } else {
                 setIsLoading(false);
@@ -90,65 +81,37 @@ export const RegistroTareasPorCasoPage: FC = () => {
             setEmpty(true);
         }
     }
-    const getCasos = async () => {
-        const url = `${baseUrl}/listacasos`
+    const getClientes = async () => {
+        const url = `${baseUrl}/clientesbrandcenter`
         const respuesta = await fetch(url);
         const data = await respuesta.json();
 
         if (data.exito === "SI") {
-            setCasos(data.registros)
+            setClientes(data.registros)
         }
     }
     const handleChange = (e: SelectChangeEvent) => {
-        setCaso(e.target.value);
+        setCliente(e.target.value);
     }
 
     const columns = [
-        // {
-        //     name: 'Descripción',
-        //     selector: (row: IData) => row.descriptioncase,
-        //     sortable: true,
-        // },
-        // {
-        //     name: 'Proceso',
-        //     selector: (row: IData) => row.process_name,
-        //     sortable: true,
-        // },
-        {
-            name: 'Actividad',
-            selector: (row: IData) => row.activity_name,
+      {
+         name: 'Categoria',
+         selector: (row: IData) => String(row.categoria),
+         sortable: true,
+     },
+     {
+            name: 'Descripción',
+            selector: (row: IData) => String(row.name),
             sortable: true,
         },
         {
-            name: 'Inicio planificado',
-            selector: (row: IData) => String(row.inicio),
+            name: 'etiquetas',
+            selector: (row: IData) => String(row.etiquetas),
             sortable: true,
         },
         {
-            name: 'Fin planificado',
-            selector: (row: IData) => String(row.vence),
-            sortable: true,
-        },
-        // {
-        //     name: 'Comentario de cierre',
-        //     selector: (row: IData) => row.comentario_cierre,
-        //     sortable: true,
-        // },
-        {
-            name: 'Status',
-            selector: (row: IData) => row.status,
-            sortable: true,
-        },
-        {
-            name: "Comentarios",
-            selector: (row: IData) => row.comentario_cierre,
-            sortable: true,
-        },
-        {
-            // when: (row: IData) => row.archivo!="",
-            cell: (row: IData) => (row.archivo!="") && (
-                <IconButton component="a" href={row.url} target="_blank" color="success"><AttachFileIcon /></IconButton>
-            ),
+            cell: (row: IData) => <IconButton component="a" href={row.url} target="_blank" color="success"><AttachFileIcon /></IconButton>,
             button: true,
             sortable: false,
             name: "Ver pieza",
@@ -156,24 +119,30 @@ export const RegistroTareasPorCasoPage: FC = () => {
             ignoreRowClick: true
         },
         {
-            cell: (row: IData) => (row.archivo!="") && (
-                <IconButton onClick={() => send(row.id)}><SendIcon color="success" /></IconButton>
-            ),
+            cell: (row: IData) => <IconButton onClick={() => eliminar(row.item_id)}><DeleteIcon color="error" /></IconButton>,
             button: true,
             name: "Enviar pieza",
             sortable: false,
         }
     ];
-    const send = async (id: number) => {
-        const url = `${baseUrl}/enviapieza`;
-        const body = new FormData();
-        body.append("task_id", String(id));
 
-        const options = {
+    const eliminar = async (id: number) => {
+      const click = await Swal.fire({
+         title: "¿Seguro?",
+         text: "¿Deseas eliminar el registro?",
+         icon: "warning",
+         showCancelButton: true,
+      })
+      if (click.isConfirmed) {
+         const url = `${baseUrl}/deletebrandcenter`;
+         const body = new FormData();
+         body.append("id", String(id));
+
+         const options = {
             method: "POST",
             body
-        }
-        try {
+         }
+         try {
             const respuesta = await fetch(url, options);
 
             const data = await respuesta.json();
@@ -188,19 +157,19 @@ export const RegistroTareasPorCasoPage: FC = () => {
                     icon: "success",
                     position: "bottom-start"
                 });
-
-                getCasos();
+                setIsDeleted(true);
+                getAnalisis(cliente);
             } else {
                 Swal.fire({
                     title: "Error",
-                    text: "No se logró enviar",
+                    text: "No se logró eliminar",
                     timer: 2000,
                     timerProgressBar: true,
                     showConfirmButton: false,
                     icon: "error",
                 });
             }
-        } catch (error) {
+         } catch (error) {
             Swal.fire({
                 title: "Error",
                 text: "No se logró conectar",
@@ -209,31 +178,31 @@ export const RegistroTareasPorCasoPage: FC = () => {
                 showConfirmButton: false,
                 icon: "error",
             });
-
-        }
+         }
+      }
     }
 
     useEffect(() => {
         validarToken(router, setUserLogged);
-        getCasos();
+        getClientes();
     }, [])
     return (
         <Layout user={userLogged}>
             <Box sx={styles.mainContainer}>
-                <PageTitle title="Lista de tareas por requerimiento" />
+                <PageTitle title="Información del brandcenter por cliente" />
                 <Grid container spacing={1}>
                     {
-                        casos && (
+                        clientes && (
                             <Grid item xs={12}>
                                 <Box sx={{ display: "flex", flexFlow: "row nowrap", alignItems: "center" }}>
 
-                                    <Select color="secondary" defaultValue={"0"} value={caso !== 0 ? caso : "0"} onChange={handleChange} style={{width: "500px"}} sx={{ "& fieldset": { borderRadius: 0 } }}>
-                                        <MenuItem disabled value={"0"} style={{ width:"500px" }}>Seleccione un requerimiento</MenuItem>
+                                    <Select color="secondary" defaultValue={"0"} value={cliente !== 0 ? cliente : "0"} onChange={handleChange} style={{width: "500px"}} sx={{ "& fieldset": { borderRadius: 0 } }}>
+                                        <MenuItem disabled value={"0"} style={{ width:"500px" }}>Seleccione un cliente</MenuItem>
                                         {
-                                            casos.map((u: any) => <MenuItem key={u.id + u.description} value={String(u.id)}  style={{ width:"500px" }}>{`#${u.id} - ${u.description.substr(0,50)}`}</MenuItem>)
+                                            clientes.map((u: any) => <MenuItem key={u.client_id + u.client_name} value={String(u.client_id)}  style={{ width:"500px" }}>{`#${u.client_id} - ${u.client_name.substr(0,50)}`}</MenuItem>)
                                         }
                                     </Select>
-                                    <Button sx={{ borderRadius: 0, p: 2, }} disableElevation color="secondary" variant="contained" onClick={() => getAnalisis(caso)}>Buscar</Button>
+                                    <Button sx={{ borderRadius: 0, p: 2, }} disableElevation color="secondary" variant="contained" onClick={() => getAnalisis(cliente)}>Buscar</Button>
                                 </Box>
                             </Grid>
                         )
@@ -254,7 +223,7 @@ export const RegistroTareasPorCasoPage: FC = () => {
                     {
                         !analisis && (
                             <Grid item xs={12}>
-                                <Typography variant="subtitle1" color="text.secondary" fontWeight="bold">Seleccione un requerimiento y clickee en &quot;Buscar&quot;</Typography>
+                                <Typography variant="subtitle1" color="text.secondary" fontWeight="bold">Seleccione un cliente y clickee en &quot;Buscar&quot;</Typography>
                             </Grid>
                         )
                     }
@@ -272,7 +241,7 @@ export const RegistroTareasPorCasoPage: FC = () => {
                         empty && (
                             <Grid item xs={12}>
                                 <Box sx={{ display: "flex", flexFlow: "row wrap", width: "100%", justifyContent: "center", alignItems: "center" }}>
-                                    <Typography variant="subtitle2" color="error" fontWeight={"bold"}>Este requerimiento no tiene tareas pendientes...</Typography>
+                                    <Typography variant="subtitle2" color="error" fontWeight={"bold"}>Este cliente no tiene información en brandcenter...</Typography>
                                 </Box>
                             </Grid>
                         )

@@ -174,6 +174,7 @@ export const adminPages: Pages[] = [
     { name: 'divider', path: "Otras funciones" },
     { name: "Registrar anuncio", path: "/announcement" },
     { name: 'Informacion para Brandcenter', path: "/brandcenter/add" },
+    { name: 'Administración de Brandcenter', path: "/brandcenter" },
 ];
 export const notLoggedPages: Pages[] = [
     {
