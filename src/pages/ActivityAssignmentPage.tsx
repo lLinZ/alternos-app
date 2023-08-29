@@ -343,8 +343,9 @@ const ActivityCard: FC<ActivityCardProps> = ({ activity, selectedActivities, set
                     <MenuItem value={0}>0</MenuItem>
                     {
                         selectedActivities && selectedActivities.map((sa, i) => (
-                            <MenuItem value={i + 1} key={sa.id}>{i + 1}</MenuItem>
-                        ))
+                            (i+1 !== activity.orden) && <MenuItem value={i + 1} key={sa.id}>{i + 1}</MenuItem>
+                        )
+                        )
                     }
                 </TextField>
             </Box>
