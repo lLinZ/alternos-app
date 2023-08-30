@@ -51,8 +51,8 @@ export const traficoPages: Pages[] = [
     { name: 'divider', path: "Procesos" },
     { name: 'Procesos', path: "/process" },
     // { name: 'Agregar procesos', path: "/process/add" },
-    // { name: 'Procesos externos', path: "/process/external" },
-    // { name: 'Agregar procesos externos', path: "/process/external/add" },
+    { name: 'Procesos externos', path: "/process/external" },
+    { name: 'Agregar procesos externos', path: "/process/external/add" },
 
     // Actividades
     { name: 'divider', path: "Actividades" },
