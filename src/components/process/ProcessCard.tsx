@@ -100,6 +100,7 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses, processes }) => 
     const [users, setUsers] = useState([]);
 
     const [edit, setEdit] = useState<boolean>(false);
+    const [editAct, setEditAct] = useState<boolean>(false);
     const [deleted, setDeleted] = useState<boolean>(false);
     const router = useNavigate();
 
@@ -454,15 +455,32 @@ export const ProcessCard: FC<Props> = ({ process, setProcesses, processes }) => 
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
 
-                    <Box display="flex" flexWrap="wrap" justifyContent="space-between" alignItems="center">
-                        <Button size="small" color="secondary" sx={{ p: 1 }} onClick={() => router("/assignment")}>Añadir actividad</Button>
-                    </Box>
                     <Divider sx={{ mt: 2, mb: 2 }} />
-                    <Typography fontWeight={"bold"} variant="subtitle1" >Actividades</Typography>
+                    <Box display="flex" flexWrap="wrap" justifyContent="space-between" alignItems="center">
+                        {/* <Button size="small" color="secondary" sx={{ p: 1 }} onClick={() => router("/assignment")}>Añadir actividad</Button> */}
+                        {/* <Typography fontWeight={"bold"}>Lista de actividades</Typography> */}
+                        <Typography fontWeight={"bold"} variant="subtitle1" >
+                            Actividades
+                            <IconButton onClick={() => router(`/activity/list/${process.id}`)} color="secondary">
+                                <EditIcon />
+                            </IconButton>
+                        </Typography>
+                    </Box>
                     <Box display="flex" flexWrap="wrap" justifyContent="flex-start" alignItems="flex-start" flexDirection="column">
                         {
                             (actividades && actividades?.length > 0)
-                                ? actividades?.map((actividad: ActivityFromProcess) => (<Tooltip key={actividad.id} placement="right" title={`Asignado a ${actividad.owner_name}, Duracion ${actividad.duration} minutos`} ><Typography>{actividad.activity_name}</Typography></Tooltip>))
+                                ? actividades?.map((actividad: ActivityFromProcess, i) => (
+                                    <Tooltip key={actividad.id} placement="right" title={`Asignado a: ${actividad.owner_name}`} >
+                                        <Typography>
+                                            <Box sx={{fontWeight: 'Bold'}}>
+                                                {i+1}.- {actividad.activity_name}
+                                            </Box>
+                                            <Box sx={{marginBottom: 1}}>
+                                                Costo: {actividad.costo} - Precio: {actividad.precio} - Duracion: {actividad.duration} minutos
+                                            </Box>
+                                        </Typography>
+                                    </Tooltip>
+                                    ))
                                 : "Este proceso no tiene actividades"
                         }
                     </Box>

@@ -19,4 +19,6 @@ export type ActivityFromProcess = {
     owner_id: number;
     owner_name: string;
     duration: number;
+    costo: number;
+    precio: number;
 }

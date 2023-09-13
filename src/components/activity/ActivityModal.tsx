@@ -28,7 +28,6 @@ interface Props {
 }
 export const ActivityModal: FC<Props> = ({ actividades, setActividades, selectedActivities, setSelectedActivities, orden, setOrden, setModalActividades, modalActividades }) => {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-
     const open = Boolean(anchorEl);
     const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -43,7 +42,6 @@ export const ActivityModal: FC<Props> = ({ actividades, setActividades, selected
         const newActivities = exists
             ? (selectedActivities?.filter(act => act.id !== id))
             : (selectedActivities ? [...selectedActivities, { id, name, orden: orden + 1, precedencia: 0 }] : [{ id, name, orden: orden + 1, precedencia: 0 }]);
-        console.log(newActivities);
         setSelectedActivities(newActivities!);
         exists ? setOrden(orden - 1) : setOrden(orden + 1);
     }
@@ -76,7 +74,15 @@ export const ActivityModal: FC<Props> = ({ actividades, setActividades, selected
                             <Typography variant="subtitle1" fontWeight={'bold'}>{activity.name}</Typography>
                             <Typography variant="subtitle2" color="text.secondary">{activity.owner_name}</Typography>
                         </Box>
-                        <IconButton size="small" color="secondary" onClick={() => selectActivity(activity.id, activity.name)} disabled={Boolean(selectedActivities?.filter(act => act.id === activity.id && act.orden !== orden).length)}>
+                        <IconButton 
+                            size="small" 
+                            color="secondary" 
+                            onClick={() => {
+                                console.log(orden);
+                                selectActivity(activity.id, activity.name);
+                            }} 
+                            disabled={Boolean(selectedActivities?.filter(act => act.id === activity.id && act.orden !== orden).length)}
+                        >
                             {
                                 Boolean(selectedActivities?.filter(act => act.id === activity.id).length)
                                     ? (<>{selectedActivities?.filter(act => act.id === activity.id)[0].orden}

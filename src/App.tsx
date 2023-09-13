@@ -25,6 +25,7 @@ import { ProfilePage } from './pages/ProfilePage';
 // import { RegistrosPage } from './pages/RegistrosPage';
 import { RegistroProcesosPage } from './pages/registros/RegistroProcesosPage'
 import { RegistroActivityPage } from './pages/registros/RegistroActivityPage'
+import { ActivityProcessPage } from './pages/registros/ActivityProcessPage'
 import { RegistroCasosPage } from './pages/registros/RegistroCasosPage'
 import { RegistroTareasPage } from './pages/registros/RegistroTareasPage'
 import { RegistroStatusPorCasoPage } from './pages/registros/RegistroStatusPorCasoPage';
@@ -81,6 +82,7 @@ function App() {
         <Route path="/activity" element={<ActivityPage />} />
         <Route path="/activity/add" element={<ActivityAddingPage />} />
         <Route path="/activity/resume" element={<RegistroActivityPage />} />
+        <Route path="/activity/list/:process_id" element={<ActivityProcessPage />} />
 
         {/* Procesos  */}
         <Route path="/process" element={<ProcessListPage />} />
