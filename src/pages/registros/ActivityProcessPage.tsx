@@ -116,7 +116,7 @@ export const ActivityProcessPage = () => {
                 let xorden:number = 0;
                 data.actividades.forEach( (element:any) => {
                     xorden = xorden + 1;
-                    Activity.push({ id: element.id, name: element.name, orden: xorden, precedencia: Number(element.precedencia) });
+                    Activity.push({ id: element.id, name: element.name, orden: xorden, precedencia: Number(element.precedencia), duration: element.duration });
                 });
                 setOrden(xorden);
                 Activity.sort((a: any, b: any) => a.orden - b.orden);
@@ -170,10 +170,12 @@ export const ActivityProcessPage = () => {
             for (let i = 1; i <= len!; i++) {
                 const position = i - 1;
                 if (selectedActivities !== null) {
-                    activitiesId += i === len ? `${selectedActivities[position].id}:${selectedActivities[position].precedencia}` : `${selectedActivities[position].id}:${selectedActivities[position].precedencia},`
+                    activitiesId += i === len 
+                    ? `${selectedActivities[position].id}:${selectedActivities[position].precedencia}:${selectedActivities[position].duration}` 
+                    : `${selectedActivities[position].id}:${selectedActivities[position].precedencia}:${selectedActivities[position].duration},`
                 }
             }
-            console.log(selectedProcess?.id, activitiesId);
+            console.log('selectedProcess?.id', selectedProcess?.id, activitiesId);
             body.append("process_id", String(selectedProcess ? selectedProcess.id : 0));
             body.append("activities", String(activitiesId));
             const options = {
@@ -348,9 +350,11 @@ interface ActivityCardProps {
 }
 const ActivityCard: FC<ActivityCardProps> = ({ activity, selectedActivities, setSelectedActivities }) => {
     const [innerPrecedencia, setInnerPrecedencia] = useState<number>(0);
+    const [duration, setDuration] = useState<number>(0);
+
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const excludeActivities = selectedActivities?.filter((a) => a.id !== activity.id);
-        const newActivity = { id: activity.id, name: activity.name, orden: activity.orden, precedencia: Number(event.target.value) };
+        const newActivity = { id: activity.id, name: activity.name, orden: activity.orden, precedencia: Number(event.target.value), duration: activity.duration };
         const newActivities = excludeActivities ? [...excludeActivities, newActivity] : [newActivity];
         newActivities.sort((a: any, b: any) => a.orden - b.orden);
         setInnerPrecedencia(Number(event.target.value));
@@ -363,6 +367,26 @@ const ActivityCard: FC<ActivityCardProps> = ({ activity, selectedActivities, set
                     <Typography variant="overline" fontWeight={400} >Actividad #{activity.orden}</Typography>
                     <Typography variant="subtitle1" fontWeight={500} >{activity.name}</Typography>
                 </Box>
+
+                <Grid item xs={12} sm={6} md={4}>
+                    <TextField 
+                        InputProps={{ sx: { boxShadow: "0 8px 32px 0 rgba(100,100,100,0.2)", background: "#FFF", borderRadius: 5 }, }} 
+                        sx={{ "& fieldset": { border: "none" }, borderRadius: 5 }} 
+                        name="duration" 
+                        fullWidth 
+                        label="Minutos de duracion" 
+                        color="secondary" 
+                        value={activity.duration}
+                        onChange={(e) => {
+                            activity.duration = Number(e.target.value);
+                            let xexcludeActivities = selectedActivities?.filter((a) => a.id !== activity.id);
+                            let xnewActivities = xexcludeActivities ? [...xexcludeActivities, activity] : [activity];
+                            xnewActivities.sort((a: any, b: any) => a.orden - b.orden);
+                            setSelectedActivities(xnewActivities)
+                        }} 
+                    />
+                </Grid>
+
                 <TextField
                     color="secondary"
                     value={innerPrecedencia}

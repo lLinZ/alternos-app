@@ -41,7 +41,7 @@ export const ActivityModal: FC<Props> = ({ actividades, setActividades, selected
         const exists = Boolean(selectedActivities?.filter(act => act.id === id).length)
         const newActivities = exists
             ? (selectedActivities?.filter(act => act.id !== id))
-            : (selectedActivities ? [...selectedActivities, { id, name, orden: orden + 1, precedencia: 0 }] : [{ id, name, orden: orden + 1, precedencia: 0 }]);
+            : (selectedActivities ? [...selectedActivities, { id, name, orden: orden + 1, precedencia: 0, duration: 0 }] : [{ id, name, orden: orden + 1, precedencia: 0, duration: 0 }]);
         setSelectedActivities(newActivities!);
         exists ? setOrden(orden - 1) : setOrden(orden + 1);
     }

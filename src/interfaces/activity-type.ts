@@ -11,6 +11,7 @@ export interface SelectedActivity {
     name: string;
     orden: number;
     precedencia:number;
+    duration: number;
 }
 
 export type ActivityFromProcess = {

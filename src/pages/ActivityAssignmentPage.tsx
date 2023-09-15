@@ -318,7 +318,7 @@ const ActivityCard: FC<ActivityCardProps> = ({ activity, selectedActivities, set
     const [innerPrecedencia, setInnerPrecedencia] = useState<number>(0);
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const excludeActivities = selectedActivities?.filter((a) => a.id !== activity.id);
-        const newActivity = { id: activity.id, name: activity.name, orden: activity.orden, precedencia: Number(event.target.value) };
+        const newActivity = { id: activity.id, name: activity.name, orden: activity.orden, precedencia: Number(event.target.value), duration: 0 };
         const newActivities = excludeActivities ? [...excludeActivities, newActivity] : [newActivity];
         newActivities.sort((a: any, b: any) => a.orden - b.orden);
         setInnerPrecedencia(Number(event.target.value));
