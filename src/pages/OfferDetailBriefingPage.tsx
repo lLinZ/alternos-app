@@ -8,7 +8,7 @@ import EditOffIcon from '@mui/icons-material/EditOffRounded';
 import SaveIcon from '@mui/icons-material/SaveRounded';
 import moment from 'moment';
 
-import { ChangeEvent, Dispatch, FC, SetStateAction, useEffect, useState } from 'react'
+import React, { ChangeEvent, Dispatch, FC, SetStateAction, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { baseUrl } from '../common/baseUrl';

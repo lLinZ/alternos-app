@@ -1,4 +1,4 @@
-import { FC } from "react"
+import React, { FC } from "react"
 import ContentLoader, { IContentLoaderProps } from "react-content-loader"
 
 export const AvatarPlaceholder: FC<IContentLoaderProps> = (props) => (

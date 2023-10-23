@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Layout } from '../components/layout'
 import { User } from '../interfaces/user-type';

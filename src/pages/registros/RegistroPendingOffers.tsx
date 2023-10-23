@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import moment from 'moment';
 
 import { Layout } from '../../components/layout';

@@ -9,7 +9,7 @@ import CloseIcon from '@mui/icons-material/CloseRounded';
 import CheckCircleIcon from '@mui/icons-material/CheckCircleRounded';
 import HourglassBottomRoundedIcon from '@mui/icons-material/HourglassBottomRounded';
 import Typography from '@mui/material/Typography';
-import { FC, useState, useEffect } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Layout } from '../../components/layout';
 import { User } from '../../interfaces/user-type';

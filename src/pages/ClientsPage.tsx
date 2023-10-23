@@ -1,6 +1,6 @@
 import FeedIcon from '@mui/icons-material/Feed';
 import { Chip, Box, Button, IconButton, Typography } from '@mui/material';
-import { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { baseUrl } from '../common/baseUrl';
 import { FilterBox } from '../components/data/FilterBox';

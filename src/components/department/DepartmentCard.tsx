@@ -1,4 +1,4 @@
-import { useState, Dispatch, FC, SetStateAction } from 'react'
+import React, { useState, Dispatch, FC, SetStateAction } from 'react'
 import { Departamentos } from '../../pages/DepartmentAddingPage'
 import EditIcon from "@mui/icons-material/EditOutlined";
 import EditOffIcon from "@mui/icons-material/EditOffOutlined";

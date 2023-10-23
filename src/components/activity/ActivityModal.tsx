@@ -1,4 +1,4 @@
-import { FC, forwardRef, ReactElement, Ref, useState, Dispatch, SetStateAction } from 'react'
+import React, { FC, forwardRef, ReactElement, Ref, useState, Dispatch, SetStateAction } from 'react'
 
 import { Dialog, AppBar, Toolbar, IconButton, Typography, Button, Popover, Box, Slide } from '@mui/material'
 import { Activity, SelectedActivity } from '../../interfaces/activity-type'

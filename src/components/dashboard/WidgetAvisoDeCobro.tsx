@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { Box, Chip, Divider, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import { baseUrl } from '../../common/baseUrl';

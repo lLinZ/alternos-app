@@ -1,6 +1,6 @@
 // import { Masonry } from '@mui/lab'
 import { Box, Typography } from '@mui/material';
-import { Dispatch, FC, SetStateAction } from 'react'
+import React, { Dispatch, FC, SetStateAction } from 'react'
 import { User } from '../../interfaces/user-type'
 import { UserCard } from './UserCard'
 

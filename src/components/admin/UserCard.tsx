@@ -1,5 +1,5 @@
 import { Box, Card, CardActions, CardContent, Button, Typography, Collapse, IconButton, IconButtonProps, styled, Divider, Tooltip } from '@mui/material';
-import { useState, Dispatch, FC, SetStateAction } from 'react'
+import React, { useState, Dispatch, FC, SetStateAction } from 'react'
 import { User } from '../../interfaces/user-type'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 

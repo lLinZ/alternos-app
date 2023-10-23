@@ -1,4 +1,4 @@
-import { ReactNode, FC } from "react";
+import React, { ReactNode, FC } from "react";
 import { Box, Typography } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
 

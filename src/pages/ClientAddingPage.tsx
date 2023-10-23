@@ -112,7 +112,9 @@ export const ClientAddingPage = () => {
             body
         }
         try {
+            console.log(body)
             const respuesta = await fetch(url, options);
+            console.log(respuesta)
             const data = await respuesta.json();
             console.log(data)
             if (data.exito === "SI") {

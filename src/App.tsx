@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { EndPage } from './pages/EndPage';
 import { LoginPage } from './pages/LoginPage';

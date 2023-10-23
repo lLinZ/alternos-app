@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import React, { FC } from 'react'
 
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';

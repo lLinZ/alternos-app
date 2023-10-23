@@ -1,5 +1,5 @@
 import { Box, Typography, useTheme } from '@mui/material';
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { Widget } from '../../interfaces/widget-type';
 
 interface Props {

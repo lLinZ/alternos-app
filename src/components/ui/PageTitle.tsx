@@ -1,7 +1,7 @@
 import AddIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import ArrowBack from '@mui/icons-material/ArrowBackRounded';
 import { Box, IconButton, Typography } from '@mui/material';
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 interface Props {

@@ -1,4 +1,4 @@
-import { FC, MouseEvent, KeyboardEvent } from "react";
+import React, { FC, MouseEvent, KeyboardEvent } from "react";
 
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";

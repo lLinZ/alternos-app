@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useState, useRef } from 'react';
+import React, { ChangeEvent, FC, useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Layout } from '../components/layout';
 import { validarToken } from '../lib/functions';

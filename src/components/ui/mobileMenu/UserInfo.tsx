@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { User } from "../../../interfaces/user-type";

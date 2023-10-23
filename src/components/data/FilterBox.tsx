@@ -1,4 +1,4 @@
-import { FC, Dispatch, ChangeEvent, useState, SyntheticEvent } from 'react'
+import React, { FC, Dispatch, ChangeEvent, useState, SyntheticEvent } from 'react'
 import Box from '@mui/material/Box';
 import { IconButton, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';

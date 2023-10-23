@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 
-import { ChangeEvent, Dispatch, FC, SetStateAction, useEffect, useState } from 'react'
+import React, { ChangeEvent, Dispatch, FC, SetStateAction, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { baseUrl } from '../common/baseUrl';

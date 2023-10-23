@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Box, Button, IconButton, Typography } from '@mui/material';
 
 import { UserList } from '../components/admin/UserList';

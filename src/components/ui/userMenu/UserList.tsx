@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import { Link, useLocation } from "react-router-dom";

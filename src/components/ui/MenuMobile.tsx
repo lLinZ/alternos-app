@@ -1,4 +1,4 @@
-import { FC, useState, MouseEvent, KeyboardEvent } from 'react'
+import React, { FC, useState, MouseEvent, KeyboardEvent } from 'react'
 
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';

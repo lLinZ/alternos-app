@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { Grid, Typography, Box } from '@mui/material';
 import { WidgetCard } from '.';
 import { Widget } from '../../interfaces/widget-type';

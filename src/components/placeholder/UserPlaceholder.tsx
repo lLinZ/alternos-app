@@ -1,4 +1,4 @@
-import { FC } from "react"
+import React, { FC } from "react"
 import ContentLoader from "react-content-loader"
 
 export const UserPlaceholder: FC = (props: any) => (
